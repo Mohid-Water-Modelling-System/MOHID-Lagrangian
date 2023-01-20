@@ -74,7 +74,7 @@
     logical :: interp, requireVertInt
     real(prec) :: newtime
     class(*), pointer :: aField
-    integer :: i, gridType
+    integer :: i, gridType, count
     type(string) :: outext
     real(prec), dimension(size(state,1)) :: xx, yy, zz
     logical, dimension(size(state,1)) :: outOfBounds
@@ -82,18 +82,27 @@
     !begin----------------------------------------------------------------------------
     !Check field extents and what particles will be interpolated
     !interpolate each field to the correspoing slice in var_dt
-    write(*,*)"Entrei interpolador"
+    !write(*,*)"Entrei interpolador"
     i = 1
     call bdata%fields%reset()                   ! reset list iterator
+    !write(*,*) "numero de fields no bdata = ", bdata%fields%getsize()
     do while(bdata%fields%moreValues())         ! loop while there are values
         interp = .true.
         requireVertInt = .true.
         aField => bdata%fields%currentValue()   ! get current value
+        !write(*,*)"Entrei no do while"
         select type(aField)
         class is(scalar4d_field_class)          !4D interpolation is possible
+            !write(*,*)"Variavel que entro no while = ", trim(aField%name)
             if (self%interpType == 1) then !linear interpolation in space and time
                 if (present(toInterp)) then
+                    !write(*,*)"toInterp present"
+                    do count=1,size(toInterp)
+                        !write(*,*)"variavel para interpolar = ", trim(toInterp(count))
+                        !write(*,*)"variavel no field = ", trim(aField%name)
+                    enddo
                     if (.not.(any(toInterp == aField%name))) then
+                        !write(*,*)"toInterp false"
                         interp = .false.
                     end if
                 end if
@@ -101,27 +110,38 @@
                     outOfBounds = .false.
                     var_name(i) = aField%name
                     gridType = bdata%getGridType()
+                    !write(*,*)"Sai do gridType"
                     
                     !produce xx, yy and zz vectors and tt value according to grid type
                     call self%Trc2Grid_4D(state,bdata,time,xx,yy,zz,tt,outOfBounds,gridType)
+                    !write(*,*)"Sai do Trc2Grid_4D"
                     
                     if (var_name(i) == Globals%Var%landIntMask) then
                         !adjust interpolation to bathymetry rather than vertical layers. important for ressuspension processes
+                        !write(*,*)"get bathymetry"
                         call bdata%getVarByName4D(varName = Globals%Var%bathymetry, outField_4D = bathymetry, origVar = aField%name)
                         allocate(var_dt_aux(size(state,1)))
+                        !write(*,*)"Entrar em interp4D_Hor"
                         var_dt_aux = self%interp4D_Hor(xx, yy, zz, tt, outOfBounds, bathymetry, size(bathymetry,1), size(bathymetry,2), size(bathymetry,3), size(bathymetry,4), size(state,1))
+                        !write(*,*)"Saida de interp4D_Hor"
                         zz = self%getArrayCoord(state(:,3), bdata, Globals%Var%level, outOfBounds, bat = var_dt_aux)
+                        !write(*,*)"Saida de getArrayCoord"
                         deallocate(var_dt_aux)
                         nullify(bathymetry)
                     end if
+                    !write(*,*)"entrada para if de reqVertInt"
                     if (present(reqVertInt)) then
                         !Interpolate on 2D even if the field is 3D (usefull for Bottom stress)
                         requireVertInt = reqVertInt
                     end if
                     if (requireVertInt) then
+                        !write(*,*)"entrada requireVertInt"
                         var_dt(:,i) = self%interp4D(xx, yy, zz, tt, outOfBounds, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(state,1))
+                        !write(*,*)"Saida requireVertInt"
                     else
+                        !write(*,*)"Entrada requireVertInt false"
                         var_dt(:,i) = self%interp4D_Hor(xx, yy, zz, tt, outOfBounds, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(state,1))
+                        !write(*,*)"Saia requireVertInt false"
                     end if
                 end if
             end if !add more interpolation types here
@@ -151,7 +171,7 @@
         i = i+1 !to select the correct slice of var_dt for the corresponding field
     end do
     call bdata%fields%reset()                   ! reset list iterator
-    write(*,*)"Sai interpolador"
+    !write(*,*)"Sai interpolador"
     end subroutine run
     
     !!---------------------------------------------------------------------------
@@ -279,7 +299,7 @@
     integer :: i, t0, t1
     real(prec), dimension(n_e) :: interp4D                                !< Field evaluated at x,y,z,t
     ! From x,y,z,t in array coordinates, find the the box inside the field where the particle is
-    
+    !write(*,*)"Entrada interp4D"
     do concurrent(i=1:n_e, .not. out(i))
         x0(i) = floor(x(i))
         x1(i) = ceiling(x(i))
@@ -308,7 +328,11 @@
     if (t1 /= t0) td = (t-t0)/(t1-t0)
     ! Interpolation on the first dimension and collapse it to a three dimension problem
     interp4D = 0.0
+    !write(*,*)"tamanho field : ", size(field,1), size(field,2), size(field,3), size(field,4)
     do concurrent(i=1:n_e, .not. out(i))
+        !write(*,*)"x0(i), y0(i), z0(i), t0 = ", x0(i), y0(i), z0(i), t0
+        !write(*,*)"x1(i), y1(i), z1(i), t1 = ", x0(i), y0(i), z0(i), t0
+        !write(*,*)"xd(i), yd(i), zd(i), td = ", xd(i), yd(i), zd(i), td
         c000(i) = field(x0(i),y0(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),z0(i),t0)*xd(i) !y0x0z0t0!  y0x1z0t0
         c100(i) = field(x0(i),y1(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),z0(i),t0)*xd(i)
         c010(i) = field(x0(i),y0(i),z1(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),z1(i),t0)*xd(i)
@@ -363,6 +387,8 @@
     real(prec) :: ceiling_upper_left_t1, ceiling_upper_right_t1
     integer :: i, t0, t1
     real(prec), dimension(n_e) :: interp4D_Hor                                !< Field evaluated at x,y,z,t
+    !Begin---------------------------------------------------------------------------
+    !write(*,*)"Entrada interp4D_Hor"
     ! From x,y,z,t in array coordinates, find the the box inside the field where the particle is
     do concurrent(i=1:n_e, .not. out(i))
         x0(i) = floor(x(i))
@@ -372,6 +398,7 @@
         z0(i) = floor(z(i))
         z1(i) = ceiling(z(i))
     end do
+    !write(*,*)"interp4D_Hor 1"
     t0 = floor(t)
     t1 = ceiling(t)
 
@@ -390,7 +417,8 @@
     if (t1 /= t0) td = (t-t0)/(t1-t0)
     ! Interpolation on the first dimension and collapse it to a three dimension problem
     interp4D_Hor = 0.0
-    
+    !write(*,*)"interp4D_Hor 2"
+    !write(*,*)"tamanho field : ", size(field,1), size(field,2), size(field,3), size(field,4)
     do concurrent(i=1:n_e, .not. out(i))
         !Use the first available value in the water column that is not 0
         bottom_lower_left_t0   = field(x0(i),y0(i),z0(i),t0)
@@ -438,6 +466,7 @@
     ! Interpolation on the time dimension and get the final result.
         interp4D_Hor(i) = c0(i)*(1.-td)+c1(i)*td
     end do
+    !write(*,*)"Saida interp4D_Hor"
     end function interp4D_Hor
 
     !---------------------------------------------------------------------------
@@ -523,10 +552,12 @@
     integer, dimension(size(state,1), 2) :: grdCoord
     !Begin---------------------------------------------------------------
     if (gridType == Globals%GridTypes%curvilinear) then
+        !write(*,*)"Entrei curvilinear"
         grdCoord = self%getArrayCoord_curv(state, bdata, outOfBounds)
         xx=grdCoord(:,1)
         yy=grdCoord(:,2)
     else
+        !write(*,*)"Entrei normais"
         xx = self%getArrayCoord(state(:,1), bdata, Globals%Var%lon, outOfBounds)
         yy = self%getArrayCoord(state(:,2), bdata, Globals%Var%lat, outOfBounds)
     endif
@@ -558,31 +589,31 @@
     dim_lon = bdata%getDimIndex(Globals%Var%lon)
     dim_lat = bdata%getDimIndex(Globals%Var%lat)
     
-    minBound_lon = bdata%dim(dim_lon)%scalar2d%getFieldMinBound()
+    minBound_lon = bdata%dim(dim_lon)%getFieldMinBound()
     where (xdata(:,1) < minBound_lon) out = .true.
-    maxBound_lon = bdata%dim(dim_lon)%scalar2d%getFieldMaxBound()
+    maxBound_lon = bdata%dim(dim_lon)%getFieldMaxBound()
     where (xdata(:,1) > minBound_lon) out = .true.
-    minBound_lat = bdata%dim(dim_lat)%scalar2d%getFieldMinBound()
+    minBound_lat = bdata%dim(dim_lat)%getFieldMinBound()
     where (xdata(:,2) < minBound_lat) out = .true.
-    maxBound_lat = bdata%dim(dim_lat)%scalar2d%getFieldMaxBound()
+    maxBound_lat = bdata%dim(dim_lat)%getFieldMaxBound()
     where (xdata(:,2) > maxBound_lat) out = .true.
     
-    write(*,*)"tamanho da dimensao 1 da matriz longitude = ", size(bdata%dim(dim_lon)%scalar2d%field,2)
+    !write(*,*)"tamanho da dimensao 1 da matriz longitude = ", size(bdata%dim(dim_lon)%field2D,1)
     do id = 1, size(xdata,1)
         if (.not. out(id)) then
-            dj: do j = 2, size(bdata%dim(dim_lon)%scalar2d%field,2)-1
-                do i = 2, size(bdata%dim(dim_lon)%scalar2d%field,1)-1
+            dj: do j = 2, size(bdata%dim(dim_lon)%field2D,1)-1
+                do i = 2, size(bdata%dim(dim_lon)%field2D,2)-1
                     !Define polygon of each grid cell
-                    cellPolygon(1)%x = bdata%dim(dim_lon)%scalar2d%field(i,j) !lower left corner
-                    cellPolygon(1)%y = bdata%dim(dim_lat)%scalar2d%field(i,j) 
-                    cellPolygon(2)%x = bdata%dim(dim_lon)%scalar2d%field(i+1,j) !upper left corner
-                    cellPolygon(2)%y = bdata%dim(dim_lat)%scalar2d%field(i+1,j)
-                    cellPolygon(3)%x = bdata%dim(dim_lon)%scalar2d%field(i+1,j+1) !upper right corner
-                    cellPolygon(3)%y = bdata%dim(dim_lat)%scalar2d%field(i+1,j+1)
-                    cellPolygon(4)%x = bdata%dim(dim_lon)%scalar2d%field(i,j+1) !lower right corner
-                    cellPolygon(4)%y = bdata%dim(dim_lat)%scalar2d%field(i,j+1)
-                    cellPolygon(5)%x = bdata%dim(dim_lon)%scalar2d%field(i,j) !close polygon
-                    cellPolygon(5)%y = bdata%dim(dim_lat)%scalar2d%field(i,j)
+                    cellPolygon(1)%x = bdata%dim(dim_lon)%field2D(i,j) !lower left corner
+                    cellPolygon(1)%y = bdata%dim(dim_lat)%field2D(i,j) 
+                    cellPolygon(2)%x = bdata%dim(dim_lon)%field2D(i+1,j) !upper left corner
+                    cellPolygon(2)%y = bdata%dim(dim_lat)%field2D(i+1,j)
+                    cellPolygon(3)%x = bdata%dim(dim_lon)%field2D(i+1,j+1) !upper right corner
+                    cellPolygon(3)%y = bdata%dim(dim_lat)%field2D(i+1,j+1)
+                    cellPolygon(4)%x = bdata%dim(dim_lon)%field2D(i,j+1) !lower right corner
+                    cellPolygon(4)%y = bdata%dim(dim_lat)%field2D(i,j+1)
+                    cellPolygon(5)%x = bdata%dim(dim_lon)%field2D(i,j) !close polygon
+                    cellPolygon(5)%y = bdata%dim(dim_lat)%field2D(i,j)
                 
                     limLeft = min(cellPolygon(1)%x, cellPolygon(2)%x) !limit left
                     limBottom = min(cellPolygon(1)%x, cellPolygon(4)%x) !limit bottom
@@ -771,6 +802,7 @@
     dim = bdata%getDimIndex(dimName)
     if (bdata%regularDim(dim)) getArrayCoord = self%getArrayCoordRegular(xdata, bdata, dim, out)
     if (.not.bdata%regularDim(dim)) then
+        !write(*,*)"Entrei .not.bdata%regularDim(dim)", trim(dimName)
         if (present(bat)) then
             getArrayCoord = self%getArrayCoordNonRegular(xdata, bdata, dim, out, bat=bat)
         else
@@ -796,31 +828,43 @@
     logical, dimension(:), intent(inout) :: out
     real(prec), dimension(size(xdata)) :: getArrayCoordRegular  !< coordinates in array index
     real(prec) :: minBound, maxBound, res
-    integer :: fieldLength, dimSize, indx
+    integer :: fieldLength, dimSize, indx, i
     !Begin----------------------------------------------------------
-    if (allocated(bdata%dim(dim)%scalar1d%field)) then !dimension variable is 1D
-        fieldLength = size(bdata%dim(dim)%scalar1d%field)
+    !write(*,*)"Entrei getArrayCoordRegular"
+    if (allocated(bdata%dim(dim)%field1D)) then !dimension variable is 1D
+        fieldLength = size(bdata%dim(dim)%field1D)
         dimSize = 1
         if (fieldLength == 1) then
+            !write(*,*)"Deu merda"
             getArrayCoordRegular = 1
             return
         endif
-    elseif (allocated(bdata%dim(dim)%scalar2d%field)) then
+    elseif (allocated(bdata%dim(dim)%field2D)) then
         dimSize = 2
     endif
-    
+   ! write(*,*)"dimsize =  ", dimSize
     if (dimSize == 1) then
-        minBound = bdata%dim(dim)%scalar2d%getFieldMinBound()
-        maxBound = bdata%dim(dim)%scalar2d%getFieldMaxBound()
-        res = abs(maxBound - minBound)/(size(bdata%dim(dim)%scalar1d%field)-1.0)
+        !write(*,*)"Entrei no dimsize1 ", trim(bdata%dim(dim)%name)
+        minBound = bdata%dim(dim)%getFieldMinBound()
+        maxBound = bdata%dim(dim)%getFieldMaxBound()
+        res = abs(maxBound - minBound)/(size(bdata%dim(dim)%field1D)-1.0)
         getArrayCoordRegular = (xdata - minBound)/res + 1.0
     else
-        minBound = bdata%dim(dim)%scalar2d%getFieldMinBound()
-        maxBound = bdata%dim(dim)%scalar2d%getFieldMaxBound()
-        if (bdata%dim(dim)%name == Globals%Var%lat) indx = 1
-        if (bdata%dim(dim)%name == Globals%Var%lon) indx = 2
-        res = abs(maxBound - minBound)/(size(bdata%dim(dim)%scalar2d%field,indx)-1.0)
-        getArrayCoordRegular = (xdata - minBound)/res + 1.0
+        !write(*,*)"Entrei no dimsize2 ", trim(bdata%dim(dim)%name)
+        minBound = bdata%dim(dim)%getFieldMinBound()
+        !write(*,*)"minBound = ", minBound
+        maxBound = bdata%dim(dim)%getFieldMaxBound()
+        !write(*,*)"maxBound = ", maxBound
+        !write(*,*)"tamanho = ", size(bdata%dim(dim)%field2D,indx)
+        if (bdata%dim(dim)%name == Globals%Var%lat) indx = 2 !lat varies with index 2 of field2D
+        if (bdata%dim(dim)%name == Globals%Var%lon) indx = 1 !lon varies with index 2 of field2D
+        res = abs(maxBound - minBound)/(size(bdata%dim(dim)%field2D,indx)-1.0)
+        !write(*,*)"res = ", res
+        getArrayCoordRegular = (xdata - minBound)/res + 1.0 !this will give the index along the dimension indx which intersects with the xdata
+        !do i = 1, size(xdata)
+        !    write(*,*)"getArrayCoordRegular (i) = ", getArrayCoordRegular(i)
+        !enddo
+        
     endif
     
     where (xdata < minBound) out = .true.
@@ -875,51 +919,51 @@
     real(prec) :: minBound, maxBound
     type(string) :: outext
     !Begin--------------------------------------------------------------------------  
-    if (allocated(bdata%dim(dim)%scalar1d%field)) then
-        fieldLength = size(bdata%dim(dim)%scalar1d%field)
+    if (allocated(bdata%dim(dim)%field1D)) then
+        fieldLength = size(bdata%dim(dim)%field1D)
         dimSize = 1
         if (fieldLength == 1) then
             getArrayCoordNonRegular = 1
             return
         endif
-    elseif (allocated(bdata%dim(dim)%scalar2d%field)) then
+    elseif (allocated(bdata%dim(dim)%field2D)) then
         dimSize = 2
     endif
     
     getArrayCoordNonRegular = 1
     
     if (dimSize == 1) then
-        minBound = bdata%dim(dim)%scalar1d%getFieldMinBound()
-        maxBound = bdata%dim(dim)%scalar1d%getFieldMaxBound()
+        minBound = bdata%dim(dim)%getFieldMinBound()
+        maxBound = bdata%dim(dim)%getFieldMaxBound()
         where (xdata < minBound) out = .true.
         where (xdata > maxBound) out = .true.
         if (present(bat)) then
             do concurrent(id = 1:size(xdata), .not. out(id))
-                do i = 2, size(bdata%dim(dim)%scalar1d%field)
-                    if (bdata%dim(dim)%scalar1d%field(i) >= xdata(id)) then
+                do i = 2, size(bdata%dim(dim)%field1D)
+                    if (bdata%dim(dim)%field1D(i) >= xdata(id)) then
                         idx_1 = i-1
                         idx_2 = i
                         exit
                     end if
                 end do
                 !Bathymetric value is deeper than bottom face of layer where tracer is located
-                if (bat(id) <= bdata%dim(dim)%scalar1d%field(idx_1)) then
-                   getArrayCoordNonRegular(id) = idx_1 + abs((xdata(id)-bdata%dim(dim)%scalar1d%field(idx_1))/(bdata%dim(dim)%scalar1d%field(idx_2)-bdata%dim(dim)%scalar1d%field(idx_1))) 
+                if (bat(id) <= bdata%dim(dim)%field1D(idx_1)) then
+                   getArrayCoordNonRegular(id) = idx_1 + abs((xdata(id)-bdata%dim(dim)%field1D(idx_1))/(bdata%dim(dim)%field1D(idx_2)-bdata%dim(dim)%field1D(idx_1))) 
                 else
                     !Bathymetry is inside bottom open cell. using max to avoid error when tracer is below the bathymetry (its position is corrected afterwards)
-                    getArrayCoordNonRegular(id) = idx_1 + abs((max(xdata(id),bat(id))-bat(id))/(bdata%dim(dim)%scalar1d%field(idx_2)-bat(id))) 
+                    getArrayCoordNonRegular(id) = idx_1 + abs((max(xdata(id),bat(id))-bat(id))/(bdata%dim(dim)%field1D(idx_2)-bat(id))) 
                 end if
             end do
         else
             do concurrent(id = 1:size(xdata), .not. out(id))
-                do i = 2, size(bdata%dim(dim)%scalar1d%field)
-                    if (bdata%dim(dim)%scalar1d%field(i) >= xdata(id)) then
+                do i = 2, size(bdata%dim(dim)%field1D)
+                    if (bdata%dim(dim)%field1D(i) >= xdata(id)) then
                         idx_1 = i-1
                         idx_2 = i
                         exit
                     end if
                 end do
-                getArrayCoordNonRegular(id) = idx_1 + abs((xdata(id)-bdata%dim(dim)%scalar1d%field(idx_1))/(bdata%dim(dim)%scalar1d%field(idx_2)-bdata%dim(dim)%scalar1d%field(idx_1)))
+                getArrayCoordNonRegular(id) = idx_1 + abs((xdata(id)-bdata%dim(dim)%field1D(idx_1))/(bdata%dim(dim)%field1D(idx_2)-bdata%dim(dim)%field1D(idx_1)))
             end do
         end if
     else !2D lat and lon grid (not yet ready for a 3D vertical layer dimension
@@ -929,8 +973,8 @@
             stop
         endif
         
-        minBound = bdata%dim(dim)%scalar2d%getFieldMinBound()
-        maxBound = bdata%dim(dim)%scalar2d%getFieldMaxBound()
+        minBound = bdata%dim(dim)%getFieldMinBound()
+        maxBound = bdata%dim(dim)%getFieldMaxBound()
         where (xdata < minBound) out = .true.
         where (xdata > maxBound) out = .true.
         
@@ -939,25 +983,25 @@
         
         if (indx == 1) then!Lat
             do concurrent(id = 1:size(xdata), .not. out(id))
-                do i = 2, size(bdata%dim(dim)%scalar2d%field, indx)
-                    if (bdata%dim(dim)%scalar2d%field(i,1) >= xdata(id)) then
+                do i = 2, size(bdata%dim(dim)%field2D, indx)
+                    if (bdata%dim(dim)%field2D(i,1) >= xdata(id)) then
                         idx_1 = i-1
                         idx_2 = i
                         exit
                     end if
                 end do
-                getArrayCoordNonRegular(id) = idx_1 + abs((xdata(id)-bdata%dim(dim)%scalar2d%field(idx_1,1))/(bdata%dim(dim)%scalar2d%field(idx_2,1)-bdata%dim(dim)%scalar2d%field(idx_1,1)))
+                getArrayCoordNonRegular(id) = idx_1 + abs((xdata(id)-bdata%dim(dim)%field2D(idx_1,1))/(bdata%dim(dim)%field2D(idx_2,1)-bdata%dim(dim)%field2D(idx_1,1)))
             end do  
         else
             do concurrent(id = 1:size(xdata), .not. out(id))
-                do i = 2, size(bdata%dim(dim)%scalar2d%field, indx)
-                    if (bdata%dim(dim)%scalar2d%field(1,i) >= xdata(id)) then
+                do i = 2, size(bdata%dim(dim)%field2D, indx)
+                    if (bdata%dim(dim)%field2D(1,i) >= xdata(id)) then
                         idx_1 = i-1
                         idx_2 = i
                         exit
                     end if
                 end do
-                getArrayCoordNonRegular(id) = idx_1 + abs((xdata(id)-bdata%dim(dim)%scalar2d%field(1,idx_1))/(bdata%dim(dim)%scalar2d%field(1,idx_2)-bdata%dim(dim)%scalar2d%field(1,idx_1)))
+                getArrayCoordNonRegular(id) = idx_1 + abs((xdata(id)-bdata%dim(dim)%field2D(1,idx_1))/(bdata%dim(dim)%field2D(1,idx_2)-bdata%dim(dim)%field2D(1,idx_1)))
             end do
         endif
     endif
@@ -1043,20 +1087,20 @@
 
     found = .false.
     dim = bdata%getDimIndex(dimName)
-    if (.not. allocated(bdata%dim(dim)%scalar1d%field)) then
+    if (.not. allocated(bdata%dim(dim)%field1D)) then
         outext = '[Interpolator::getPointCoordNonRegular] variable "'//dimName//'" needs to be 1d. stoping'
         call Log%put(outext)
         stop
     endif
     
-    if(size(bdata%dim(dim)%scalar1d%field) == 1) then
+    if(size(bdata%dim(dim)%field1D) == 1) then
         getPointCoordNonRegular = 1
         return
     end if
     
-    n_idx = size(bdata%dim(dim)%scalar1d%field)
+    n_idx = size(bdata%dim(dim)%field1D)
     do i = 2, n_idx
-        if (bdata%dim(dim)%scalar1d%field(i) >= xdata) then
+        if (bdata%dim(dim)%field1D(i) >= xdata) then
             idx_1 = i-1
             idx_2 = i
             found = .true.
@@ -1068,7 +1112,7 @@
         call Log%put(outext)
         stop
     end if
-    getPointCoordNonRegular = idx_1 + abs((xdata-bdata%dim(dim)%scalar1d%field(idx_1))/(bdata%dim(dim)%scalar1d%field(idx_2)-bdata%dim(dim)%scalar1d%field(idx_1)))
+    getPointCoordNonRegular = idx_1 + abs((xdata-bdata%dim(dim)%field1D(idx_1))/(bdata%dim(dim)%field1D(idx_2)-bdata%dim(dim)%field1D(idx_1)))
     end function getPointCoordNonRegular
 
     !---------------------------------------------------------------------------
@@ -1088,17 +1132,16 @@
     real(prec) :: getPointCoordRegular          !< coordinates in array index
     real(prec) :: minBound, maxBound, res, ieta
     type(string) :: outext
-    integer :: i                                                !< corresponding background dimension
-    integer :: id,idx_1,idx_2,n_idx                                 !< corresponding background dimension
+    integer :: id                                 !< corresponding background dimension
     dim = bdata%getDimIndex(dimName)
-    if (.not. allocated(bdata%dim(dim)%scalar1d%field)) then
+    if (.not. allocated(bdata%dim(dim)%field1D)) then
         outext = '[Interpolator::getPointCoordRegular] variable "'//dimName//'" needs to be 1d. stoping'
         call Log%put(outext)
         stop
     endif
-    res = size(bdata%dim(dim)%scalar1d%field)-1
-    minBound = bdata%dim(dim)%scalar1d%getFieldMinBound()
-    maxBound = bdata%dim(dim)%scalar1d%getFieldMaxBound()
+    res = size(bdata%dim(dim)%field1D)-1
+    minBound = bdata%dim(dim)%getFieldMinBound()
+    maxBound = bdata%dim(dim)%getFieldMaxBound()
     res = abs(maxBound - minBound)/res
     getPointCoordRegular = (xdata - minBound)/res+1
     ieta = -res/10.0
@@ -1171,7 +1214,7 @@
     !---------------------------------------------------------------------------
     subroutine printInterpolator(self)
     class(interpolator_class), intent(inout) :: self
-    type(string) :: outext, t
+    type(string) :: outext
     outext = 'Interpolation algorithm is '//self%name
     call Log%put(outext,.false.)
     end subroutine printInterpolator

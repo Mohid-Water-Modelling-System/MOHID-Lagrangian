@@ -74,14 +74,21 @@
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: runKernel
+    integer :: i
+    !write(*,*)"Entrada Run Kernel tamanho bdata =", size(bdata)
+    !do i = 1, size(bdata)
+    !    write(*,*)"Tamanho background i = ", i, bdata(i)%fields%getSize()
+    !enddo
     !running preparations for kernel lanch
     call self%setCommonProcesses(sv, bdata, time)
+    !write(*,*)"Entrada interpolate_backgrounds"
     call self%interpolate_backgrounds(sv, bdata, time)
     !Computes distance to bottom for all tracers
+    !write(*,*)"Entrada distance2bottom"
     call self%distance2bottom(sv)
     !running kernels for each type of tracer
+    !write(*,*)"Entrada kernels"
     if (sv%ttype == Globals%Types%base) then
-        
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
                     self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + &
                     self%Aging(sv)
@@ -140,12 +147,14 @@
     type(string) :: tag
     logical bottom_emmission
     !-----------------------------------------------------------
+    !write(*,*)"Entrada setCommonProcesses"
     allocate(requiredVars(3))
     requiredVars(1) = Globals%Var%landIntMask
     requiredVars(2) = Globals%Var%resolution
     requiredVars(3) = Globals%Var%bathymetry
-    
+    !write(*,*)"Entrada setCommonProcesses interpolate"
     call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
+    !write(*,*)"Saida setCommonProcesses interpolate"
     bottom_emmission = .false.
     col_bat = Utils%find_str(var_name, Globals%Var%bathymetry, .true.)
     !Set tracers bathymetry
@@ -201,6 +210,7 @@
     sv%resolution = var_dt(:,col_res)
     deallocate(var_name)
     deallocate(var_dt)
+    !write(*,*)"Saida setCommonProcesses"
     end subroutine setCommonProcesses
     
     !---------------------------------------------------------------------------
@@ -224,7 +234,9 @@
     requiredVars(2) = Globals%Var%sal
     requiredVars(3) = Globals%Var%dwz
     
+    !write(*,*)"Entrada getInterpolatedFields"
     call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
+    !write(*,*)"saida getInterpolatedFields"
     !Set tracers dwz
     col_dwz = Utils%find_str(var_name, Globals%Var%dwz, .true.)
     col_dwz_sv = Utils%find_str(sv%varName, Globals%Var%dwz, .true.)
@@ -244,7 +256,7 @@
     
     deallocate(var_name)
     deallocate(var_dt)
-    
+    !write(*,*)"Saida interpolate_backgrounds"
     end subroutine interpolate_backgrounds
     
     !---------------------------------------------------------------------------
@@ -294,6 +306,7 @@
     real(prec) :: threshold_bot_wat, landIntThreshold
     type(string) :: tag
     !-------------------------------------------------------------------------------------
+    !write(*,*)"Entrada kinematic"
     tag = 'dist2bottom'
     col_dist2bottom = Utils%find_str(sv%varName, tag, .true.)
     
@@ -307,10 +320,14 @@
     requiredHorVars(2) = Globals%Var%v
     requiredHorVars(3) = Globals%Var%w
     !requiredHorVars(4) = Globals%Var%ssh
+    !write(*,*)"Entrada interpolacao kinematic 1"
     call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
+    !write(*,*)"Saida interpolacao kinematic 1"
     LagrangianKinematic = 0.0
     !Correct bottom values
+    !write(*,*)"Entrada interpolacao kinematic 2"
     call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredHorVars, var_hor_dt, var_name_hor, reqVertInt = .false.)
+    !write(*,*)"Entrada interpolacao kinematic 2"
     
     col_u = Utils%find_str(var_name_hor, Globals%Var%u, .true.)
     col_v = Utils%find_str(var_name_hor, Globals%Var%v, .true.)
@@ -386,6 +403,7 @@
     deallocate(var_hor_dt)
     deallocate(var_name_hor)
     deallocate(var_name)
+    !write(*,*)"Saida kinematic"
     end function LagrangianKinematic
 
     !---------------------------------------------------------------------------

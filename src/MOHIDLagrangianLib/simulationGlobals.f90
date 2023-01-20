@@ -959,13 +959,16 @@
     integer, intent(in) :: idx
     type(stringList_class), intent(inout) :: variables
     integer :: i
-    
+    !write(*,*)"Entrei no fillBackgroundDict"
+    !write(*,*)"tamanho do dicionario = ", size(self%BackgroundVarDict%bkgDict)
     do i=1, size(self%BackgroundVarDict%bkgDict)
         if (self%BackgroundVarDict%bkgDict(i)%bkgIndex == 0) then
             self%BackgroundVarDict%bkgDict(i)%bkgIndex = idx
+            !write(*,*)"Index e i = ", idx, i
             call self%BackgroundVarDict%bkgDict(i)%bkgVars%copy(variables)
             exit
         else if(self%BackgroundVarDict%bkgDict(i)%bkgIndex == idx) then
+            !write(*,*)"Index e i = ", idx, i
             call self%BackgroundVarDict%bkgDict(i)%bkgVars%copy(variables)
             exit
         end if
@@ -2092,6 +2095,7 @@
     type(string) :: outext
     notRepeated = .true.
     call this%reset()               ! reset list iterator
+    !write(*,*)"entrada do while"
     do while(this%moreValues())     ! loop while there are values to print
         curr => this%currentValue() ! get current value
         select type(curr)
@@ -2107,6 +2111,7 @@
         end select
         call this%next()            ! increment the list iterator
     end do
+    !write(*,*)"saida do while"
     call this%reset()               ! reset list iterator
     end function notRepeated
     
@@ -2140,13 +2145,15 @@
     class(stringList_class), intent(inout ) :: other
     type(string), allocatable, dimension(:) :: otherList
     integer :: i
-    
+    !write(*,*)"Entrei na copia"
     call other%toArray(otherList)
     call this%finalize()
-    do i = 1, size(otherList)        
+    !write(*,*)"tamanho da lista = ", size(otherList)
+    do i = 1, size(otherList)
+        !write(*,*)"variavel adicionada = ", trim(otherList(i))
         call this%add(otherList(i))
     end do
-        
+    !write(*,*)"Sai da copia"
     end subroutine copy
     
     !---------------------------------------------------------------------------

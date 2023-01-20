@@ -140,7 +140,6 @@
             if (allocated(backgrounDims)) then
                 realVarIdx = i
                 valorminimo = backgrounDims(3)%GetFieldMinBound()
-                write(*,*)"calculei minimo = ", valorminimo
                 exit
             end if 
         end if
@@ -154,50 +153,44 @@
             end if
         end do
     end if
+    
     call ncFile%finalize()
     
     dimExtents = 0.0
     
     do i = 1, size(backgrounDims)
-        write(*,*) "backgroundDims name = ", trim(backgrounDims(i)%name)
+        !write(*,*) "backgroundDims name = ", trim(backgrounDims(i)%name)
         if (backgrounDims(i)%name == Globals%Var%lon) then
             dimExtents(1,1) = backgrounDims(i)%getFieldMinBound()
-            write(*,*) "dimExtents(1,1) = ", dimExtents(1,1)
+            !write(*,*) "dimExtents(1,1) = ", dimExtents(1,1)
             dimExtents(1,2) = backgrounDims(i)%getFieldMaxBound()
-            write(*,*) "dimExtents(1,2) = ", dimExtents(1,2)
+            !write(*,*) "dimExtents(1,2) = ", dimExtents(1,2)
         else if (backgrounDims(i)%name == Globals%Var%lat) then
             dimExtents(2,1) = backgrounDims(i)%getFieldMinBound()
-            write(*,*) "dimExtents(2,1) = ", dimExtents(2,1)
+            !write(*,*) "dimExtents(2,1) = ", dimExtents(2,1)
             dimExtents(2,2) = backgrounDims(i)%getFieldMaxBound()
-            write(*,*) "dimExtents(2,2) = ", dimExtents(2,2)
+            !write(*,*) "dimExtents(2,2) = ", dimExtents(2,2)
         else if (backgrounDims(i)%name == Globals%Var%level) then
             dimExtents(3,1) = backgrounDims(i)%getFieldMinBound()
-            write(*,*) "dimExtents(3,1) = ", dimExtents(3,1)
+            !write(*,*) "dimExtents(3,1) = ", dimExtents(3,1)
             dimExtents(3,2) = backgrounDims(i)%getFieldMaxBound()
-            write(*,*) "dimExtents(3,2) = ", dimExtents(3,2)
+            !write(*,*) "dimExtents(3,2) = ", dimExtents(3,2)
         end if
     end do
-    write(*,*) "Sai do ciclo dos backgrounddims"
     extents%pt = dimExtents(1,1)*ex + dimExtents(2,1)*ey + dimExtents(3,1)*ez
-    write(*,*) "Sai extents%pt"
     pt = dimExtents(1,2)*ex + dimExtents(2,2)*ey + dimExtents(3,2)*ez
-    write(*,*) "Sai pt"
     extents%size = pt - extents%pt
-    write(*,*) "Sai extents%size"
     name = fileName%basename(strip_last_extension=.true.)
-    write(*,*) "Entrei no constructor do Background"
     !For some reason this is not working
-    !getFullFile = Background(1, name, extents, backgrounDims)
-    
-    call getFullFile%construct_dims(1, name, extents, backgrounDims)
-    write(*,*) "Sai do constructor do Background"
+    getFullFile = Background(1, name, extents, backgrounDims)
+    !write(*,*)"size gfield = ", size(gfield)
     do i = 1, size(gfield)
-        write(*,*) "Entrei gfield add = ", i
+        !write(*,*) "Entrei gfield add = ", i
         call getFullFile%add(gfield(i))
-        write(*,*) "Sai gfield add = ", i
+        !write(*,*) "Sai gfield add = ", i
     end do
     valorminimo = backgrounDims(3)%getFieldMinBound()
-    write(*,*) "Sai do getFullFile"
+    !write(*,*) "Sai do getFullFile"
     end function getFullFile
     
     !type(background_class) function getFullFile(self, fileName, varList, syntecticVar)
@@ -318,8 +311,8 @@
     subroutine getNCglobalMetadata(self)
     class(ncfile_class), intent(inout) :: self
     self%status = nf90_inquire(self%ncID, self%nDims, self%nVars, self%nAtt, self%uDimID)
-    write(*,*)"entrada getNCglobalMetadata"
-    write(*,*)"number dimensions = ", self%nDims
+    !write(*,*)"entrada getNCglobalMetadata"
+    !write(*,*)"number dimensions = ", self%nDims
     call self%check()
     end subroutine getNCglobalMetadata
 
@@ -498,7 +491,7 @@
     type(dim_t) :: tempDim
     logical :: increase_flag, neg_flag, foundDimVar, found2dDimVar, LatOrLon
     !Begin-----------------------------------------------------------------------
-    write(*,*)"entrei getVarDimensions_variable"
+    !write(*,*)"entrei getVarDimensions_variable"
     do i=1, self%nVars !going trough all variables
         if (self%varData(i)%simName == varName) then   !found the requested var
             !write(*,*)"var name = ", varName
@@ -627,7 +620,7 @@
             end do
         end if
     end do
-    write(*,*)"sai getVarDimensions_variable"
+    !write(*,*)"sai getVarDimensions_variable"
     end subroutine getVarDimensions_variable
     
     !---------------------------------------------------------------------------
@@ -648,26 +641,26 @@
     !Variable IDs (self%dimData(k)) : 1-time, 2-lat, 3-lon, 4-depth
     do i=1, self%nVars !going trough all variables
         if (self%varData(i)%simName == varName) then   !found the requested var
-            write(*,*)"dims var name = ", varName
-            write(*,*)"number of dims in vardata = ", self%varData(i)%ndims
-            write(*,*)"number of dimensions of file = ", self%nDims
+            !write(*,*)"dims var name = ", varName
+            !write(*,*)"number of dims in vardata = ", self%varData(i)%ndims
+            !write(*,*)"number of dimensions of file = ", self%nDims
             !Ask here if user is providing a 2D lat and lon field and then allocate a dimsarrays that is of type scalar2d_field_class
             
             allocate(dimsArrays(self%varData(i)%ndims)) !allocating output fields
             do j=1, self%varData(i)%ndims   !going trough all of the variable dimensions
-                write(*,*)"j = ", j
+                !write(*,*)"j = ", j
                 do k=1, self%nDims  !going trough all available dimensions of the file
-                    write(*,*)"Dimension ID of current variable = ", self%varData(i)%dimids(j)
-                    write(*,*)"Current dimension ID = ", self%dimData(k)%dimid
-                    write(*,*)"Dim name = ", self%dimData(k)%name
+                    !write(*,*)"Dimension ID of current variable = ", self%varData(i)%dimids(j)
+                    !write(*,*)"Current dimension ID = ", self%dimData(k)%dimid
+                    !write(*,*)"Dim name = ", self%dimData(k)%name
                     if (self%varData(i)%dimids(j) == self%dimData(k)%dimid) then    !found a corresponding dimension between the variable and the file
                         !Sobrinho
                         allocate(tempRealArray(self%dimData(k)%length)) !allocating a place to read the field data to
-                        write(*,*)"Dim length = ", self%dimData(k)%length
+                        !write(*,*)"Dim length = ", self%dimData(k)%length
                         dimName = self%dimData(k)%simName
                         dimUnits = self%dimData(k)%units
                         !write(*,*)"dimUnits = ", dimUnits
-                        write(*,*)"variable ID of dimension = ", self%dimData(k)%varid
+                       ! write(*,*)"variable ID of dimension = ", self%dimData(k)%varid
                         !Here is where Lat, Lon and Depth are read from the netcdf
                         self%status = nf90_get_var(self%ncID, self%dimData(k)%varid, tempRealArray)
                         call self%check()
@@ -729,7 +722,7 @@
             end do
         end if
     end do
-    write(*,*)"sai getvardimentions"
+    !write(*,*)"sai getvardimentions"
     end subroutine getVarDimensions
 
     !---------------------------------------------------------------------------
