@@ -154,6 +154,7 @@
     requiredVars(3) = Globals%Var%bathymetry
     !write(*,*)"Entrada setCommonProcesses interpolate"
     call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
+    
     !write(*,*)"Saida setCommonProcesses interpolate"
     bottom_emmission = .false.
     col_bat = Utils%find_str(var_name, Globals%Var%bathymetry, .true.)
@@ -229,14 +230,23 @@
     type(string), dimension(:), allocatable :: var_name
     type(string), dimension(:), allocatable :: requiredVars
     !-----------------------------------------------------------
-    allocate(requiredVars(3))
-    requiredVars(1) = Globals%Var%temp
-    requiredVars(2) = Globals%Var%sal
-    requiredVars(3) = Globals%Var%dwz
     
+    if (sv%ttype == Globals%Types%base) then
+        allocate(requiredVars(1))
+        requiredVars(1) = Globals%Var%dwz
+    else
+        allocate(requiredVars(3))
+        requiredVars(1) = Globals%Var%temp
+        requiredVars(2) = Globals%Var%sal
+        requiredVars(3) = Globals%Var%dwz
+    endif
     !write(*,*)"Entrada getInterpolatedFields"
     call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
-    !write(*,*)"saida getInterpolatedFields"
+    !write(*,*)"Saida getInterpolatedFields"
+    !do i=1, size(var_name)
+    !    write(*,*)"Var name i : ", i, trim(var_name(i))
+    !enddo
+    
     !Set tracers dwz
     col_dwz = Utils%find_str(var_name, Globals%Var%dwz, .true.)
     col_dwz_sv = Utils%find_str(sv%varName, Globals%Var%dwz, .true.)
@@ -244,15 +254,19 @@
     sv%state(:,col_dwz_sv) = var_dt(:,col_dwz)
     
     !Set tracers temperature
-    col_temp = Utils%find_str(var_name, Globals%Var%temp, .true.)
-    col_temp_sv = Utils%find_str(sv%varName, Globals%Var%temp, .true.)
-    sv%state(:,col_temp_sv) = var_dt(:,col_temp)
+    if (sv%ttype /= Globals%Types%base) then
+        col_temp = Utils%find_str(var_name, Globals%Var%temp, .true.)
+        !write(*,*)"Saida col_temp"
+        col_temp_sv = Utils%find_str(sv%varName, Globals%Var%temp, .true.)
+        sv%state(:,col_temp_sv) = var_dt(:,col_temp)
+        !write(*,*)"Saida col_temp_sv"
+        !Set tracers salinity
+        col_sal = Utils%find_str(var_name, Globals%Var%sal, .true.)
+        col_sal_sv = Utils%find_str(sv%varName, Globals%Var%sal, .true.)
     
-    !Set tracers salinity
-    col_sal = Utils%find_str(var_name, Globals%Var%sal, .true.)
-    col_sal_sv = Utils%find_str(sv%varName, Globals%Var%sal, .true.)
-    
-    sv%state(:,col_sal_sv) = var_dt(:,col_sal)
+        sv%state(:,col_sal_sv) = var_dt(:,col_sal)
+    endif
+
     
     deallocate(var_name)
     deallocate(var_dt)
@@ -260,15 +274,15 @@
     end subroutine interpolate_backgrounds
     
     !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @author Joao Sobrinho - Colab Atlantic
     !> @brief
-    !> computes distance to bottom for all tracers
+    !> computes distance to bottom for all tracers (beware! does not yet consider water level)
     !> @param[in] self, sv, bdata, time
     !---------------------------------------------------------------------------
     subroutine distance2bottom(self, sv)
     class(kernel_class), intent(inout) :: self
     type(stateVector_class), intent(inout) :: sv
-    integer :: col_dwz, col_bat, col_dist2bottom
+    integer :: col_dwz, col_bat, col_dist2bottom, i
     type(string) :: tag
     !-----------------------------------------------------------
     !Set tracers dwz
@@ -276,7 +290,7 @@
     col_bat = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
     tag = 'dist2bottom'
     col_dist2bottom = Utils%find_str(sv%varName, tag, .true.)
-    
+    !Need to add water elevation into account because in low depth areas the result will be wrong
     sv%state(:,col_dist2bottom) = Globals%Mask%bedVal + (sv%state(:,3) - sv%state(:,col_bat)) / (sv%state(:,col_dwz))
     
     end subroutine distance2bottom
@@ -305,6 +319,7 @@
     real(8), dimension(size(sv%state,1)) :: aux_r8
     real(prec) :: threshold_bot_wat, landIntThreshold
     type(string) :: tag
+    integer :: i
     !-------------------------------------------------------------------------------------
     !write(*,*)"Entrada kinematic"
     tag = 'dist2bottom'
@@ -376,7 +391,7 @@
         sv%state(:,4) = var_dt(:,nf_u)
         sv%state(:,5) = var_dt(:,nf_v)
     end where
-
+    
     nf = Utils%find_str(var_name, Globals%Var%w, .false.)
     if ((nf /= MV_INT) .and. (Globals%SimDefs%VerticalVelMethod == 1)) then
         !Make the vertical velocity 0 at the bottom.
