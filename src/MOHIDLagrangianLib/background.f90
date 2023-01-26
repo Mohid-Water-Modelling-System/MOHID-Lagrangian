@@ -1619,29 +1619,41 @@ do3:                do i=1, size(curr%field,1)
                 call self%getVarByName4D(varName = Globals%Var%bathymetry, outField_4D = bathymetry_4D, origVar = curr%name)
                 dwz4D = 0
                 !Only covering the bottom for now... need to change this to include the surface
-                
-                do t=1, size(curr%field,4)
-                    !!$OMP PARALLEL PRIVATE(j, i, k, found)
-                    !!$OMP DO
-                    do j=1, size(curr%field,2)
-                        do i=1, size(curr%field,1)
-                            found = .false.
-                            do k=1, size(curr%field,3)
-                                if (found) then
-                                    dwz4D(i,j,k,t) = self%dim(dimIndx)%field1D(k) - self%dim(dimIndx)%field1D(k-1)
-                                else   
-                                    if (self%dim(dimIndx)%field1D(k) > bathymetry_4D(i,j,1,t)) then
-                                        !Found first
-                                        dwz4D(i,j,k,t) = abs((bathymetry_4D(i,j,1,t) - (self%dim(dimIndx)%field1D(k))) * 2)
-                                        found = .true.
-                                    end if
-                                end if
+                !write(*,*)"tamanhos field 1 2 3 4 = ", size(curr%field,1), size(curr%field,2),size(curr%field,3),size(curr%field,4)
+                if (size(curr%field,3) == 1) then
+                    do t=1, size(curr%field,4)
+                        !!$OMP PARALLEL PRIVATE(j, i, k, found)
+                        !!$OMP DO
+                        do j=1, size(curr%field,2)
+                            do i=1, size(curr%field,1)
+                                dwz4D(i,j,:,t) = abs(bathymetry_4D(i,j,:,t))
                             end do
                         end do
+                    enddo
+                else
+                    do t=1, size(curr%field,4)
+                        !!$OMP PARALLEL PRIVATE(j, i, k, found)
+                        !!$OMP DO
+                        do j=1, size(curr%field,2)
+                            do i=1, size(curr%field,1)
+                                found = .false.
+                                do k=1, size(curr%field,3)
+                                    if (found) then
+                                        dwz4D(i,j,k,t) = self%dim(dimIndx)%field1D(k) - self%dim(dimIndx)%field1D(k-1)
+                                    else
+                                        if (self%dim(dimIndx)%field1D(k) > bathymetry_4D(i,j,1,t)) then
+                                            !Found first
+                                            dwz4D(i,j,k,t) = abs((bathymetry_4D(i,j,1,t) - (self%dim(dimIndx)%field1D(k))) * 2)
+                                            found = .true.
+                                        end if
+                                    end if
+                                end do
+                            end do
+                        end do
+                        !!$OMP END DO
+                        !!$OMP END PARALLEL
                     end do
-                    !!$OMP END DO
-                    !!$OMP END PARALLEL
-                end do
+                endif
                 curr%field = dwz4D
             end if
         class default

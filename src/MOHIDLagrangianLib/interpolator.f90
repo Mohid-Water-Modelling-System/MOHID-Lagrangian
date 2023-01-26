@@ -97,10 +97,10 @@
             if (self%interpType == 1) then !linear interpolation in space and time
                 if (present(toInterp)) then
                     !write(*,*)"toInterp present"
-                    do count=1,size(toInterp)
-                        !write(*,*)"variavel para interpolar = ", trim(toInterp(count))
-                        !write(*,*)"variavel no field = ", trim(aField%name)
-                    enddo
+                    !do count=1,size(toInterp)
+                    !    write(*,*)"variavel para interpolar = ", trim(toInterp(count))
+                    !    write(*,*)"variavel no field = ", trim(aField%name)
+                    !enddo
                     if (.not.(any(toInterp == aField%name))) then
                         !write(*,*)"toInterp false"
                         interp = .false.
@@ -135,7 +135,7 @@
                         requireVertInt = reqVertInt
                     end if
                     if (requireVertInt) then
-                        !write(*,*)"entrada requireVertInt"
+                        !write(*,*)"entrada requireVertInt...........Variavel = ", trim(aField%name)
                         var_dt(:,i) = self%interp4D(xx, yy, zz, tt, outOfBounds, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(state,1))
                         !write(*,*)"Saida requireVertInt"
                     else
@@ -333,6 +333,11 @@
         !write(*,*)"x0(i), y0(i), z0(i), t0 = ", x0(i), y0(i), z0(i), t0
         !write(*,*)"x1(i), y1(i), z1(i), t1 = ", x0(i), y0(i), z0(i), t0
         !write(*,*)"xd(i), yd(i), zd(i), td = ", xd(i), yd(i), zd(i), td
+        !write(*,*)"field(x0(i),y0(i),z0(i),t0) = ", field(x0(i),y0(i),z0(i),t0)
+        !write(*,*)"field(x0(i),y1(i),z0(i),t0) = ", field(x0(i),y1(i),z0(i),t0)
+        !write(*,*)"field(x0(i),y0(i),z1(i),t0) = ", field(x0(i),y0(i),z1(i),t0)
+        !write(*,*)"field(x0(i),y1(i),z1(i),t0) = ", field(x0(i),y1(i),z1(i),t0)
+        
         c000(i) = field(x0(i),y0(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),z0(i),t0)*xd(i) !y0x0z0t0!  y0x1z0t0
         c100(i) = field(x0(i),y1(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),z0(i),t0)*xd(i)
         c010(i) = field(x0(i),y0(i),z1(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),z1(i),t0)*xd(i)
@@ -352,6 +357,7 @@
         c1(i) = c01(i)*(1.-zd(i))+c11(i)*zd(i)
     ! Interpolation on the time dimension and get the final result.
         interp4D(i) = c0(i)*(1.-td)+c1(i)*td
+        !write(*,*)"interp4D(i) = ", interp4D(i)
     end do
     end function interp4D
     
@@ -842,7 +848,7 @@
     elseif (allocated(bdata%dim(dim)%field2D)) then
         dimSize = 2
     endif
-   ! write(*,*)"dimsize =  ", dimSize
+    !write(*,*)"dimsize =  ", dimSize
     if (dimSize == 1) then
         !write(*,*)"Entrei no dimsize1 ", trim(bdata%dim(dim)%name)
         minBound = bdata%dim(dim)%getFieldMinBound()
