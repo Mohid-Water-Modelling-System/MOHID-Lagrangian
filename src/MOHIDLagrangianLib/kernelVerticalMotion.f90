@@ -231,6 +231,7 @@
     !> @author Daniel Garaboa Paz - USC
     !> @brief
     !> Approach the particle drag coefficient based on shape factor
+    !> https://www.researchgate.net/publication/244155878_Drag_Coefficient_and_Terminal_Velocity_of_Spherical_and_Non-Spherical_Particles
     !> @param[in] self, sv, shapeFactor, characteristicLength 
     !---------------------------------------------------------------------------
     function DragCoefficient(self, shapeFactor, charateristicLength, Reynolds)
