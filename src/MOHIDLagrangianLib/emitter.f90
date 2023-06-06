@@ -82,7 +82,7 @@
                 if (.not.aSource%par%emitting_fixed_rate) then
                     call aSource%setVariableRate(Globals%Sim%getnumdt())
                     if (aSource%par%tracer_volume > 0) then !              m3/s           /            m3
-                        aSource%par%emitting_fixed_rate = (aSource%par%emitting_fixed_rate/aSource%par%tracer_volume)
+                        aSource%par%emitting_rate = (aSource%par%emitting_rate/aSource%par%tracer_volume)
                     endif
                 endif
                 aSource%now%emission_stack = aSource%now%emission_stack + aSource%par%emitting_rate*Globals%SimDefs%dt  !adding to the emission stack
