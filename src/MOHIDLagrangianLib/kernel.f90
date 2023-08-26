@@ -57,8 +57,8 @@
     type(kernelVerticalMotion_class) :: VerticalMotion   !< VerticalMotion kernels
     type(kernelColiform_class) :: Coliform !< coliform kernels
     type(kernelDetritus_class) :: Detritus !< coliform kernels
-    type(kernelUtils_class) :: KernelUtils   !< kernel utils
     type(kernelMOHIDWaterQuality_class) :: MOHIDWaterQuality   !< VerticalMotion kernels
+    type(kernelUtils_class) :: KernelUtils   !< kernel utils
  
     public :: kernel_class
     contains

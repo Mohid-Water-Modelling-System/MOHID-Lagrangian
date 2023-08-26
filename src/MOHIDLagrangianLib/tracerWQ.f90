@@ -51,6 +51,8 @@
         real(prec) :: DOP_NonRefractory             !< DOP_NonRefractory of the tracer
         real(prec) :: DON_Refractory                !< DON_Refractory of the tracer
         real(prec) :: DOP_Refractory                !< DOP_Refractory of the tracer
+        real(prec) :: partOrgNit                !< partOrgNit of the tracer
+        real(prec) :: partOrgPho                !< partOrgPho of the tracer
         real(prec) :: phytoplankton                 !< phytoplankton of the tracer
         real(prec) :: zooplankton                   !< zooplankton of the tracer
     end type waterQuality_state_class
@@ -128,8 +130,10 @@
     getStateArray(31) = self%mnow%DOP_NonRefractory
     getStateArray(32) = self%mnow%DON_Refractory
     getStateArray(33) = self%mnow%DOP_Refractory
-    getStateArray(34) = self%mnow%phytoplankton
-    getStateArray(35) = self%mnow%zooplankton
+    getStateArray(34) = self%mnow%partOrgNit
+    getStateArray(35) = self%mnow%partOrgPho
+    getStateArray(36) = self%mnow%phytoplankton
+    getStateArray(37) = self%mnow%zooplankton
     end function getStateArray
 
     !---------------------------------------------------------------------------
@@ -174,8 +178,10 @@
     self%mnow%DOP_NonRefractory = StateArray(31)
     self%mnow%DON_Refractory = StateArray(32)
     self%mnow%DOP_Refractory = StateArray(33)
-    self%mnow%phytoplankton = StateArray(34)
-    self%mnow%zooplankton = StateArray(35)
+    self%mnow%partOrgNit = StateArray(34)
+    self%mnow%partOrgPho = StateArray(35)
+    self%mnow%phytoplankton = StateArray(36)
+    self%mnow%zooplankton = StateArray(37)
     end subroutine setStateArray
 
     !---------------------------------------------------------------------------
@@ -214,7 +220,7 @@
     
     constructor%mnow%temperature = 15.0
     constructor%mnow%salinity = 36.0
-    constructor%mnow%oxygen = 5.0
+    constructor%mnow%dissolved_oxygen = 5.0
     constructor%mnow%ammonia = 0.01
     constructor%mnow%nitrate = 0.01
     constructor%mnow%nitrite = 0.001
@@ -223,6 +229,8 @@
     constructor%mnow%DOP_NonRefractory = 0.001
     constructor%mnow%DON_Refractory = 0.001
     constructor%mnow%DOP_Refractory = 0.001
+    constructor%mnow%partOrgNit = 0.001
+    constructor%mnow%partOrgPho = 0.001
     constructor%mnow%phytoplankton = 0.001    
     constructor%mnow%zooplankton = 0.001
     
@@ -254,7 +262,7 @@
     !constructor%varName(19) = 'particulate'
     constructor%varName(23) = 'temp'
     constructor%varName(24) = 'salt'
-    constructor%varName(25) = 'oxygen'
+    constructor%varName(25) = 'dissolved_oxygen'
     constructor%varName(26) = 'ammonia'
     constructor%varName(27) = 'nitrate'
     constructor%varName(28) = 'nitrite'
@@ -263,8 +271,10 @@
     constructor%varName(31) = 'DOP_NonRefractory'
     constructor%varName(32) = 'DON_Refractory'
     constructor%varName(33) = 'DOP_Refractory'
-    constructor%varName(34) = 'phytoplankton'
-    constructor%varName(35) = 'zooplankton'
+    constructor%varName(34) = 'partOrgNit'
+    constructor%varName(35) = 'partOrgPho'
+    constructor%varName(36) = 'phytoplankton'
+    constructor%varName(37) = 'zooplankton'
     end function constructor
 
     end module tracerwaterQuality_mod
