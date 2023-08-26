@@ -34,6 +34,7 @@
     use kernelVerticalMotion_mod
     use kernelColiform_mod
     use kernelDetritus_mod
+    use kernelMOHIDWaterQuality_mod
 
     type :: kernel_class        !< Kernel class
         type(interpolator_class) :: Interpolator !< The interpolator object for the kernel
@@ -57,6 +58,7 @@
     type(kernelColiform_class) :: Coliform !< coliform kernels
     type(kernelDetritus_class) :: Detritus !< coliform kernels
     type(kernelUtils_class) :: KernelUtils   !< kernel utils
+    type(kernelMOHIDWaterQuality_class) :: MOHIDWaterQuality   !< VerticalMotion kernels
  
     public :: kernel_class
     contains
@@ -92,36 +94,35 @@
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
                     self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + &
                     self%Aging(sv)
-        runKernel = self%Beaching(sv, runKernel)
     else if (sv%ttype == Globals%Types%paper) then
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
                     self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + &
                     self%Aging(sv) + Litter%DegradationLinear(sv) + VerticalMotion%Buoyancy(sv, bdata, time) + &
                     VerticalMotion%Resuspension(sv, bdata, time, dt)
-        runKernel = self%Beaching(sv, runKernel)
     else if (sv%ttype == Globals%Types%plastic) then
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
                     self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + &
                     self%Aging(sv) + Litter%DegradationLinear(sv) + Litter%BioFouling(sv, dt) + VerticalMotion%Buoyancy(sv, bdata, time) + &
                     VerticalMotion%Resuspension(sv, bdata, time, dt)
-        runKernel = self%Beaching(sv, runKernel)
     else if (sv%ttype == Globals%Types%coliform) then
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
                     self%DiffusionMixingLength(sv, bdata, time, dt) + &
                     self%Aging(sv) + coliform%MortalityT90(sv, bdata, time) + coliform%Dilution(sv, bdata, time, dt)
-        runKernel = self%Beaching(sv, runKernel)
     else if (sv%ttype == Globals%Types%seed) then
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
                     self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + &
                     VerticalMotion%Buoyancy(sv, bdata, time) + VerticalMotion%Resuspension(sv, bdata, time, dt)
-        runKernel = self%Beaching(sv, runKernel)
     else if (sv%ttype == Globals%Types%detritus) then
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
                     self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + &
                     VerticalMotion%Buoyancy(sv, bdata, time) + VerticalMotion%Resuspension(sv, bdata, time, dt) + &
                     detritus%Degradation(sv, dt)
-        runKernel = self%Beaching(sv, runKernel)
+    else if (sv%ttype == Globals%Types%WaterQuality) then
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
+                    self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + &
+                    self%Aging(sv) + MOHIDWaterQuality%WQProcess(sv, bdata, time, dt) + MOHIDWaterQuality%Dilution(sv, bdata, time, dt)
     end if
+    runKernel = self%Beaching(sv, runKernel)
     runKernel = VerticalMotion%CorrectVerticalBounds(sv, runKernel, bdata, dt)
     
     end function runKernel
@@ -205,7 +206,7 @@
     if (Globals%simdefs%tracerMaxAge > 0) then
         where(sv%state(:,col_age) >= Globals%simdefs%tracerMaxAge) sv%active = .false.
     end if
-                
+    
     !update resolution proxy
     col_res = Utils%find_str(var_name, Globals%Var%resolution,.true.)
     sv%resolution = var_dt(:,col_res)
@@ -254,6 +255,7 @@
     sv%state(:,col_dwz_sv) = var_dt(:,col_dwz)
     
     !Set tracers temperature
+    !Not usable for dilution of temperature so will need to be changed in the future (for example save in a ambient_temp sv name)
     if (sv%ttype /= Globals%Types%base) then
         col_temp = Utils%find_str(var_name, Globals%Var%temp, .true.)
         !write(*,*)"Saida col_temp"
@@ -715,6 +717,7 @@
     call self%Interpolator%initialize(1,interpName)
     call Litter%initialize()
     call VerticalMotion%initialize()
+    !call MOHIDWaterQuality%initialize()
     
     call KernelUtils%initialize() 
     

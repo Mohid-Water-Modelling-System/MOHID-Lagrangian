@@ -63,9 +63,9 @@
     real(prec) :: timeOffset
     logical :: found
     character(len=line_length) :: mHeader
-    real, dimension(:,:), pointer :: mDataMatrix
+    real(prec), dimension(:,:), pointer :: mDataMatrix
     type(T_Time) :: mInitialDate
-    real :: mDate(6)
+    real(prec) :: mDate(6)
 
     outext = '-> Reading MOHID Time Series file '// filename
     call Log%put(outext)

@@ -77,11 +77,12 @@
         type(vector)    ::  blocksize       !< Size (xyz) of a Block (sub-domain)
         integer         ::  numblocks       !< Number of blocks in the simulation
         integer         ::  numblocksx, numblocksy  !<Number of blocks along x and y
-        integer         :: VerticalVelMethod !< Vertical velocity method
-        integer         :: RemoveLandTracer !< Vertical velocity method
-        integer         :: bathyminNetcdf !< bathymetry is a property inside the netcdf
-        real            :: tracerMaxAge !< removes tracers with age greater than maxTracerAge
-        real            :: Temperature_add_offset !< adds offset to temperature from netcdf
+        integer         ::  VerticalVelMethod !< Vertical velocity method
+        integer         ::  RemoveLandTracer !< Vertical velocity method
+        integer         ::  bathyminNetcdf !< bathymetry is a property inside the netcdf
+        real(prec)      ::  tracerMaxAge !< removes tracers with age greater than maxTracerAge
+        real(prec)      ::  Temperature_add_offset !< adds offset to temperature from netcdf
+        real(prec)      ::  WqDt !< water quality process time step
     contains
     procedure :: setdp
     procedure :: setdt
@@ -92,7 +93,9 @@
     procedure :: setRemoveLandTracer
     procedure :: setbathyminNetcdf
     procedure :: settracerMaxAge
-    procedure :: setTemperature_add_offset
+    procedure :: setTemperature_add_offset  !Only here becasue some files from SINTEF were not properly converted due to
+                                            ! some error in mohid's convert to hdf5 tool
+    procedure :: setWqDt
     procedure :: print => printsimdefs
     end type simdefs_t
 
@@ -196,6 +199,19 @@
         type(string) :: u10
         type(string) :: v10
         type(string) :: rad
+        type(string) :: dissolved_oxygen
+        type(string) :: nitrate
+        type(string) :: nitrite
+        type(string) :: ammonia
+        type(string) :: partOrgNit
+        type(string) :: partOrgPho
+        type(string) :: DON_NonRefractory
+        type(string) :: DOP_NonRefractory
+        type(string) :: DON_Refractory
+        type(string) :: DOP_Refractory
+        type(string) :: phytoplankton
+        type(string) :: zooplankton
+        type(string) :: inorganic_phosphorus
         type(string) :: lon
         type(string) :: lat
         type(string) :: level
@@ -222,6 +238,19 @@
         type(stringList_class) :: u10Variants
         type(stringList_class) :: v10Variants
         type(stringList_class) :: radVariants
+        type(stringList_class) :: dissolved_oxygenVariants
+        type(stringList_class) :: nitrateVariants
+        type(stringList_class) :: nitriteVariants
+        type(stringList_class) :: ammoniaVariants
+        type(stringList_class) :: partOrgNitVariants
+        type(stringList_class) :: partOrgPhoVariants
+        type(stringList_class) :: DON_NonRefractoryVariants
+        type(stringList_class) :: DOP_NonRefractoryVariants
+        type(stringList_class) :: DON_RefractoryVariants
+        type(stringList_class) :: DOP_RefractoryVariants
+        type(stringList_class) :: phytoplanktonVariants
+        type(stringList_class) :: zooplanktonVariants
+        type(stringList_class) :: inorganic_phosphorusVariants
         type(stringList_class) :: lonVariants
         type(stringList_class) :: latVariants
         type(stringList_class) :: levelVariants
@@ -264,6 +293,7 @@
         integer :: coliform = 3
         integer :: seed = 4
         integer :: detritus = 5
+        integer :: waterQuality = 6
     contains
     end type tracerTypes_t
 
@@ -299,6 +329,15 @@
         real(prec), allocatable, dimension(:) :: biofouling_rate
     contains    
     end type sources_t
+    
+    type :: extImpFiles_t
+        logical :: waterQualityFileName_hasValue = .false.
+        type(string) :: waterQualityFileName
+    contains
+    procedure :: setWaterQualityFileName
+    procedure :: print => printWaterQualityFileName !Will need changing when other files are added, such as oil.
+    end type extImpFiles_t
+    
 
     type :: globals_class   !<Globals class - This is a container for every global variable on the simulation
         type(parameters_t)  :: Parameters
@@ -315,6 +354,7 @@
         type(dataTypes_t)   :: DataTypes
         type(gridTypes_t)   :: GridTypes
         type(sources_t)     :: Sources
+        type(extImpFiles_t) :: ExtImpFiles !Will have to be changed when other types of files are added (oil for example)
     contains
     procedure :: initialize => setdefaults
     procedure :: setTimeDate
@@ -596,6 +636,71 @@
         getVarSimName = self%rad
         return
     end if
+    !searching for dissolved_oxygen
+    if (var == self%dissolved_oxygen .or. .not.self%dissolved_oxygenVariants%notRepeated(var)) then
+        getVarSimName = self%dissolved_oxygen
+        return
+    end if
+    !searching for nitrate
+    if (var == self%nitrate .or. .not.self%nitrateVariants%notRepeated(var)) then
+        getVarSimName = self%nitrate
+        return
+    end if
+    !searching for nitrite
+    if (var == self%nitrite .or. .not.self%nitriteVariants%notRepeated(var)) then
+        getVarSimName = self%nitrite
+        return
+    end if
+    !searching for ammonia
+    if (var == self%ammonia .or. .not.self%ammoniaVariants%notRepeated(var)) then
+        getVarSimName = self%ammonia
+        return
+    end if
+    !searching for partOrgNit
+    if (var == self%partOrgNit .or. .not.self%partOrgNitVariants%notRepeated(var)) then
+        getVarSimName = self%partOrgNit
+        return
+    end if
+    !searching for partOrgPho
+    if (var == self%partOrgPho .or. .not.self%partOrgPhoVariants%notRepeated(var)) then
+        getVarSimName = self%partOrgPho
+        return
+    end if
+    !searching for DON_NonRefractory
+    if (var == self%DON_NonRefractory .or. .not.self%DON_NonRefractoryVariants%notRepeated(var)) then
+        getVarSimName = self%DON_NonRefractory
+        return
+    end if
+    !searching for DOP_NonRefractory
+    if (var == self%DOP_NonRefractory .or. .not.self%DOP_NonRefractoryVariants%notRepeated(var)) then
+        getVarSimName = self%DOP_NonRefractory
+        return
+    end if
+    !searching for DON_Refractory
+    if (var == self%DON_Refractory .or. .not.self%DON_RefractoryVariants%notRepeated(var)) then
+        getVarSimName = self%DON_Refractory
+        return
+    end if
+    !searching for DOP_Refractory
+    if (var == self%DOP_Refractory .or. .not.self%DOP_RefractoryVariants%notRepeated(var)) then
+        getVarSimName = self%DOP_Refractory
+        return
+    end if
+    !searching for phytoplankton
+    if (var == self%phytoplankton .or. .not.self%phytoplanktonVariants%notRepeated(var)) then
+        getVarSimName = self%phytoplankton
+        return
+    end if
+    !searching for zooplankton
+    if (var == self%zooplankton .or. .not.self%zooplanktonVariants%notRepeated(var)) then
+        getVarSimName = self%zooplankton
+        return
+    end if
+    !searching for inorganic_phosphorus
+    if (var == self%inorganic_phosphorus .or. .not.self%inorganic_phosphorusVariants%notRepeated(var)) then
+        getVarSimName = self%inorganic_phosphorus
+        return
+    end if
     !searching for lon
     if (var == self%lon .or. .not.self%lonVariants%notRepeated(var)) then
         getVarSimName = self%lon
@@ -716,6 +821,71 @@
     end if
     !searching for rad
     if (var == self%rad .or. .not.self%radVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for dissolved_oxygen
+    if (var == self%dissolved_oxygen .or. .not.self%dissolved_oxygenVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for nitrate
+    if (var == self%nitrate .or. .not.self%nitrateVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for nitrite
+    if (var == self%nitrite .or. .not.self%nitriteVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for ammonia
+    if (var == self%ammonia .or. .not.self%ammoniaVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for partOrgNit
+    if (var == self%partOrgNit .or. .not.self%partOrgNitVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for partOrgPho
+    if (var == self%partOrgPho .or. .not.self%partOrgPhoVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for DON_NonRefractory
+    if (var == self%DON_NonRefractory .or. .not.self%DON_NonRefractoryVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for DOP_NonRefractory
+    if (var == self%DOP_NonRefractory .or. .not.self%DOP_NonRefractoryVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for DON_Refractory
+    if (var == self%DON_Refractory .or. .not.self%DON_RefractoryVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for DOP_Refractory
+    if (var == self%DOP_Refractory .or. .not.self%DOP_RefractoryVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for phytoplankton
+    if (var == self%phytoplankton .or. .not.self%phytoplanktonVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for zooplankton
+    if (var == self%zooplankton .or. .not.self%zooplanktonVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for inorganic_phosphorus
+    if (var == self%inorganic_phosphorus .or. .not.self%inorganic_phosphorusVariants%notRepeated(var)) then
         checkVarSimName = .true.
         return
     end if
@@ -890,7 +1060,33 @@
     call self%setCurrVar(tag, self%Var%v10, self%Var%v10Variants, varNode)
     tag="surface_radiation"
     call self%setCurrVar(tag, self%Var%rad, self%Var%radVariants, varNode)
-
+    tag="dissolved_oxygen"
+    call self%setCurrVar(tag, self%Var%dissolved_oxygen, self%Var%dissolved_oxygenVariants, varNode)
+    tag="nitrate"
+    call self%setCurrVar(tag, self%Var%nitrate, self%Var%nitrateVariants, varNode)
+    tag="nitrite"
+    call self%setCurrVar(tag, self%Var%nitrite, self%Var%nitriteVariants, varNode)
+    tag="ammonia"
+    call self%setCurrVar(tag, self%Var%ammonia, self%Var%ammoniaVariants, varNode)
+    tag="partOrgNit"
+    call self%setCurrVar(tag, self%Var%partOrgNit, self%Var%partOrgNitVariants, varNode)
+    tag="partOrgPho"
+    call self%setCurrVar(tag, self%Var%partOrgPho, self%Var%partOrgPhoVariants, varNode)
+    tag="DON_NonRefractory"
+    call self%setCurrVar(tag, self%Var%DON_NonRefractory, self%Var%DON_NonRefractoryVariants, varNode)
+    tag="DOP_NonRefractory"
+    call self%setCurrVar(tag, self%Var%DOP_NonRefractory, self%Var%DOP_NonRefractoryVariants, varNode)
+    tag="DON_Refractory"
+    call self%setCurrVar(tag, self%Var%DON_Refractory, self%Var%DON_RefractoryVariants, varNode)
+    tag="DOP_Refractory"
+    call self%setCurrVar(tag, self%Var%DOP_Refractory, self%Var%DOP_RefractoryVariants, varNode)
+    tag="phytoplankton"
+    call self%setCurrVar(tag, self%Var%phytoplankton, self%Var%phytoplanktonVariants, varNode)
+    tag="zooplankton"
+    call self%setCurrVar(tag, self%Var%zooplankton, self%Var%zooplanktonVariants, varNode)
+    tag="inorganic_phosphorus"
+    call self%setCurrVar(tag, self%Var%inorganic_phosphorus, self%Var%inorganic_phosphorusVariants, varNode)
+    
     end subroutine setVarNames
 
     !---------------------------------------------------------------------------
@@ -1849,6 +2045,28 @@
     end subroutine
 
     !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho
+    !> @brief
+    !> Water quality Dt setting routine
+    !> @param[in] self, read_WqDt
+    !---------------------------------------------------------------------------
+    subroutine setWqDt(self, read_WqDt)
+    implicit none
+    class(simdefs_t), intent(inout) :: self
+    type(string) :: outext
+    integer :: sizem
+    real(prec) :: read_WqDt
+    self%WqDt=read_WqDt
+    if (self%WqDt <= 0.0) then
+        outext='water quality Dt (defined in waterquality.dat - DT_SECONDS) must be positive and non-zero, stopping'
+        call Log%put(outext)
+        stop
+    endif
+    sizem = sizeof(self%WqDt)
+    call SimMemory%adddef(sizem)
+    end subroutine setWqDt
+    
+    !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Bounding box setting routine
@@ -2188,5 +2406,52 @@
     call this%reset()    ! reset list iterator
     
     end subroutine toArray
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho
+    !> @brief
+    !> Method that gets a MOHID type waterquality module implementation file.
+    !---------------------------------------------------------------------------
+    subroutine setWaterQualityFileName(self, fileName)
+    implicit none
+    class(extImpFiles_t), intent(inout) :: self
+    type(string), intent(in) :: fileName
+    type(string) :: outext
+    integer :: sizem
+    logical :: exists
+    type(string) :: fileNamePointer
+    !Verifies if file exits
+    fileNamePointer = fileName
+    
+    inquire(FILE = trim(adjustl(fileNamePointer%chars())), EXIST = exists)
+    if (.not. exists) then
+        outext='WaterQuality input file not found. stopping'
+        call Log%put(outext)
+        stop
+    else
+        self%waterQualityFileName = fileName
+        self%waterQualityFileName_hasValue = .true.
+    endif
+    
+    sizem = sizeof(self%WaterQualityFileName)
+    call SimMemory%adddef(sizem)
+    sizem = sizeof(self%WaterQualityFileName)
+    call SimMemory%adddef(sizem)
+    end subroutine setWaterQualityFileName
 
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho
+    !> @brief
+    !> Method that prints external implementation files.
+    !---------------------------------------------------------------------------
+    subroutine printWaterQualityFileName(self)
+    class(extImpFiles_t), intent(in) :: self
+    type(string) :: outext
+    type(string) :: temp_str(1)
+
+    temp_str(1)=self%WaterQualityFileName%chars()
+    outext = '      Water quality file name is '//temp_str(1)//new_line('a')
+    
+    end subroutine
+    
     end module simulationGlobals_mod

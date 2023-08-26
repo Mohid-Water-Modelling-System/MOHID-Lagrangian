@@ -25,6 +25,7 @@
     use tracerBase_mod
     use xmlParser_mod
     use sources_mod
+    use ModuleWaterQuality
 
     use FoX_dom
 
@@ -247,7 +248,54 @@
 
     end subroutine init_naming
 
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho
+    !> @brief
+    !> Private external definitions parser routine. Builds the waterquality module definitions from the input .dat file.
+    !> @param[in] case_node
+    !---------------------------------------------------------------------------
+    subroutine init_extDefFiles(case_node)
+    type(Node), intent(in), pointer :: case_node
+    type(Node), pointer :: execution_node       !< Single simdefs block to process
+    type(string) :: outext
+    integer :: i, id
+    type(string) :: tag, att_name, att_val
+    real(prec) :: waterQualityTimeStep
+    integer :: STAT_CALL
+    outext='-->Reading external definition files'
+    call Log%put(outext,.false.)
 
+    tag="externalDefinitionFiles"    !the node we want
+    call XMLReader%gotoNode(case_node,execution_node,tag, mandatory =.false.)
+    if (associated(execution_node)) then
+        !Search for a water quality file
+        tag="WQfile"
+        att_name="name"
+        call XMLReader%getNodeAttribute(execution_node, tag, att_name, att_val)
+
+        call Globals%ExtImpFiles%setWaterQualityFileName(att_val) !Naming will need to change when other files are added
+        
+        if (Globals%ExtImpFiles%waterQualityFileName_hasValue) then
+            !Start mohid water quality module.
+            call StartWaterQuality(id, Globals%ExtImpFiles%waterQualityFileName%chars(), STAT = STAT_CALL, MohidLagr = .true.)
+            if (id /= 0 .or. STAT_CALL /= 0) then
+                outext='Failed to start mohid waterquality module - id was not 0 for some reason. stopping'
+                call Log%put(outext)
+                stop
+            endif
+            
+            call GetDTWQM(0, DTSecond = waterQualityTimeStep)
+            call Globals%SimDefs%setWqDt(waterQualityTimeStep) !Set waterquality module time step
+        endif
+        
+        call Globals%ExtImpFiles%print()
+    else
+        outext='-->No mohid water quality file implementation found'
+        call Log%put(outext,.false.)
+    endif
+    
+    end subroutine init_extDefFiles
+    
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -820,6 +868,7 @@
     ! every other structure in the simulation is built from these, i.e., not defined by the user directly
     call init_parameters(execution_node)
     call init_naming(execution_node)
+    call init_extDefFiles(execution_node)
     call setOutputFields(execution_node)
     call init_caseconstants(case_node)
     call init_simdefs(case_node)

@@ -48,7 +48,7 @@
     !> @author Joao Sobrinho - +Atlantic
     !> @brief
     !> T_90 fecal coliforms decay kernel.
-    !> @param[in] self, sv, bdata, dt
+    !> @param[in] self, sv, bdata, time
     !---------------------------------------------------------------------------
     function MortalityT90(self, sv, bdata, time)
     class(kernelColiform_class), intent(in) :: self
@@ -56,9 +56,8 @@
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: MortalityT90
-    real(prec), dimension(size(sv%state,1)) :: depth, Radiation_SW, T90, Radiation
+    real(prec), dimension(size(sv%state,1)) :: T90, Radiation
     type(string), dimension(:), allocatable :: requiredVars
-    real(prec), dimension(2) :: maxLevel
     integer :: col_SWcoef, col_SWper, T90_method, col_conc, col_T90, col_T90_var, col_T90_varM
     integer :: col_rad, col_sal, col_temp
     real(prec), dimension(:,:), allocatable :: var_dt
@@ -92,18 +91,20 @@
         col_sal = Utils%find_str(sv%varname, Globals%Var%sal, .true.)
         !surface radiation
         col_rad = Utils%find_str(var_name, Globals%Var%rad, .true.)
-            
+        
+        !Computes radiation at vertical center of tracers
+        call KernelUtils_coliform%getSWRadiation(sv, var_dt, bdata, col_rad, col_SWper, col_SWcoef, Radiation)
         !w/m2        =   w/m2          *     []
-        Radiation_SW = var_dt(:,col_rad) * sv%state(:,col_SWper)
+        !Radiation_SW = var_dt(:,col_rad) * sv%state(:,col_SWper)
         !compute light extintion
-        depth = sv%state(:,3)
+        !depth = sv%state(:,3)
             
-        maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .false.)
+        !maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .false.)
             
-        depth = maxLevel(2) - depth
+        !depth = maxLevel(2) - depth
                     
         !compute light exctintion in water column
-        Radiation = Radiation_SW * exp(-sv%state(:,col_SWcoef) * depth)
+        !Radiation = Radiation_SW * exp(-sv%state(:,col_SWcoef) * depth)
         !Compute T90
         if (T90_method == 1) then
             !Canteras

@@ -28,6 +28,7 @@
     contains
     procedure :: initialize => initKernelUtils
     procedure :: getInterpolatedFields => runInterpolatorOnVars
+    procedure :: getSWRadiation => computeSWRadiation
     procedure, private :: getBackgroundDictIntersection
     end type kernelUtils_class
      
@@ -184,6 +185,36 @@
         end do
     end do    
     end subroutine getBackgroundDictIntersection
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho
+    !> @brief
+    !> Computes short wave radiation and light extinction.
+    !> Used by coliforms and for plastic biofouling growth using mohid waterquality (as of 2023).
+    !---------------------------------------------------------------------------
+    subroutine computeSWRadiation(self, sv, var_dt, bdata, c_Rad, c_SWper, c_SWcoef, radiation)
+    class(kernelUtils_class), intent(inout) :: self
+    type(stateVector_class), intent(in) :: sv
+    real(prec), dimension(:,:), allocatable, intent(in) :: var_dt
+    type(background_class), dimension(:), intent(in) :: bdata
+    integer, intent(in) :: c_Rad, c_SWper, c_SWcoef
+    real(prec), dimension(size(sv%state,1)), intent(out) :: radiation
+    real(prec), dimension(size(sv%state,1)) :: depth, radiation_SW
+    real(prec), dimension(2) :: maxLevel
+
+    !w/m2        =   w/m2          *     []
+    radiation_SW = var_dt(:,c_Rad) * sv%state(:,c_SWper)
+    !compute light extintion
+    depth = sv%state(:,3)
+            
+    maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .false.)
+            
+    depth = maxLevel(2) - depth
+                    
+    !compute light exctintion in water column intil center position of tracer
+    radiation = radiation_SW * exp(-sv%state(:,c_SWcoef) * depth)
+    
+    end subroutine computeSWRadiation
 
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - GFNL

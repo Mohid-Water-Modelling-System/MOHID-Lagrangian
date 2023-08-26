@@ -157,6 +157,8 @@
         allocate(trc, source = seedTracer(Globals%Sim%getnumTracer(), src, Globals%SimTime%CurrTime, p))
     case ('detritus')
         allocate(trc, source = detritusTracer(Globals%Sim%getnumTracer(), src, Globals%SimTime%CurrTime, p))
+    case ('waterQuality')
+        allocate(trc, source = waterQualityTracer(Globals%Sim%getnumTracer(), src, Globals%SimTime%CurrTime, p))
         case default
         outext='[Emitter::tracerMaker]: unexpected type for Tracer object: '//src%prop%propertyType
         call Log%put(outext)
