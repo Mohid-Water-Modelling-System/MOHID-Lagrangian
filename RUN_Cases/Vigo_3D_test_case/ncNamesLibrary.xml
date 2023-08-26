@@ -36,6 +36,23 @@
 			<variant name="bathymetry" comment="used in MOHID and CMEMS" />
 			<variant name="bathym" />
 		</bathymetry>
+        <sea_surface_wave_stokes_drift_x_velocity name="VSDX" comment="used in CMEMS">
+                <variant name="VSDX" comment="used in CMEMS"/>
+		<variant name="vsdx" comment="used in CMEMS"/>
+        </sea_surface_wave_stokes_drift_x_velocity>
+        <sea_surface_wave_stokes_drift_y_velocity name="VSDY" comment="used in CMEMS">
+            <variant name="VSDY" comment="used in CMEMS"/>
+            <variant name="vsdy" comment="used in CMEMS"/>
+        </sea_surface_wave_stokes_drift_y_velocity>
+        <sea_surface_significant_wave_height name="hs" comment="used in CMEMS">
+            <variant name="VHM0" comment="used in CMEMS"/>
+        </sea_surface_significant_wave_height>
+        <sea_surface_wave_mean_period name="ts" comment="used in CMEMS">
+            <variant name="VTM02" comment="used in CMEMS"/>
+        </sea_surface_wave_mean_period>
+        <sea_surface_wave_mean_direction name="wd" comment="used in CMEMS">
+            <variant name="VMDR" comment="used in CMEMS"/>
+        </sea_surface_wave_mean_direction>
 	</variables>
 	<dimensions>
 		<longitude name="lon">

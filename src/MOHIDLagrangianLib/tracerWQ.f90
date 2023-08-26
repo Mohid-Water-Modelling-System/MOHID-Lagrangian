@@ -38,7 +38,6 @@
         real(prec) :: volume                        !< Tracer volume (m3)
         real(prec) :: area                          !< Tracer area (m2)
         real(prec) :: condition                     !< Material condition (1-0)
-        real(prec) :: degradation_rate              !< degradation rate of the material
         real(prec) :: concentration                 !< Particle concentration
         real(prec) :: temperature                   !< temperature of the tracer
         real(prec) :: salinity                      !< salinity of the tracer
@@ -117,23 +116,22 @@
     getStateArray(18) = self%mnow%volume
     getStateArray(19) = self%mnow%area
     getStateArray(20) = self%mnow%condition
-    getStateArray(21) = self%mnow%degradation_rate
-    getStateArray(22) = self%mnow%concentration
-    getStateArray(23) = self%mnow%temperature
-    getStateArray(24) = self%mnow%salinity
-    getStateArray(25) = self%mnow%oxygen
-    getStateArray(26) = self%mnow%ammonia
-    getStateArray(27) = self%mnow%nitrate
-    getStateArray(28) = self%mnow%nitrite
-    getStateArray(29) = self%mnow%inorganic_phosphorus
-    getStateArray(30) = self%mnow%DON_NonRefractory
-    getStateArray(31) = self%mnow%DOP_NonRefractory
-    getStateArray(32) = self%mnow%DON_Refractory
-    getStateArray(33) = self%mnow%DOP_Refractory
-    getStateArray(34) = self%mnow%partOrgNit
-    getStateArray(35) = self%mnow%partOrgPho
-    getStateArray(36) = self%mnow%phytoplankton
-    getStateArray(37) = self%mnow%zooplankton
+    getStateArray(21) = self%mnow%concentration
+    getStateArray(22) = self%mnow%temperature
+    getStateArray(23) = self%mnow%salinity
+    getStateArray(24) = self%mnow%oxygen
+    getStateArray(25) = self%mnow%ammonia
+    getStateArray(26) = self%mnow%nitrate
+    getStateArray(27) = self%mnow%nitrite
+    getStateArray(28) = self%mnow%inorganic_phosphorus
+    getStateArray(29) = self%mnow%DON_NonRefractory
+    getStateArray(30) = self%mnow%DOP_NonRefractory
+    getStateArray(31) = self%mnow%DON_Refractory
+    getStateArray(32) = self%mnow%DOP_Refractory
+    getStateArray(33) = self%mnow%partOrgNit
+    getStateArray(34) = self%mnow%partOrgPho
+    getStateArray(35) = self%mnow%phytoplankton
+    getStateArray(36) = self%mnow%zooplankton
     end function getStateArray
 
     !---------------------------------------------------------------------------
@@ -165,23 +163,22 @@
     self%mnow%volume = StateArray(18)
     self%mnow%area = StateArray(19)
     self%mnow%condition = StateArray(20)
-    self%mnow%degradation_rate = StateArray(21)
-    self%mnow%concentration = StateArray(22)
-    self%mnow%temperature = StateArray(23)
-    self%mnow%salinity = StateArray(24)
-    self%mnow%oxygen = StateArray(25)
-    self%mnow%ammonia = StateArray(26)
-    self%mnow%nitrate = StateArray(27) 
-    self%mnow%nitrite = StateArray(28)
-    self%mnow%inorganic_phosphorus = StateArray(29)
-    self%mnow%DON_NonRefractory = StateArray(30)
-    self%mnow%DOP_NonRefractory = StateArray(31)
-    self%mnow%DON_Refractory = StateArray(32)
-    self%mnow%DOP_Refractory = StateArray(33)
-    self%mnow%partOrgNit = StateArray(34)
-    self%mnow%partOrgPho = StateArray(35)
-    self%mnow%phytoplankton = StateArray(36)
-    self%mnow%zooplankton = StateArray(37)
+    self%mnow%concentration = StateArray(21)
+    self%mnow%temperature = StateArray(22)
+    self%mnow%salinity = StateArray(23)
+    self%mnow%oxygen = StateArray(24)
+    self%mnow%ammonia = StateArray(25)
+    self%mnow%nitrate = StateArray(26) 
+    self%mnow%nitrite = StateArray(27)
+    self%mnow%inorganic_phosphorus = StateArray(28)
+    self%mnow%DON_NonRefractory = StateArray(29)
+    self%mnow%DOP_NonRefractory = StateArray(30)
+    self%mnow%DON_Refractory = StateArray(31)
+    self%mnow%DOP_Refractory = StateArray(32)
+    self%mnow%partOrgNit = StateArray(33)
+    self%mnow%partOrgPho = StateArray(34)
+    self%mnow%phytoplankton = StateArray(35)
+    self%mnow%zooplankton = StateArray(36)
     end subroutine setStateArray
 
     !---------------------------------------------------------------------------
@@ -216,7 +213,6 @@
     constructor%mnow%area = src%prop%area
     !default values
     constructor%mnow%condition = 1.0
-    constructor%mnow%degradation_rate = 1/(100*365*24*3600)
     
     constructor%mnow%temperature = 15.0
     constructor%mnow%salinity = 36.0
@@ -240,11 +236,6 @@
     if (idx /= MV_INT) then
         constructor%mnow%condition = src%prop%propValue(idx)
     end if
-    tag = 'degradation_rate'
-    idx = Utils%find_str(src%prop%propName, tag, .false.)
-    if (idx /= MV_INT) then
-        constructor%mnow%degradation_rate = src%prop%propValue(idx)
-    end if
 
     if (constructor%mpar%particulate==1) then
         !constructor%mpar%size = src%prop%pt_radius !correcting size to now mean particle size, not tracer size
@@ -257,24 +248,23 @@
     constructor%varName(18) = 'volume'
     constructor%varName(19) = 'area'
     constructor%varName(20) = 'condition'
-    constructor%varName(21) = 'degradation_rate'
-    constructor%varName(22) = 'concentration'
+    constructor%varName(21) = 'concentration'
     !constructor%varName(19) = 'particulate'
-    constructor%varName(23) = 'temp'
-    constructor%varName(24) = 'salt'
-    constructor%varName(25) = 'dissolved_oxygen'
-    constructor%varName(26) = 'ammonia'
-    constructor%varName(27) = 'nitrate'
-    constructor%varName(28) = 'nitrite'
-    constructor%varName(29) = 'inorganic_phosphorus'
-    constructor%varName(30) = 'DON_NonRefractory'
-    constructor%varName(31) = 'DOP_NonRefractory'
-    constructor%varName(32) = 'DON_Refractory'
-    constructor%varName(33) = 'DOP_Refractory'
-    constructor%varName(34) = 'partOrgNit'
-    constructor%varName(35) = 'partOrgPho'
-    constructor%varName(36) = 'phytoplankton'
-    constructor%varName(37) = 'zooplankton'
+    constructor%varName(22) = 'temp'
+    constructor%varName(23) = 'salt'
+    constructor%varName(24) = 'dissolved_oxygen'
+    constructor%varName(25) = 'ammonia'
+    constructor%varName(26) = 'nitrate'
+    constructor%varName(27) = 'nitrite'
+    constructor%varName(28) = 'inorganic_phosphorus'
+    constructor%varName(29) = 'DON_NonRefractory'
+    constructor%varName(30) = 'DOP_NonRefractory'
+    constructor%varName(31) = 'DON_Refractory'
+    constructor%varName(32) = 'DOP_Refractory'
+    constructor%varName(33) = 'partOrgNit'
+    constructor%varName(34) = 'partOrgPho'
+    constructor%varName(35) = 'phytoplankton'
+    constructor%varName(36) = 'zooplankton'
     end function constructor
 
     end module tracerwaterQuality_mod

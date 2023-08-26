@@ -66,4 +66,14 @@
 			<property key="condition" value="0.95" />
 		</kelp_seed_light>
 	</seed>
+	<detritus>
+		<Kelp_detritus>
+			<particulate value="1" />
+			<density value="1030.0" />
+            <radius value="0.028512" />
+			<volume value="0.00009709" />
+			<area value="0.010215" />
+			<property key="condition" value="0.95" />
+        </Kelp_detritus>
+	</detritus>
 </materials>
