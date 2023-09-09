@@ -216,7 +216,7 @@
     
     constructor%mnow%temperature = 15.0
     constructor%mnow%salinity = 36.0
-    constructor%mnow%dissolved_oxygen = 5.0
+    constructor%mnow%oxygen = 5.0
     constructor%mnow%ammonia = 0.01
     constructor%mnow%nitrate = 0.01
     constructor%mnow%nitrite = 0.001

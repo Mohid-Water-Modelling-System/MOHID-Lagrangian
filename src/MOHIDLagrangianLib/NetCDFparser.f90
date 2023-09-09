@@ -352,7 +352,7 @@
         tempStatus = nf90_get_att(self%ncID, i, "_FillValue", self%varData(i)%fillvalue)
         if (tempStatus == -43) self%varData(i)%fillvalue = MV
     end do
-    self%mDims = maxdims
+    !self%mDims = maxdims
     end subroutine getNCVarMetadata
 
     !---------------------------------------------------------------------------
@@ -442,6 +442,7 @@
     
     else
         allocate(self%dimData(self%nDims))
+        self%mDims = self%nDims
         !write(*,*)"entrada getNCDimMetadata"
         !write(*,*)"number dimensions = ", self%nDims
         !write(*,*)"number vars = ", self%nVars

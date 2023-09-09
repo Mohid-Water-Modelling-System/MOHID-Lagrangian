@@ -1932,7 +1932,6 @@ do3:                do i=1, size(curr%field,1)
     !---------------------------------------------------------------------------
     subroutine setDims(self, dims)
     class(background_class), intent(inout) :: self
-    !type(scalar1d_field_class), dimension(:), intent(in) :: dims
     type(generic_field_class), dimension(:), intent(in) :: dims
     real(prec), allocatable, dimension(:) :: rest
     integer :: i
