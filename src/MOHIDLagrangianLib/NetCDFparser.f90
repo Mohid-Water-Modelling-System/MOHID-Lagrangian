@@ -72,7 +72,6 @@
         integer :: nDims, nVars, nAtt, uDimID   !< number of dimensions, variables, attributes and dim IDs on the file
         type(dim_t), allocatable, dimension(:) :: dimData !< metadata from the dimensions on the file
         type(var_t), allocatable, dimension(:) :: varData   !< metadata from the variables on the file
-        !Sobrinho
         integer :: mDims
         logical :: grid_2D
         integer :: status
@@ -112,8 +111,6 @@
     type(string), dimension(:), intent(in) :: varList
     logical, dimension(:), intent(in) :: syntecticVar    
     type(ncfile_class) :: ncFile
-    !type(scalar1d_field_class), allocatable, dimension(:) :: backgrounDims
-    !Sobrinho
     type(generic_field_class), allocatable, dimension(:) :: backgrounDims
     type(generic_field_class), allocatable, dimension(:) :: gfield
     type(string) :: name, units
@@ -133,7 +130,6 @@
     call ncFile%initialize(fileName)
     do i=1, size(syntecticVar)
         if(.not.syntecticVar(i)) then !finding the first real variable to extract dimension arrays
-            !Sobrinho
             call ncFile%getVarDimensions_variable(varList(i), backgrounDims)
             !call ncFile%getVarDimensions(varList(i), backgrounDims)
             
@@ -324,7 +320,6 @@
     !---------------------------------------------------------------------------
     subroutine getNCVarMetadata(self)
     class(ncfile_class), intent(inout) :: self
-    !Sobrinho
     integer :: i, j, ndims, nAtts, maxdims
     integer :: dimids(self%nDims)
     integer :: tempStatus
@@ -645,8 +640,6 @@
             !write(*,*)"dims var name = ", varName
             !write(*,*)"number of dims in vardata = ", self%varData(i)%ndims
             !write(*,*)"number of dimensions of file = ", self%nDims
-            !Ask here if user is providing a 2D lat and lon field and then allocate a dimsarrays that is of type scalar2d_field_class
-            
             allocate(dimsArrays(self%varData(i)%ndims)) !allocating output fields
             do j=1, self%varData(i)%ndims   !going trough all of the variable dimensions
                 !write(*,*)"j = ", j
@@ -655,7 +648,6 @@
                     !write(*,*)"Current dimension ID = ", self%dimData(k)%dimid
                     !write(*,*)"Dim name = ", self%dimData(k)%name
                     if (self%varData(i)%dimids(j) == self%dimData(k)%dimid) then    !found a corresponding dimension between the variable and the file
-                        !Sobrinho
                         allocate(tempRealArray(self%dimData(k)%length)) !allocating a place to read the field data to
                         !write(*,*)"Dim length = ", self%dimData(k)%length
                         dimName = self%dimData(k)%simName
@@ -714,7 +706,6 @@
                         if (dimName == Globals%Var%time) then
                             call correctNCTime(dimUnits, tempRealArray)
                         end if
-                        !Sobrinho
                         call dimsArrays(j)%initialize(dimName, dimUnits, 1, tempRealArray)
                         if (allocated(tempRealArray)) deallocate(tempRealArray)
                         if (allocated(tempRealArrayDelta)) deallocate(tempRealArrayDelta)

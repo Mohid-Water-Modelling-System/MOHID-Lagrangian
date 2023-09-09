@@ -261,7 +261,6 @@
     procedure, private :: buildvars
     procedure, public  :: addVar
     procedure, public  :: getVarSimName
-    !Sobrinho
     procedure, public  :: checkVarSimName
     procedure, public  :: checkDimensionName
     procedure, public  :: checkLatOrLon

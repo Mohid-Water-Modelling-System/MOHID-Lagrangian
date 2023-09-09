@@ -474,7 +474,6 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
             if (allocated(self%dim(i)%field1D)) then
                 uubound(i) = min(uubound(i)+2, size(self%dim(i)%field1D))
             elseif (allocated(self%dim(i)%field2D)) then
-                !Sobrinho - Check if dimension is 2 or 1
                 uubound(i) = min(uubound(i)+2, size(self%dim(i)%field2D,2))
             endif
         elseif (self%dim(i)%name == Globals%Var%lon) then
@@ -482,7 +481,6 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
             if (allocated(self%dim(i)%field1D)) then
                 uubound(i) = min(uubound(i)+2, size(self%dim(i)%field1D))
             elseif (allocated(self%dim(i)%field2D)) then
-                !Sobrinho - Check if dimension is 2 or 1
                 uubound(i) = min(uubound(i)+2, size(self%dim(i)%field2D,1))
             endif
         else 
@@ -656,7 +654,6 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
                     !uubound(i) = min(uubound(i)+2, size(self%dim(i)%field1D))
                 else if (allocated(self%dim(i)%field2D)) then
                     !write(*,*)"Entrei na lat 2d. size field2D", size(self%dim(i)%field2D, 1), size(self%dim(i)%field2D, 2)
-                    !Sobrinho - Check if dimension is 2 or 1
                     uubound(i) = size(self%dim(i)%field2D,2)
                     !uubound(i) = min(uubound(i)+2, size(self%dim(i)%field2D,2))
                 end if
@@ -666,7 +663,6 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
                     !uubound(i) = min(uubound(i)+2, size(self%dim(i)%field1D))
                     uubound(i) = size(self%dim(i)%field1D)
                 elseif (allocated(self%dim(i)%field2D)) then
-                    !Sobrinho - Check if dimension is 2 or 1
                     !uubound(i) = min(uubound(i)+2, size(self%dim(i)%field2D,1))
                     uubound(i) = size(self%dim(i)%field2D,1)
                 endif
