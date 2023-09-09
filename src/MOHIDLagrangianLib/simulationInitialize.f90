@@ -382,7 +382,8 @@
     logical :: readflag
     integer :: id
     type(string) :: name, source_geometry, tag, att_name, att_val, att_val2, att_val3, rate_file, posi_file
-    real(prec) :: emitting_rate, rateScale, start, finish, temp, bottom_emission_depth, biofouling_rate, tracer_volume
+    real(prec) :: emitting_rate, rateScale, start, finish, temp, bottom_emission_depth, biofouling_rate, biofouling_start_after
+    real(prec) :: tracer_volume
     logical :: emitting_fixed, posi_fixed, rateRead
     class(shape), allocatable :: source_shape
     type(vector) :: res
@@ -530,6 +531,17 @@
             biofouling_rate = 0
         end if
         
+        !reading biofouling incubation period for this source
+        readflag = .false.
+        tag="biofouling_start_after"
+        att_name="value"
+        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val, readflag, .false.)
+        if (readflag) then
+            biofouling_start_after = att_val%to_number(kind=1._R8P)
+        else
+            biofouling_start_after = 0
+        end if
+        
         !Possible list of active intervals, and these might be in absolute dates or relative to sim time
         activeList => getElementsByTagname(source_node, "active")
         allocate(activeTimes(getLength(activeList),2))
@@ -562,7 +574,8 @@
         !initializing Source j
         call tempSources%src(j+1)%initialize(id, name, emitting_rate, emitting_fixed, rate_file, rateScale, &
                                              posi_fixed, posi_file, bottom_emission_depth, biofouling_rate, &
-                                             tracer_volume, activeTimes, source_geometry, source_shape, res)
+                                             biofouling_start_after, tracer_volume, activeTimes, source_geometry, &
+                                             source_shape, res)
        
         deallocate(activeTimes)
         deallocate(source_shape)

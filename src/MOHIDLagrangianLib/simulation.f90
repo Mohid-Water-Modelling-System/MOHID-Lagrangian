@@ -418,10 +418,12 @@
     allocate(Globals%Sources%sourcesID(size(tempSources%src)))
     allocate(Globals%Sources%bottom_emission_depth(size(tempSources%src)))
     allocate(Globals%Sources%biofouling_rate(size(tempSources%src)))
+    allocate(Globals%Sources%biofouling_start_after(size(tempSources%src)))
     do i=1, size(tempSources%src)
         Globals%Sources%sourcesID(i) = tempSources%src(i)%par%id
         Globals%Sources%bottom_emission_depth(i) = tempSources%src(i)%par%bottom_emission_depth
         Globals%Sources%biofouling_rate(i) = tempSources%src(i)%par%biofouling_rate / 86400.
+        Globals%Sources%biofouling_start_after(i) = tempSources%src(i)%par%biofouling_start_after
         blk = getBlockIndex(Geometry%getCenter(tempSources%src(i)%par%geometry))
         call sBlock(blk)%putSource(tempSources%src(i))
         ntrc = ntrc + tempSources%src(i)%stencil%total_np

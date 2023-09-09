@@ -101,12 +101,13 @@
         
         !This is the main part.
         !If new methods are to be included, they should be added here as new function or routine calls
-        where (sv%state(:, col_age) == 0)
-            !initial biofouling mass in kg is a function of size (or weight) of litter
-            mass_biofouling = 0.01 * mass_litter
-        elsewhere
+        where (sv%state(:, col_age) > Globals%Sources%biofouling_start_after(sv%source(:)))
             ! Kg            =        Kg       *               1/s                             *     s
             mass_biofouling = mass_biofouling * Globals%Sources%biofouling_rate(sv%source(:)) * compute_rate
+        elsewhere
+            !initial biofouling mass in kg is a function of size (or weight) of litter. Not taking into account other types
+            !of degradation but as plastic degrades very slowly, I'm assuming this will generate very small errors.
+            mass_biofouling = 0.01 * mass_litter
         endwhere
     
         !m3               =       Kg        / Kg/m3

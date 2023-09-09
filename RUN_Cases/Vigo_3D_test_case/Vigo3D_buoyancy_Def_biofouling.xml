@@ -35,6 +35,7 @@
 					<scale value="0.3" comment="scales the data on the file by this factor (not time)" />
 				</rateTimeSeries>
                 <biofouling_rate value="0.05" comment="Biofouling growth rate" units_comment="1/day"/>
+                <biofouling_start_after value="0.05" comment="Biofouling only starts after x seconds" units_comment="seconds"/>
 			</source>
 		</sourceDefinitions>
 		<sourceTypes>

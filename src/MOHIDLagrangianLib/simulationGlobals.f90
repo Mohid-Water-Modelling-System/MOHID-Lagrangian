@@ -326,6 +326,7 @@
         integer, allocatable, dimension(:) :: sourcesID
         real(prec), allocatable, dimension(:) :: bottom_emission_depth
         real(prec), allocatable, dimension(:) :: biofouling_rate
+        real(prec), allocatable, dimension(:) :: biofouling_start_after
     contains    
     end type sources_t
     

@@ -43,6 +43,7 @@
         class(shape), allocatable :: geometry   !< Source geometry
         real(prec) :: bottom_emission_depth     !< emission of tracers at the bottom
         real(prec) :: biofouling_rate           !< biofouling growth rate
+        real(prec) :: biofouling_start_after    !< biofouling growth incubation time (only starts growing after a certain time)
         real(prec) :: tracer_volume             !< volume of each tracer (for tracers that are a portion of water, not solids)
     end type source_par
 
@@ -493,9 +494,11 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> source inititialization proceadure - initializes Source variables
-    !> @param[in] src, id, name, emitting_rate, emitting_fixed_rate, rate_file, rateScale, posi_fixed, posi_file, bottom_emission_depth, biofouling_rate, emitting_type, activeTimes, source_geometry, shapetype, res
+    !> @param[in] src, id, name, emitting_rate, emitting_fixed_rate, rate_file, rateScale, posi_fixed, posi_file, bottom_emission_depth, biofouling_rate, biofouling_start_after, &
+    !> emitting_type, activeTimes, source_geometry, shapetype, res
     !---------------------------------------------------------------------------
-    subroutine initializeSource(src, id, name, emitting_rate, emitting_fixed_rate, rate_file, rateScale, posi_fixed, posi_file, bottom_emission_depth, biofouling_rate, tracer_volume, activeTimes, source_geometry, shapetype, res)
+    subroutine initializeSource(src, id, name, emitting_rate, emitting_fixed_rate, rate_file, rateScale, posi_fixed, posi_file, bottom_emission_depth, biofouling_rate, biofouling_start_after, &
+                                tracer_volume, activeTimes, source_geometry, shapetype, res)
     class(source_class) :: src
     integer, intent(in) :: id
     type(string), intent(in) :: name
@@ -506,6 +509,7 @@
     logical, intent(in) :: posi_fixed
     real(prec), intent(in) :: bottom_emission_depth
     real(prec), intent(in) :: biofouling_rate
+    real(prec), intent(in) :: biofouling_start_after
     real(prec), intent(in) :: tracer_volume
     type(string), intent(in) :: posi_file
     real(prec), dimension(:,:), intent(in) :: activeTimes
@@ -523,6 +527,7 @@
     src%par%rate_file = rate_file
     src%par%bottom_emission_depth = bottom_emission_depth
     src%par%biofouling_rate = biofouling_rate
+    src%par%biofouling_start_after = biofouling_start_after
     src%par%tracer_volume = tracer_volume
     if (.not.emitting_fixed_rate) then
         call src%getVariableRate(src%par%rate_file, rateScale)
