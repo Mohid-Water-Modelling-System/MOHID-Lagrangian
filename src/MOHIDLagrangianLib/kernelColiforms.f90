@@ -94,17 +94,7 @@
         
         !Computes radiation at vertical center of tracers
         call KernelUtils_coliform%getSWRadiation(sv, var_dt, bdata, col_rad, col_SWper, col_SWcoef, Radiation)
-        !w/m2        =   w/m2          *     []
-        !Radiation_SW = var_dt(:,col_rad) * sv%state(:,col_SWper)
-        !compute light extintion
-        !depth = sv%state(:,3)
-            
-        !maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .false.)
-            
-        !depth = maxLevel(2) - depth
-                    
-        !compute light exctintion in water column
-        !Radiation = Radiation_SW * exp(-sv%state(:,col_SWcoef) * depth)
+        
         !Compute T90
         if (T90_method == 1) then
             !Canteras

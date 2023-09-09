@@ -336,7 +336,6 @@
     requiredHorVars(1) = Globals%Var%u
     requiredHorVars(2) = Globals%Var%v
     requiredHorVars(3) = Globals%Var%w
-    !requiredHorVars(4) = Globals%Var%ssh
     !write(*,*)"Entrada interpolacao kinematic 1"
     call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
     !write(*,*)"Saida interpolacao kinematic 1"
@@ -349,8 +348,6 @@
     col_u = Utils%find_str(var_name_hor, Globals%Var%u, .true.)
     col_v = Utils%find_str(var_name_hor, Globals%Var%v, .true.)
     col_w = Utils%find_str(var_name_hor, Globals%Var%w, .false.)
-    !col_ssh = Utils%find_str(var_name_hor, Globals%Var%ssh, .false.)
-    !col_bat = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
     col_dwz = Utils%find_str(sv%varName, Globals%Var%dwz, .true.)
     nf_u = Utils%find_str(var_name, Globals%Var%u, .true.)
     nf_v = Utils%find_str(var_name, Globals%Var%v, .true.)
@@ -358,16 +355,6 @@
     threshold_bot_wat = (Globals%Mask%waterVal + Globals%Mask%bedVal) * 0.5
     landIntThreshold = -0.98
     
-    !if (col_ssh /= MV_INT) then
-    !    !h = var_dt(:,col_bat)
-    !    part_depth = sv%state(:,3)
-    !else
-    !    h = var_dt(:,col_bat) + var_hor_dt(:,col_ssh)
-    !    part_depth = sv%state(:,3) + var_hor_dt(:,col_ssh)
-    !end if
-    
-    !(Depth - Bathymetry)/(Bathymetry - (bathymetry - dwz) - dwz is a positive number and the rest are negative
-    !dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - sv%state(:,col_bat)) / (sv%state(:,col_dwz))
     dist2bottom = sv%state(:,col_dist2bottom)
     
     where (dist2bottom < threshold_bot_wat)
@@ -652,10 +639,6 @@
                 
     !Deposited particles should not move
     if (any(sv%state(:,part_idx) == 1)) then
-        !col_dwz = Utils%find_str(sv%varname, Globals%Var%dwz, .true.)
-        !col_bat = Utils%find_str(sv%varname, Globals%Var%bathymetry, .true.)
-        !(Depth - Bathymetry)/(Bathymetry - (bathymetry - dwz) - dwz is a positive number and the rest are negative
-        !dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - sv%state(:,col_bat)) / (sv%state(:,col_dwz))
         dist2bottom = sv%state(:,col_dist2bottom)
         !if a single particle is particulate, check if they are at the bottom and don't move them if true.
         where ((dist2bottom < landIntThreshold) .and. (sv%state(:,part_idx) == 1))
