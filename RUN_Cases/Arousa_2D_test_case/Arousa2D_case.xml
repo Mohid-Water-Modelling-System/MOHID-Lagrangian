@@ -85,7 +85,7 @@
 			</source>
 			<source>
 				<setsource id="6" name="ReleasePoint_2" />
-                <tracer_volume value="1" comment="volume in m3 of each tracer. only used when value > default(0)" />
+                <tracer_volume value="10" comment="volume in m3 of each tracer. only used when value > default(0)" />
 				<rateTimeSeries> 
 					<file name="data/discharge_example3.dat" comment="name of mohid.dat file with discharge information (time and flow rate columns)"/>
 				</rateTimeSeries>
