@@ -28,6 +28,7 @@
         integer :: id = MV                       !< unique tracer identification
         integer :: idsource = MV                 !< Source to which the tracer belongs
         integer :: ttype
+        integer :: particulate                   !< flag to indicate if the material is a particle (false) or a collection of particles (true)
     end type tracer_par_class
 
     type :: tracer_state_class             !<Type - state variables of a pure Lagrangian tracer object
@@ -37,6 +38,9 @@
         type(vector) :: vel                     !< Velocity of the tracer (m s-1)
         type(vector) :: diffusionVel            !< Velocity of the tracer due to diffusion processes (m s-1)
         real(prec) :: usedMixingLenght          !< spacial step using current random velocity from diffusion (m)
+        real(prec) :: bathymetry = MV           !< bathymetry value interpolated to the tracers location
+        real(prec) :: dwz = MV                  !< thickness of the vertical cell
+        real(prec) :: dist2bottom               !< tracer's distance to bottom
     end type tracer_state_class
 
     type :: tracer_class                   !<Type - The pure Lagrangian tracer class
@@ -69,7 +73,7 @@
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
     class(tracer_class), intent(in) :: self
-    getNumVars = 11
+    getNumVars = 15
     end function getNumVars
 
     !---------------------------------------------------------------------------
@@ -92,6 +96,10 @@
     getStateArray(9) = self%now%diffusionVel%z
     getStateArray(10) = self%now%usedMixingLenght
     getStateArray(11) = self%now%age
+    getStateArray(12) = self%par%particulate
+    getStateArray(13) = self%now%bathymetry
+    getStateArray(14) = self%now%dwz
+    getStateArray(15) = self%now%dist2bottom
     end function getStateArray
 
     !---------------------------------------------------------------------------
@@ -113,6 +121,11 @@
     self%now%diffusionVel%z = StateArray(9)
     self%now%usedMixingLenght = StateArray(10)
     self%now%age   = StateArray(11)
+    self%now%bathymetry   = StateArray(13)
+    self%now%dwz   = StateArray(14)
+    self%now%dist2bottom = StateArray(15)
+    self%par%particulate = StateArray(12)
+    
     end subroutine setStateArray
 
     !---------------------------------------------------------------------------
@@ -156,13 +169,16 @@
     constructor%par%id = id
     constructor%par%idsource = src%par%id
     constructor%par%ttype = Globals%Types%base
+    constructor%par%particulate = src%prop%particulate
     ! initialize tracer state
     constructor%now%age=0.0
     constructor%now%active = .true.
     constructor%now%pos = src%stencil%ptlist(p) + src%now%pos
     constructor%now%vel = 0.0
     constructor%now%diffusionVel = 0.0
-    constructor%now%usedMixingLenght = 0.0
+    constructor%now%bathymetry = 0.0
+    constructor%now%dwz = 0.0
+    constructor%now%dist2bottom = 0.0
     ! initialize var name list
     allocate(constructor%varName(varN))
     constructor%varName(1) = 'x'
@@ -176,6 +192,10 @@
     constructor%varName(9) = 'dVelZ'
     constructor%varName(10) = 'mLen'
     constructor%varName(11) = 'age'
+    constructor%varName(12) = 'particulate'
+    constructor%varName(13) = Globals%Var%bathymetry
+    constructor%varName(14) = Globals%Var%dwz
+    constructor%varName(15) = 'dist2bottom'
     end function constructor
 
     end module tracerBase_mod

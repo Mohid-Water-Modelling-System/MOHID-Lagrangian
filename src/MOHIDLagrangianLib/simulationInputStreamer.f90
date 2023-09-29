@@ -94,7 +94,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> instantiates and returns a background object with the data from a
-    !> currents input file
+    !> currents input file, which includes all instants of time
     !> @param[in] self, fileName
     !---------------------------------------------------------------------------
     type(background_class) function getCurrentsFile(self, fileName)
@@ -103,9 +103,9 @@
     type(string), allocatable, dimension(:) :: varList
     logical, allocatable, dimension(:) :: syntecticVar
     type(ncReader_class) :: ncReader
-
-    allocate(varList(6))
-    allocate(syntecticVar(6))
+    !write(*,*)"Entrei get currentsFile"
+    allocate(varList(7))
+    allocate(syntecticVar(7))
     varList(1) = Globals%Var%u
     syntecticVar(1) = .false.
     varList(2) = Globals%Var%v
@@ -116,15 +116,32 @@
     syntecticVar(4) = .true. 
     varList(5) = Globals%Var%resolution
     syntecticVar(5) = .true.
-    varList(6) = Globals%Var%bathymetry
+    varList(6) = Globals%Var%dwz
     syntecticVar(6) = .true.
-
+    !varList(7) = Globals%Var%ssh
+    !syntecticVar(7) = .false.
+    if (Globals%SimDefs%bathyminNetcdf == 1) then
+        varList(7) = Globals%Var%bathymetry
+        syntecticVar(7) = .false.
+    else
+        varList(7) = Globals%Var%bathymetry
+        syntecticVar(7) = .true.
+    end if
     !need to send to different readers here if different file formats
     getCurrentsFile = ncReader%getFullFile(fileName, varList, syntecticVar)
+    !write(*,*)"entrar makeLandMaskField"
     call getCurrentsFile%makeLandMaskField()
+    !write(*,*)"sair makeLandMaskField"
     call getCurrentsFile%makeResolutionField()
-    call getCurrentsFile%makeBathymetryField()
-
+    !write(*,*)"sair makeResolutionField"
+    if (Globals%SimDefs%bathyminNetcdf == 0) then
+        call getCurrentsFile%makeBathymetryField() !computes bathymetry using the layer depth and the openpoints from velocity u
+    end if
+    !computes distance between vertical cells
+    call getCurrentsFile%makeDWZField()
+    !Change the value of the first bottom cell to enable interpolation until the bottom and not just until the center of!the cell
+    if (Globals%Constants%AddBottomCell == 1) call getCurrentsFile%makeBottom(varList, syntecticVar)
+    !write(*,*)"Sai get currentsFile"
     end function getCurrentsFile
 
     !---------------------------------------------------------------------------
@@ -168,14 +185,19 @@
     type(string), allocatable, dimension(:) :: varList
     logical, allocatable, dimension(:) :: syntecticVar
     type(ncReader_class) :: ncReader
-
-    allocate(varList(2))
-    allocate(syntecticVar(2))
+    allocate(varList(5))
+    allocate(syntecticVar(5))
     varList(1) = Globals%Var%vsdx
     syntecticVar(1) = .false.
     varList(2) = Globals%Var%vsdy
     syntecticVar(2) = .false.
-
+    varList(3) = Globals%Var%hs
+    syntecticVar(3) = .false.
+    varList(4) = Globals%Var%ts
+    syntecticVar(4) = .false.
+    varList(5) = Globals%Var%wd
+    syntecticVar(5) = .false.
+    
     !need to send to different readers here if different file formats
     getWavesFile = ncReader%getFullFile(fileName, varList, syntecticVar)
 
@@ -206,6 +228,8 @@
 
     !need to send to different readers here if different file formats
     getWaterPropsFile = ncReader%getFullFile(fileName, varList, syntecticVar)
+    !Fill all closed points with the closest value, so that the model can perform the 4D interpolation near land.
+    call getWaterPropsFile%fillClosedPoints(varList)
 
     end function getWaterPropsFile
 
@@ -224,7 +248,7 @@
     integer :: fNumber
     real(prec) :: tempTime(2)
     logical :: appended
-
+    !write(*,*)"Entrei loadDataFromStack"
     if (self%useInputFiles) then
         call self%resetReadStatus()
         !check what files on the stack are to read to backgrounds
@@ -250,27 +274,39 @@
             end do
         end if
         !read selected files
+        !write(*,*)"read selected files"
         if (allocated(self%currentsInputFile)) then
             do i=1, size(self%currentsInputFile)
                 if (self%currentsInputFile(i)%toRead) then
                     !import data to temporary background
                     tempBkgd = self%getCurrentsFile(self%currentsInputFile(i)%name)
+                    !write(*,*)"Sai do tempBkgd"
                     self%currentsInputFile(i)%used = .true.
                     do j=1, size(blocks)
                         !slice data by block and either join to existing background or add a new one                        
                         if (blocks(j)%Background(self%currentsBkgIndex)%initialized) then
+                            !write(*,*)"entrar getHyperSlab correntes"
                             tempBkgd2 = tempBkgd%getHyperSlab(blocks(j)%extents)
                             call blocks(j)%Background(self%currentsBkgIndex)%append(tempBkgd2, appended)
                             call tempBkgd2%finalize()
+                            !write(*,*)"sair getHyperSlab correntes"
                         end if
-                        if (.not.blocks(j)%Background(self%currentsBkgIndex)%initialized) blocks(j)%Background(self%currentsBkgIndex) = tempBkgd%getHyperSlab(blocks(j)%extents)
+                        !write(*,*)"A entrar no 2o if para o getHyperSlab"
+                        if (.not.blocks(j)%Background(self%currentsBkgIndex)%initialized) then
+                            !write(*,*)"Entrei no 2o if"
+                            !write(*,*)"self%currentsBkgIndex = ", self%currentsBkgIndex
+                            blocks(j)%Background(self%currentsBkgIndex) = tempBkgd%getHyperSlab(blocks(j)%extents)
+                            !write(*,*)"Sai do 2o if"
+                        endif
                         !save last time already loaded
                         tempTime = blocks(j)%Background(self%currentsBkgIndex)%getDimExtents(Globals%Var%time)
                         if (self%lastCurrentsReadTime == -1.0) self%lastCurrentsReadTime = tempTime(2)
                         self%lastCurrentsReadTime = min(tempTime(2), self%lastCurrentsReadTime)
                     end do
                     !add bkg info to dict
+                    !write(*,*)"entrar fillBackgroundDict correntes"
                     call Globals%fillBackgroundDict(self%currentsBkgIndex, tempBkgd%variables)
+                    !write(*,*)"sair fillBackgroundDict correntes"
                     !clean out the temporary background data
                     call tempBkgd%finalize()
                 end if
@@ -303,10 +339,14 @@
             end do
         end if
         if (allocated(self%wavesInputFile)) then
+            !write(*,*)"waves alocado"
             do i=1, size(self%wavesInputFile)
+                !write(*,*)"entrei ciclo waves"
                 if (self%wavesInputFile(i)%toRead) then
+                    !write(*,*)"entrar para leitura das ondas"
                     !import data to temporary background
                     tempBkgd = self%getWavesFile(self%wavesInputFile(i)%name)
+                    !write(*,*)"saida da leitura das ondas"
                     self%wavesInputFile(i)%used = .true.
                     do j=1, size(blocks)
                         !slice data by block and either join to existing background or add a new one
@@ -322,7 +362,9 @@
                         self%lastWavesReadTime = min(tempTime(2), self%lastWavesReadTime)
                     end do
                     !add bkg info to dict
+                    !write(*,*)"entrar fillBackgroundDict waves"
                     call Globals%fillBackgroundDict(self%wavesBkgIndex, tempBkgd%variables)
+                    !write(*,*)"sair fillBackgroundDict waves"
                     !clean out the temporary background data
                     call tempBkgd%finalize()
                 end if
@@ -333,29 +375,43 @@
                 if (self%waterPropsInputFile(i)%toRead) then
                     !import data to temporary background
                     tempBkgd = self%getWaterPropsFile(self%waterPropsInputFile(i)%name)
+                    !write(*,*)"Sai do tempBkgd WP"
+                    !write(*,*)"tamanho dos fields saida getWaterPropsFile WP = ", tempBkgd%fields%getSize()
                     self%waterPropsInputFile(i)%used = .true.
                     do j=1, size(blocks)
                         !slice data by block and either join to existing background or add a new one
+                        !write(*,*)"entrar getHyperSlab WP"
                         if (blocks(j)%Background(self%waterPropsBkgIndex)%initialized) then
+                            !write(*,*)"tamanho dos fields entrada tempbkgd2 WP = ", tempBkgd%fields%getSize()
                             tempBkgd2 = tempBkgd%getHyperSlab(blocks(j)%extents)
+                            !write(*,*)"tamanho dos fields saida tempbkgd2 WP = ", tempBkgd%fields%getSize()
                             call blocks(j)%Background(self%waterPropsBkgIndex)%append(tempBkgd2, appended)
+                            !write(*,*)"tamanho dos fields saida blocks WP = ", blocks(j)%Background(self%waterPropsBkgIndex)%fields%getSize()
                             call tempBkgd2%finalize()
+                            !write(*,*)"sair getHyperSlab WP"
                         end if
+                        !write(*,*)"A entrar no 2o if para o getHyperSlab WP"
                         if (.not.blocks(j)%Background(self%waterPropsBkgIndex)%initialized) blocks(j)%Background(self%waterPropsBkgIndex) = tempBkgd%getHyperSlab(blocks(j)%extents)
                         !save last time already loaded
+                        !write(*,*)"Entrei no 2o if WP"
+                        !write(*,*)"self%currentsBkgIndex WP = ", self%waterPropsBkgIndex
+                        !write(*,*)"tamanho dos fields a saida dos blocks = ", blocks(j)%Background(self%waterPropsBkgIndex)%fields%getSize()
                         tempTime = blocks(j)%Background(self%waterPropsBkgIndex)%getDimExtents(Globals%Var%time)
                         if (self%lastWaterPropsReadTime == -1.0) self%lastWaterPropsReadTime = tempTime(2)
                         self%lastWaterPropsReadTime = min(tempTime(2), self%lastWaterPropsReadTime)
+                        !write(*,*)"sair getHyperSlab WP"
                     end do                    
                     !add bkg info to dict
+                    !write(*,*)"entrar fillBackgroundDict WP"
                     call Globals%fillBackgroundDict(self%waterPropsBkgIndex, tempBkgd%variables)
                     !clean out the temporary background data
                     call tempBkgd%finalize()
+                    !write(*,*)"sair fillBackgroundDict WP"
                 end if
             end do
         end if
     end if
-
+    !write(*,*)"Sai loadDataFromStack"
     end subroutine loadDataFromStack
 
     !---------------------------------------------------------------------------
@@ -374,7 +430,6 @@
     type(string) :: tag, att_name, att_val
     type(string), allocatable, dimension(:) :: fileNames
     integer :: i, nBkg
-
     self%bufferSize = Globals%Parameters%BufferSize
     self%lastCurrentsReadTime = -1.0
     self%lastWindsReadTime = -1.0
@@ -392,15 +447,17 @@
         !Go to the file_collection node
         tag = "file_collection"
         call XMLReader%gotoNode(xmlInputs,xmlInputs,tag)
-
         !For currents data
         tag = Globals%DataTypes%currents
         call XMLReader%gotoNode(xmlInputs,typeNode,tag, mandatory=.false.)
+        !write(*,*)"Entrada xml correntes"
         if (associated(typeNode)) then
+            !write(*,*)"entrei no if typeNode"
             fileList => getElementsByTagname(typeNode, "file")
             allocate(fileNames(getLength(fileList)))
             allocate(self%currentsInputFile(getLength(fileList)))
             do i = 0, getLength(fileList) - 1
+                
                 fileNode => item(fileList, i)
                 tag="name"
                 att_name="value"
@@ -419,8 +476,8 @@
             deallocate(fileNames)
             nBkg = nBkg + 1
             self%currentsBkgIndex = nBkg
+            !write(*,*)"self%currentsBkgIndex = ", nBkg
         end if
-
         !For wind data
         tag = Globals%DataTypes%winds
         call XMLReader%gotoNode(xmlInputs,typeNode,tag, mandatory=.false.)
@@ -452,6 +509,7 @@
         !For wave data
         tag = Globals%DataTypes%waves
         call XMLReader%gotoNode(xmlInputs,typeNode,tag, mandatory=.false.)
+        !write(*,*)"entrei na leitura do xml para ondas"
         if (associated(typeNode)) then
             fileList => getElementsByTagname(typeNode, "file")
             allocate(fileNames(getLength(fileList)))
@@ -472,13 +530,16 @@
                 self%wavesInputFile(i+1)%endTime = att_val%to_number(kind=1._R8P)
                 self%wavesInputFile(i+1)%used = .false.
             end do
+            deallocate(fileNames)
             nBkg = nBkg + 1
             self%wavesBkgIndex = nBkg
+            !write(*,*)"index ondas", self%wavesBkgIndex
         end if
-        
+        !write(*,*)"sai da leitura do xml para ondas"
         !For water properties data
         tag = Globals%DataTypes%waterProps
         call XMLReader%gotoNode(xmlInputs,typeNode,tag, mandatory=.false.)
+        !write(*,*)"entrei na leitura do xml para WP"
         if (associated(typeNode)) then
             fileList => getElementsByTagname(typeNode, "file")
             allocate(fileNames(getLength(fileList)))
@@ -499,14 +560,17 @@
                 self%waterPropsInputFile(i+1)%endTime = att_val%to_number(kind=1._R8P)
                 self%waterPropsInputFile(i+1)%used = .false.
             end do
+            deallocate(fileNames)
             nBkg = nBkg + 1
             self%waterPropsBkgIndex = nBkg
+            !write(*,*)"index ondas", self%wavesBkgIndex
         end if
-        
+        !write(*,*)"sai da leitura do xml para ondas"
     else
         self%useInputFiles = .false.
     end if
     !allocating the necessary background array in every block
+    !write(*,*)"numero de backgrounds = ", nBkg
     do i=1, size(blocks)
         allocate(blocks(i)%Background(nBkg))
     end do

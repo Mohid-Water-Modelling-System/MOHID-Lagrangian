@@ -59,9 +59,9 @@
     type(string), intent(in) :: outpath !< output path were to point the logger
     type(string), intent(in) :: filename
     type(string) :: logfile
-
     logfile = outpath//filename//'_run.log'
     self%log_unit = 0
+
     open (unit=self%log_unit,file=logfile%chars(),action="write",status="replace")
 
     end subroutine initLog

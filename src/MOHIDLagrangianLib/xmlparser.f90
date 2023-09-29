@@ -66,7 +66,6 @@
     logical :: mand
     integer :: err
     type(string) :: outext
-
     if (present(mandatory)) then
         mand = mandatory
     else
@@ -159,13 +158,17 @@
         end if
     end do
     if (validtag) then
+
         target_node_list => getElementsByTagname(xmlnode, tag%chars())   !searching for tags with the given name !using FOX function
         nodedetail => item(target_node_list, 0) !using FOX function
         call extractDataAttribute(nodedetail, att_name%chars(), att_value_chars) !using FOX function
         att_value=trim(att_value_chars)
         if (present(read_flag)) then
             read_flag = .true.
-            if (att_value%to_number(kind=1._R8P) <= 1.0/10000000000000.0) read_flag = .false.
+            !Beaching level is a negative value so this following check would never allow for a level other than the default
+            if (tag /= "BeachingLevel" .and. tag /= "Temperature_add_offset") then
+                if (att_value%to_number(kind=1._R8P) <= 1.0/10000000000000.0) read_flag = .false.
+            end if
         end if
     else
         if(.not.mand) then

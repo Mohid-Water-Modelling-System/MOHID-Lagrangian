@@ -79,7 +79,12 @@
         class is (source_class)
             if (.not.aSource%par%fixed_position) call aSource%setVariablePosition(Globals%Sim%getnumdt())
             if (aSource%now%active) then
-                if (.not.aSource%par%emitting_fixed_rate) call aSource%setVariableRate(Globals%Sim%getnumdt())                
+                if (.not.aSource%par%emitting_fixed_rate) then
+                    call aSource%setVariableRate(Globals%Sim%getnumdt())
+                    if (aSource%par%tracer_volume > 0) then !              m3/s           /            m3
+                        aSource%par%emitting_rate = (aSource%par%emitting_rate/aSource%par%tracer_volume)
+                    endif
+                endif
                 aSource%now%emission_stack = aSource%now%emission_stack + aSource%par%emitting_rate*Globals%SimDefs%dt  !adding to the emission stack
                 do i=1, floor(aSource%now%emission_stack)
                     call self%emitt_src(aSource, trclist)
@@ -148,6 +153,12 @@
         allocate(trc, source = plasticTracer(Globals%Sim%getnumTracer(), src, Globals%SimTime%CurrTime, p))
     case ('coliform')
         allocate(trc, source = coliformTracer(Globals%Sim%getnumTracer(), src, Globals%SimTime%CurrTime, p))
+    case ('seed')
+        allocate(trc, source = seedTracer(Globals%Sim%getnumTracer(), src, Globals%SimTime%CurrTime, p))
+    case ('detritus')
+        allocate(trc, source = detritusTracer(Globals%Sim%getnumTracer(), src, Globals%SimTime%CurrTime, p))
+    case ('waterQuality')
+        allocate(trc, source = waterQualityTracer(Globals%Sim%getnumTracer(), src, Globals%SimTime%CurrTime, p))
         case default
         outext='[Emitter::tracerMaker]: unexpected type for Tracer object: '//src%prop%propertyType
         call Log%put(outext)

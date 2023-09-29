@@ -33,6 +33,8 @@
     use kernelLitter_mod
     use kernelVerticalMotion_mod
     use kernelColiform_mod
+    use kernelDetritus_mod
+    use kernelMOHIDWaterQuality_mod
 
     type :: kernel_class        !< Kernel class
         type(interpolator_class) :: Interpolator !< The interpolator object for the kernel
@@ -40,6 +42,8 @@
     procedure :: initialize => initKernel
     procedure :: run => runKernel
     procedure, private :: setCommonProcesses
+    procedure, private :: interpolate_backgrounds
+    procedure, private :: distance2bottom
     procedure, private :: LagrangianKinematic
     procedure, private :: DiffusionMixingLength
     procedure, private :: DiffusionIsotropic
@@ -47,12 +51,13 @@
     procedure, private :: Windage
     procedure, private :: Beaching
     procedure, private :: Aging
-    !procedure, private :: Dilution
     end type kernel_class
 
     type(kernelLitter_class) :: Litter       !< litter kernels
     type(kernelVerticalMotion_class) :: VerticalMotion   !< VerticalMotion kernels
     type(kernelColiform_class) :: Coliform !< coliform kernels
+    type(kernelDetritus_class) :: Detritus !< coliform kernels
+    type(kernelMOHIDWaterQuality_class) :: MOHIDWaterQuality   !< VerticalMotion kernels
     type(kernelUtils_class) :: KernelUtils   !< kernel utils
  
     public :: kernel_class
@@ -71,38 +76,55 @@
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: runKernel
-
+    integer :: i
+    !write(*,*)"Entrada Run Kernel tamanho bdata =", size(bdata)
+    !do i = 1, size(bdata)
+    !    write(*,*)"Tamanho background i = ", i, bdata(i)%fields%getSize()
+    !enddo
     !running preparations for kernel lanch
     call self%setCommonProcesses(sv, bdata, time)
-
+    !write(*,*)"Entrada interpolate_backgrounds"
+    call self%interpolate_backgrounds(sv, bdata, time)
+    !Computes distance to bottom for all tracers
+    !write(*,*)"Entrada distance2bottom"
+    call self%distance2bottom(sv)
     !running kernels for each type of tracer
+    !write(*,*)"Entrada kernels"
     if (sv%ttype == Globals%Types%base) then
-        
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
                     self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + &
                     self%Aging(sv)
-        runKernel = self%Beaching(sv, runKernel)
     else if (sv%ttype == Globals%Types%paper) then
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
                     self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + &
                     self%Aging(sv) + Litter%DegradationLinear(sv) + VerticalMotion%Buoyancy(sv, bdata, time) + &
-                    VerticalMotion%Resuspension(sv, bdata, time)
-        runKernel = self%Beaching(sv, runKernel)
+                    VerticalMotion%Resuspension(sv, bdata, time, dt)
     else if (sv%ttype == Globals%Types%plastic) then
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
                     self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + &
-                    self%Aging(sv) + Litter%DegradationLinear(sv) + VerticalMotion%Buoyancy(sv, bdata, time) + &
-                    VerticalMotion%Resuspension(sv, bdata, time)
-        runKernel = self%Beaching(sv, runKernel)
+                    self%Aging(sv) + Litter%DegradationLinear(sv) + Litter%BioFouling(sv, dt) + VerticalMotion%Buoyancy(sv, bdata, time) + &
+                    VerticalMotion%Resuspension(sv, bdata, time, dt)
     else if (sv%ttype == Globals%Types%coliform) then
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
                     self%DiffusionMixingLength(sv, bdata, time, dt) + &
                     self%Aging(sv) + coliform%MortalityT90(sv, bdata, time) + coliform%Dilution(sv, bdata, time, dt)
-        runKernel = self%Beaching(sv, runKernel)
+    else if (sv%ttype == Globals%Types%seed) then
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
+                    self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + &
+                    VerticalMotion%Buoyancy(sv, bdata, time) + VerticalMotion%Resuspension(sv, bdata, time, dt)
+    else if (sv%ttype == Globals%Types%detritus) then
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
+                    self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + &
+                    VerticalMotion%Buoyancy(sv, bdata, time) + VerticalMotion%Resuspension(sv, bdata, time, dt) + &
+                    detritus%Degradation(sv, dt)
+    else if (sv%ttype == Globals%Types%WaterQuality) then
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
+                    self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + &
+                    self%Aging(sv) + MOHIDWaterQuality%WQProcess(sv, bdata, time, dt) + MOHIDWaterQuality%Dilution(sv, bdata, time, dt)
     end if
+    runKernel = self%Beaching(sv, runKernel)
+    runKernel = VerticalMotion%CorrectVerticalBounds(sv, runKernel, bdata, dt)
     
-    runKernel = VerticalMotion%CorrectVerticalBounds(sv, runKernel, bdata, time, dt)
-
     end function runKernel
 
     !---------------------------------------------------------------------------
@@ -118,50 +140,162 @@
     type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
-    integer :: np, nf, bkg
+    integer :: i, j, col_age, col_bat, col_bat_sv, col_landintmask, col_res
     real(prec) :: maxLevel(2)
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
     type(string), dimension(:), allocatable :: requiredVars
-
-    allocate(requiredVars(2))
+    type(string) :: tag
+    logical bottom_emmission
+    !-----------------------------------------------------------
+    !write(*,*)"Entrada setCommonProcesses"
+    allocate(requiredVars(3))
     requiredVars(1) = Globals%Var%landIntMask
     requiredVars(2) = Globals%Var%resolution
-
+    requiredVars(3) = Globals%Var%bathymetry
+    !write(*,*)"Entrada setCommonProcesses interpolate"
+    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
+    
+    !write(*,*)"Saida setCommonProcesses interpolate"
+    bottom_emmission = .false.
+    col_bat = Utils%find_str(var_name, Globals%Var%bathymetry, .true.)
+    !Set tracers bathymetry
+    col_bat_sv = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
+    sv%state(:,col_bat_sv) = var_dt(:,col_bat)
+    
+    tag = 'age'
+    col_age = Utils%find_str(sv%varName, tag, .true.)
+    
+    where (sv%state(:,3) < var_dt(:,col_bat)) sv%state(:,3) = var_dt(:,col_bat)
+        
+    if (size(sv%source) > 0) then
+        !if any of the sources defined by the user has the option bottom_emission then the model must check
+        !wheter any new tracer needs to be positioned at the bottom
+        if (maxval(Globals%Sources%bottom_emission_depth) > 0) then
+            bottom_emmission = .true.
+        end if
+    end if
     ! global periodicity conditions
     where (sv%state(:,1) > 180.0) sv%state(:,1) = sv%state(:,1) - 360.0
     where (sv%state(:,1) < -180.0) sv%state(:,1) = sv%state(:,1) + 360.0
-
     !interpolate each background
-    do bkg = 1, size(bdata)
-        if (bdata(bkg)%initialized) then
-            if(bdata(bkg)%hasVars(requiredVars)) then
-                np = size(sv%active) !number of Tracers
-                nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
-                allocate(var_dt(np,nf))
-                allocate(var_name(nf))
-                !correcting for maximum admissible level in the background
-                maxLevel = bdata(bkg)%getDimExtents(Globals%Var%level, .false.)
-                if (maxLevel(2) /= MV) where (sv%state(:,3) > maxLevel(2)) sv%state(:,3) = maxLevel(2)-0.00001
-                !interpolating all of the data
-                call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name, requiredVars)
-                !update land interaction status
-                nf = Utils%find_str(var_name, Globals%Var%landIntMask)
-                sv%landIntMask = var_dt(:,nf)
-                !marking tracers for deletion because they are in land
-                if (Globals%simdefs%removelandtracer == 1) then
-                     where(int(sv%landintmask + Globals%mask%landval*0.05) == Globals%mask%landval) sv%active = .false.
-                end if
-                !update resolution proxy
-                nf = Utils%find_str(var_name, Globals%Var%resolution,.true.)
-                sv%resolution = var_dt(:,nf)
-                deallocate(var_name)
-                deallocate(var_dt)
-            end if
-        end if
-    end do
+    
+    !correcting for maximum admissible level in the background
+    maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .false.)   
+    if (maxLevel(2) /= MV) where (sv%state(:,3) > maxLevel(2)) sv%state(:,3) = maxLevel(2)-0.00001
+    !update land interaction status
+    col_landintmask = Utils%find_str(var_name, Globals%Var%landIntMask)
+    sv%landIntMask = var_dt(:,col_landintmask)
+    !if bottom emission is active, check if tracer age is 0 (has just been added to the simulation)
+    ! and if true, place those particles at the bottom (bathymetric value)
 
+    if (bottom_emmission) then
+        if ((size(sv%source) > 0) .and. (minval(sv%state(:,col_age)) == 0)) then
+            !where the age of a tracer is 0, make the vertical position equal to the bathymetric value of the grid cell
+            !where the tracer is located
+            where (sv%state(:,col_age) == 0 .and. Globals%Sources%bottom_emission_depth(sv%source(:)) > 0) sv%state(:,3) = var_dt(:,col_bat) + Globals%Sources%bottom_emission_depth(sv%source(:))
+        end if
+    end if
+
+    !marking tracers for deletion because they are in land
+    if (Globals%simdefs%removelandtracer == 1) then
+        where(int(sv%landintmask + Globals%mask%landval*0.05) == Globals%mask%landval) sv%active = .false.
+    end if
+                
+    !marking tracers for deletion because they are old
+    if (Globals%simdefs%tracerMaxAge > 0) then
+        where(sv%state(:,col_age) >= Globals%simdefs%tracerMaxAge) sv%active = .false.
+    end if
+    
+    !update resolution proxy
+    col_res = Utils%find_str(var_name, Globals%Var%resolution,.true.)
+    sv%resolution = var_dt(:,col_res)
+    deallocate(var_name)
+    deallocate(var_dt)
+    !write(*,*)"Saida setCommonProcesses"
     end subroutine setCommonProcesses
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> interpolates background variables to tracers positions
+    !> @param[in] self, sv, bdata, time
+    !---------------------------------------------------------------------------
+    subroutine interpolate_backgrounds(self, sv, bdata, time)
+    class(kernel_class), intent(inout) :: self
+    type(stateVector_class), intent(inout) :: sv
+    type(background_class), dimension(:), intent(in) :: bdata
+    real(prec), intent(in) :: time
+    integer :: col_temp, col_sal, col_temp_sv, col_sal_sv, col_dwz, col_dwz_sv
+    real(prec), dimension(:,:), allocatable :: var_dt
+    type(string), dimension(:), allocatable :: var_name
+    type(string), dimension(:), allocatable :: requiredVars
+    !-----------------------------------------------------------
+    
+    if (sv%ttype == Globals%Types%base) then
+        allocate(requiredVars(1))
+        requiredVars(1) = Globals%Var%dwz
+    else
+        allocate(requiredVars(3))
+        requiredVars(1) = Globals%Var%temp
+        requiredVars(2) = Globals%Var%sal
+        requiredVars(3) = Globals%Var%dwz
+    endif
+    !write(*,*)"Entrada getInterpolatedFields"
+    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
+    !write(*,*)"Saida getInterpolatedFields"
+    !do i=1, size(var_name)
+    !    write(*,*)"Var name i : ", i, trim(var_name(i))
+    !enddo
+    
+    !Set tracers dwz
+    col_dwz = Utils%find_str(var_name, Globals%Var%dwz, .true.)
+    col_dwz_sv = Utils%find_str(sv%varName, Globals%Var%dwz, .true.)
+    
+    sv%state(:,col_dwz_sv) = var_dt(:,col_dwz)
+    
+    !Set tracers temperature
+    !Not usable for dilution of temperature so will need to be changed in the future (for example save in a ambient_temp sv name)
+    if (sv%ttype /= Globals%Types%base) then
+        col_temp = Utils%find_str(var_name, Globals%Var%temp, .true.)
+        !write(*,*)"Saida col_temp"
+        col_temp_sv = Utils%find_str(sv%varName, Globals%Var%temp, .true.)
+        sv%state(:,col_temp_sv) = var_dt(:,col_temp)
+        !write(*,*)"Saida col_temp_sv"
+        !Set tracers salinity
+        col_sal = Utils%find_str(var_name, Globals%Var%sal, .true.)
+        col_sal_sv = Utils%find_str(sv%varName, Globals%Var%sal, .true.)
+    
+        sv%state(:,col_sal_sv) = var_dt(:,col_sal)
+    endif
+
+    
+    deallocate(var_name)
+    deallocate(var_dt)
+    !write(*,*)"Saida interpolate_backgrounds"
+    end subroutine interpolate_backgrounds
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> computes distance to bottom for all tracers (beware! does not yet consider water level)
+    !> @param[in] self, sv, bdata, time
+    !---------------------------------------------------------------------------
+    subroutine distance2bottom(self, sv)
+    class(kernel_class), intent(inout) :: self
+    type(stateVector_class), intent(inout) :: sv
+    integer :: col_dwz, col_bat, col_dist2bottom, i
+    type(string) :: tag
+    !-----------------------------------------------------------
+    !Set tracers dwz
+    col_dwz = Utils%find_str(sv%varName, Globals%Var%dwz, .true.)
+    col_bat = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
+    tag = 'dist2bottom'
+    col_dist2bottom = Utils%find_str(sv%varName, tag, .true.)
+    !Need to add water elevation into account because in low depth areas the result will be wrong
+    sv%state(:,col_dist2bottom) = Globals%Mask%bedVal + (sv%state(:,3) - sv%state(:,col_bat)) / (sv%state(:,col_dwz))
+    
+    end subroutine distance2bottom
 
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC
@@ -175,29 +309,92 @@
     type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
-    integer :: np, nf, bkg, i
-    real(prec), dimension(:,:), allocatable :: var_dt
-    type(string), dimension(:), allocatable :: var_name
-    type(string), dimension(:), allocatable :: requiredVars
+    integer :: nf, nf_u, nf_v, col_u, col_dwz, col_v, col_w, part_idx, col_dist2bottom
+    !integer :: nf, i, col_u, col_dwz, col_v, col_w, col_bat, part_idx
+    real(prec), dimension(:,:), allocatable :: var_dt, var_hor_dt
+    type(string), dimension(:), allocatable :: var_name, var_name_hor
+    type(string), dimension(:), allocatable :: requiredVars, requiredHorVars
     real(prec), dimension(size(sv%state,1), size(sv%state,2)) :: LagrangianKinematic
-    allocate(requiredVars(2))
+    real(prec) :: VonKarman = 0.4
+    real(prec) :: Hmin_Chezy = 0.1
+    real(prec), dimension(size(sv%state,1)) :: chezyZ, dist2bottom
+    real(8), dimension(size(sv%state,1)) :: aux_r8
+    real(prec) :: threshold_bot_wat, landIntThreshold
+    type(string) :: tag
+    integer :: i
+    !-------------------------------------------------------------------------------------
+    !write(*,*)"Entrada kinematic"
+    tag = 'dist2bottom'
+    col_dist2bottom = Utils%find_str(sv%varName, tag, .true.)
+    
+    allocate(requiredVars(3))
     requiredVars(1) = Globals%Var%u
     requiredVars(2) = Globals%Var%v
+    requiredVars(3) = Globals%Var%w
     
-    !!$OMP CRITICAL (UNNAMED)
+    allocate(requiredHorVars(3))
+    requiredHorVars(1) = Globals%Var%u
+    requiredHorVars(2) = Globals%Var%v
+    requiredHorVars(3) = Globals%Var%w
+    !write(*,*)"Entrada interpolacao kinematic 1"
     call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
-    !!$OMP END CRITICAL (UNNAMED)
+    !write(*,*)"Saida interpolacao kinematic 1"
     LagrangianKinematic = 0.0
-    nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-    LagrangianKinematic(:,1) = Utils%m2geo(var_dt(:, nf), sv%state(:,2), .false.)
-    sv%state(:,4) = var_dt(:,nf)
-    nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-    LagrangianKinematic(:,2) = Utils%m2geo(var_dt(:, nf), sv%state(:,2), .true.)
-    sv%state(:,5) = var_dt(:,nf)
+    !Correct bottom values
+    !write(*,*)"Entrada interpolacao kinematic 2"
+    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredHorVars, var_hor_dt, var_name_hor, reqVertInt = .false.)
+    !write(*,*)"Entrada interpolacao kinematic 2"
+    
+    col_u = Utils%find_str(var_name_hor, Globals%Var%u, .true.)
+    col_v = Utils%find_str(var_name_hor, Globals%Var%v, .true.)
+    col_w = Utils%find_str(var_name_hor, Globals%Var%w, .false.)
+    col_dwz = Utils%find_str(sv%varName, Globals%Var%dwz, .true.)
+    nf_u = Utils%find_str(var_name, Globals%Var%u, .true.)
+    nf_v = Utils%find_str(var_name, Globals%Var%v, .true.)
+    
+    threshold_bot_wat = (Globals%Mask%waterVal + Globals%Mask%bedVal) * 0.5
+    landIntThreshold = -0.98
+    
+    dist2bottom = sv%state(:,col_dist2bottom)
+    
+    where (dist2bottom < threshold_bot_wat)
+        aux_r8 = max((sv%state(:,col_dwz)/2),Hmin_Chezy) / Globals%Constants%Rugosity
+        chezyZ = (VonKarman / dlog(aux_r8))**2
+        sv%state(:,4) = var_hor_dt(:,col_u) * chezyZ
+        sv%state(:,5) = var_hor_dt(:,col_v) * chezyZ
+    end where
+    
+    tag = 'particulate'
+    part_idx = Utils%find_str(sv%varName, tag, .true.)
+    
+    where ((dist2bottom < landIntThreshold) .and. (sv%state(:,part_idx) == 1))
+        !At the bottom and tracer is particulate
+        LagrangianKinematic(:,1) = 0
+        LagrangianKinematic(:,2) = 0
+    elsewhere (dist2bottom < threshold_bot_wat)
+        LagrangianKinematic(:,1) = Utils%m2geo(sv%state(:,4), sv%state(:,2), .false.)
+        LagrangianKinematic(:,2) = Utils%m2geo(sv%state(:,5), sv%state(:,2), .true.)
+    elsewhere
+        LagrangianKinematic(:,1) = Utils%m2geo(var_dt(:, nf_u), sv%state(:,2), .false.)
+        LagrangianKinematic(:,2) = Utils%m2geo(var_dt(:, nf_v), sv%state(:,2), .true.)
+        sv%state(:,4) = var_dt(:,nf_u)
+        sv%state(:,5) = var_dt(:,nf_v)
+    end where
+    
     nf = Utils%find_str(var_name, Globals%Var%w, .false.)
     if ((nf /= MV_INT) .and. (Globals%SimDefs%VerticalVelMethod == 1)) then
-        LagrangianKinematic(:,3) = var_dt(:, nf)
-        sv%state(:,6) = var_dt(:, nf)
+        !Make the vertical velocity 0 at the bottom.
+        where ((dist2bottom < landIntThreshold) .and. (sv%state(:,part_idx) == 1))
+            LagrangianKinematic(:,3) = 0
+            sv%state(:,6) = 0
+        elsewhere (dist2bottom < threshold_bot_wat)
+            !Reduce velocity towards the bottom following a vertical logaritmic profile
+            LagrangianKinematic(:,3) = var_hor_dt(:,col_w) * chezyZ
+            sv%state(:,6) = LagrangianKinematic(:,3)
+        elsewhere
+            LagrangianKinematic(:,3) = var_dt(:, nf)
+            sv%state(:,6) = var_dt(:, nf)
+        end where
     else if ((nf /= MV_INT) .and. (Globals%SimDefs%VerticalVelMethod == 2)) then
         LagrangianKinematic(:,3) = VerticalMotion%Divergence(sv, bdata, time)
         sv%state(:,6) = LagrangianKinematic(:,3)
@@ -205,9 +402,12 @@
         LagrangianKinematic(:,3) = 0.0
         sv%state(:,6) = 0.0
     end if
+    
     deallocate(var_dt)
+    deallocate(var_hor_dt)
+    deallocate(var_name_hor)
     deallocate(var_name)
-
+    !write(*,*)"Saida kinematic"
     end function LagrangianKinematic
 
     !---------------------------------------------------------------------------
@@ -326,7 +526,6 @@
     real(prec), dimension(size(sv%state,1)) :: beachWeight
     real(prec) :: lbound, ubound
     integer :: i
-
     beachCoeff = 1.0
     call random_number(beachCoeffRand) !this is a uniform distribution generator
     beachCoeffRand = max(0.0, beachCoeffRand - Globals%Constants%BeachingStopProb)  !clipping the last % to zero
@@ -354,8 +553,7 @@
         !    Beaching(:,3) = 0.0
         !    sv%state(:,6) = 0.0
         !end where
-
-    end if
+    end if   
 
     end function Beaching
 
@@ -395,68 +593,66 @@
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
     real(prec), intent(in) :: dt
-    integer :: np, nf, bkg
-    real(prec), dimension(:,:), allocatable :: var_dt
-    type(string), dimension(:), allocatable :: var_name
-    type(string), dimension(:), allocatable :: requiredVars
+    integer :: np, part_idx, col_dist2bottom
+    real(prec), dimension(size(sv%state,1)) :: dist2bottom
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: DiffusionMixingLength
-    real(prec), dimension(:), allocatable :: resolution
     real(prec), dimension(:), allocatable :: rand_vel_u, rand_vel_v, rand_vel_w
-    allocate(requiredVars(1))
-    requiredVars(1) = Globals%Var%resolution
-
+    type(string) :: tag
+    real(prec) :: landIntThreshold
+    !Begin---------------------------------------------------------------------------
+    landIntThreshold = -0.98
+    tag = 'particulate'
+    part_idx = Utils%find_str(sv%varName, tag, .true.)
+    tag = 'dist2bottom'
+    col_dist2bottom = Utils%find_str(sv%varName, tag, .true.)
+    
     DiffusionMixingLength = 0.0
     if (Globals%Constants%DiffusionCoeff == 0.0) return
-
     !interpolate each background
-    do bkg = 1, size(bdata)
-        if (bdata(bkg)%initialized) then
-            if(bdata(bkg)%hasVars(requiredVars)) then
-                np = size(sv%active) !number of Tracers
-                nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
-                allocate(var_name(nf))
-                allocate(var_dt(np,nf))
-                allocate(resolution(np))
-                allocate(rand_vel_u(np), rand_vel_v(np), rand_vel_w(np))
-                call random_number(rand_vel_u)
-                call random_number(rand_vel_v)
-                call random_number(rand_vel_w)
-                !interpolating all of the data
-                call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name, requiredVars)
-                !update resolution estimate
-                nf = Utils%find_str(var_name, Globals%Var%resolution, .true.)
-                resolution = var_dt(:,nf)
-                !if we are still in the same path, use the same random velocity, do nothing
-                !if we ran the path, new random velocities are generated and placed
-                where ((sv%state(:,10) > 2.0*resolution) .and. (sv%landIntMask < Globals%Mask%landVal))
-                    DiffusionMixingLength(:,7) = (2.*rand_vel_u-1.)*sqrt(Globals%Constants%DiffusionCoeff*abs(sv%state(:,4))/dt)/dt
-                    DiffusionMixingLength(:,8) = (2.*rand_vel_v-1.)*sqrt(Globals%Constants%DiffusionCoeff*abs(sv%state(:,5))/dt)/dt
-                    DiffusionMixingLength(:,9) = (2.*rand_vel_w-1.)*sqrt(0.000001*Globals%Constants%DiffusionCoeff*abs(sv%state(:,6))/dt)/dt
-                    sv%state(:,10) = 0.0
-                    !update system positions
-                    DiffusionMixingLength(:,1) = Utils%m2geo(DiffusionMixingLength(:,7), sv%state(:,2), .false.)*dt
-                    DiffusionMixingLength(:,2) = Utils%m2geo(DiffusionMixingLength(:,8), sv%state(:,2), .true.)*dt
-                    DiffusionMixingLength(:,3) = DiffusionMixingLength(:,9)*dt
-                elsewhere
-                    !update system positions
-                    DiffusionMixingLength(:,1) = Utils%m2geo(sv%state(:,7), sv%state(:,2), .false.)
-                    DiffusionMixingLength(:,2) = Utils%m2geo(sv%state(:,8), sv%state(:,2), .true.)
-                    DiffusionMixingLength(:,3) = sv%state(:,9)
-                end where
-                !update system velocities
-                !sv%state(:,4) = sv%state(:,4) + DiffusionMixingLength(:,7)*dt
-                !sv%state(:,5) = sv%state(:,5) + DiffusionMixingLength(:,8)*dt
-                !sv%state(:,6) = sv%state(:,6) + DiffusionMixingLength(:,9)*dt
-                !update used mixing length
-                DiffusionMixingLength(:,10) = sqrt(sv%state(:,4)*sv%state(:,4) + sv%state(:,5)*sv%state(:,5) + sv%state(:,6)*sv%state(:,6))
-                deallocate(rand_vel_u, rand_vel_v, rand_vel_w)
-                deallocate(resolution)
-                deallocate(var_dt)
-                deallocate(var_name)
-            end if
-        end if
-    end do
+
+    np = size(sv%active) !number of Tracers
+    allocate(rand_vel_u(np), rand_vel_v(np), rand_vel_w(np))
+    call random_number(rand_vel_u)
+    call random_number(rand_vel_v)
+    call random_number(rand_vel_w)
+    
+    !if we are still in the same path, use the same random velocity, do nothing
+    !if we ran the path, new random velocities are generated and placed
+    where ((sv%state(:,10) > 2.0*sv%resolution) .and. (sv%landIntMask < Globals%Mask%landVal))
+        DiffusionMixingLength(:,7) = (2.*rand_vel_u-1.)*sqrt(Globals%Constants%DiffusionCoeff*abs(sv%state(:,4))/dt)/dt
+        DiffusionMixingLength(:,8) = (2.*rand_vel_v-1.)*sqrt(Globals%Constants%DiffusionCoeff*abs(sv%state(:,5))/dt)/dt
+        DiffusionMixingLength(:,9) = (2.*rand_vel_w-1.)*sqrt(0.000001*Globals%Constants%DiffusionCoeff*abs(sv%state(:,6))/dt)/dt
+        sv%state(:,10) = 0.0
+        !update system positions
+        DiffusionMixingLength(:,1) = Utils%m2geo(DiffusionMixingLength(:,7), sv%state(:,2), .false.)*dt
+        DiffusionMixingLength(:,2) = Utils%m2geo(DiffusionMixingLength(:,8), sv%state(:,2), .true.)*dt
+        DiffusionMixingLength(:,3) = DiffusionMixingLength(:,9)*dt
+    elsewhere
+        !update system positions
+        DiffusionMixingLength(:,1) = Utils%m2geo(sv%state(:,7), sv%state(:,2), .false.)
+        DiffusionMixingLength(:,2) = Utils%m2geo(sv%state(:,8), sv%state(:,2), .true.)
+        DiffusionMixingLength(:,3) = sv%state(:,9)
+    end where
+
+    !update used mixing length
+    DiffusionMixingLength(:,10) = sqrt(sv%state(:,4)*sv%state(:,4) + sv%state(:,5)*sv%state(:,5) + sv%state(:,6)*sv%state(:,6))
+                
+    !Deposited particles should not move
+    if (any(sv%state(:,part_idx) == 1)) then
+        dist2bottom = sv%state(:,col_dist2bottom)
+        !if a single particle is particulate, check if they are at the bottom and don't move them if true.
+        where ((dist2bottom < landIntThreshold) .and. (sv%state(:,part_idx) == 1))
+            !update system positions
+            DiffusionMixingLength(:,1) = 0
+            DiffusionMixingLength(:,2) = 0
+            DiffusionMixingLength(:,3) = 0
+            DiffusionMixingLength(:,10) = 0
+        end where
+    end if
+    deallocate(rand_vel_u, rand_vel_v, rand_vel_w)
+
     end function DiffusionMixingLength
+    
 
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC
@@ -504,6 +700,7 @@
     call self%Interpolator%initialize(1,interpName)
     call Litter%initialize()
     call VerticalMotion%initialize()
+    !call MOHIDWaterQuality%initialize()
     
     call KernelUtils%initialize() 
     

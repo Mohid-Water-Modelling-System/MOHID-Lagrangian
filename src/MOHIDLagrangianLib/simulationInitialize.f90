@@ -25,6 +25,7 @@
     use tracerBase_mod
     use xmlParser_mod
     use sources_mod
+    use ModuleWaterQuality
 
     use FoX_dom
 
@@ -247,7 +248,54 @@
 
     end subroutine init_naming
 
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho
+    !> @brief
+    !> Private external definitions parser routine. Builds the waterquality module definitions from the input .dat file.
+    !> @param[in] case_node
+    !---------------------------------------------------------------------------
+    subroutine init_extDefFiles(case_node)
+    type(Node), intent(in), pointer :: case_node
+    type(Node), pointer :: execution_node       !< Single simdefs block to process
+    type(string) :: outext
+    integer :: i, id
+    type(string) :: tag, att_name, att_val
+    real(prec) :: waterQualityTimeStep
+    integer :: STAT_CALL
+    outext='-->Reading external definition files'
+    call Log%put(outext,.false.)
 
+    tag="externalDefinitionFiles"    !the node we want
+    call XMLReader%gotoNode(case_node,execution_node,tag, mandatory =.false.)
+    if (associated(execution_node)) then
+        !Search for a water quality file
+        tag="WQfile"
+        att_name="name"
+        call XMLReader%getNodeAttribute(execution_node, tag, att_name, att_val)
+
+        call Globals%ExtImpFiles%setWaterQualityFileName(att_val) !Naming will need to change when other files are added
+        
+        if (Globals%ExtImpFiles%waterQualityFileName_hasValue) then
+            !Start mohid water quality module.
+            call StartWaterQuality(id, Globals%ExtImpFiles%waterQualityFileName%chars(), STAT = STAT_CALL, MohidLagr = .true.)
+            if (id /= 0 .or. STAT_CALL /= 0) then
+                outext='Failed to start mohid waterquality module - id was not 0 for some reason. stopping'
+                call Log%put(outext)
+                stop
+            endif
+            
+            call GetDTWQM(0, DTSecond = waterQualityTimeStep)
+            call Globals%SimDefs%setWqDt(waterQualityTimeStep) !Set waterquality module time step
+        endif
+        
+        call Globals%ExtImpFiles%print()
+    else
+        outext='-->No mohid water quality file implementation found'
+        call Log%put(outext,.false.)
+    endif
+    
+    end subroutine init_extDefFiles
+    
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -333,8 +381,9 @@
     integer :: i, j, k
     logical :: readflag
     integer :: id
-    type(string) :: name, source_geometry, tag, att_name, att_val, rate_file, posi_file
-    real(prec) :: emitting_rate, rateScale, start, finish, temp
+    type(string) :: name, source_geometry, tag, att_name, att_val, att_val2, att_val3, rate_file, posi_file
+    real(prec) :: emitting_rate, rateScale, start, finish, temp, bottom_emission_depth, biofouling_rate, biofouling_start_after
+    real(prec) :: tracer_volume
     logical :: emitting_fixed, posi_fixed, rateRead
     class(shape), allocatable :: source_shape
     type(vector) :: res
@@ -381,6 +430,32 @@
             emitting_rate = 1.0/(att_val%to_number(kind=1._R8P)*Globals%SimDefs%dt)
             emitting_fixed = .true.
         end if
+        tag="rate_seconds"
+        att_name="value"
+        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val, readflag, .false.)
+        if (readflag) then
+            tag="rate_seconds"
+            att_name="value"
+            readflag = .false.
+            call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val2, readflag, .false.)
+            if (readflag) then !Recieved rate in seconds
+                tag="rate_trcPerEmission"
+                att_name="value"
+                readflag = .false.
+                call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val3, readflag, .false.)
+                if (readflag) then !Recieved number of tracers per rate_seconds
+                    rateRead = .true.
+                    emitting_rate = 1/att_val2%to_number(kind=1._R8P) * att_val3%to_number(kind=1._R8P) !if 3600s, 5tracers and dt = 60 => 0.08 tracers per DT
+                    emitting_fixed = .true.
+                else !if rate_seconds is used, then rate_trcPerEmission is needed
+                    rateRead = .false.
+                endif
+            else ! recieved rate in dt steps
+                rateRead = .true.
+                emitting_rate = 1.0/(att_val%to_number(kind=1._R8P)*Globals%SimDefs%dt)
+                emitting_fixed = .true.
+            endif
+        end if
         tag="rate"
         att_name="value"
         call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val, readflag, .false.)
@@ -389,6 +464,17 @@
             emitting_rate = att_val%to_number(kind=1._R8P)
             emitting_fixed = .true.
         end if
+        !Reading volume of each tracer (to be used with flow rate time series)
+        tag="tracer_volume"
+        att_name="tracer_volume"
+        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val, readflag, .false.)
+        if (readflag) then
+            rateRead = .true.
+            tracer_volume = att_val%to_number(kind=1._R8P)
+        else
+            tracer_volume = 0
+        end if
+        
         tag="rateTimeSeries"
         call XMLReader%gotoNode(source_node, source_ratefile, tag, mandatory =.false.)
         if (associated(source_ratefile)) then
@@ -424,6 +510,38 @@
             posi_file = att_val
             posi_fixed = .false.
         end if
+        !reading bottom emission type of source
+        readflag = .false.
+        tag="bottom_emission_depth"
+        att_name="value"
+        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val, readflag, .false.)
+        if (readflag) then
+            bottom_emission_depth = att_val%to_number(kind=1._R8P)
+        else
+            bottom_emission_depth = 0
+        end if
+        !reading biofouling growth rate of this source
+        readflag = .false.
+        tag="biofouling_rate"
+        att_name="value"
+        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val, readflag, .false.)
+        if (readflag) then
+            biofouling_rate = att_val%to_number(kind=1._R8P)
+        else
+            biofouling_rate = 0
+        end if
+        
+        !reading biofouling incubation period for this source
+        readflag = .false.
+        tag="biofouling_start_after"
+        att_name="value"
+        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val, readflag, .false.)
+        if (readflag) then
+            biofouling_start_after = att_val%to_number(kind=1._R8P)
+        else
+            biofouling_start_after = 0
+        end if
+        
         !Possible list of active intervals, and these might be in absolute dates or relative to sim time
         activeList => getElementsByTagname(source_node, "active")
         allocate(activeTimes(getLength(activeList),2))
@@ -454,7 +572,10 @@
             end if
         end do
         !initializing Source j
-        call tempSources%src(j+1)%initialize(id, name, emitting_rate, emitting_fixed, rate_file, rateScale, posi_fixed, posi_file, activeTimes, source_geometry, source_shape, res)
+        call tempSources%src(j+1)%initialize(id, name, emitting_rate, emitting_fixed, rate_file, rateScale, &
+                                             posi_fixed, posi_file, bottom_emission_depth, biofouling_rate, &
+                                             biofouling_start_after, tracer_volume, activeTimes, source_geometry, &
+                                             source_shape, res)
        
         deallocate(activeTimes)
         deallocate(source_shape)
@@ -477,7 +598,6 @@
     type(string) :: pts(2), tag, att_name, att_val
     type(vector) :: coords
     logical :: read_flag
-
     read_flag = .false.
     coords = 0.0
     outext='-->Reading case simulation definitions'
@@ -516,8 +636,30 @@
     if (read_flag) then
         call Globals%SimDefs%setRemoveLandTracer(att_val)
     endif
+    
+    tag="BathyminNetcdf"
+    att_name="value"
+    call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val, read_flag, .false.)
+    if (read_flag) then
+        call Globals%SimDefs%setBathyminNetcdf(att_val)
+    endif
+    
+    tag="TracerMaxAge"
+    att_name="value"
+    call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val, read_flag, .false.)
+    if (read_flag) then
+        call Globals%SimDefs%settracerMaxAge(att_val)
+    endif
+    
+    tag="Temperature_add_offset"
+    att_name="value"
+    call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val, read_flag, .false.)
+    if (read_flag) then
+        call Globals%SimDefs%setTemperature_add_offset(att_val)
+    endif
+    
     call Globals%SimDefs%print()
-
+    
     end subroutine init_simdefs
 
     !---------------------------------------------------------------------------
@@ -588,6 +730,78 @@
         call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
         if (readflag) then
             call Globals%Constants%setMeanKVisco(att_val)
+        endif
+        tag="AddBottomCell"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setAddBottomCell(att_val)
+        endif
+        tag="Rugosity"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setRugosity(att_val)
+        endif
+        tag="CriticalShearErosion"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setCritical_Shear_Erosion(att_val)
+        endif
+        tag="ToptBMin"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setTOptBacteriaMin(att_val)
+        endif
+        tag="ToptBMax"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setTOptBacteriaMax(att_val)
+        endif
+        tag="TBMin"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setTBacteriaMin(att_val)
+        endif
+        tag="TBMax"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setTBacteriaMax(att_val)
+        endif
+        tag="BK1"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setBK1(att_val)
+        endif
+        tag="BK2"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setBK2(att_val)
+        endif
+        tag="BK3"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setBK3(att_val)
+        endif
+        tag="BK4"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setBK4(att_val)
+        endif
+        tag="MaxDegradationRate"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setMaxDegradationRate(att_val)
         endif
         
     endif
@@ -667,6 +881,7 @@
     ! every other structure in the simulation is built from these, i.e., not defined by the user directly
     call init_parameters(execution_node)
     call init_naming(execution_node)
+    call init_extDefFiles(execution_node)
     call setOutputFields(execution_node)
     call init_caseconstants(case_node)
     call init_simdefs(case_node)

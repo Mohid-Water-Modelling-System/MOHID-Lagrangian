@@ -569,7 +569,6 @@
     integer :: i, j, b
     real(prec) :: ar
     type(box) :: tempbox
-
     if (auto) then
         ar = BBox%size%x/BBox%size%y
         ar = Utils%get_closest_twopow(ar) !aspect ratio of our bounding box
@@ -601,7 +600,6 @@
     !do i=1, size(sBlock)
     !    call sBlock(i)%print()
     !enddo
-
     return
     end subroutine setBlocks
 

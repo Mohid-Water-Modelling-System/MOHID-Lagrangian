@@ -2,7 +2,7 @@
 cls
 
 rem "name" and "dirout" are named according to the case
-
+call activate MOHID-Lagrangian
 set name=PCOMS_port_spill
 set dirout=%name%_out
 

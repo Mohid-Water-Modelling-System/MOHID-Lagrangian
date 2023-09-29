@@ -2,7 +2,7 @@
 <materials>
 	<plastic>
 		<bag_1>
-			<particulate value="false" />
+			<particulate value="1" />
 			<density value="950.0" />
 			<radius value="0.02" />
 			<volume value="0.0004" />
@@ -11,7 +11,7 @@
 			<property key="degradation_rate" value="0.00000000158" />
 		</bag_1>
 		<heavy_net>
-			<particulate value="false" />
+			<particulate value="1" />
 			<density value="1100.0" />
 			<radius value="0.02" />
 			<volume value="0.00002" />
@@ -20,7 +20,7 @@
 			<property key="degradation_rate" value="0.000000000317" />
 		</heavy_net>
         <mussel_peg>
-			<particulate value="false" />
+			<particulate value="1" />
 			<density value="950.0" />
 			<radius value="0.17" />
 			<volume value="0.000017" />
@@ -31,7 +31,7 @@
 	</plastic>
 	<paper>
 		<cardboard_1>
-			<particulate value="false" />
+			<particulate value="1" />
 			<density value="1050.0" />
 			<radius value="0.01" />
 			<volume value="0.0002" />
@@ -40,4 +40,40 @@
 			<property key="degradation_rate" value="0.0" />
 		</cardboard_1>
 	</paper>
+	<seed>
+		<kelp_seed_heavy>
+			<particulate value="1" />
+			<density value="1070.0" />
+			<radius value="0.01" />
+			<volume value="0.0002" />
+			<area value="0.02" />
+			<property key="condition" value="0.95" />
+		</kelp_seed_heavy>
+		<kelp_seed_medium>
+			<particulate value="1" />
+			<density value="1050.0" />
+			<radius value="0.01" />
+			<volume value="0.0002" />
+			<area value="0.02" />
+			<property key="condition" value="0.95" />
+		</kelp_seed_medium>
+		<kelp_seed_light>
+			<particulate value="1" />
+			<density value="1030.0" />
+			<radius value="0.01" />
+			<volume value="0.0002" />
+			<area value="0.02" />
+			<property key="condition" value="0.95" />
+		</kelp_seed_light>
+	</seed>
+	<detritus>
+		<Kelp_detritus>
+			<particulate value="1" />
+			<density value="1030.0" />
+            <radius value="0.028512" />
+			<volume value="0.00009709" />
+			<area value="0.010215" />
+			<property key="condition" value="0.95" />
+        </Kelp_detritus>
+	</detritus>
 </materials>

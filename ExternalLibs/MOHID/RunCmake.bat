@@ -15,3 +15,4 @@ cmake .. -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_BUILD_TYPE="RELEASE" -Wno-dev
 cd ..
 if not "%ERRORLEVEL%" == "0" goto fail
 
+pause

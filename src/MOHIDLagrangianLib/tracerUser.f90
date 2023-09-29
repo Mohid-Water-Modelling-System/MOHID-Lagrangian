@@ -31,7 +31,7 @@
     type :: user_par_class               !<Type - parameters of a Lagrangian tracer object representing a user defined type
         type(string) :: name                                !< Name of the Tracer
         type(string), dimension(:), allocatable :: propName !< Name of the property on the Tracer property array
-        logical      :: particulate                         !< flag to indicate if the material is a particle (false) or a collection of particles (true)
+        integer      :: particulate                         !< flag to indicate if the material is a particle (false) or a collection of particles (true)
         real(prec)   :: size                                !< Size (radius) of the particles (equals to the tracer radius if particulate==false)
     end type user_par_class
 

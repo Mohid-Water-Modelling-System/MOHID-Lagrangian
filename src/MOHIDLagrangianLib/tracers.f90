@@ -23,5 +23,8 @@ module tracers_mod
     use tracerPlastic_mod  ! Plastic particles
     use tracerPaper_mod    ! Paper particles
     use tracerColiform_mod    ! Paper particles
+    use tracerSeed_mod    ! Algae Seed particles
+    use tracerdetritus_mod    ! Detritus particles
+    use tracerwaterQuality_mod    ! Water particles with waterquality processes
 
 end module tracers_mod

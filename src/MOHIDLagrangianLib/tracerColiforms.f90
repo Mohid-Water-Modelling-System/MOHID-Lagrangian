@@ -10,7 +10,7 @@
     ! DATE          : Dec 2020
     ! REVISION      : Sobrinho 0.1
     !> @author
-    !> Joao Barros Sobrinho
+    !> Joao Sobrinho
     !
     ! DESCRIPTION:
     !> Module that defines a Lagrangian tracer class for fecal coliforms modelling and related methods.
@@ -28,7 +28,7 @@
     private
 
     type :: coliform_par_class               !<Type - parameters of a Lagrangian tracer object representing a coliform cell
-        logical    :: particulate                   !< flag to indicate if the material is a particle (false) or a collection of particles (true)
+        integer    :: particulate                   !< flag to indicate if the material is a particle (false) or a collection of particles (true)
         real(prec) :: size                          !< Size (radius) of the particles (equals to the tracer radius if particulate==false)
     end type coliform_par_class
 
@@ -45,6 +45,8 @@
         integer    :: T90_variable                  !< Variable T90 decay 
         integer    :: T90_method                    !< Fecal decay according to 1: Canteras et al. (1995). 2: Chapra (1997)
         real(prec) :: concentration                 !< Particle concentration
+        real(prec) :: temperature                   !< temperature of the tracer
+        real(prec) :: salinity                      !< salinity of the tracer
     end type coliform_state_class
 
     type, extends(tracer_class) :: coliform_class    !<Type - The coliform material Lagrangian tracer class
@@ -75,7 +77,7 @@
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
     class(coliform_class), intent(in) :: self
-    getNumVars = 23
+    getNumVars = 29
     end function getNumVars
 
     !---------------------------------------------------------------------------
@@ -98,18 +100,24 @@
     getStateArray(9) = self%now%diffusionVel%z
     getStateArray(10) = self%now%usedMixingLenght
     getStateArray(11) = self%now%age
-    getStateArray(12) = self%mnow%density
-    getStateArray(13) = self%mnow%radius
-    getStateArray(14) = self%mnow%volume
-    getStateArray(15) = self%mnow%area
-    getStateArray(16) = self%mnow%condition
-    getStateArray(17) = self%mnow%T90
-    getStateArray(18) = self%mnow%T90_variable
-    getStateArray(19) = self%mnow%T90_method
-    getStateArray(20) = self%mnow%sw_percentage
-    getStateArray(21) = self%mnow%sw_extinction_coef
-    getStateArray(22) = self%mnow%concentration
-    getStateArray(23) = self%mnow%initial_volume
+    getStateArray(12) = self%mpar%particulate
+    getStateArray(13) = self%now%bathymetry
+    getStateArray(14) = self%now%dwz
+    getStateArray(15) = self%now%dist2bottom
+    getStateArray(16) = self%mnow%density
+    getStateArray(17) = self%mnow%radius
+    getStateArray(18) = self%mnow%volume
+    getStateArray(19) = self%mnow%area
+    getStateArray(20) = self%mnow%condition
+    getStateArray(21) = self%mnow%T90
+    getStateArray(22) = self%mnow%T90_variable
+    getStateArray(23) = self%mnow%T90_method
+    getStateArray(24) = self%mnow%sw_percentage
+    getStateArray(25) = self%mnow%sw_extinction_coef
+    getStateArray(26) = self%mnow%concentration
+    getStateArray(27) = self%mnow%initial_volume
+    getStateArray(28) = self%mnow%temperature
+    getStateArray(29) = self%mnow%salinity
     end function getStateArray
 
     !---------------------------------------------------------------------------
@@ -132,18 +140,25 @@
     self%now%diffusionVel%z = StateArray(9)
     self%now%usedMixingLenght = StateArray(10)
     self%now%age   = StateArray(11)
-    self%mnow%density = StateArray(12)
-    self%mnow%radius = StateArray(13)
-    self%mnow%volume = StateArray(14)
-    self%mnow%area = StateArray(15)
-    self%mnow%condition = StateArray(16)
-    self%mnow%T90        = StateArray(17)
-    self%mnow%T90_variable  = StateArray(18)
-    self%mnow%T90_method    = StateArray(19)
-    self%mnow%sw_percentage = StateArray(20)
-    self%mnow%sw_extinction_coef = StateArray(21)
-    self%mnow%concentration = StateArray(22)
-    self%mnow%initial_volume = StateArray(23)
+    self%mpar%particulate = StateArray(12)
+    self%now%bathymetry   = StateArray(13)
+    self%now%dwz          = StateArray(14)
+    self%now%dist2bottom = StateArray(15)
+    self%mnow%density = StateArray(16)
+    self%mnow%radius = StateArray(17)
+    self%mnow%volume = StateArray(18)
+    self%mnow%area = StateArray(19)
+    self%mnow%condition = StateArray(20)
+    self%mnow%T90        = StateArray(21)
+    self%mnow%T90_variable  = StateArray(22)
+    self%mnow%T90_method    = StateArray(23)
+    self%mnow%sw_percentage = StateArray(24)
+    self%mnow%sw_extinction_coef = StateArray(25)
+    self%mnow%concentration = StateArray(26)
+    self%mnow%initial_volume = StateArray(27)
+    !self%mpar%particulate = StateArray(24)
+    self%mnow%temperature = StateArray(28)
+    self%mnow%salinity = StateArray(29)
     end subroutine setStateArray
 
     !---------------------------------------------------------------------------
@@ -182,6 +197,10 @@
     constructor%mnow%condition = 1.0
     constructor%mnow%T90_variable = 0
     constructor%mnow%concentration = 1000000
+    
+    constructor%mnow%temperature = 15.0
+    constructor%mnow%salinity = 36.0
+    
     !try to find value from material types files
     tag = 'condition'
     idx = Utils%find_str(src%prop%propName, tag, .false.)
@@ -230,24 +249,27 @@
         constructor%mnow%concentration = src%prop%propValue(idx)
     end if
     
-    if (constructor%mpar%particulate) then
+    if (constructor%mpar%particulate==1) then
         !constructor%mpar%size = src%prop%pt_radius !correcting size to now mean particle size, not tracer size
         !constructor%mnow%concentration = src%prop%ini_concentration
     end if
     
     !filling the rest of the varName list
-    constructor%varName(12) = Globals%Var%density
-    constructor%varName(13) = 'radius'
-    constructor%varName(14) = 'volume'
-    constructor%varName(15) = 'area'
-    constructor%varName(16) = 'condition'
-    constructor%varName(17) = 'T90'
-    constructor%varName(18) = 'T90_variable'
-    constructor%varName(19) = 'T90_method'
-    constructor%varName(20) = 'sw_percentage'
-    constructor%varName(21) = 'sw_extinction_coef'
-    constructor%varName(22) = 'concentration'
-    constructor%varName(23) = 'initial_volume'
+    constructor%varName(16) = Globals%Var%density
+    constructor%varName(17) = 'radius'
+    constructor%varName(18) = 'volume'
+    constructor%varName(19) = 'area'
+    constructor%varName(20) = 'condition'
+    constructor%varName(21) = 'T90'
+    constructor%varName(22) = 'T90_variable'
+    constructor%varName(23) = 'T90_method'
+    constructor%varName(24) = 'sw_percentage'
+    constructor%varName(25) = 'sw_extinction_coef'
+    constructor%varName(26) = 'concentration'
+    constructor%varName(27) = 'initial_volume'
+    !constructor%varName(27) = 'particulate'
+    constructor%varName(28) = 'temp'
+    constructor%varName(29) = 'salt'
     
     end function constructor
 

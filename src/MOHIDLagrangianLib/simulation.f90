@@ -273,14 +273,15 @@
     class(simulation_class), intent(inout) :: self
     integer :: i
     call self%timerPrep%Tic()
-    !$OMP PARALLEL PRIVATE(i)
-    !$OMP DO
+    !for some unkonwn reason this paralellization is causing run-time errors (execution aborted)
+    !!$OMP PARALLEL PRIVATE(i)
+    !!$OMP DO
     do i=1, size(sBlock)
         call sBlock(i)%ConsolidateArrays()
         call sBlock(i)%ShedMemory()
     enddo
-    !$OMP END DO
-    !$OMP END PARALLEL
+    !!$OMP END DO
+    !!$OMP END PARALLEL
     call self%timerPrep%Toc()
     end subroutine BlocksConsolidate
 
@@ -415,8 +416,14 @@
     !iterate every Source to distribute
     ntrc = 0
     allocate(Globals%Sources%sourcesID(size(tempSources%src)))
+    allocate(Globals%Sources%bottom_emission_depth(size(tempSources%src)))
+    allocate(Globals%Sources%biofouling_rate(size(tempSources%src)))
+    allocate(Globals%Sources%biofouling_start_after(size(tempSources%src)))
     do i=1, size(tempSources%src)
         Globals%Sources%sourcesID(i) = tempSources%src(i)%par%id
+        Globals%Sources%bottom_emission_depth(i) = tempSources%src(i)%par%bottom_emission_depth
+        Globals%Sources%biofouling_rate(i) = tempSources%src(i)%par%biofouling_rate / 86400.
+        Globals%Sources%biofouling_start_after(i) = tempSources%src(i)%par%biofouling_start_after
         blk = getBlockIndex(Geometry%getCenter(tempSources%src(i)%par%geometry))
         call sBlock(blk)%putSource(tempSources%src(i))
         ntrc = ntrc + tempSources%src(i)%stencil%total_np

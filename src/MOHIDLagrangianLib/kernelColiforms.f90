@@ -45,10 +45,10 @@
     contains
     
     !---------------------------------------------------------------------------
-    !> @author Joao Barros Sobrinho - +Atlantic
+    !> @author Joao Sobrinho - +Atlantic
     !> @brief
     !> T_90 fecal coliforms decay kernel.
-    !> @param[in] self, sv, bdata, dt
+    !> @param[in] self, sv, bdata, time
     !---------------------------------------------------------------------------
     function MortalityT90(self, sv, bdata, time)
     class(kernelColiform_class), intent(in) :: self
@@ -56,74 +56,58 @@
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: MortalityT90
-    real(prec), dimension(size(sv%state,1)) :: depth, Radiation_SW, T90, Radiation
+    real(prec), dimension(size(sv%state,1)) :: T90, Radiation
     type(string), dimension(:), allocatable :: requiredVars
-    real(prec), dimension(2) :: maxLevel
-    integer :: SWcoefidx, SWperidx, temp, sal, rad, T90_method, conc_idx, T90_idx, T90_var_idx, T90_varM_idx
+    integer :: col_SWcoef, col_SWper, T90_method, col_conc, col_T90, col_T90_var, col_T90_varM
+    integer :: col_rad, col_sal, col_temp
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
     type(string) :: tag
     !Begin------------------------------------------------------------------------
     MortalityT90 = 0.0
-    tag = 'concentration'
-    conc_idx = Utils%find_str(sv%varName, tag, .true.)
     tag = 'T90'
-    T90_idx = Utils%find_str(sv%varName, tag, .true.)
-    
+    col_T90 = Utils%find_str(sv%varName, tag, .true.)
     tag = 'T90_variable'
-    T90_var_idx = Utils%find_str(sv%varName, tag, .true.)
-    
+    col_T90_var = Utils%find_str(sv%varName, tag, .true.)
     tag = 'T90_method'
-    T90_varM_idx = Utils%find_str(sv%varName, tag, .true.)
-    
-    if (all(sv%state(:,T90_varM_idx) == 1)) then
+    col_T90_varM = Utils%find_str(sv%varName, tag, .true.)
+    tag = 'sw_extinction_coef'
+    col_SWcoef = Utils%find_str(sv%varName, tag, .true.)
+    tag = 'sw_percentage'
+    col_SWper = Utils%find_str(sv%varName, tag, .true.)
+        
+    if (all(sv%state(:,col_T90_varM) == 1)) then
         T90_method = 1
     else
         T90_method = 2
     end if
-    if (all(sv%state(:,T90_var_idx) == 1)) then
-        allocate(requiredVars(3))
+    if (all(sv%state(:,col_T90_var) == 1)) then
+        allocate(requiredVars(1))
         requiredVars(1) = Globals%Var%rad
-        requiredVars(2) = Globals%Var%temp
-        requiredVars(3) = Globals%Var%sal
         
         call KernelUtils_coliform%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
         
-        temp = Utils%find_str(var_name, Globals%Var%temp, .true.)
-        sal = Utils%find_str(var_name, Globals%Var%sal, .true.)
+        col_temp = Utils%find_str(sv%varname, Globals%Var%temp, .true.)
+        col_sal = Utils%find_str(sv%varname, Globals%Var%sal, .true.)
         !surface radiation
-        rad = Utils%find_str(var_name, Globals%Var%rad, .true.)
-            
-        !Get SW percentage
-        tag = 'sw_percentage'
-        SWperidx = Utils%find_str(sv%varName, tag, .true.)
-        !w/m2        =   w/m2          *     []
-        write(*,*) 'Max Val rad w= ' , maxval(var_dt(:,rad))
-        Radiation_SW = var_dt(:,rad) * sv%state(:,SWperidx)
-        !compute light extintion
-        depth = sv%state(:,3)
-            
-        maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .false.)
-            
-        depth = maxLevel(2) - depth
-            
-        !Get SW extinction coef value
-        tag = 'sw_extinction_coef'
-        SWcoefidx = Utils%find_str(sv%varName, tag, .true.)
-                    
-        !compute light exctintion in water column
-        Radiation = Radiation_SW * exp(-sv%state(:,SWcoefidx) * depth)
+        col_rad = Utils%find_str(var_name, Globals%Var%rad, .true.)
+        
+        !Computes radiation at vertical center of tracers
+        call KernelUtils_coliform%getSWRadiation(sv, var_dt, bdata, col_rad, col_SWper, col_SWcoef, Radiation)
+        
         !Compute T90
         if (T90_method == 1) then
             !Canteras
                 
-            T90 = 2.533 * (1.04**(var_dt(:,temp) - 20.)) * (1.012**var_dt(:,sal)) + (0.113 * Radiation)
+            T90 = 2.533 * (1.04**(sv%state(:,col_temp) - 20.)) * (1.012**sv%state(:,col_sal)) + (0.113 * Radiation)
+            !T90 = 2.533 * (1.04**(var_dt(:,col_temp) - 20.)) * (1.012**var_dt(:,col_sal)) + (0.113 * Radiation)
                         
             ![]                        
             T90 = (2.303 / T90) * 24 * 3600                        
                         
-            MortalityT90(:,conc_idx)  =  - sv%state(:,conc_idx) * (alog(10.0) / T90)
-    
+            MortalityT90(:,col_conc)  =  - sv%state(:,col_conc) * (alog(10.0) / T90)
+            !
+            
         else if (T90_method == 2) then
             !Chapra not yet implemented
         end if
@@ -132,16 +116,16 @@
         deallocate(var_dt)
     else
         !Use constant T90
-        MortalityT90(:,conc_idx) = - (sv%state(:,conc_idx) * sv%state(:,T90_idx))
+        MortalityT90(:,col_conc) = - (sv%state(:,col_conc) * sv%state(:,col_T90))
     endif
         
     !matar coliformes com menos de 100 UFC/100ml
-    where(sv%state(:,conc_idx) < 100) sv%active = .false.
+    where(sv%state(:,col_conc) < 100) sv%active = .false.
     
     end function MortalityT90
     
     
-    !> @author Joao Barros Sobrinho - +Atlantic
+    !> @author Joao Sobrinho - +Atlantic
     !> @brief
     !> Computes the dilution of dissolved material in the water column by increasing its volume
     !> @param[in] self, sv, bdata, time

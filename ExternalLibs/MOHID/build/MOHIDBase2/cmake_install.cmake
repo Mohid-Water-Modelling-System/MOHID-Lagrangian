@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/MOHID/MOHIDBase2
+# Install script for directory: C:/Users/Admin/Documents/GitHub/Maretec/MOHID-Lagrangian/ExternalLibs/MOHID/MOHIDBase2
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

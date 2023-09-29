@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<case>
+	<execution>
+		<parameters>
+			<parameter key="Start" value="2018 09 05 00 00 00" comment="Date of initial instant" units_comment="space delimited ISO 8601 format up to seconds" />
+			<parameter key="End"   value="2018 09 05 23 00 00" comment="Date of final instant" units_comment="ISO format" />
+			<parameter key="Integrator" value="1" comment="Integration Algorithm 1:Euler, 2:Multi-Step Euler, 3:RK4 (default=1)" />			
+			<parameter key="Threads" value="4" comment="Computation threads for shared memory computation (default=auto)" />
+			<parameter key="OutputWriteTime" value="1000" comment="Time out data (1/Hz)" units_comment="seconds" />
+		</parameters>
+		<variableNaming>
+			<file name="ncNamesLibrary.xml"/>
+		</variableNaming>
+	</execution>
+	<caseDefinitions>
+		<inputData>
+			<inputDataDir name="nc_fields/hydrodynamic" type="hydrodynamic"/>
+            <inputDataDir name="nc_fields/water_properties" type="waterProperties"/>
+		</inputData>
+		<simulation>
+			<resolution dp="150" units_comment="metres (m)"/>
+			<timestep dt="360.0" units_comment="seconds (s)"/>
+			<BoundingBoxMin x="-8.98" y="42.15" z="-100" units_comment="(deg,deg,m)"/>
+			<BoundingBoxMax x="-8.64" y="42.41" z="10" units_comment="(deg,deg,m)"/>	
+       		<VerticalVelMethod value="1" comment="1:From velocity fields, 2:Divergence based, 3:Disabled. Default = 1" />
+            <BathyminNetcdf value="1" comment="bathymetry is a property in the netcdf. 1:true, 0:false (computes from layer depth and openPoints. Default = 1"/>
+            <TracerMaxAge value="0" comment="maximum tracer age. Default = 0.0. read if > 0" />
+            <RemoveLandTracer value="1" comment="Remove tracers on land 0:No, 1:Yes. Default = 0" />
+        </simulation>
+		<sourceDefinitions>
+			<source>
+				<setsource id="4" name="PolygonTest" />
+				<resolution x="800" y="800" z="5" units_comment="metres (m)"/>
+				<rate_dt value="1000" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
+				<bottom_emission_depth value="0.5" comment="set source as bottom emission type. 1:true, 0:false" />
+                <polygon>
+					<file name="data/source_box2.kmz"/>
+					<verticalBoundingBox min="-30.0" max="0.0"/>
+				</polygon>
+			</source>
+		</sourceDefinitions>
+		<sourceTypes>
+			<types>
+				<type source="1" type="detritus" property="Kelp_detritus" comment="" />
+			</types>
+			<file name="materialTypes.xml"/>
+		</sourceTypes>		
+		<constants>
+			<BeachingLevel value="-5.0" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />
+			<DiffusionCoeff value="0.75" comment="Horizontal diffusion coefficient. Default = 1.0" units_comment="m2/s" />
+            <CriticalShearErosion value="0.4" comment="CriticalShearErosion value. Default = 0.4" units_comment="N/m2" />
+            <Rugosity value="0.0025" comment="Rugosity value. Default = 0.0025" units_comment="m2/s" />
+            <ToptBMin value="24.8" comment="minimum temperature of the optimal interval for the Bacteria growth. Default = 24.8" units_comment="degrees" />
+            <ToptBMax value="25.1" comment="maximum temperature of the optimal interval for the Bacteria growth. Default = 25.1" units_comment="degrees" />
+            <TBMin value="5" comment="minimum tolerable temperature of the interval for the Bacteria growth. Default = 5" units_comment="degrees" />
+            <TBMax value="35" comment="maximum tolerable temperature of the interval for the Bacteria growth. Default = 35" units_comment="degrees" />
+            <BK1 value="0.05" comment="constant to control temperature response curve shape. Default = 0.05" units_comment="%" />
+            <BK2 value="0.98" comment="constant to control temperature response curve shape. Default = 0.98" units_comment="%" />
+            <BK3 value="0.98" comment="constant to control temperature response curve shape. Default = 0.98" units_comment="%" />
+            <BK4 value="0.02" comment="constant to control temperature response curve shape. Default = 0.05" units_comment="%" />
+            <MaxDegradationRate value="0.03" comment="maximum Degradation rate of organic matter. Default = 0.03" units_comment="1/d" />
+            <AddBottomCell value="1" comment="add openpoint to bottom cell. Default = 0.0." />
+		</constants>
+	</caseDefinitions>
+</case>

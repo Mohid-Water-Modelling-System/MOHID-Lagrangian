@@ -16,7 +16,7 @@
 		<upward_sea_water_velocity name="w">
 			<variant name="w" comment="used in MOHID and CMEMS" />
 			<variant name="W" />
-			<variant name="velocity_W" />
+            <variant name="velocity_W" />
 		</upward_sea_water_velocity>
 		<sea_water_temperature name="temp">
 			<variant name="temp" comment="used in MOHID and CMEMS" />
@@ -30,6 +30,49 @@
 			<variant name="Salt" />
 			<variant name="Salinity" />
 		</sea_water_salinity>
+		<dissolved_oxygen name="dissolved_oxygen">
+			<variant name="dissolved_oxygen" comment="used in MOHID" />
+		</dissolved_oxygen>
+		<nitrate name="nitrate">
+			<variant name="nitrate" comment="used in MOHID" />
+		</nitrate>
+        <nitrite name="nitrite">
+			<variant name="nitrite" comment="used in MOHID" />
+		</nitrite>
+        <ammonia name="ammonia">
+			<variant name="ammonia" comment="used in MOHID" />
+		</ammonia>
+        <partOrgNit name="partOrgNit">
+			<variant name="particulate_organic_nitrogen" comment="used in MOHID" />
+		</partOrgNit>
+        <partOrgPho name="partOrgPho">
+			<variant name="particulate_organic_phosphorus" comment="used in MOHID" />
+		</partOrgPho>
+        <DON_NonRefractory name="DON_NonRefractory">
+			<variant name="dissolved_non-refractory_organic_nitrogen" comment="used in MOHID" />
+		</DON_NonRefractory>
+        <DOP_NonRefractory name="DOP_NonRefractory">
+			<variant name="dissolved_non-refractory_organic_phosphorus" comment="used in MOHID" />
+		</DOP_NonRefractory>
+        <DON_Refractory name="DON_Refractory">
+			<variant name="dissolved_refractory_organic_nitrogen" comment="used in MOHID" />
+		</DON_Refractory>
+        <DOP_Refractory name="DOP_NonRefractory">
+			<variant name="dissolved_refractory_organic_phosphorus" comment="used in MOHID" />
+		</DOP_Refractory>
+        <phytoplankton name="phytoplankton">
+			<variant name="phytoplankton" comment="used in MOHID" />
+		</phytoplankton>
+        <zooplankton name="zooplankton">
+			<variant name="zooplankton" comment="used in MOHID" />
+		</zooplankton>
+        <inorganic_phosphorus name="inorganic_phosphorus">
+			<variant name="inorganic_phosphorus" comment="used in MOHID" />
+		</inorganic_phosphorus>
+		<bathymetry name="bathymetry">
+			<variant name="bathymetry" comment="used in MOHID and CMEMS" />
+			<variant name="bathym" />
+		</bathymetry>
 	</variables>
 	<dimensions>
 		<longitude name="lon">
