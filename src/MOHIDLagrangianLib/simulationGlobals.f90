@@ -107,6 +107,7 @@
         real(prec)   :: ResuspensionCoeff   !< Resuspension velocity amplitud factor (default=0) 
         real(prec)   :: BeachingStopProb    !< Probablity of beaching stopping a tracer (-)
         real(prec)   :: DiffusionCoeff      !< Horizontal diffusion coefficient (-)
+        real(prec)   :: WindDragCoeff      !< Wind drag coefficient (% of wind force)
         real(prec)   :: MeanDensity         !< mean ocean water density.
         real(prec)   :: MeanKVisco          !< mean ocean water kinematic viscosity
         integer      :: AddBottomCell       !< open the first bottom cell and put the same value as the cell above
@@ -127,6 +128,7 @@
     procedure :: setBeachingLevel
     procedure :: setBeachingStopProb
     procedure :: setDiffusionCoeff
+    procedure :: setWindDragCoeff
     procedure :: setSmallDt
     procedure :: setResuspensionCoeff
     procedure :: setMeanDensity
@@ -436,6 +438,7 @@
     self%Constants%BeachingLevel = -3.0
     self%Constants%BeachingStopProb = 0.50
     self%Constants%DiffusionCoeff = 1.0
+    self%Constants%WindDragCoeff = 0.03
     self%Constants%smallDt = 0.0
     self%Constants%ResuspensionCoeff = 0.0
     self%Constants%MeanDensity = 1027.0
@@ -1622,6 +1625,27 @@
     sizem = sizeof(self%DiffusionCoeff)
     call SimMemory%adddef(sizem)
     end subroutine setDiffusionCoeff
+    !------------------------------------------------------------------------------
+    
+    !> @author Joao Sobrinho
+    !> @brief
+    !> Wind drag coefficient setting routine.
+    !> @param[in] self, read_WindDragCoeff
+    !---------------------------------------------------------------------------
+    subroutine setWindDragCoeff(self, read_WindDragCoeff)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_WindDragCoeff
+    type(string) :: outext
+    integer :: sizem
+    if (read_WindDragCoeff%to_number(kind=1._R8P) < 0.0) then
+        outext='Diffusion coefficient must be zero or positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%WindDragCoeff =read_WindDragCoeff%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%WindDragCoeff)
+    call SimMemory%adddef(sizem)
+    end subroutine setWindDragCoeff
 
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC
@@ -1975,6 +1999,8 @@
     outext = outext//'       BeachingStopProb = '//temp_str(1)//' -'//new_line('a')
     temp_str(1)=self%DiffusionCoeff
     outext = outext//'       DiffusionCoeff = '//temp_str(1)//' -'//new_line('a')  
+    temp_str(1)=self%WindDragCoeff
+    outext = outext//'       WindDragCoeff = '//temp_str(1)//' -'//new_line('a')  
     temp_str(1)=self%ResuspensionCoeff
     outext = outext//'       ResuspensionCoeff = '//temp_str(1)//new_line('a')
     temp_str(1)=self%Critical_Shear_Erosion

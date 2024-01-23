@@ -481,7 +481,7 @@
     allocate(requiredVars(2))
     requiredVars(1) = Globals%Var%u10
     requiredVars(2) = Globals%Var%v10
-    windCoeff = 0.03
+    windCoeff = Globals%Constants%WindDragCoeff
     Windage = 0.0
     !interpolate each background
     do bkg = 1, size(bdata)
