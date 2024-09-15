@@ -29,6 +29,14 @@
 			<variant name="Salt" />
 			<variant name="Salinity" />
 		</sea_water_salinity>
+        <eastward_wind name="u10">
+            <variant name="u10" comment="used in ECWMF"/>
+            <variant name="x_wind"/>
+        </eastward_wind>
+        <northward_wind name="v10">
+            <variant name="v10" comment="used in ECWMF"/>
+            <variant name="y_wind"/>
+        </northward_wind>
 	</variables>
 	<dimensions>
 		<longitude name="lon">
