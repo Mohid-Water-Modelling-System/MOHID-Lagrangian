@@ -128,6 +128,10 @@
         syntecticVar(7) = .true.
     end if
     !need to send to different readers here if different file formats
+    
+    !Check format type:
+    write(*,*) "Nome do ficheiro = ", trim(filename%chars())
+    !Call reader
     getCurrentsFile = ncReader%getFullFile(fileName, varList, syntecticVar)
     !write(*,*)"entrar makeLandMaskField"
     call getCurrentsFile%makeLandMaskField()

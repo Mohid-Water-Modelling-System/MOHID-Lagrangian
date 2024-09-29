@@ -356,6 +356,7 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
                     end if
                 end if
             else
+                !write(*,*)"Entrei name == time ", done
                 !done = all(bkg%dim(i)%field >= maxval(self%dim(j)%field)) !time arrays are consecutive or the same
                 allocate(newTime, source = self%dim(j)%field1D)
                 call Utils%appendArraysUniqueReal(newTime, bkg%dim(i)%field1D, usedTime)
@@ -374,30 +375,40 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
     i=1
     call self%fields%reset()               ! reset list iterator
     do while(self%fields%moreValues())     ! loop while there are values to process
+        !write(*,*)"novo aField" 
         aField => self%fields%currentValue()
+        !write(*,*)"apanhei aField" 
         select type(aField)
         class is (field_class)
+            !write(*,*)"getGField in" 
             call gField(i)%getGField(aField)
+            !write(*,*)"getGField out" 
             call bkg%fields%reset()
             do while(bkg%fields%moreValues())
                 bField => bkg%fields%currentValue()
+                !write(*,*)"bField out"
                 select type(bField)
                 class is (field_class)
-                    !write(*,*)"Trying to concatenate: ", trim(aField%name)
+                    !write(*,*)"Trying to concatenate a with b: ", trim(aField%name), trim(bField%name)
                     !write(*,*)"comparing with: ", trim(bField%name)
                     if (bField%name == aField%name) then
-                        !write(*,*)"successfull concatenate"
+                        !write(*,*)"Starting concatenate"
                         call tempGField%getGField(bField)
+                        !write(*,*)"got getGField" 
                         !append the new time instances of the field
                         call gField(i)%concatenate(tempGField, usedTime)
+                        !write(*,*)"Successfull concatenate" 
                         call tempGField%finalize()
+                        !write(*,*)"Finalized" 
                         exit
                     end if
                 end select
                 call bkg%fields%next()
                 nullify(bField)
             end do
+            !write(*,*)"reseting" 
             call bkg%fields%reset()
+            !write(*,*)"reseted" 
             class default
             outext = '[Background::appendBackgroundByTime] Unexepected type of content, not a Field'
             call Log%put(outext)
@@ -407,15 +418,16 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
         i = i+1
         nullify(aField)
     end do
+    !write(*,*)"reseting fields" 
     call self%fields%reset()               ! reset list iterator
 
     call self%cleanFields()
     call self%fields%finalize()
-
+    !write(*,*)"fields finalize" 
     do i=1, size(gField)
         call self%add(gField(i))
     end do
-
+    !write(*,*)"added gField" 
     if(.not.self%check()) then
         outext = '[Background::appendBackgroundByTime]: non-conformant Background, stoping '
         call Log%put(outext)

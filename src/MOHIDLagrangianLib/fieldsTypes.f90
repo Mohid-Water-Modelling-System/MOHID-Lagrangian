@@ -164,25 +164,29 @@
     type(generic_field_class), intent(in) :: gfield
     logical, dimension(:), optional, intent(in) :: usedPosi 
     logical, allocatable, dimension(:) :: usedPos
-    integer :: fDim, nUsedPos, i, j
+    integer :: fDim, nUsedPos, i, j, i1, j1, k1, t1
     type(string) :: fType
     real(prec), allocatable, dimension(:) :: field1d
     real(prec), allocatable, dimension(:,:) :: field2d
     real(prec), allocatable, dimension(:,:,:) :: field3d
     real(prec), allocatable, dimension(:,:,:,:) :: field4d
+    
+    !write(*,*)"Entrada concatenate" 
 
     fDim = self%dim
     fType = self%getGFieldType()
+    !write(*,*)"Got fieldtype" 
     if (gfield%dim /= fDim) return
     if (gfield%getGFieldType() /= fType) return
     
     if (present(usedPosi)) then
         allocate(usedPos, source = usedPosi)
         nUsedPos = count(usedPos)
-    end if
-    
+    end if 
+    !write(*,*)"fType : ", fType 
     if (fType == 'Scalar') then
         if (fDim == 1) then
+            !write(*,*)"fDim = 1" 
             if (.not.allocated(usedPos)) then
                 nUsedPos = size(gfield%scalar1d%field)
                 allocate(usedPos(nUsedPos))
@@ -202,6 +206,7 @@
             self%scalar1d%field = field1d
         end if
         if (fDim == 2) then
+            !write(*,*)"fDim = 2"
             if (.not.allocated(usedPos)) then
                 nUsedPos = size(gfield%scalar2d%field,2)
                 allocate(usedPos(nUsedPos))
@@ -221,6 +226,7 @@
             self%scalar2d%field = field2d
         end if
         if (fDim == 3) then
+            !write(*,*)"fDim = 3"
             if (.not.allocated(usedPos)) then
                 nUsedPos = size(gfield%scalar3d%field,3)
                 allocate(usedPos(nUsedPos))
@@ -240,20 +246,38 @@
             self%scalar3d%field = field3d
         end if
         if (fDim == 4) then
+            !write(*,*)"fDim = 4"
             if (.not.allocated(usedPos)) then
                 nUsedPos = size(gfield%scalar4d%field,4)
+                !write(*,*)"allocating used Pos, nUsedPos = ", nUsedPos
                 allocate(usedPos(nUsedPos))
                 usedPos = .true.
             end if
+            !write(*,*)"allocating field 4D"
             allocate(field4d(size(self%scalar4d%field,1),size(self%scalar4d%field,2),size(self%scalar4d%field,3),size(self%scalar4d%field,4) + nUsedPos))
+            !write(*,*)"allocated field 4D"
             field4d(:,:,:,1:size(self%scalar4d%field,4)) = self%scalar4d%field
-             i= size(self%scalar4d%field, 4) +1
+            !write(*,*)"made equal to self%scalar4d%field. Size field4d = ", size(field4d, 4)
+            i = size(self%scalar4d%field, 4) + 1
+            !write(*,*)"i = ", i
+            !write(*,*)"size(usedPos) = ", size(usedPos)
+            !write(*,*)"size field (1) ", size(gfield%scalar4d%field, 1)
+            !write(*,*)"size field (2) ", size(gfield%scalar4d%field, 2)
+            !write(*,*)"size field (3) ", size(gfield%scalar4d%field, 3)
+            !write(*,*)"size field (4) ", size(gfield%scalar4d%field, 4)
+            !write(*,*)"size field4d(1) ", size(field4d, 1)
+            !write(*,*)"size field4d(2) ", size(field4d, 2)
+            !write(*,*)"size field4d(3) ", size(field4d, 3)
+            !write(*,*)"size field4d(4) ", size(field4d, 4)
             do j= 1, size(usedPos)
+                !write(*,*)"j = ", j
                 if (usedPos(j)) then
+                    !write(*,*)"used position . i = , j = ", i, j
                     field4d(:,:,:, i) = gfield%scalar4d%field(:,:,:, j)
                     i= i+1
                 end if
             end do
+            !write(*,*)"cheguei aqui"
             deallocate(self%scalar4d%field)
             allocate(self%scalar4d%field(size(field4d,1), size(field4d,2), size(field4d,3), size(field4d,4)))
             self%scalar4d%field = field4d
