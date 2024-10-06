@@ -23,6 +23,7 @@
     use common_modules
     use xmlParser_mod
     use netcdfParser_mod
+    use hdf5Parser_mod
     use fieldTypes_mod
     use background_mod
     use blocks_mod
@@ -103,6 +104,7 @@
     type(string), allocatable, dimension(:) :: varList
     logical, allocatable, dimension(:) :: syntecticVar
     type(ncReader_class) :: ncReader
+    type(hdf5Reader_class) :: hdf5Reader
     !write(*,*)"Entrei get currentsFile"
     allocate(varList(7))
     allocate(syntecticVar(7))
@@ -131,8 +133,14 @@
     
     !Check format type:
     write(*,*) "Nome do ficheiro = ", trim(filename%chars())
-    !Call reader
-    getCurrentsFile = ncReader%getFullFile(fileName, varList, syntecticVar)
+    
+    if (fileName%extension() == '.nc') then
+        !Call reader
+        getCurrentsFile = ncReader%getFullFile(fileName, varList, syntecticVar)
+    else
+        getCurrentsFile = hdf5Reader%getFullFile(fileName, varList, syntecticVar)
+    endif
+    
     !write(*,*)"entrar makeLandMaskField"
     call getCurrentsFile%makeLandMaskField()
     !write(*,*)"sair makeLandMaskField"
