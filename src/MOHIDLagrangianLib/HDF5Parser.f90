@@ -914,7 +914,10 @@ do1:                do indx=1, self%nVars
     real,              dimension(:), pointer    :: ValueOut
 
     !Begin-----------------------------------------------------------------
-
+    call h5open_f (STAT)
+    if (STAT /= SUCCESS_) then
+        stop 'ConstructHDF5 - ModuleHDF5 - ERR00'
+    endif
     !Get the number of members in the Group
     call h5gn_members_f(IDIn, GroupNameIn, nmembersIn, STAT)
     if (STAT /= SUCCESS_) then
@@ -935,7 +938,8 @@ do1:                do indx=1, self%nVars
             stop 'CheckAllDataSets - ModuleHDF5 - ERR20'
         endif
 
-
+        write(*,*) "H5G_DATASET_F = ", H5G_DATASET_F
+        write(*,*) "H5G_GROUP_F = ", H5G_GROUP_F
         if     (obj_type == H5G_DATASET_F) then
 
             !Opens data set
