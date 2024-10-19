@@ -59,7 +59,7 @@
         type(string) :: simName
         integer :: varid
         type (string) :: units
-        integer :: ndims
+        integer :: ndims = 0
         logical :: isDimensionVar
         integer, allocatable, dimension(:) :: dimids
         integer :: natts
@@ -71,7 +71,7 @@
     type :: hdf5file_class !< A class that models a hdf5 file
         type(string) :: filename   !< name of the file to read
         integer :: hdf5ID             !< ID of the file
-        integer :: nDims, nVars, nAtt, uDimID   !< number of dimensions, variables, attributes and dim IDs on the file
+        integer :: nDims = 0, nVars = 0, nAtt, uDimID   !< number of dimensions, variables, attributes and dim IDs on the file
         type(dim_t), allocatable, dimension(:) :: dimData !< metadata from the dimensions on the file
         type(var_t), allocatable, dimension(:) :: varData   !< metadata from the variables on the file
         integer :: mDims
@@ -85,6 +85,7 @@
     procedure, private :: check
     procedure, private :: gethdf5ID
     procedure, private :: gethdfglobalMetadata
+    procedure, private :: gethdfNumberOfVarsAndMaxDims
     !procedure, private :: getNCDimMetadata
     !procedure, private :: getNCVarMetadata
     procedure, private :: getDimByDimID
@@ -205,7 +206,7 @@
     self%filename = filename
     call self%gethdf5ID()
     call self%gethdfglobalMetadata()
-    !call self%getNCVarMetadata()
+    call self%getHdfVarMetadata()
     !call self%check2dGrid()
     !call self%getNCDimMetadata()
     end subroutine getFile
@@ -225,10 +226,10 @@
     end subroutine gethdf5ID
 
     !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @author Joao Sobrinho
     !> @brief
-    !> Inquires the nc file for global metadata - number  of dimensions,
-    !> variables and attributes
+    !> Inquires the hdf file for global metadata - number of dimensions,
+    !> and variables
     !> @param[in] self
     !---------------------------------------------------------------------------
     subroutine gethdfglobalMetadata(self)
@@ -243,60 +244,75 @@
     if (STAT /= SUCCESS_) then
         stop 'GetHDF5AllDataSetsOK - ModuleHDF5 - ERR10'
     endif
-                         
-    call self%checkAllDataSets (IDIn = gr_idIn, GroupNameIn = GroupNameIn)
+    
+    call self%gethdfNumberOfVarsAndMaxDims (IDIn = gr_idIn, GroupNameIn = GroupNameIn)
             
     call h5gclose_f       (gr_idIn, STAT)
     if (STAT /= SUCCESS_) then
         stop 'GetHDF5AllDataSetsOK - ModuleHDF5 - ERR20'
     endif 
     
-    !self%status = nf90_inquire(self%hdf5ID, self%nDims, self%nVars, self%nAtt, self%uDimID)
-    
-    !AQUI
-    
-    !write(*,*)"entrada getNCglobalMetadata"
-    !write(*,*)"number dimensions = ", self%nDims
     call self%check()
     end subroutine gethdfglobalMetadata
 
     !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @author Joao Sobrinho
     !> @brief
     !> Inquires the nc file for variable metadata
     !> @param[in] self
     !---------------------------------------------------------------------------
-    !subroutine getNCVarMetadata(self)
-    !class(hdf5file_class), intent(inout) :: self
-    !integer :: i, j, ndims, nAtts, maxdims
-    !integer :: dimids(self%nDims)
-    !integer :: tempStatus
-    !character(CHAR_LEN) :: varName, units
-    !allocate(self%varData(self%nVars))
-    !maxdims=0
-    !do i=1, self%nVars
-    !    self%status = nf90_inquire_variable(self%hdf5ID, i, varName, ndims=ndims, dimids=dimids, nAtts=nAtts)
-    !    call self%check()
-    !    self%varData(i)%name = trim(varName)
-    !    self%varData(i)%simName = Globals%Var%getVarSimName(self%varData(i)%name)
-    !    self%varData(i)%varid = i
-    !    self%varData(i)%ndims = ndims
-    !    maxdims = max(maxdims, ndims)
-    !    allocate(self%varData(i)%dimids(ndims))
-    !    self%varData(i)%dimids = dimids(1:ndims)
-    !    self%varData(i)%nAtts = nAtts
-    !    tempStatus = nf90_get_att(self%hdf5ID, i, 'units', units)
-    !    if (tempStatus == -43) units = "not set"
-    !    self%varData(i)%units = trim(units)
-    !    tempStatus = nf90_get_att(self%hdf5ID, i, "scale_factor", self%varData(i)%scale)
-    !    if (tempStatus == -43) self%varData(i)%scale = 1.0
-    !    tempStatus = nf90_get_att(self%hdf5ID, i, "add_offset", self%varData(i)%offset)
-    !    if (tempStatus == -43) self%varData(i)%offset = 0.0
-    !    tempStatus = nf90_get_att(self%hdf5ID, i, "_FillValue", self%varData(i)%fillvalue)
-    !    if (tempStatus == -43) self%varData(i)%fillvalue = MV
-    !end do
-    !!self%mDims = maxdims
-    !end subroutine getNCVarMetadata
+    subroutine getHdfVarMetadata(self)
+    class(hdf5file_class), intent(inout) :: self
+    integer                              :: i, j, ndims, nAtts, maxdims
+    integer                              :: dimids(self%nDims)
+    integer                              :: tempStatus
+    character(CHAR_LEN)                  :: varName, units
+    integer(HID_T)                       :: gr_idIn
+    character(len=1)                     :: GroupNameIn
+    integer                              :: STAT
+    allocate(self%varData(self%nVars))
+    
+    GroupNameIn = "/"
+            
+    call h5gopen_f        (self%hdf5ID, trim(GroupNameIn), gr_idIn, STAT)
+    if (STAT /= SUCCESS_) then
+        stop 'GetHDF5AllDataSetsOK - ModuleHDF5 - ERR10'
+    endif
+    
+    !Now, allocate the number of variables and match the dimensions.
+    
+    call self%checkAllDataSets (IDIn = gr_idIn, GroupNameIn = GroupNameIn)
+    
+    do i=1, self%nVars
+        self%status = nf90_inquire_variable(self%hdf5ID, i, varName, ndims=ndims, dimids=dimids, nAtts=nAtts)
+        call self%check()
+        self%varData(i)%name = trim(varName)
+        self%varData(i)%simName = Globals%Var%getVarSimName(self%varData(i)%name)
+        self%varData(i)%varid = i
+        self%varData(i)%ndims = ndims
+        maxdims = max(maxdims, ndims)
+        allocate(self%varData(i)%dimids(ndims))
+        self%varData(i)%dimids = dimids(1:ndims)
+        self%varData(i)%nAtts = nAtts
+        tempStatus = nf90_get_att(self%hdf5ID, i, 'units', units)
+        if (tempStatus == -43) units = "not set"
+        self%varData(i)%units = trim(units)
+        tempStatus = nf90_get_att(self%hdf5ID, i, "scale_factor", self%varData(i)%scale)
+        if (tempStatus == -43) self%varData(i)%scale = 1.0
+        tempStatus = nf90_get_att(self%hdf5ID, i, "add_offset", self%varData(i)%offset)
+        if (tempStatus == -43) self%varData(i)%offset = 0.0
+        tempStatus = nf90_get_att(self%hdf5ID, i, "_FillValue", self%varData(i)%fillvalue)
+        if (tempStatus == -43) self%varData(i)%fillvalue = MV
+    end do
+
+    call h5gclose_f       (gr_idIn, STAT)
+    if (STAT /= SUCCESS_) then
+        stop 'GetHDF5AllDataSetsOK - ModuleHDF5 - ERR20'
+    endif 
+    
+    call self%check()
+    
+    end subroutine getHdfVarMetadata
 
     !---------------------------------------------------------------------------
     !> @author Joao Sobrinho - Colab Atlantic
@@ -882,6 +898,158 @@ do1:                do indx=1, self%nVars
 
     end function getDimByDimID
     
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho
+    !> @brief
+    !> Close the hdf5 file
+    !> @param[in] self
+    !---------------------------------------------------------------------------
+    recursive subroutine gethdfNumberOfVarsAndMaxDims (self, IDIn, GroupNameIn)
+
+    !Arguments-------------------------------------------------------------
+    class(hdf5file_class), intent(inout) :: self
+    integer(HID_T), intent(in)         :: IDIn
+    character(len=*), intent(in)       :: GroupNameIn
+
+    !Local-----------------------------------------------------------------
+    integer                                     :: nmembersIn
+    character(StringLength)                     :: obj_nameIn
+    integer                                     :: obj_type, idx
+    integer(HID_T)                              :: gr_idIn, dset_id
+    integer(HID_T)                              :: space_id 
+    integer                                     :: STAT
+    character(StringLength)                     :: NewGroupNameIn
+    integer(HSIZE_T), dimension(:), allocatable :: dims, maxdims
+    integer(HID_T)                              :: rank, rank_out
+    integer(HID_T)                              :: memspace_id, NumType
+    integer(HSSIZE_T), dimension(:), allocatable:: offset_in
+    integer(HSIZE_T ), dimension(:), allocatable:: count_in
+    integer(HSIZE_T),  dimension(1)             :: dims_mem        
+    integer(HSSIZE_T), dimension(1)             :: offset_out
+    integer(HSIZE_T ), dimension(1)             :: count_out
+    real,              dimension(:), pointer    :: ValueOut
+    type(string)                                :: nameString
+    type(string)                                :: outext, temp_str
+    !Begin-----------------------------------------------------------------
+    call h5open_f (STAT)
+    if (STAT /= SUCCESS_) then
+        stop 'ConstructHDF5 - ModuleHDF5 - ERR00'
+    endif
+    !Get the number of members in the Group
+    call h5gn_members_f(IDIn, GroupNameIn, nmembersIn, STAT)
+    if (STAT /= SUCCESS_) then
+        temp_str = IDIn
+        outext = 'Failed to get hdf GroupID. IDIn = ' //temp_str// ' '
+        call Log%put(outext)
+        outext = 'FileName = ' //trim(self%filename%chars())// ' '
+        call Log%put(outext)
+        outext = 'GroupName = ' //trim(GroupNameIn)// ' '
+        call Log%put(outext)
+        temp_str = nmembersIn
+        outext = 'nmembersIn = ' //temp_str// '. Stopping'
+        call Log%put(outext)
+    endif
+        
+    do idx = 1, nmembersIn
+
+        call h5gget_obj_info_idx_f(IDIn, GroupNameIn, idx-1, obj_nameIn, obj_type, STAT)
+        if (STAT /= SUCCESS_) then
+            outext = 'Failed to get GroupName. FileName = ' //trim(self%filename%chars())// ' '
+            call Log%put(outext)
+            outext = 'GroupName = ' //trim(GroupNameIn)// ' '
+            call Log%put(outext)
+            outext = 'DataSet = ' //trim(obj_nameIn ) // '. Stopping'
+            call Log%put(outext)
+        endif
+        
+        if     (obj_type == H5G_DATASET_F) then
+
+            !Opens data set
+            call h5dopen_f      (IDIn, trim(adjustl(obj_nameIn)), dset_id, STAT)
+            if (STAT /= SUCCESS_) then
+                outext = 'Failed to open hdf DataSet. FileName = ' //trim(self%filename%chars())// ' '
+                call Log%put(outext)
+                outext = 'GroupName = ' //trim(GroupNameIn)// ' '
+                call Log%put(outext)
+                outext = 'DataSet = ' //trim(obj_nameIn ) // '. Stopping'
+                call Log%put(outext)
+            endif
+                
+            !Opens data space
+            call h5dget_space_f (dset_id, space_id, STAT)
+            if (STAT /= SUCCESS_) then
+                outext = 'Failed to open hdf data space. FileName = ' //trim(self%filename%chars())// ' '
+                call Log%put(outext)
+                outext = 'GroupName = ' //trim(GroupNameIn)// ' '
+                call Log%put(outext)
+                outext = 'DataSet = ' //trim(obj_nameIn ) // '. Stopping'
+                call Log%put(outext)
+            endif
+
+            !Gets the rank
+            call h5sget_simple_extent_ndims_f (space_id, rank, STAT)
+            if (STAT /= SUCCESS_) then
+                outext = 'Failed to get hdf dataset rank. FileName = ' //trim(self%filename%chars())// ' '
+                call Log%put(outext)
+                outext = 'GroupName = ' //trim(GroupNameIn)// ' '
+                call Log%put(outext)
+                outext = 'DataSet = ' //trim(obj_nameIn ) // '. Stopping'
+                call Log%put(outext)
+            endif
+            
+            !Check if is a known variable or Dim. If not, skip this dataset and write a warning.
+            !This way, only dims and variables are saved into memory
+            nameString = trim(obj_nameIn)
+            if (Globals%Var%checkDimensionName(nameString)) then
+                !This is a dimension type variable
+            elseif (Globals%Var%checkVarSimName(nameString)) then
+                !This is a variable type variable
+            else
+                !Skip and let users know
+                outext = '[hdf5parser::gethdfNumberOfVarsAndMaxDims]: the hdf file '//trim(self%filename%chars())// ' has a variable that is not recognized by the model: ' // nameString // '. skipping it'
+                call Log%put(outext)
+            endif
+            
+            self%nDims = max(self%nDims, rank)
+            self%nVars = self%nVars + 1
+
+            !Closes data space
+            call h5sclose_f     (space_id, STAT)
+            if (STAT /= SUCCESS_) then
+                outext = 'Failed to close hdf data space = ' //trim(self%filename%chars()) // '. Stopping'
+                call Log%put(outext)
+            endif
+
+        elseif (obj_type ==H5G_GROUP_F) then
+
+            !Looks for futher subgroups
+            if (GroupNameIn == "/") then
+                NewGroupNameIn = GroupNameIn//trim(adjustl(obj_nameIn))
+            else
+                NewGroupNameIn = GroupNameIn//"/"//trim(adjustl(obj_nameIn))
+            endif
+
+            call h5gopen_f        (IDIn   , trim(adjustl(NewGroupNameIn)), gr_idIn, STAT)
+            if (STAT /= SUCCESS_) then
+                outext = 'Failed to open hdf group = ' //trim(NewGroupNameIn) // '. Stopping'
+                call Log%put(outext)
+            endif
+                               
+            call self%checkAllDataSets (gr_idIn, trim(adjustl(NewGroupNameIn)))
+            
+            call h5gclose_f       (gr_idIn, STAT)
+            if (STAT /= SUCCESS_) then
+                outext = 'Failed to close hdf group = ' //trim(NewGroupNameIn) // '. Stopping'
+                call Log%put(outext)
+            endif
+                               
+        endif
+            
+    enddo
+        
+    end subroutine gethdfNumberOfVarsAndMaxDims
+    
     !---------------------------------------------------------------------------
     !> @author Joao Sobrinho
     !> @brief
@@ -937,9 +1105,7 @@ do1:                do indx=1, self%nVars
                 write(*,*) "DataSet   =",trim(obj_nameIn )                
             stop 'CheckAllDataSets - ModuleHDF5 - ERR20'
         endif
-
-        write(*,*) "H5G_DATASET_F = ", H5G_DATASET_F
-        write(*,*) "H5G_GROUP_F = ", H5G_GROUP_F
+        
         if     (obj_type == H5G_DATASET_F) then
 
             !Opens data set
