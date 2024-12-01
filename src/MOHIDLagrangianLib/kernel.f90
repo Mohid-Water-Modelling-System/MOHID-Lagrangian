@@ -352,10 +352,10 @@
     nf_u = Utils%find_str(var_name, Globals%Var%u, .true.)
     nf_v = Utils%find_str(var_name, Globals%Var%v, .true.)
     
-    threshold_bot_wat = (Globals%Mask%waterVal + Globals%Mask%bedVal) * 0.5
+    threshold_bot_wat = ABS((Globals%Mask%waterVal + Globals%Mask%bedVal) * 0.5)
     landIntThreshold = -0.98
     
-    dist2bottom = sv%state(:,col_dist2bottom)
+    dist2bottom = ABS(sv%state(:,col_dist2bottom))
     
     where (dist2bottom < threshold_bot_wat)
         aux_r8 = max((sv%state(:,col_dwz)/2),Hmin_Chezy) / Globals%Constants%Rugosity
