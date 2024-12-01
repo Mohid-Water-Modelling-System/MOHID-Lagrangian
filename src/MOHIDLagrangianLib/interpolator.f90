@@ -115,6 +115,7 @@
                     !produce xx, yy and zz vectors and tt value according to grid type
                     call self%Trc2Grid_4D(state,bdata,time,xx,yy,zz,tt,outOfBounds,gridType)
                     !write(*,*)"Sai do Trc2Grid_4D"
+                    !write(*,*)"Sai do Trc2Grid_4D = ", xx(1), yy(1), zz(1)
                     
                     if (var_name(i) == Globals%Var%landIntMask) then
                         !adjust interpolation to bathymetry rather than vertical layers. important for ressuspension processes
@@ -129,8 +130,9 @@
                         deallocate(var_dt_aux)
                         nullify(bathymetry)
                     end if
-                    !write(*,*)"entrada para if de reqVertInt"
+                    
                     if (present(reqVertInt)) then
+                        !write(*,*)"entrada para if de reqVertInt", reqVertInt
                         !Interpolate on 2D even if the field is 3D (usefull for Bottom stress)
                         requireVertInt = reqVertInt
                     end if
@@ -300,13 +302,19 @@
     real(prec), dimension(n_e) :: interp4D                                !< Field evaluated at x,y,z,t
     ! From x,y,z,t in array coordinates, find the the box inside the field where the particle is
     !write(*,*)"Entrada interp4D"
-    do concurrent(i=1:n_e, .not. out(i))
-        x0(i) = floor(x(i))
-        x1(i) = ceiling(x(i))
-        y0(i) = floor(y(i))
-        y1(i) = ceiling(y(i))
-        z0(i) = floor(z(i))
-        z1(i) = ceiling(z(i))
+    !write(*,*)"Size x0 =", SIZE(x0)
+    !do concurrent(i=1:n_e, .not. out(i))
+    do i = 1, n_e
+        !write(*,*)"interp4D i = ", i
+        !write(*,*)"interp4D out i = ", out(i)
+        if (.NOT. out(i)) then
+            x0(i) = floor(x(i))
+            x1(i) = ceiling(x(i))
+            y0(i) = floor(y(i))
+            y1(i) = ceiling(y(i))
+            z0(i) = floor(z(i))
+            z1(i) = ceiling(z(i))
+        endif
     end do
     
     t0 = floor(t)
@@ -329,35 +337,41 @@
     ! Interpolation on the first dimension and collapse it to a three dimension problem
     interp4D = 0.0
     !write(*,*)"tamanho field : ", size(field,1), size(field,2), size(field,3), size(field,4)
-    do concurrent(i=1:n_e, .not. out(i))
-        !write(*,*)"x0(i), y0(i), z0(i), t0 = ", x0(i), y0(i), z0(i), t0
-        !write(*,*)"x1(i), y1(i), z1(i), t1 = ", x0(i), y0(i), z0(i), t0
-        !write(*,*)"xd(i), yd(i), zd(i), td = ", xd(i), yd(i), zd(i), td
-        !write(*,*)"field(x0(i),y0(i),z0(i),t0) = ", field(x0(i),y0(i),z0(i),t0)
-        !write(*,*)"field(x0(i),y1(i),z0(i),t0) = ", field(x0(i),y1(i),z0(i),t0)
-        !write(*,*)"field(x0(i),y0(i),z1(i),t0) = ", field(x0(i),y0(i),z1(i),t0)
-        !write(*,*)"field(x0(i),y1(i),z1(i),t0) = ", field(x0(i),y1(i),z1(i),t0)
+    do i = 1, n_e
+        if (.NOT. out(i)) then
+            !write(*,*)"i = ", i
+            !write(*,*)"x0(i) = ", x0(i)
+            !write(*,*)"y0(i) = ", y0(i)
+            !write(*,*)"z0(i) = ", z0(i)
+            !write(*,*)"t0 = ", t0
+            !write(*,*)"x1(i), y1(i), z1(i), t1 = ", x0(i), y0(i), z0(i), t0
+            !write(*,*)"xd(i), yd(i), zd(i), td = ", xd(i), yd(i), zd(i), td
+            !write(*,*)"field(x0(i),y0(i),z0(i),t0) = ", field(x0(i),y0(i),z0(i),t0)
+            !write(*,*)"field(x0(i),y1(i),z0(i),t0) = ", field(x0(i),y1(i),z0(i),t0)
+            !write(*,*)"field(x0(i),y0(i),z1(i),t0) = ", field(x0(i),y0(i),z1(i),t0)
+            !write(*,*)"field(x0(i),y1(i),z1(i),t0) = ", field(x0(i),y1(i),z1(i),t0)
         
-        c000(i) = field(x0(i),y0(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),z0(i),t0)*xd(i) !y0x0z0t0!  y0x1z0t0
-        c100(i) = field(x0(i),y1(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),z0(i),t0)*xd(i)
-        c010(i) = field(x0(i),y0(i),z1(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),z1(i),t0)*xd(i)
-        c110(i) = field(x0(i),y1(i),z1(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),z1(i),t0)*xd(i)
+            c000(i) = field(x0(i),y0(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),z0(i),t0)*xd(i) !y0x0z0t0!  y0x1z0t0
+            c100(i) = field(x0(i),y1(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),z0(i),t0)*xd(i)
+            c010(i) = field(x0(i),y0(i),z1(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),z1(i),t0)*xd(i)
+            c110(i) = field(x0(i),y1(i),z1(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),z1(i),t0)*xd(i)
         
-        c001(i) = field(x0(i),y0(i),z0(i),t1)*(1.-xd(i)) + field(x1(i),y0(i),z0(i),t1)*xd(i) !y0x0z0t0!  y0x1z0t0
-        c101(i) = field(x0(i),y1(i),z0(i),t1)*(1.-xd(i)) + field(x1(i),y1(i),z0(i),t1)*xd(i)
-        c011(i) = field(x0(i),y0(i),z1(i),t1)*(1.-xd(i)) + field(x1(i),y0(i),z1(i),t1)*xd(i)
-        c111(i) = field(x0(i),y1(i),z1(i),t1)*(1.-xd(i)) + field(x1(i),y1(i),z1(i),t1)*xd(i)
-    ! Interpolation on the second dimension and collapse it to a two dimension problem
-        c00(i) = c000(i)*(1.-yd(i))+c100(i)*yd(i)
-        c10(i) = c010(i)*(1.-yd(i))+c110(i)*yd(i)
-        c01(i) = c001(i)*(1.-yd(i))+c101(i)*yd(i)
-        c11(i) = c011(i)*(1.-yd(i))+c111(i)*yd(i)
-    ! Interpolation on the third dimension and collapse it to a one dimension problem
-        c0(i) = c00(i)*(1.-zd(i))+c10(i)*zd(i)
-        c1(i) = c01(i)*(1.-zd(i))+c11(i)*zd(i)
-    ! Interpolation on the time dimension and get the final result.
-        interp4D(i) = c0(i)*(1.-td)+c1(i)*td
-        !write(*,*)"interp4D(i) = ", interp4D(i)
+            c001(i) = field(x0(i),y0(i),z0(i),t1)*(1.-xd(i)) + field(x1(i),y0(i),z0(i),t1)*xd(i) !y0x0z0t0!  y0x1z0t0
+            c101(i) = field(x0(i),y1(i),z0(i),t1)*(1.-xd(i)) + field(x1(i),y1(i),z0(i),t1)*xd(i)
+            c011(i) = field(x0(i),y0(i),z1(i),t1)*(1.-xd(i)) + field(x1(i),y0(i),z1(i),t1)*xd(i)
+            c111(i) = field(x0(i),y1(i),z1(i),t1)*(1.-xd(i)) + field(x1(i),y1(i),z1(i),t1)*xd(i)
+            ! Interpolation on the second dimension and collapse it to a two dimension problem
+            c00(i) = c000(i)*(1.-yd(i))+c100(i)*yd(i)
+            c10(i) = c010(i)*(1.-yd(i))+c110(i)*yd(i)
+            c01(i) = c001(i)*(1.-yd(i))+c101(i)*yd(i)
+            c11(i) = c011(i)*(1.-yd(i))+c111(i)*yd(i)
+            ! Interpolation on the third dimension and collapse it to a one dimension problem
+            c0(i) = c00(i)*(1.-zd(i))+c10(i)*zd(i)
+            c1(i) = c01(i)*(1.-zd(i))+c11(i)*zd(i)
+            ! Interpolation on the time dimension and get the final result.
+            interp4D(i) = c0(i)*(1.-td)+c1(i)*td
+            !write(*,*)"interp4D(i) = ", interp4D(i)
+        endif
     end do
     end function interp4D
     
@@ -396,13 +410,16 @@
     !Begin---------------------------------------------------------------------------
     !write(*,*)"Entrada interp4D_Hor"
     ! From x,y,z,t in array coordinates, find the the box inside the field where the particle is
-    do concurrent(i=1:n_e, .not. out(i))
-        x0(i) = floor(x(i))
-        x1(i) = ceiling(x(i))
-        y0(i) = floor(y(i))
-        y1(i) = ceiling(y(i))
-        z0(i) = floor(z(i))
-        z1(i) = ceiling(z(i))
+    !do concurrent(i=1:n_e, .not. out(i))
+    do i = 1, n_e
+        if (.NOT. out(i)) then
+            x0(i) = floor(x(i))
+            x1(i) = ceiling(x(i))
+            y0(i) = floor(y(i))
+            y1(i) = ceiling(y(i))
+            z0(i) = floor(z(i))
+            z1(i) = ceiling(z(i))
+        endif
     end do
     !write(*,*)"interp4D_Hor 1"
     t0 = floor(t)
@@ -425,8 +442,22 @@
     interp4D_Hor = 0.0
     !write(*,*)"interp4D_Hor 2"
     !write(*,*)"tamanho field : ", size(field,1), size(field,2), size(field,3), size(field,4)
-    do concurrent(i=1:n_e, .not. out(i))
+    !do concurrent(i=1:n_e, .not. out(i))
+    do i = 1, n_e
+        if (.NOT. out(i)) then
         !Use the first available value in the water column that is not 0
+        !write(*,*)"i = ", i
+        !write(*,*)"x0(i) = ", x0(i)
+        !write(*,*)"y0(i) = ", y0(i)
+        !write(*,*)"z0(i) = ", z0(i)
+        !write(*,*)"t0 = ", t0
+        !write(*,*)"x1(i), y1(i), z1(i), t1 = ", x0(i), y0(i), z0(i), t0
+        !write(*,*)"xd(i), yd(i), td = ", xd(i), yd(i), td
+        !write(*,*)"field(x0(i),y0(i),z0(i),t0) = ", field(x0(i),y0(i),z0(i),t0)
+        !write(*,*)"field(x0(i),y1(i),z0(i),t0) = ", field(x0(i),y1(i),z0(i),t0)
+        !write(*,*)"field(x0(i),y0(i),z1(i),t0) = ", field(x0(i),y0(i),z1(i),t0)
+        !write(*,*)"field(x0(i),y1(i),z1(i),t0) = ", field(x0(i),y1(i),z1(i),t0)
+        
         bottom_lower_left_t0   = field(x0(i),y0(i),z0(i),t0)
         bottom_lower_right_t0  = field(x1(i),y0(i),z0(i),t0)
         bottom_upper_left_t0   = field(x0(i),y1(i),z0(i),t0)
@@ -466,12 +497,15 @@
         c01(i) = bottom_lower_left_t1*(1.-xd(i)) + bottom_lower_right_t1*xd(i)
         c11(i) = bottom_upper_left_t1*(1.-xd(i)) + bottom_upper_right_t1*xd(i)
         
-    ! Interpolation on the second dimension and collapse it to a two dimension problem
+        ! Interpolation on the second dimension and collapse it to a two dimension problem
         c0(i) = c00(i)*(1.-yd(i))+c10(i)*yd(i)
         c1(i) = c01(i)*(1.-yd(i))+c11(i)*yd(i)
-    ! Interpolation on the time dimension and get the final result.
+        ! Interpolation on the time dimension and get the final result.
         interp4D_Hor(i) = c0(i)*(1.-td)+c1(i)*td
+        !write(*,*)"Saida interp4D_Hor, valor = ", interp4D_Hor(i)
+        endif
     end do
+    
     !write(*,*)"Saida interp4D_Hor"
     end function interp4D_Hor
 
@@ -565,9 +599,15 @@
     else
         !write(*,*)"Entrei normais"
         xx = self%getArrayCoord(state(:,1), bdata, Globals%Var%lon, outOfBounds)
+        !write(*,*)"xx = ", xx(1)
+        !write(*,*)"outOfBounds = ", outOfBounds(1)
         yy = self%getArrayCoord(state(:,2), bdata, Globals%Var%lat, outOfBounds)
+        !write(*,*)"yy = ", yy(1)
+        !write(*,*)"outOfBounds = ", outOfBounds(1)
     endif
     zz = self%getArrayCoord(state(:,3), bdata, Globals%Var%level, outOfBounds)
+    !write(*,*)"zz = ", zz(1)
+    !write(*,*)"outOfBounds = ", outOfBounds(1)
     tt = self%getPointCoordNonRegular(time, bdata, Globals%Var%time)
     end subroutine Trc2Grid_4D
     
@@ -807,6 +847,7 @@
     real(prec), dimension(size(xdata)) :: getArrayCoord         !< coordinates in array index
     dim = bdata%getDimIndex(dimName)
     if (bdata%regularDim(dim)) getArrayCoord = self%getArrayCoordRegular(xdata, bdata, dim, out)
+    !write(*,*) "getArrayCoord = ", getArrayCoord(1)
     if (.not.bdata%regularDim(dim)) then
         !write(*,*)"Entrei .not.bdata%regularDim(dim)", trim(dimName)
         if (present(bat)) then
@@ -841,7 +882,6 @@
         fieldLength = size(bdata%dim(dim)%field1D)
         dimSize = 1
         if (fieldLength == 1) then
-            !write(*,*)"Deu merda"
             getArrayCoordRegular = 1
             return
         endif
@@ -855,6 +895,9 @@
         maxBound = bdata%dim(dim)%getFieldMaxBound()
         res = abs(maxBound - minBound)/(size(bdata%dim(dim)%field1D)-1.0)
         getArrayCoordRegular = (xdata - minBound)/res + 1.0
+        do i = 1, size(xdata)
+            !write(*,*)"getArrayCoordRegular (i) = ", getArrayCoordRegular(i)
+        enddo
     else
         !write(*,*)"Entrei no dimsize2 ", trim(bdata%dim(dim)%name)
         minBound = bdata%dim(dim)%getFieldMinBound()
@@ -875,6 +918,10 @@
     
     where (xdata < minBound) out = .true.
     where (xdata > maxBound) out = .true.
+    
+    !do i = 1, size(xdata)
+    !    write(*,*)"oout (i) = ", out(i)
+    !enddo
     end function getArrayCoordRegular
     
     
