@@ -214,6 +214,7 @@
         type(string) :: phytoplankton
         type(string) :: zooplankton
         type(string) :: inorganic_phosphorus
+        type(string) :: openpoints
         type(string) :: lon
         type(string) :: lat
         type(string) :: level
@@ -253,6 +254,7 @@
         type(stringList_class) :: phytoplanktonVariants
         type(stringList_class) :: zooplanktonVariants
         type(stringList_class) :: inorganic_phosphorusVariants
+        type(stringList_class) :: openpointsVariants
         type(stringList_class) :: lonVariants
         type(stringList_class) :: latVariants
         type(stringList_class) :: levelVariants
@@ -266,6 +268,10 @@
     procedure, public  :: checkVarSimName
     procedure, public  :: checkDimensionName
     procedure, public  :: checkLatOrLon
+    procedure, public  :: checkVarIsLon
+    procedure, public  :: checkVarIsLat
+    procedure, public  :: checkVarIsDepth
+    procedure, public  :: checkVarIsTime
     end type var_names_t
     
     type :: varBackground_t
@@ -704,6 +710,11 @@
         getVarSimName = self%inorganic_phosphorus
         return
     end if
+    !searching for openpoints
+    if (var == self%openpoints .or. .not.self%openpointsVariants%notRepeated(var)) then
+        getVarSimName = self%openpoints
+        return
+    end if
     !searching for lon
     if (var == self%lon .or. .not.self%lonVariants%notRepeated(var)) then
         getVarSimName = self%lon
@@ -892,6 +903,11 @@
         checkVarSimName = .true.
         return
     end if
+    !searching for openpoints
+    if (var == self%openpoints .or. .not.self%openpointsVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
     !searching for lon
     if (var == self%lon .or. .not.self%lonVariants%notRepeated(var)) then
         checkVarSimName = .true.
@@ -978,6 +994,77 @@
     end if
     end function checkLatOrLon
     
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho
+    !> @brief
+    !> returns true if the input variable name is defined in the model as longitude
+    !> @param[in] self, var
+    !---------------------------------------------------------------------------
+    logical function checkVarIsLon(self, var)
+    type(string), intent(in) :: var
+    class(var_names_t), intent(inout) :: self
+    !Begin-----------------------------------------------------
+    checkVarIsLon = .false.
+    !searching for lon
+    if (var == self%lon .or. .not.self%lonVariants%notRepeated(var)) then
+        checkVarIsLon = .true.
+        return
+    end if
+    end function checkVarIsLon
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho
+    !> @brief
+    !> returns true if the input variable name is defined in the model as latitude
+    !> @param[in] self, var
+    !---------------------------------------------------------------------------
+    logical function checkVarIsLat(self, var)
+    type(string), intent(in) :: var
+    class(var_names_t), intent(inout) :: self
+    !Begin-----------------------------------------------------
+    checkVarIsLat = .false.
+    !searching for lat
+    if (var == self%lat .or. .not.self%latVariants%notRepeated(var)) then
+        checkVarIsLat = .true.
+        return
+    end if
+    end function checkVarIsLat
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho
+    !> @brief
+    !> returns true if the input variable name is defined in the model as depth
+    !> @param[in] self, var
+    !---------------------------------------------------------------------------
+    logical function checkVarIsDepth(self, var)
+    type(string), intent(in) :: var
+    class(var_names_t), intent(inout) :: self
+    !Begin-----------------------------------------------------
+    checkVarIsDepth = .false.
+    !searching for level
+    if (var == self%level .or. .not.self%levelVariants%notRepeated(var)) then
+        checkVarIsDepth = .true.
+        return
+    end if
+    end function checkVarIsDepth
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho
+    !> @brief
+    !> returns true if the input variable name is defined in the model as time
+    !> @param[in] self, var
+    !---------------------------------------------------------------------------
+    logical function checkVarIsTime(self, var)
+    type(string), intent(in) :: var
+    class(var_names_t), intent(inout) :: self
+    !Begin-----------------------------------------------------
+    checkVarIsTime = .false.
+    !searching for time
+    if (var == self%time .or. .not.self%timeVariants%notRepeated(var)) then
+        checkVarIsTime = .true.
+        return
+    end if
+    end function checkVarIsTime
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -1089,6 +1176,8 @@
     call self%setCurrVar(tag, self%Var%zooplankton, self%Var%zooplanktonVariants, varNode)
     tag="inorganic_phosphorus"
     call self%setCurrVar(tag, self%Var%inorganic_phosphorus, self%Var%inorganic_phosphorusVariants, varNode)
+    tag="openpoints"
+    call self%setCurrVar(tag, self%Var%openpoints, self%Var%openpointsVariants, varNode)
     
     end subroutine setVarNames
 

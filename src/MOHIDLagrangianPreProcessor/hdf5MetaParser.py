@@ -52,8 +52,8 @@ class hdf5Metadata:
         time_start = time_min.data
         time_end = time_max.data
         
-        self.startDate = datetime(time_start[0], time_start[1], time_start[2], time_start[3], time_start[4], time_start[5])
-        self.endDate = datetime(time_end[0], time_end[1], time_end[2], time_end[3], time_end[4], time_end[5])
+        self.startDate = datetime(int(time_start[0]), int(time_start[1]), int(time_start[2]), int(time_start[3]), int(time_start[4]), int(time_start[5]))
+        self.endDate = datetime(int(time_end[0]), int(time_end[1]), int(time_end[2]), int(time_end[3]), int(time_end[4]), int(time_end[5]))
         self.startTime = (self.startDate - baseTime).total_seconds()
         self.endTime = (self.endDate - baseTime).total_seconds()
         
