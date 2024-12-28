@@ -61,6 +61,7 @@
         integer         :: OutputFormat              !< Format of the output files (default=2) NetCDF=1, VTK=2
         integer         :: OutputFormatIndexes(2)    !< Index list for the output file format selector
         type(string)    :: OutputFormatNames(2)      !< Names list for the output file format selector
+        real(prec)      :: FillValueReal = -9.9e15
     contains
     procedure :: setParam
     procedure :: check
@@ -267,6 +268,7 @@
     procedure, public  :: getVarSimName
     procedure, public  :: checkVarSimName
     procedure, public  :: checkDimensionName
+    procedure, public  :: checkSpaceDimensionName
     procedure, public  :: checkLatOrLon
     procedure, public  :: checkVarIsLon
     procedure, public  :: checkVarIsLat
@@ -970,6 +972,35 @@
     end if
 
     end function checkDimensionName
+    
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> returns true is the input variable name is defined in the model as a space dimension variable
+    !> @param[in] self, var
+    !---------------------------------------------------------------------------
+    logical function checkSpaceDimensionName(self, var)
+    type(string), intent(in) :: var
+    class(var_names_t), intent(inout) :: self
+    !Begin-----------------------------------------------------
+    checkSpaceDimensionName = .false.
+    
+    !searching for lon
+    if (var == self%lon .or. .not.self%lonVariants%notRepeated(var)) then
+        checkSpaceDimensionName = .true.
+        return
+    end if
+    !searching for lat
+    if (var == self%lat .or. .not.self%latVariants%notRepeated(var)) then
+        checkSpaceDimensionName = .true.
+        return
+    end if
+    !searching for level
+    if (var == self%level .or. .not.self%levelVariants%notRepeated(var)) then
+        checkSpaceDimensionName = .true.
+        return
+    end if
+
+    end function checkSpaceDimensionName
 
     !---------------------------------------------------------------------------
     !> @author Joao Sobrinho - Colab Atlantic
