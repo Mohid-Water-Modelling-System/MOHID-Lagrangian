@@ -679,6 +679,7 @@
     integer, intent(in) :: dim
     call self%setFieldMetadata(name, units, dim)
     allocate(self%field, source = field)
+    write(*,*) "Sizes = ", SIZE(self%field, 1), SIZE(self%field, 2)
     end subroutine initScalar2dField
 
     !---------------------------------------------------------------------------

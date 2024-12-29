@@ -601,8 +601,8 @@
                 allocate(tempRealField2D(varShape(1)-1, varShape(2)-1))
                 allocate(tempRealField3D(varShape(1)-1, varShape(2)-1,varShape(3)))
                 do t=1, varShape(3)
-                    call self%readHDFVariable(self%varData(var), array2D = tempRealArray2D, outputNumber = t)
-                    tempRealArray3D(:,:,t) = tempRealArray2D
+                    call self%readHDFVariable(self%varData(i), array2D = tempRealField2D, outputNumber = t)
+                    tempRealField3D(:,:,t) = tempRealField2D
                 enddo
                 call self%check()
                 if (.not.bVar) then
@@ -627,12 +627,13 @@
                     call varField%initialize(dimName, varUnits, tempRealField3D)
                 end if
             else if(self%varData(i)%ndims == 4) then !4D variable                
-                allocate(tempRealArray4D(varShape(1)-1, varShape(2)-1, varShape(3), varShape(4))) !allocating a place to read the field data to
-                allocate(tempRealArray3D(varShape(1)-1, varShape(2)-1, varShape(3)))
+                allocate(tempRealField4D(varShape(1)-1, varShape(2)-1, varShape(3), varShape(4))) !allocating a place to read the field data to
+                allocate(tempRealField3D(varShape(1)-1, varShape(2)-1, varShape(3)))
                 do t=1, varShape(4)
                     !Depth is assumed to be VerticalZ which is a 4D var.
-                    call self%readHDFVariable(self%varData(var), array3D = tempRealArray3D, outputNumber = t)
-                    tempRealArray4D(:,:,:,t) = tempRealArray3D
+                    call self%readHDFVariable(self%varData(i), array3D = tempRealField3D, outputNumber = t)
+                    tempRealField4D(:,:,:,t) = tempRealField3D
+                    write(*,*)"Cenas = "
                 enddo
                 
                 if (.not.bVar) then
@@ -660,7 +661,7 @@
                 end if
             elseif(self%varData(i)%ndims == 2) then !2D variable, for now only bathymetry
                 if (self%varData(i)%simName == Globals%Var%bathymetry) then
-                    allocate(tempRealField2D(varShape(1),varShape(2)))
+                    allocate(tempRealField2D(varShape(1)-1,varShape(2)-1))
 do1:                do indx=1, self%nVars
                         !Find velocity u matrix to get its dimensions
                         if (self%varData(indx)%simName == Globals%Var%u) then
@@ -681,7 +682,7 @@ do1:                do indx=1, self%nVars
                         end if
                     end do do1
                     
-                    call self%readHDFVariable(self%varData(var), array2D = tempRealArray2D)
+                    call self%readHDFVariable(self%varData(i), array2D = tempRealField2D)
                     
                     if (.not.bVar) then
                         !Leaving this commented because I am assuming only bathymetry gets in here and it is better that it has a fillvaluereal
@@ -695,13 +696,13 @@ do1:                do indx=1, self%nVars
                             !For bathymetry, converts the 2D input field into a 4D field to be consistent with velocity matrixes
                             do t=1,size(tempRealField4D,4)
                                 do k=1, size(tempRealField4D,3)
-                                    tempRealField4D(:,:,k,t) = tempRealField2D(:,:)
+                                    tempRealField4D(:,:,k,t) = - tempRealField2D(:,:)
                                 end do
                             end do
                             call varField%initialize(varName, self%varData(i)%units, tempRealField4D)
                         else
                             do k=1, size(tempRealField4D,3)
-                                tempRealField3D(:,:,k) = tempRealField2D(:,:)
+                                tempRealField3D(:,:,k) = - tempRealField2D(:,:)
                             end do
                             call varField%initialize(varName, self%varData(i)%units, tempRealField3D)
                         end if
