@@ -769,6 +769,7 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
         select type(curr)
         class is (scalar3d_field_class)
             if (curr%name == Globals%Var%landIntMask) then
+                write(*,*)"Curr Name = ", TRIM(curr%name)
                 allocate(shiftleftlon3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
                 allocate(shiftuplat3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
                 allocate(shiftrigthlon3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
@@ -795,6 +796,7 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
             end if
         class is (scalar4d_field_class)
             if (curr%name == Globals%Var%landIntMask) then
+                write(*,*)"Curr Name = ", TRIM(curr%name)
                 allocate(shiftleftlon4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
                 allocate(shiftuplat4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
                 allocate(shiftrigthlon4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
@@ -822,12 +824,19 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
                 dimIndx = self%getDimIndex(Globals%Var%level)
                 if (allocated(self%dim(dimIndx)%field1D)) then
                     dimIndx = minloc(abs(self%dim(dimIndx)%field1D - Globals%Constants%BeachingLevel),1)
+                    beach4d(:,:,:dimIndx,:) = .false. !this must be above a certain level only
+                    bed4d(:,:,dimIndx:,:) = .false.   !bellow a certain level
+                elseif (allocated(self%dim(dimIndx)%field4D)) then
+                    where (self%dim(dimIndx)%field4D <= Globals%Constants%BeachingLevel)
+                        beach4d = .false.!Below beaching level, beach flag is false.
+                    elsewhere 
+                        bed4d = .false.   !Above beaching level, bed flag is false.
+                    endwhere
                 else
-                    outext = '[background_class::makeLandMaskField] Level variable can only be 1D at the moment'
+                    outext = '[background_class::makeLandMaskField] Level variable can only be 1D or 4D at the moment'
                     call Log%put(outext)
                 end if
-                beach4d(:,:,:dimIndx,:) = .false. !this must be above a certain level only
-                bed4d(:,:,dimIndx:,:) = .false.   !bellow a certain level
+
                 where(beach4d) curr%field = Globals%Mask%beachVal
                 where(bed4d) curr%field = Globals%Mask%bedVal
                 !searching for areas that are beach and land and mark them as beach only 
@@ -1467,11 +1476,17 @@ do3:                do i=1, size(curr%field,1)
     do i=1,  size(dims)
         !write(*,*)"i = ", i
         if (allocated(dims(i)%scalar1d%field)) then
-            !write(*,*)"alocado 1d = ", trim(dims(i)%name)
+            write(*,*)"alocado 1d = ", trim(dims(i)%name)
             call self%dim(i)%initialize(dims(i)%scalar1d%name, dims(i)%scalar1d%units, 1, dims(i)%scalar1d%field)
         elseif (allocated(dims(i)%scalar2d%field)) then
-            !write(*,*)"alocado 2d = ", trim(dims(i)%name)
+            write(*,*)"alocado 2d = ", trim(dims(i)%name)
             call self%dim(i)%initialize(dims(i)%scalar2d%name, dims(i)%scalar2d%units, 2, dims(i)%scalar2d%field)
+        elseif (allocated(dims(i)%scalar3d%field)) then
+            call self%dim(i)%initialize(dims(i)%scalar3d%name, dims(i)%scalar3d%units, 3, dims(i)%scalar3d%field)
+            write(*,*)"alocado 3d = ", trim(dims(i)%name)
+        elseif (allocated(dims(i)%scalar4d%field)) then
+            call self%dim(i)%initialize(dims(i)%scalar4d%name, dims(i)%scalar4d%units, 4, dims(i)%scalar4d%field)
+            write(*,*)"alocado 4d = ", trim(dims(i)%name)
         else
             outext = '[background_class::setDims] Unexepected type of content, dimension provided is not a 1D or 2D Field'
             call Log%put(outext)
@@ -1487,22 +1502,26 @@ do3:                do i=1, size(curr%field,1)
             dreg = (fmax-fmin)/(size(dims(i)%scalar1d%field))
             self%regularDim(i) = all(abs(dims(i)%scalar1d%field(2:)-dims(i)%scalar1d%field(:size(dims(i)%scalar1d%field)-1) - dreg) < abs(eta))
         elseif (allocated(dims(i)%scalar2d%field)) then
-            !write(*,*)"alocado 2d 2 = ", trim(dims(i)%name)
+            write(*,*)"alocado 2d 2 = ", trim(dims(i)%name)
             if (dims(i)%name == Globals%Var%lat) then
                 fmin = dims(i)%scalar2d%getFieldMinBound(arrayDim=2) !lat rows are in dimension2
                 fmax = dims(i)%scalar2d%getFieldMaxBound(arrayDim=2) !lat rows are in dimension2
                 eta = (fmax-fmin)/(10.0*size(dims(i)%scalar2d%field,2))
                 dreg = (fmax-fmin)/(size(dims(i)%scalar2d%field, 2))
                 self%regularDim(i) = all(abs((dims(i)%scalar2d%field(1,2:)-dims(i)%scalar2d%field(1,:size(dims(i)%scalar2d%field,2)-1)) - dreg) < abs(eta))
-                !write(*,*)"Regular dim lat = ", self%regularDim(i), i
+                write(*,*)"Regular dim lat = ", self%regularDim(i), i
             elseif (dims(i)%name == Globals%Var%lon) then
                 fmin = dims(i)%scalar2d%getFieldMinBound(arrayDim=1) !lon columns are in dimension1
                 fmax = dims(i)%scalar2d%getFieldMaxBound(arrayDim=1) !lon columns are in dimension1
                 eta = (fmax-fmin)/(10.0*size(dims(i)%scalar2d%field,1))
                 dreg = (fmax-fmin)/(size(dims(i)%scalar2d%field,1))
-                self%regularDim(i) = all(abs((dims(i)%scalar2d%field(2:,1)-dims(i)%scalar2d%field(:size(dims(i)%scalar2d%field,2)-1,1)) - dreg) < abs(eta))
-                !write(*,*)"Regular dim lon = ", self%regularDim(i), i
+                self%regularDim(i) = all(abs((dims(i)%scalar2d%field(2:,1)-dims(i)%scalar2d%field(:size(dims(i)%scalar2d%field,1)-1,1)) - dreg) < abs(eta))
+                write(*,*)"Regular dim lon = ", self%regularDim(i), i
             endif
+        elseif (allocated(dims(i)%scalar3d%field)) then
+            self%regularDim(i) = .false.
+        elseif (allocated(dims(i)%scalar4d%field)) then
+            self%regularDim(i) = .false.
         end if
     end do
     end subroutine setDims

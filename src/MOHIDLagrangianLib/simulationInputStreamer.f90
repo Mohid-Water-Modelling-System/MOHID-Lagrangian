@@ -106,8 +106,14 @@
     type(ncReader_class) :: ncReader
     type(hdf5Reader_class) :: hdf5Reader
     !write(*,*)"Entrei get currentsFile"
-    allocate(varList(7))
-    allocate(syntecticVar(7))
+    if (fileName%extension() == '.nc') then
+        allocate(varList(7))
+        allocate(syntecticVar(7))
+    else
+        allocate(varList(8))
+        allocate(syntecticVar(8))
+    endif
+    
     varList(1) = Globals%Var%u
     syntecticVar(1) = .false.
     varList(2) = Globals%Var%v
@@ -122,13 +128,22 @@
     syntecticVar(6) = .true.
     !varList(7) = Globals%Var%ssh
     !syntecticVar(7) = .false.
-    if (Globals%SimDefs%bathyminNetcdf == 1) then
-        varList(7) = Globals%Var%bathymetry
-        syntecticVar(7) = .false.
+    if (fileName%extension() == '.nc') then
+        if (Globals%SimDefs%bathyminNetcdf == 1) then
+            varList(7) = Globals%Var%bathymetry
+            syntecticVar(7) = .false.
+        else
+            varList(7) = Globals%Var%bathymetry
+            syntecticVar(7) = .true.
+        end if
     else
         varList(7) = Globals%Var%bathymetry
-        syntecticVar(7) = .true.
-    end if
+        syntecticVar(7) = .false.
+        
+        varList(8) = Globals%Var%openPoints
+        syntecticVar(8) = .false.
+    endif
+    
     !need to send to different readers here if different file formats
     
     !Check format type:

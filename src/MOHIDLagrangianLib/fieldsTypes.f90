@@ -57,10 +57,14 @@
     type, extends(scalar_field_class) :: scalar_dimfield_class      !< a scalar field class
         real(prec), allocatable, dimension(:) :: field1D !< the data on the scalar data 1Dfield
         real(prec), allocatable, dimension(:,:) :: field2D !< the data on the scalar data 2Dfield
+        real(prec), allocatable, dimension(:,:,:) :: field3D !< the data on the scalar data 3Dfield
+        real(prec), allocatable, dimension(:,:,:,:) :: field4D !< the data on the scalar data 4Dfield
     contains
     procedure :: initScalardim1dField
     procedure :: initScalardim2dField
-    generic   :: initialize => initScalardim1dField, initScalardim2dField
+    procedure :: initScalardim3dField
+    procedure :: initScalardim4dField
+    generic   :: initialize => initScalardim1dField, initScalardim2dField, initScalardim3dField, initScalardim4dField
     procedure :: finalize => cleanScalardimField
     end type scalar_dimfield_class
 
@@ -86,6 +90,13 @@
     procedure :: initialize => initScalar3dField
     procedure :: finalize => cleanScalar3dField
     end type scalar3d_field_class
+    
+    type, extends(scalar_field_class) :: scalar3d_int_field_class      !< a 3D scalar field class
+        integer, allocatable, dimension(:,:,:) :: field !< the data on the scalar data field
+    contains
+    procedure :: initialize => initIntScalar3dField
+    procedure :: finalize => cleanIntScalar3dField
+    end type scalar3d_int_field_class
 
     type, extends(scalar_field_class) :: scalar4d_field_class      !< a 4D scalar field class
         real(prec), allocatable, dimension(:,:,:,:) :: field !< the data on the scalar data field
@@ -93,6 +104,13 @@
     procedure :: initialize => initScalar4dField
     procedure :: finalize => cleanScalar4dField
     end type scalar4d_field_class
+    
+    type, extends(scalar_field_class) :: scalar4d_int_field_class      !< a 4D scalar field class
+        integer, allocatable, dimension(:,:,:,:) :: field !< the data on the scalar data field
+    contains
+    procedure :: initialize => initIntScalar4dField
+    procedure :: finalize => cleanIntScalar4dField
+    end type scalar4d_int_field_class
 
     !Vectorial fields
     !2D (t,vx)
@@ -131,11 +149,14 @@
         type(vectorial2d_field_class) :: vectorial2d !< 2D vectorial field
         type(vectorial3d_field_class) :: vectorial3d !< 3D vectorial field
         type(vectorial4d_field_class) :: vectorial4d !< 4D vectorial field
+        type(scalar3d_int_field_class) :: intScalar3D !< 4D vectorial field
+        type(scalar4d_int_field_class) :: intScalar4D !< 4D vectorial field
     contains
     procedure, private :: test
     procedure :: initS1D, initS2D, initS3D, initS4D
     procedure :: initV2D, initV3D, initV4D
-    generic   :: initialize => initS1D, initS2D, initS3D, initS4D, initV2D, initV3D, initV4D
+    procedure :: initIS3D, initIS4D
+    generic   :: initialize => initS1D, initS2D, initS3D, initS4D, initV2D, initV3D, initV4D, initIS3D, initIS4D
     procedure :: replaceMetaData
     procedure :: compare
     procedure :: concatenate
@@ -150,6 +171,7 @@
     public :: field_class, generic_field_class
     public :: scalar_field_class, scalar_dimfield_class, scalar1d_field_class, scalar2d_field_class, scalar3d_field_class, scalar4d_field_class
     public :: vectorial_field_class, vectorial2d_field_class, vectorial3d_field_class, vectorial4d_field_class
+    public :: initIntScalar3dField, initIntScalar4dField, cleanIntScalar3dField, cleanIntScalar4dField
 
     contains
 
@@ -164,7 +186,7 @@
     type(generic_field_class), intent(in) :: gfield
     logical, dimension(:), optional, intent(in) :: usedPosi 
     logical, allocatable, dimension(:) :: usedPos
-    integer :: fDim, nUsedPos, i, j, i1, j1, k1, t1
+    integer :: fDim, nUsedPos, i, j
     type(string) :: fType
     real(prec), allocatable, dimension(:) :: field1d
     real(prec), allocatable, dimension(:,:) :: field2d
@@ -287,6 +309,94 @@
     end if
 
     end subroutine concatenate
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method concatenates two fields by their last dimension
+    !> @param[in] self, gfield, usedPosi
+    !---------------------------------------------------------------------------
+    subroutine concatenate_Int(self, gfield, usedPosi)
+    class(generic_field_class), intent(inout) :: self
+    type(generic_field_class), intent(in) :: gfield
+    logical, dimension(:), optional, intent(in) :: usedPosi 
+    logical, allocatable, dimension(:) :: usedPos
+    integer :: fDim, nUsedPos, i, j
+    !integer, allocatable, dimension(:) :: field1d
+    !integer, allocatable, dimension(:,:) :: field2d
+    integer, allocatable, dimension(:,:,:) :: field3d
+    integer, allocatable, dimension(:,:,:,:) :: field4d
+    
+    !write(*,*)"Entrada concatenate" 
+
+    fDim = self%dim
+    !write(*,*)"Got fieldtype" 
+    if (gfield%dim /= fDim) return
+    
+    if (present(usedPosi)) then
+        allocate(usedPos, source = usedPosi)
+        nUsedPos = count(usedPos)
+    end if 
+    !write(*,*)"fType : ", fType 
+    if (fDim == 3) then
+        !write(*,*)"fDim = 3"
+        if (.not.allocated(usedPos)) then
+            nUsedPos = size(gfield%intScalar3D%field,3)
+            allocate(usedPos(nUsedPos))
+            usedPos = .true.
+        end if
+        allocate(field3d(size(self%intScalar3D%field,1),size(self%intScalar3D%field,2),size(self%intScalar3D%field,3) + nUsedPos))
+        field3d(:,:,1:size(self%intScalar3D%field,3)) = self%intScalar3D%field
+        i= size(self%intScalar3D%field, 3) +1
+        do j= 1, size(usedPos)
+            if (usedPos(j)) then
+                field3d(:,:, i) = gfield%intScalar3D%field(:,:, j)
+                i= i+1
+            end if
+        end do
+        deallocate(self%intScalar3D%field)
+        allocate(self%intScalar3D%field(size(field3d,1), size(field3d,2), size(field3d,3)))
+        self%intScalar3D%field = field3d
+    end if
+    if (fDim == 4) then
+        !write(*,*)"fDim = 4"
+        if (.not.allocated(usedPos)) then
+            nUsedPos = size(gfield%intScalar4D%field,4)
+            !write(*,*)"allocating used Pos, nUsedPos = ", nUsedPos
+            allocate(usedPos(nUsedPos))
+            usedPos = .true.
+        end if
+        !write(*,*)"allocating field 4D"
+        allocate(field4d(size(self%intScalar4D%field,1),size(self%intScalar4D%field,2),size(self%intScalar4D%field,3),size(self%intScalar4D%field,4) + nUsedPos))
+        !write(*,*)"allocated field 4D"
+        field4d(:,:,:,1:size(self%intScalar4D%field,4)) = self%intScalar4D%field
+        !write(*,*)"made equal to self%intScalar3D%field. Size field4d = ", size(field4d, 4)
+        i = size(self%intScalar4D%field, 4) + 1
+        !write(*,*)"i = ", i
+        !write(*,*)"size(usedPos) = ", size(usedPos)
+        !write(*,*)"size field (1) ", size(gfield%intScalar3D%field, 1)
+        !write(*,*)"size field (2) ", size(gfield%intScalar3D%field, 2)
+        !write(*,*)"size field (3) ", size(gfield%intScalar3D%field, 3)
+        !write(*,*)"size field (4) ", size(gfield%intScalar3D%field, 4)
+        !write(*,*)"size field4d(1) ", size(field4d, 1)
+        !write(*,*)"size field4d(2) ", size(field4d, 2)
+        !write(*,*)"size field4d(3) ", size(field4d, 3)
+        !write(*,*)"size field4d(4) ", size(field4d, 4)
+        do j= 1, size(usedPos)
+            !write(*,*)"j = ", j
+            if (usedPos(j)) then
+                !write(*,*)"used position . i = , j = ", i, j
+                field4d(:,:,:, i) = gfield%intScalar4D%field(:,:,:, j)
+                i= i+1
+            end if
+        end do
+        !write(*,*)"cheguei aqui"
+        deallocate(self%intScalar4D%field)
+        allocate(self%intScalar4D%field(size(field4d,1), size(field4d,2), size(field4d,3), size(field4d,4)))
+        self%intScalar4D%field = field4d
+    end if
+
+    end subroutine concatenate_Int
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -297,7 +407,6 @@
     logical function compare(self, gfield) result(comp)
     class(generic_field_class), intent(inout) :: self
     class(generic_field_class), intent(in) :: gfield
-    type(string) :: outext
     comp = .true.
     if (self%name /= gfield%name) comp = .false.
     if (self%units /= gfield%units) comp = .false. !might be asking too much...
@@ -410,7 +519,6 @@
     real(prec), allocatable, dimension(:,:) :: comp2d
     integer, allocatable, dimension(:) :: aux
     type(string) :: outext
-    integer :: i
     !Begin-----------------------------------------------
     select type(self)
     class is (scalar1d_field_class)
@@ -527,7 +635,52 @@
         call self%setFieldMetadata(name, units, 4)
     end if
     end subroutine initS4D
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho
+    !> @brief
+    !> Method that allocates and initializes a scalar integer 3D field in a generic field
+    !> @param[in] self, name, units, field
+    !---------------------------------------------------------------------------
+    subroutine initIS3D(self, name, units, field)
+    class(generic_field_class), intent(inout) :: self
+    integer, intent(in), dimension(:,:,:) :: field
+    type(string), intent(in) :: name
+    type(string), intent(in) :: units
+    type(string) :: outext
+    if (allocated(self%intScalar3D%field)) then
+        outext = '[generic_field_class::initialize]: scalar integer 3D field already allocated'
+        call Log%put(outext)
+        stop
+    else
+        call self%intScalar3D%initialize(name, units, 3, field)
+        call self%setFieldMetadata(name, units, 3)
+    end if
+    end subroutine initIS3D
 
+        !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho
+    !> @brief
+    !> Method that allocates and initializes a scalar integer 3D field in a generic field
+    !> @param[in] self, name, units, field
+    !---------------------------------------------------------------------------
+    subroutine initIS4D(self, name, units, field)
+    class(generic_field_class), intent(inout) :: self
+    integer, intent(in), dimension(:,:,:,:) :: field
+    type(string), intent(in) :: name
+    type(string), intent(in) :: units
+    type(string) :: outext
+    if (allocated(self%intScalar4D%field)) then
+        outext = '[generic_field_class::initialize]: scalar integer 4D field already allocated'
+        call Log%put(outext)
+        stop
+    else
+        call self%intScalar4D%initialize(name, units, 4, field)
+        call self%setFieldMetadata(name, units, 4)
+    end if
+    end subroutine initIS4D
+
+    
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -641,6 +794,38 @@
     call self%setFieldMetadata(name, units, dim)
     allocate(self%field, source = field)
     end subroutine initScalar1dField
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho
+    !> @brief
+    !> Method that initializes a scalar dim 3D field
+    !> @param[in] self, name, units, dim, field3D
+    !---------------------------------------------------------------------------
+    subroutine initScalardim3dField(self, name, units, dim, field3D)
+    class(scalar_dimfield_class), intent(inout) :: self
+    real(prec), dimension(:,:,:), intent(in) :: field3D
+    type(string), intent(in) :: name
+    type(string), intent(in) :: units
+    integer, intent(in) :: dim
+    call self%setFieldMetadata(name, units, dim)
+    allocate(self%field3D, source = field3D)
+    end subroutine initScalardim3dField
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho
+    !> @brief
+    !> Method that initializes a scalar dim 4D field
+    !> @param[in] self, name, units, dim, field3D
+    !---------------------------------------------------------------------------
+    subroutine initScalardim4dField(self, name, units, dim, field4D)
+    class(scalar_dimfield_class), intent(inout) :: self
+    real(prec), dimension(:,:,:,:), intent(in) :: field4D
+    type(string), intent(in) :: name
+    type(string), intent(in) :: units
+    integer, intent(in) :: dim
+    call self%setFieldMetadata(name, units, dim)
+    allocate(self%field4D, source = field4D)
+    end subroutine initScalardim4dField
 
     !---------------------------------------------------------------------------
     !> @author Joao Sobrinho - Colab Atlantic
@@ -708,6 +893,22 @@
     call self%setFieldMetadata(name, units, dim)
     allocate(self%field, source = field)
     end subroutine initScalar3dField
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho
+    !> @brief
+    !> Method that initializes a scalar integer 3D field
+    !> @param[in] self, name, units, dim, field
+    !---------------------------------------------------------------------------
+    subroutine initIntScalar3dField(self, name, units, dim, field)
+    class(scalar3d_int_field_class), intent(inout) :: self
+    integer, intent(in), dimension(:,:,:) :: field
+    type(string), intent(in) :: name
+    type(string), intent(in) :: units
+    integer, intent(in) :: dim
+    call self%setFieldMetadata(name, units, dim)
+    allocate(self%field, source = field)
+    end subroutine initIntScalar3dField
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -719,6 +920,17 @@
     class(scalar3d_field_class), intent(out) :: self
     if (allocated(self%field)) deallocate(self%field)
     end subroutine cleanScalar3dField
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho
+    !> @brief
+    !> Method that deallocates a scalar int 3D field
+    !> @param[in] self
+    !---------------------------------------------------------------------------
+    subroutine cleanIntScalar3dField(self)
+    class(scalar3d_int_field_class), intent(out) :: self
+    if (allocated(self%field)) deallocate(self%field)
+    end subroutine cleanIntScalar3dField
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -735,6 +947,22 @@
     call self%setFieldMetadata(name, units, dim)
     allocate(self%field, source = field)
     end subroutine initScalar4dField
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho
+    !> @brief
+    !> Method that initializes a scalar integer 4D field
+    !> @param[in] self, name, units, dim, field
+    !---------------------------------------------------------------------------
+    subroutine initIntScalar4dField(self, name, units, dim, field)
+    class(scalar4d_int_field_class), intent(inout) :: self
+    integer, intent(in), dimension(:,:,:,:) :: field
+    type(string), intent(in) :: name
+    type(string), intent(in) :: units
+    integer, intent(in) :: dim
+    call self%setFieldMetadata(name, units, dim)
+    allocate(self%field, source = field)
+    end subroutine initIntScalar4dField
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -746,6 +974,17 @@
     class(scalar4d_field_class), intent(out) :: self
     if (allocated(self%field)) deallocate(self%field)
     end subroutine cleanScalar4dField
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho
+    !> @brief
+    !> Method that deallocates a scalar integer 4D field
+    !> @param[in] self
+    !---------------------------------------------------------------------------
+    subroutine cleanIntScalar4dField(self)
+    class(scalar4d_int_field_class), intent(out) :: self
+    if (allocated(self%field)) deallocate(self%field)
+    end subroutine cleanIntScalar4dField
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

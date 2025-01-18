@@ -274,6 +274,7 @@
     procedure, public  :: checkVarIsLat
     procedure, public  :: checkVarIsDepth
     procedure, public  :: checkVarIsTime
+    procedure, public  :: checkMappingVar
     end type var_names_t
     
     type :: varBackground_t
@@ -1096,6 +1097,23 @@
         return
     end if
     end function checkVarIsTime
+    
+    !> @author Joao Sobrinho
+    !> @brief
+    !> returns true if the input variable name is defined in the model as openPoints
+    !> @param[in] self, var
+    !---------------------------------------------------------------------------
+    logical function checkMappingVar(self, var)
+    type(string), intent(in) :: var
+    class(var_names_t), intent(inout) :: self
+    !Begin-----------------------------------------------------
+    checkMappingVar = .false.
+    !searching for time
+    if (var == self%openpoints .or. .not.self%openpointsVariants%notRepeated(var)) then
+        checkMappingVar = .true.
+        return
+    end if
+    end function checkMappingVar
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
