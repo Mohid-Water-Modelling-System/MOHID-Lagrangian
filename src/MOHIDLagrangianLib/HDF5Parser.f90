@@ -156,7 +156,7 @@
         call hdf5File%getMappingVar(varList(realVarIdx), gfield(mapVarID), varList(mapVarID), units)
         do i=1, size(syntecticVar)-1
             write(*,*)"Getting Var name = ", varList(i)
-            call hdf5File%getVar(varList(mapVarID), gfield(i), gfield(mapVarID), .true., varList(i), units)
+            call hdf5File%getVar(varList(mapVarID), gfield(i), gfield(mapVarID), syntecticVar(i), varList(i), units)
         end do
     end if
     
@@ -472,8 +472,8 @@
     type(string), intent(in) :: varName
     type(generic_field_class), intent(out) :: varField
     type(generic_field_class), intent(in) :: mapField
-    logical, optional, intent(in) :: binaryVar
-    type(string), optional, intent(in) :: altName, altUnits
+    logical, intent(in) :: binaryVar
+    type(string), intent(in) :: altName, altUnits
     logical :: bVar
     real(prec), allocatable, dimension(:,:) :: tempRealField2D
     real(prec), allocatable, dimension(:,:,:) :: tempRealField3D
@@ -485,10 +485,8 @@
     type(string) :: outext
     logical variable_u_is4D
     
-    bVar= .false.
-    if(present(binaryVar)) bVar = binaryVar
+    bVar = binaryVar
     variable_u_is4D = .false.
-
     do i=1, self%nVars !going trough all variables
         if (self%varData(i)%simName == varName ) then   !found the requested var
             write(*,*)"Getting Var for simulation name = ", self%varData(i)%simName
@@ -502,11 +500,12 @@
             if(self%varData(i)%ndims == 3) then !3D variable
                 allocate(tempRealField2D(varShape(1)-1, varShape(2)-1))
                 allocate(tempRealField3D(varShape(1)-1, varShape(2)-1,varShape(3)))
-                do t=1, varShape(3)
-                    call self%readHDFVariable(self%varData(i), array2D = tempRealField2D, outputNumber = t)
-                    tempRealField3D(:,:,t) = tempRealField2D
-                enddo
+                
                 if (.not.bVar) then
+                    do t=1, varShape(3)
+                        call self%readHDFVariable(self%varData(i), array2D = tempRealField2D, outputNumber = t)
+                        tempRealField3D(:,:,t) = tempRealField2D
+                    enddo
                     where (mapField%intScalar3D%field == 0)
                         tempRealField3D = 0.0
                     end where
@@ -521,22 +520,20 @@
                 if (.not.bVar) then
                     call varField%initialize(varName, self%varData(i)%units, tempRealField3D)
                 else
-                    dimName = varName
-                    if(present(altName)) dimName = altName
-                    varUnits = self%varData(i)%units
-                    if(present(altUnits)) varUnits = altUnits
+                    dimName = altName
+                    varUnits = altUnits
                     call varField%initialize(dimName, varUnits, tempRealField3D)
                 end if
             else if(self%varData(i)%ndims == 4) then !4D variable                
-                allocate(tempRealField4D(varShape(1)-1, varShape(2)-1, varShape(3), varShape(4))) !allocating a place to read the field data to
-                allocate(tempRealField3D(varShape(1)-1, varShape(2)-1, varShape(3)))
-                do t=1, varShape(4)
-                    !Depth is assumed to be VerticalZ which is a 4D var.
-                    call self%readHDFVariable(self%varData(i), array3D = tempRealField3D, outputNumber = t)
-                    tempRealField4D(:,:,:,t) = tempRealField3D
-                enddo
+                allocate(tempRealField4D(varShape(1)-1, varShape(2)-1, varShape(3)-1, varShape(4))) !allocating a place to read the field data to
+                allocate(tempRealField3D(varShape(1)-1, varShape(2)-1, varShape(3)-1))
                 
                 if (.not.bVar) then
+                    do t=1, varShape(4)
+                        !Depth is assumed to be VerticalZ which is a 4D var.
+                        call self%readHDFVariable(self%varData(i), array3D = tempRealField3D, outputNumber = t)
+                        tempRealField4D(:,:,:,t) = tempRealField3D
+                    enddo
                     where (mapField%intScalar4D%field == 0)
                         tempRealField4D = 0.0
                     end where
@@ -553,10 +550,9 @@
                 if (.not.bVar) then
                     call varField%initialize(varName, self%varData(i)%units, tempRealField4D)
                 else
-                    dimName = varName
-                    if(present(altName)) dimName = altName
+                    dimName = altName
                     varUnits = self%varData(i)%units
-                    if(present(altUnits)) varUnits = altUnits
+                    varUnits = altUnits
                     call varField%initialize(dimName, varUnits, tempRealField4D)
                 end if
             elseif(self%varData(i)%ndims == 2) then !2D variable, for now only bathymetry
@@ -854,8 +850,8 @@ do1:                do indx=1, self%nVars
                 call varField%initialize(mapVarName, varUnits, tempIntegerField3D)
                 
             else if(self%varData(i)%ndims == 4) then !4D variable                
-                allocate(tempIntegerField4D(varShape(1)-1, varShape(2)-1, varShape(3), varShape(4))) !allocating a place to read the field data to
-                allocate(tempIntegerField3D(varShape(1)-1, varShape(2)-1, varShape(3)))
+                allocate(tempIntegerField4D(varShape(1)-1, varShape(2)-1, varShape(3)-1, varShape(4))) !allocating a place to read the field data to
+                allocate(tempIntegerField3D(varShape(1)-1, varShape(2)-1, varShape(3)-1))
                 
                 do var = 1, self%nVars
                     if (self%varData(var)%simName == mapVarName) then
@@ -868,7 +864,7 @@ do1:                do indx=1, self%nVars
                         elseif (self%varData(var)%ndims == 4) then
                             !map var has the same dimensions as vel U (probably openpoints)
                             do t=1, varShape(4)
-                                call self%readHDFIntVariable(self%varData(i), array3D = tempIntegerField3D, outputNumber = t)
+                                call self%readHDFIntVariable(self%varData(var), array3D = tempIntegerField3D, outputNumber = t)
                                 tempIntegerField4D(:,:,:,t) = tempIntegerField3D
                             enddo
                         else
@@ -1573,7 +1569,7 @@ do1:                do indx=1, self%nVars
     integer(HID_T)                                                     :: STAT_CALL
     !Begin------------------------------------------------------------------
     
-    NumType = H5T_NATIVE_DOUBLE
+    NumType = H5T_NATIVE_INTEGER 
 
     !Opens the Group
     call h5gopen_f (self%hdf5ID, trim(var%hdf5GroupName%chars()), gr_id, STAT_CALL)

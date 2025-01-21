@@ -186,13 +186,12 @@
     !> Method that returns a background field matrix - 4D
     !> @param[in] self, varName, outField, origVar
     !---------------------------------------------------------------------------
-    subroutine getVarByName4D(self, varName, outField_1D, outField_2D, outField_3D, outField_4D, origVar)
+    subroutine getVarByName4D(self, varName, outField_2D, outField_3D, outField_4D, origVar)
     class(background_class), intent(in) :: self
     type(string), intent(in) :: varName
     real(prec), dimension(:,:,:,:), pointer, optional, intent(out) :: outField_4D
     real(prec), dimension(:,:,:), pointer, optional, intent(out) :: outField_3D
     type(string), optional, intent(in) :: origVar
-    real(prec), dimension(:), pointer, optional, intent(out) :: outField_1D
     real(prec), dimension(:,:), pointer, optional, intent(out) :: outField_2D
     class(*), pointer :: curr
     type(string) :: outext
@@ -324,7 +323,7 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
     subroutine appendBackgroundByTime(self, bkg, done)
     class(background_class), intent(inout) :: self
     type(background_class), intent(in) :: bkg
-    type(generic_field_class) :: tempGField, tempGField2
+    type(generic_field_class) :: tempGField
     type(generic_field_class), allocatable, dimension(:) :: gField
     logical, intent(out) :: done
     real(prec), allocatable, dimension(:) :: newTime
@@ -762,7 +761,8 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
     logical, allocatable, dimension(:,:,:) :: shiftleftlon3d, shiftuplat3d, shiftrigthlon3d, shiftdownlat3d, beach3d
     logical, allocatable, dimension(:,:,:,:) :: shiftleftlon4d, shiftuplat4d, shiftrigthlon4d, shiftdownlat4d, shiftUpLevel, shiftDownLevel, beach4d, bed4d
     type(string) :: outext
-    integer :: dimIndx, k
+    integer :: dimIndx, k,i,j,t
+    !Begin---------------------------------------------------------------------
     call self%fields%reset()               ! reset list iterator
     do while(self%fields%moreValues())     ! loop while there are values
         curr => self%fields%currentValue() ! get current value
@@ -826,7 +826,7 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
                     dimIndx = minloc(abs(self%dim(dimIndx)%field1D - Globals%Constants%BeachingLevel),1)
                     beach4d(:,:,:dimIndx,:) = .false. !this must be above a certain level only
                     bed4d(:,:,dimIndx:,:) = .false.   !bellow a certain level
-                elseif (allocated(self%dim(dimIndx)%field4D)) then
+                elseif (allocated(self%dim(dimIndx)%field4D)) then  
                     where (self%dim(dimIndx)%field4D <= Globals%Constants%BeachingLevel)
                         beach4d = .false.!Below beaching level, beach flag is false.
                     elsewhere 
@@ -1464,7 +1464,6 @@ do3:                do i=1, size(curr%field,1)
     subroutine setDims(self, dims)
     class(background_class), intent(inout) :: self
     type(generic_field_class), dimension(:), intent(in) :: dims
-    real(prec), allocatable, dimension(:) :: rest
     integer :: i
     real(prec) :: fmin, fmax, eta, dreg
     type(string) :: outext
@@ -1564,7 +1563,6 @@ do3:                do i=1, size(curr%field,1)
     real(prec), allocatable, dimension(:) :: field1
     real(prec), allocatable, dimension(:,:) :: field2
     type(vector), allocatable, dimension(:,:,:) :: field3
-    real(prec), allocatable, dimension(:,:,:) :: any_field_3d
     type(string) :: name1, name2, name3, bname
     type(string) :: units1, units2, units3
     type(box) :: backgroundbbox
