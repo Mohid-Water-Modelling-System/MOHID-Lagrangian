@@ -761,7 +761,7 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
     logical, allocatable, dimension(:,:,:) :: shiftleftlon3d, shiftuplat3d, shiftrigthlon3d, shiftdownlat3d, beach3d
     logical, allocatable, dimension(:,:,:,:) :: shiftleftlon4d, shiftuplat4d, shiftrigthlon4d, shiftdownlat4d, shiftUpLevel, shiftDownLevel, beach4d, bed4d
     type(string) :: outext
-    integer :: dimIndx, k,i,j,t
+    integer :: dimIndx, k
     !Begin---------------------------------------------------------------------
     call self%fields%reset()               ! reset list iterator
     do while(self%fields%moreValues())     ! loop while there are values
@@ -949,21 +949,32 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
                 end do
                 if (allocated(self%dim(zIndx)%field1D)) then
                     zz4d(1,1,2:,1) = abs(self%dim(zIndx)%field1D(:size(curr%field,3)-1) - self%dim(zIndx)%field1D(2:))
+                elseif (allocated(self%dim(zIndx)%field4D)) then
+                    !Fiquei AQUI - É preciso fazer a matrix 4D disto - em principio esta feito. CONFIRMAR!
+                    zz4d(:,:,2:,:) = abs(self%dim(zIndx)%field4D(:,:,:size(curr%field,3)-1,:) - self%dim(zIndx)%field4D(:,:,2:,:))
                 else
+                    
                     outext = '[background_class::makeResolutionField] variable level (vertical layers) must be a 1D array. Stopping'
                     call Log%put(outext)
                 endif
+                
+                !Fiquei AQUI : é preciso testar isto
                 do i=2, size(zz4d,1)
                     zz4d(i,1,:,1) = zz4d(1,1,:,1)
                 end do
                 do j=2, size(zz4d,2)
                     zz4d(:,j,:,1) = zz4d(:,1,:,1)
                 end do
-                do t=2, size(curr%field,4)
-                    xx4d(:,:,:,t) = xx4d(:,:,:,1)
-                    yy4d(:,:,:,t) = yy4d(:,:,:,1)
-                    zz4d(:,:,:,t) = zz4d(:,:,:,1)
-                end do
+                xx4d(:,:,:,t) = xx4d(:,:,:,1)
+                yy4d(:,:,:,t) = yy4d(:,:,:,1)
+                if (allocated(self%dim(zIndx)%field1D)) then
+                    do t=2, size(curr%field,4)
+                        zz4d(:,:,:,t) = zz4d(:,:,:,1)
+                    end do
+                else
+                    !Nothing to do, was already done above
+                endif
+                
                 curr%field = xx4d!(xx4d + yy4d + zz4d)/3.0
             end if
             class default

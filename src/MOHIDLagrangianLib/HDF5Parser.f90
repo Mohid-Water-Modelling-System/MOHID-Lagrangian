@@ -498,9 +498,13 @@
             end do
             
             if(self%varData(i)%ndims == 3) then !3D variable
-                allocate(tempRealField2D(varShape(1)-1, varShape(2)-1))
-                allocate(tempRealField3D(varShape(1)-1, varShape(2)-1,varShape(3)))
-                
+                if (altName == Globals%Var%resolution) then
+                    allocate(tempRealField2D(varShape(1), varShape(2)))
+                    allocate(tempRealField3D(varShape(1), varShape(2),varShape(3)))
+                else
+                    allocate(tempRealField2D(varShape(1)-1, varShape(2)-1))
+                    allocate(tempRealField3D(varShape(1)-1, varShape(2)-1,varShape(3)))
+                endif
                 if (.not.bVar) then
                     do t=1, varShape(3)
                         call self%readHDFVariable(self%varData(i), array2D = tempRealField2D, outputNumber = t)
@@ -514,8 +518,12 @@
                         outext = '[hdf5Parser::getVar]:WARNING - variables without _fillvalue, you might have some problems in a few moments. Masks will not work properly (beaching, land exclusion,...)'
                     call Log%put(outext)
                     end if
-                    where (mapField%intScalar3D%field == 1) tempRealField3D = Globals%Mask%waterVal
-                    where (mapField%intScalar3D%field == 0) tempRealField3D = Globals%Mask%landVal
+                    if (altName == Globals%Var%resolution) then
+                        tempRealField3D = Globals%Mask%waterVal
+                    else
+                        where (mapField%intScalar3D%field == 1) tempRealField3D = Globals%Mask%waterVal
+                        where (mapField%intScalar3D%field == 0) tempRealField3D = Globals%Mask%landVal
+                    endif
                 end if
                 if (.not.bVar) then
                     call varField%initialize(varName, self%varData(i)%units, tempRealField3D)
@@ -524,9 +532,14 @@
                     varUnits = altUnits
                     call varField%initialize(dimName, varUnits, tempRealField3D)
                 end if
-            else if(self%varData(i)%ndims == 4) then !4D variable                
-                allocate(tempRealField4D(varShape(1)-1, varShape(2)-1, varShape(3)-1, varShape(4))) !allocating a place to read the field data to
-                allocate(tempRealField3D(varShape(1)-1, varShape(2)-1, varShape(3)-1))
+            else if(self%varData(i)%ndims == 4) then !4D variable
+                if (altName == Globals%Var%resolution) then
+                    allocate(tempRealField4D(varShape(1), varShape(2), varShape(3), varShape(4))) !allocating a place to read the field data to
+                    allocate(tempRealField3D(varShape(1), varShape(2), varShape(3)))
+                else
+                    allocate(tempRealField4D(varShape(1)-1, varShape(2)-1, varShape(3)-1, varShape(4))) !allocating a place to read the field data to
+                    allocate(tempRealField3D(varShape(1)-1, varShape(2)-1, varShape(3)-1))
+                endif
                 
                 if (.not.bVar) then
                     do t=1, varShape(4)
@@ -543,8 +556,13 @@
                         call Log%put(outext)
                     end if
                     !Aqui sera onde se incluirao os openpoints
-                    where (mapField%intScalar4D%field == 1) tempRealField4D = Globals%Mask%waterVal
-                    where (mapField%intScalar4D%field == 0) tempRealField4D = Globals%Mask%landVal
+                    if (altName == Globals%Var%resolution) then
+                        tempRealField4D = Globals%Mask%waterVal
+                    else
+                        where (mapField%intScalar4D%field == 1) tempRealField4D = Globals%Mask%waterVal
+                        where (mapField%intScalar4D%field == 0) tempRealField4D = Globals%Mask%landVal
+                    endif
+                    
                 end if
                 
                 if (.not.bVar) then
