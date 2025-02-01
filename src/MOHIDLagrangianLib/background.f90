@@ -868,7 +868,9 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
     class(background_class), intent(inout) :: self
     class(*), pointer :: curr
     real(prec), allocatable, dimension(:,:,:) :: xx3d, yy3d
+    real(prec), allocatable, dimension(:,:,:) :: xx3d_temp, yy3d_temp
     real(prec), allocatable, dimension(:,:,:,:) :: xx4d, yy4d, zz4d
+    real(prec), allocatable, dimension(:,:,:,:) :: xx4d_temp, yy4d_temp, zz4d_temp
     type(string) :: outext
     integer :: xIndx, yIndx, zIndx, i, j, k, t
     call self%fields%reset()               ! reset list iterator
@@ -876,15 +878,15 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
         curr => self%fields%currentValue() ! get current value
         select type(curr)
         class is (scalar3d_field_class)
+            !NEED TO UPDATE THIS CODE (LAT and LON MUST BE REVERSED) LAT SHOULD BE DIMENSION1 and LON DIMENSION2. JOAO SOBRINHO
             if (curr%name == Globals%Var%resolution) then
                 allocate(xx3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
                 allocate(yy3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
+                
+                allocate(xx3d_temp(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
+                allocate(yy3d_temp(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
                 xIndx = self%getDimIndex(Globals%Var%lon)
                 yIndx = self%getDimIndex(Globals%Var%lat)
-                !Beware that (curr%field,2) is the rows dimension (Lat)
-                !and j in this case is also number of rows, and that is why the geo2m call includes a lat with index j
-                !and why the size of xIndx uses (curr%field,1)
-                !When the call uses .true. the lat value is not used, so any value can be used
                 if (allocated(self%dim(xIndx)%field1D)) then
                     do j=1, size(xx3d,2)
                         xx3d(:,j,1) = Utils%geo2m(abs(self%dim(xIndx)%field1D(:size(curr%field,1)-1) - self%dim(xIndx)%field1D(2:)), self%dim(yIndx)%field1D(j), .false.)
@@ -894,16 +896,36 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
                         yy3d(i,:,1) = yy3d(1,:,1)
                     end do
                 elseif (allocated(self%dim(xIndx)%field2D)) then
-                    do j=1, size(xx3d,2)
-                        !for a given row (j) go through all columns (i) of lat and lon vectors. Send to geo2m the lon difference and the lat vector for each row. 
-                        xx3d(2:,j,1) = Utils%geo2m(abs(self%dim(xIndx)%field2D(:size(curr%field,1)-1,j) - self%dim(xIndx)%field2D(2:size(curr%field,1),j)), self%dim(yIndx)%field2D(2:,j), .false.)
-                    end do
-                    xx3d(1,:,1) = xx3d(2,:,1)
+                    
+                    do i=1,size(curr%field,1)
+                    do j=1, size(curr%field,2)
+                        xx3d_temp(i,j,1) = (self%dim(xIndx)%field2D(i,j) &
+                                           + self%dim(xIndx)%field2D(i+1,j) &
+                                           + self%dim(xIndx)%field2D(i,j+1) &
+                                           + self%dim(xIndx)%field2D(i+1,j+1)) &
+                                           / 4.0
+                    enddo
+                    enddo
+                    
+                    do i=1,size(curr%field,1)
+                    do j=1, size(curr%field,2)
+                        yy3d_temp(i,j,1) = (self%dim(yIndx)%field2D(i,j) &
+                                           + self%dim(yIndx)%field2D(i+1,j) &
+                                           + self%dim(yIndx)%field2D(i,j+1) &
+                                           + self%dim(yIndx)%field2D(i+1,j+1)) &
+                                           / 4.0
+                    enddo
+                    enddo
+
+                    do i=1, size(xx3d,1)
+                        xx3d(i,2:,1) = Utils%geo2m(abs(xx3d_temp(i,:size(xx3d_temp,2)-1,1) - xx3d_temp(i,2:,1)), yy3d_temp(i,2:,1), .true.)
+                    enddo
+                    xx3d(:,1,1) = xx3d(:,2,1)
                     !Because lat is 2D, must go through all 2D points of the matrix
-                    do i=1, size(yy3d,1)
-                        yy3d(i,2:,1) = Utils%geo2m(abs(self%dim(yIndx)%field2D(i,:size(curr%field,2)-1) - self%dim(yIndx)%field2D(i,2:)), self%dim(yIndx)%field2D(1,2:), .true.)
+                    do j=1, size(yy3d,2)
+                        yy3d(2:,j,1) = Utils%geo2m(abs(yy3d_temp(:size(yy3d_temp,1)-1,j,1) - yy3d_temp(2:,j,1)), yy3d_temp(2:,j,1), .false.)
                     end do
-                    yy3d(:,1,1) = yy3d(:,2,1)
+                    yy3d(1,:,1) = yy3d(2,:,1)
                 end if
                 
                 do k=2, size(curr%field,3)
@@ -916,11 +938,12 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
             if (curr%name == Globals%Var%resolution) then
                 allocate(xx4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
                 allocate(yy4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
-                allocate(zz4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                
+                allocate(xx4d_temp(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                allocate(yy4d_temp(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
                 xx4d = -99999.0
                 xIndx = self%getDimIndex(Globals%Var%lon)
                 yIndx = self%getDimIndex(Globals%Var%lat)
-                zIndx = self%getDimIndex(Globals%Var%level)
                 
                 if (allocated(self%dim(xIndx)%field1D)) then
                     do j=1, size(xx4d,2)
@@ -931,51 +954,57 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
                         yy4d(i,:,1,1) = yy4d(1,:,1,1)
                     end do
                 elseif (allocated(self%dim(xIndx)%field2D)) then
-                    do j=1, size(xx4d,2)
-                        !for a given row (j) go through all columns (i) of lat and lon vectors. Send to geo2m the lon difference and the lat vector for each row. 
-                        xx4d(2:,j,1,1) = Utils%geo2m(abs(self%dim(xIndx)%field2D(:size(curr%field,1)-1,j) - self%dim(xIndx)%field2D(2:size(curr%field,1),j)), self%dim(yIndx)%field2D(2:,j), .false.)
-                    end do
-                    xx4d(1,:,1,1) = xx4d(2,:,1,1)
+                    !for a given row (i) go through all columns (j) of lat and lon vectors. Send to geo2m the lon difference and the lat vector for each row.
+                    do i=1,size(curr%field,1)
+                    do j=1, size(curr%field,2)
+                        xx4d_temp(i,j,1,1) = (self%dim(xIndx)%field2D(i,j) &
+                                           + self%dim(xIndx)%field2D(i+1,j) &
+                                           + self%dim(xIndx)%field2D(i,j+1) &
+                                           + self%dim(xIndx)%field2D(i+1,j+1)) &
+                                           / 4.0
+                    enddo
+                    enddo
+                    
+                    do i=1,size(curr%field,1)
+                    do j=1, size(curr%field,2)
+                        yy4d_temp(i,j,1,1) = (self%dim(yIndx)%field2D(i,j) &
+                                           + self%dim(yIndx)%field2D(i+1,j) &
+                                           + self%dim(yIndx)%field2D(i,j+1) &
+                                           + self%dim(yIndx)%field2D(i+1,j+1)) &
+                                           / 4.0
+                    enddo
+                    enddo
+                    
+                    do i=1, size(xx4d,1)
+                        xx4d(i,2:,1,1) = Utils%geo2m(abs(xx4d_temp(i,:size(xx4d_temp,2)-1,1,1) - xx4d_temp(i,2:,1,1)), yy4d_temp(i,2:,1,1), .true.)
+                    enddo
+                    xx4d(:,1,1,1) = xx4d(:,2,1,1)
                     !Because lat is 2D, must go through all 2D points of the matrix
-                    do i=1, size(yy4d,1)
-                        yy4d(i,2:,1,1) = Utils%geo2m(abs(self%dim(yIndx)%field2D(i,:size(curr%field,2)-1) - self%dim(yIndx)%field2D(i,2:)), self%dim(yIndx)%field2D(1,2:), .true.)
+                    do j=1, size(yy4d,2)
+                        yy4d(2:,j,1,1) = Utils%geo2m(abs(yy4d_temp(:size(yy4d_temp,1)-1,j,1,1) - yy4d_temp(2:,j,1,1)), yy4d_temp(2:,j,1,1), .false.)
                     end do
-                    yy4d(:,1,1,1) = yy4d(:,2,1,1)
+                    yy4d(1,:,1,1) = yy4d(2,:,1,1)
                 end if
                 
                 do k=2, size(curr%field,3)
                     xx4d(:,:,k,1) = xx4d(:,:,1,1)
                     yy4d(:,:,k,1) = yy4d(:,:,1,1)
                 end do
-                if (allocated(self%dim(zIndx)%field1D)) then
-                    zz4d(1,1,2:,1) = abs(self%dim(zIndx)%field1D(:size(curr%field,3)-1) - self%dim(zIndx)%field1D(2:))
-                elseif (allocated(self%dim(zIndx)%field4D)) then
-                    !Fiquei AQUI - É preciso fazer a matrix 4D disto - em principio esta feito. CONFIRMAR!
-                    zz4d(:,:,2:,:) = abs(self%dim(zIndx)%field4D(:,:,:size(curr%field,3)-1,:) - self%dim(zIndx)%field4D(:,:,2:,:))
-                else
-                    
-                    outext = '[background_class::makeResolutionField] variable level (vertical layers) must be a 1D array. Stopping'
-                    call Log%put(outext)
-                endif
                 
-                !Fiquei AQUI : é preciso testar isto
-                do i=2, size(zz4d,1)
-                    zz4d(i,1,:,1) = zz4d(1,1,:,1)
-                end do
-                do j=2, size(zz4d,2)
-                    zz4d(:,j,:,1) = zz4d(:,1,:,1)
-                end do
-                xx4d(:,:,:,t) = xx4d(:,:,:,1)
-                yy4d(:,:,:,t) = yy4d(:,:,:,1)
                 if (allocated(self%dim(zIndx)%field1D)) then
                     do t=2, size(curr%field,4)
-                        zz4d(:,:,:,t) = zz4d(:,:,:,1)
+                        xx4d(:,:,:,t) = xx4d(:,:,:,1)
+                        yy4d(:,:,:,t) = yy4d(:,:,:,1)
                     end do
                 else
-                    !Nothing to do, was already done above
+                    do t=2, size(curr%field,4)
+                        xx4d(:,:,:,t) = xx4d(:,:,:,1)
+                        yy4d(:,:,:,t) = yy4d(:,:,:,1)
+                    enddo
                 endif
                 
-                curr%field = xx4d!(xx4d + yy4d + zz4d)/3.0
+                !curr%field = xx4d!(xx4d + yy4d + zz4d)/3.0
+                curr%field = (xx4d + yy4d)/2.0
             end if
             class default
             outext = '[background_class::makeResolutionField] Unexepected type of content, not a 3D or 4D scalar Field'
@@ -1514,18 +1543,19 @@ do3:                do i=1, size(curr%field,1)
         elseif (allocated(dims(i)%scalar2d%field)) then
             write(*,*)"alocado 2d 2 = ", trim(dims(i)%name)
             if (dims(i)%name == Globals%Var%lat) then
-                fmin = dims(i)%scalar2d%getFieldMinBound(arrayDim=2) !lat rows are in dimension2
-                fmax = dims(i)%scalar2d%getFieldMaxBound(arrayDim=2) !lat rows are in dimension2
-                eta = (fmax-fmin)/(10.0*size(dims(i)%scalar2d%field,2))
-                dreg = (fmax-fmin)/(size(dims(i)%scalar2d%field, 2))
-                self%regularDim(i) = all(abs((dims(i)%scalar2d%field(1,2:)-dims(i)%scalar2d%field(1,:size(dims(i)%scalar2d%field,2)-1)) - dreg) < abs(eta))
+                fmin = dims(i)%scalar2d%getFieldMinBound(arrayDim=1) !lat rows are in dimension1 CHANGED in Jan 2025 (was dimension2)
+                fmax = dims(i)%scalar2d%getFieldMaxBound(arrayDim=1) !lat rows are in dimension1 CHANGED in Jan 2025 (was dimension2)
+                eta = (fmax-fmin)/(10.0*size(dims(i)%scalar2d%field,1))
+                dreg = (fmax-fmin)/(size(dims(i)%scalar2d%field, 1))
+                self%regularDim(i) = all(abs((dims(i)%scalar2d%field(2:,1)-dims(i)%scalar2d%field(:size(dims(i)%scalar2d%field,1)-1,1)) - dreg) < abs(eta))
                 write(*,*)"Regular dim lat = ", self%regularDim(i), i
             elseif (dims(i)%name == Globals%Var%lon) then
-                fmin = dims(i)%scalar2d%getFieldMinBound(arrayDim=1) !lon columns are in dimension1
-                fmax = dims(i)%scalar2d%getFieldMaxBound(arrayDim=1) !lon columns are in dimension1
-                eta = (fmax-fmin)/(10.0*size(dims(i)%scalar2d%field,1))
-                dreg = (fmax-fmin)/(size(dims(i)%scalar2d%field,1))
-                self%regularDim(i) = all(abs((dims(i)%scalar2d%field(2:,1)-dims(i)%scalar2d%field(:size(dims(i)%scalar2d%field,1)-1,1)) - dreg) < abs(eta))
+                fmin = dims(i)%scalar2d%getFieldMinBound(arrayDim=2) !lon columns are in dimension2 CHANGED in Jan 2025 (was dimension1)
+                fmax = dims(i)%scalar2d%getFieldMaxBound(arrayDim=2) !lon columns are in dimension2 CHANGED in Jan 2025 (was dimension1)
+                write(*,*) "Size dims(i)%scalar2d%field,2) = ", size(dims(i)%scalar2d%field,2)
+                eta = (fmax-fmin)/(10.0*size(dims(i)%scalar2d%field,2))
+                dreg = (fmax-fmin)/(size(dims(i)%scalar2d%field,2))
+                self%regularDim(i) = all(abs((dims(i)%scalar2d%field(1,2:)-dims(i)%scalar2d%field(1,:size(dims(i)%scalar2d%field,2)-1)) - dreg) < abs(eta))
                 write(*,*)"Regular dim lon = ", self%regularDim(i), i
             endif
         elseif (allocated(dims(i)%scalar3d%field)) then

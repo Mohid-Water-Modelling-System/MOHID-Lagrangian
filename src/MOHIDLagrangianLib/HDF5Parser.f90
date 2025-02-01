@@ -498,13 +498,13 @@
             end do
             
             if(self%varData(i)%ndims == 3) then !3D variable
-                if (altName == Globals%Var%resolution) then
-                    allocate(tempRealField2D(varShape(1), varShape(2)))
-                    allocate(tempRealField3D(varShape(1), varShape(2),varShape(3)))
-                else
+                !if (altName == Globals%Var%resolution) then
+                !    allocate(tempRealField2D(varShape(1), varShape(2)))
+                !    allocate(tempRealField3D(varShape(1), varShape(2),varShape(3)))
+                !else
                     allocate(tempRealField2D(varShape(1)-1, varShape(2)-1))
                     allocate(tempRealField3D(varShape(1)-1, varShape(2)-1,varShape(3)))
-                endif
+                !endif
                 if (.not.bVar) then
                     do t=1, varShape(3)
                         call self%readHDFVariable(self%varData(i), array2D = tempRealField2D, outputNumber = t)
@@ -533,13 +533,13 @@
                     call varField%initialize(dimName, varUnits, tempRealField3D)
                 end if
             else if(self%varData(i)%ndims == 4) then !4D variable
-                if (altName == Globals%Var%resolution) then
-                    allocate(tempRealField4D(varShape(1), varShape(2), varShape(3), varShape(4))) !allocating a place to read the field data to
-                    allocate(tempRealField3D(varShape(1), varShape(2), varShape(3)))
-                else
+                !if (altName == Globals%Var%resolution) then
+                !    allocate(tempRealField4D(varShape(1), varShape(2), varShape(3), varShape(4))) !allocating a place to read the field data to
+                !    allocate(tempRealField3D(varShape(1), varShape(2), varShape(3)))
+                !else
                     allocate(tempRealField4D(varShape(1)-1, varShape(2)-1, varShape(3)-1, varShape(4))) !allocating a place to read the field data to
                     allocate(tempRealField3D(varShape(1)-1, varShape(2)-1, varShape(3)-1))
-                endif
+                !endif
                 
                 if (.not.bVar) then
                     do t=1, varShape(4)
