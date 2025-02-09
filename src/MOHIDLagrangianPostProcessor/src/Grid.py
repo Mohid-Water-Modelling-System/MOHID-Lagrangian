@@ -81,31 +81,31 @@ class Grid:
         self.grid = len(self.dims)*[[]]
         for parameter in root.findall('EulerianMeasures/gridDefinition/'):
             if parameter.tag == 'BoundingBoxMin':
-                x_min = np.float(parameter.get('x'))
-                y_min = np.float(parameter.get('y'))
-                z_min = np.float(parameter.get('z'))
+                x_min = float(parameter.get('x')) #pmv: mudaronse todos os np.float a float
+                y_min = float(parameter.get('y'))
+                z_min = float(parameter.get('z'))
             else:
                 root_global = ET.parse(self.xml_file).getroot()
                 bbox_min = root_global.find('caseDefinitions/simulation/BoundingBoxMin')
-                x_min = np.float(bbox_min.get('x'))
-                y_min = np.float(bbox_min.get('y'))
-                z_min = np.float(bbox_min.get('z'))
+                x_min = float(bbox_min.get('x')) #pmv: mudaronse todos os np.float a float
+                y_min = float(bbox_min.get('y'))
+                z_min = float(bbox_min.get('z'))
 
             if parameter.tag == 'BoundingBoxMax':
-                x_max = np.float(parameter.get('x'))
-                y_max = np.float(parameter.get('y'))
-                z_max = np.float(parameter.get('z'))
+                x_max = float(parameter.get('x')) #pmv: mudaronse todos os np.float a float
+                y_max = float(parameter.get('y'))
+                z_max = float(parameter.get('z'))
             else:
                 root_global = ET.parse(self.xml_file).getroot()
                 bbox_max = root_global.find('caseDefinitions/simulation/BoundingBoxMax')
-                x_max = np.float(bbox_max.get('x'))
-                y_max = np.float(bbox_max.get('y'))
-                z_max = np.float(bbox_max.get('z'))
+                x_max = float(bbox_max.get('x')) #pmv: mudaronse todos os np.float a float
+                y_max = float(bbox_max.get('y'))
+                z_max = float(bbox_max.get('z'))
 
             if parameter.tag == 'resolution':
-                x_step = np.float(parameter.get('x'))
-                y_step = np.float(parameter.get('y'))
-                z_step = np.float(parameter.get('z'))
+                x_step = float(parameter.get('x')) #pmv: mudaronse todos os np.float a float
+                y_step = float(parameter.get('y'))
+                z_step = float(parameter.get('z'))
             if parameter.tag == 'units':
                 units_value = parameter.get('value')
 
@@ -114,9 +114,9 @@ class Grid:
             self.grid[1] = np.arange(y_min, y_max, y_step)
             self.grid[0] = np.arange(z_min, z_max, z_step)
         elif units_value == 'relative':
-            self.grid[2] = np.linspace(x_min, x_max, np.int(x_step + 1))
-            self.grid[1] = np.linspace(y_min, y_max, np.int(y_step + 1))
-            self.grid[0] = np.linspace(z_min, z_max, np.int(z_step + 1))
+            self.grid[2] = np.linspace(x_min, x_max, int(x_step + 1)) #pmv: mudaronse todos os np.int a int
+            self.grid[1] = np.linspace(y_min, y_max, int(y_step + 1))
+            self.grid[0] = np.linspace(z_min, z_max, int(z_step + 1))
         elif units_value == 'meters':
             y_c = (y_max + y_min)/2.
             dlat = y_step/(cte.degreesToRad*cte.earthRadius)

@@ -48,6 +48,7 @@ class PostProcessor:
             polygonBase = PolygonBase(self.xml_file, self.xml_recipe)
             netcdfWriter.initDataset(polygonBase.polygon, fileTimeHandler)
             polygonBase.run(measures, sources, vtuParser, fileTimeHandler, netcdfWriter)
+            
 
         if checkHDF5WriteRecipe(self.xml_recipe):
             vtu2hdf5(vtuParser, fileTimeHandler, self.outdirLocal)

@@ -47,5 +47,5 @@ def getSourceMaskFromVTU(VTKReader, source: int) -> np.bool:
         if source == 'global':
             sourceMask = np.bool(True)
         else:
-            sourceMask = getVariableFromVTU(VTKReader, 'source') == np.int(source)
+            sourceMask = getVariableFromVTU(VTKReader, 'source') == int(source) #pmv mudouse np.int por int
     return sourceMask

@@ -64,7 +64,9 @@ class Polygon:
         if points.shape[0] == 0:
             countsArray = np.zeros_like(self.ids)
         else:
-            counts = gpd.sjoin(points, self.geoDataFrame, op='within')
+            # counts = gpd.sjoin(points, self.geoDataFrame, op='within')
+            counts = gpd.sjoin(points, self.geoDataFrame, predicate='within')
+            counts.rename(columns={'index_right0': 'index_right'}, inplace=True)
             joins = counts.groupby('index_right').size()
             df = joins.to_frame().reset_index()
             df.columns = ['index', 'counts']

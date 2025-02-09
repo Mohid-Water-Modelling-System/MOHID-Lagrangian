@@ -117,6 +117,14 @@ def isgroupable(da: xr.DataArray, group_type: str, time_freq: str,
 
     """
     flag = False
+
+    # Verifica el tipo de la variable de tiempo
+    # print(da['time'].dtype)  # Debe ser de tipo datetime64[ns]
+
+    # Si no es datetime64[ns], conviértelo
+    if da['time'].dtype != 'datetime64[ns]':
+        da['time'] = pd.to_datetime(da['time'].values)
+
     if group_type == 'resample':
         flag = (method in dir(da.resample(time=time_freq)))
     elif group_type == 'groupby':
@@ -245,14 +253,18 @@ def get_background_map(ax, extent):
         ax.add_feature(cfeature.OCEAN, color='white')
 
     else:
-        stamen_terrain = cimgt.Stamen('toner-background')
-        stamen_terrain.desired_tile_form = 'L'
+
+        google_terrain = cimgt.GoogleTiles(url = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}.jpg')
+        #google_terrain = cimgt.GoogleTiles(url = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Basemap_v2/MapServer/tile/{z}/{y}/{x}.jpg')
+        google_terrain.desired_tile_form = 'RGB'
+        #google_terrain.style= 'satellite'
         # tile - color limist RGB [0, 256]
         # 0 -  5 water - white
         # 5 - 64 land - white gray
         boundaries_RGB_tiles = [0, 5, 64]
         norm = mcolors.BoundaryNorm(boundaries=boundaries_RGB_tiles, ncolors=64)
-        ax.add_image(stamen_terrain, 11, cmap='gray_r', norm=norm)
+        ax.add_image(google_terrain, 11, cmap='gray_r', norm=norm)
+        
     return ax
 
 
@@ -324,7 +336,7 @@ def get_extent(inputdata) -> list:
         return get_polygon_extent(inputdata)
 
 
-def get_horizontal_scale(dataArray: xr.DataArray) -> np.int:
+def get_horizontal_scale(dataArray: xr.DataArray) -> int:  #pmv
     """Get the horizontal scale to build the scale bar.
 
     It approaches 1º-100km to tenth part of horizontal extent
