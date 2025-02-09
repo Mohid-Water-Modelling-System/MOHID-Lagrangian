@@ -37,7 +37,7 @@ class FilesTimesHandler:
             if parameter.get('key') == 'End':
                 self.endTime = parameter.get('value')
             if parameter.get('key') == 'OutputWriteTime':
-                self.dt = np.float(parameter.get('value'))
+                self.dt = float(parameter.get('value')) #pmv
         nFiles = len(self.fileList)
         startTimeStamp = MDateTime.getTimeStampFromISODateString(self.startTime)
         self.timeAxis = np.array([startTimeStamp + i*self.dt/daysToSeconds for i in range(0,nFiles)])

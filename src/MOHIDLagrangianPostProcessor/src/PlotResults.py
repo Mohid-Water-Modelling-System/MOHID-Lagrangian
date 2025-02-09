@@ -215,10 +215,8 @@ class PlotGrid(Plot):
         self.setFigureAxisLayout()
         self.setSliceTimeDataArray
         self.setColorbar()
-
         time_step = 0
         for ax in self.axarr.flat:
-
             extent = get_extent(self.dataArray)
             if hastime(self.dataArray):
                 dataArray_step = self.dataArray.isel({self.time_key: time_step})
@@ -227,7 +225,6 @@ class PlotGrid(Plot):
 
             setup_plot = self.getSetupDict(ax)
             _ = getattr(dataArray_step.plot, self.plot_type)(**setup_plot)
-
             self.getBackground(ax, extent)
             self.getScaleBar(ax)
             time_step += 1
@@ -285,37 +282,37 @@ def plotResultsFromRecipe(outDir, xml_recipe):
         normalizer = Normalizer(normalize_method, ds)
         normalizer.setFactor()
         normalizer.setMethodName()
-
+    
     for idxvar, variable in enumerate(tqdm(variables)):
         da = ds[variable].load()
         units = da.units
-
+       
         if weight_file:
             if idxvar == 0:
                 print("-> Weighting sources with:", weight_file[0])
                 print("   %-40s | %9s" % ('Source', 'Weight'))
             da = weight_dataarray_with_csv(da, weight_file[0])
-
+       
         if 'depth' in da.dims:
             da = da.isel(depth=-1)
-
         methods_list = []
         for method in methods:
+            
             if group_freq != 'all':
                 if isgroupable(da, group_type, group_freq, method):
                     da = group_resample(da, group_type, group_freq)
-
+           
             da = getattr(da, method)(dim='time')
             methods_list.append(method)
-
+        
         if normalize_method:
             units = normalizer.getNormalizedUnits(units)
             da = normalizer.getNormalizedDataArray(da)
 
         da = da.where(da != 0)  # Values with 0 consider as missing value.
-
         output_filename = outDir + '-'.join(methods_list) + '-' + variable + '.png'
         title = get_title_methods(methods_list, variable)
+       
 
         if polygon_file:
             plotter = PlotPolygon(da, output_filename, title, units, polygon_file[0])

@@ -39,8 +39,8 @@ class ncMetadata:
         tMin = ds.time.min()
         tMax = ds.time.max()
         self.time = ds.time.values
-        self.startDate = datetime(tMin.dt.year, tMin.dt.month, tMin.dt.day, tMin.dt.hour, tMin.dt.minute, tMin.dt.second)
-        self.endDate = datetime(tMax.dt.year, tMax.dt.month, tMax.dt.day, tMax.dt.hour, tMax.dt.minute, tMax.dt.second)
+        self.startDate = datetime(tMin.dt.year.item(), tMin.dt.month.item(), tMin.dt.day.item(), tMin.dt.hour.item(), tMin.dt.minute.item(), tMin.dt.second.item())
+        self.endDate = datetime(tMax.dt.year.item(), tMax.dt.month.item(), tMax.dt.day.item(), tMax.dt.hour.item(), tMax.dt.minute.item(), tMax.dt.second.item())
         self.startTime = (self.startDate - baseTime).total_seconds()
         self.endTime = (self.endDate - baseTime).total_seconds()
         ds.close()
