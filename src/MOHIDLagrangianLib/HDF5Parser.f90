@@ -526,7 +526,7 @@
                     endif
                 end if
                 if (.not.bVar) then
-                    call varField%initialize(varName, self%varData(i)%units, tempRealField3D)
+                    call varField%initialize(altName, self%varData(i)%units, tempRealField3D)
                 else
                     dimName = altName
                     varUnits = altUnits
@@ -566,7 +566,7 @@
                 end if
                 
                 if (.not.bVar) then
-                    call varField%initialize(varName, self%varData(i)%units, tempRealField4D)
+                    call varField%initialize(altName, self%varData(i)%units, tempRealField4D)
                 else
                     dimName = altName
                     varUnits = self%varData(i)%units
@@ -613,26 +613,26 @@ do1:                do indx=1, self%nVars
                                     tempRealField4D(:,:,k,t) = - tempRealField2D(:,:)
                                 end do
                             end do
-                            call varField%initialize(varName, self%varData(i)%units, tempRealField4D)
+                            call varField%initialize(altName, self%varData(i)%units, tempRealField4D)
                         else
                             do k=1, size(tempRealField4D,3)
                                 tempRealField3D(:,:,k) = - tempRealField2D(:,:)
                             end do
-                            call varField%initialize(varName, self%varData(i)%units, tempRealField3D)
+                            call varField%initialize(altName, self%varData(i)%units, tempRealField3D)
                         end if
                         
                     else
-                        outext = '[hdf5parser::getVar]: Variable '//varName//' is synthetic and cannot have 2D dimensionality. Stopping'
+                        outext = '[hdf5parser::getVar]: Variable '//altName//' is synthetic and cannot have 2D dimensionality. Stopping'
                         call Log%put(outext)
                         stop
                     end if
                 else
-                    outext = '[hdf5parser::getVar]: Variable '//varName//' is 2D and not bathymetry, so it is not supported. Stopping'
+                    outext = '[hdf5parser::getVar]: Variable '//altName//' is 2D and not bathymetry, so it is not supported. Stopping'
                     call Log%put(outext)
                     stop
                 end if
             else
-                outext = '[hdf5parser::getVar]: Variable '//varName//' has a non-supported dimensionality. Stopping'
+                outext = '[hdf5parser::getVar]: Variable '//altName//' has a non-supported dimensionality. Stopping'
                 call Log%put(outext)
                 stop
             end if

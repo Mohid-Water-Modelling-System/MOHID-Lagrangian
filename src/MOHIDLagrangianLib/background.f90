@@ -219,6 +219,7 @@ do1:do while(self%fields%moreValues())     ! loop while there are values to proc
                 end if
             end if
         class is (scalar3d_field_class)
+                    write(*,*)"Variavel = : ", trim(curr%name)
             if (curr%name == varName) then
                 if (present(outField_3D)) then
                     outField_3D => curr%field
@@ -229,6 +230,7 @@ do1:do while(self%fields%moreValues())     ! loop while there are values to proc
                 endif
             end if
         class is (scalar4d_field_class)
+                    write(*,*)"Variavel = : ", trim(curr%name)
             if (curr%name == varName) then
                 if (present(outField_4D)) then
                     outField_4D => curr%field
@@ -869,8 +871,8 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
     class(*), pointer :: curr
     real(prec), allocatable, dimension(:,:,:) :: xx3d, yy3d
     real(prec), allocatable, dimension(:,:,:) :: xx3d_temp, yy3d_temp
-    real(prec), allocatable, dimension(:,:,:,:) :: xx4d, yy4d, zz4d
-    real(prec), allocatable, dimension(:,:,:,:) :: xx4d_temp, yy4d_temp, zz4d_temp
+    real(prec), allocatable, dimension(:,:,:,:) :: xx4d, yy4d
+    real(prec), allocatable, dimension(:,:,:,:) :: xx4d_temp, yy4d_temp
     type(string) :: outext
     integer :: xIndx, yIndx, zIndx, i, j, k, t
     call self%fields%reset()               ! reset list iterator
@@ -991,17 +993,10 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
                     yy4d(:,:,k,1) = yy4d(:,:,1,1)
                 end do
                 
-                if (allocated(self%dim(zIndx)%field1D)) then
-                    do t=2, size(curr%field,4)
-                        xx4d(:,:,:,t) = xx4d(:,:,:,1)
-                        yy4d(:,:,:,t) = yy4d(:,:,:,1)
-                    end do
-                else
-                    do t=2, size(curr%field,4)
-                        xx4d(:,:,:,t) = xx4d(:,:,:,1)
-                        yy4d(:,:,:,t) = yy4d(:,:,:,1)
-                    enddo
-                endif
+                do t=2, size(curr%field,4)
+                    xx4d(:,:,:,t) = xx4d(:,:,:,1)
+                    yy4d(:,:,:,t) = yy4d(:,:,:,1)
+                enddo
                 
                 !curr%field = xx4d!(xx4d + yy4d + zz4d)/3.0
                 curr%field = (xx4d + yy4d)/2.0
@@ -1155,8 +1150,8 @@ do3:                do i=1, size(curr%field,1)
     real(prec), dimension(:,:,:,:), pointer :: bathymetry_4D !3 space dimensions + time (constant)
     real(prec), dimension(:,:,:), pointer :: bathymetry_3D !3 space dimensions
     type(string) :: outext
-    integer :: dimIndx, i, j, t, k
-    logical found
+    integer :: dimIndx, i, j, t, k, zIndx
+    logical found, foundVar, useVerticalZ
     !begin--------------------------------------------------------------------------------------
     call self%fields%reset()               ! reset list iterator
     do while(self%fields%moreValues())     ! loop while there are values
@@ -1168,63 +1163,65 @@ do3:                do i=1, size(curr%field,1)
                 !Get bathymetry matrix and point curr pointer back to the dwz matrix.
                 call self%getVarByName4D(varName = Globals%Var%bathymetry, outField_3D = bathymetry_3D, origVar = curr%name)
                 dwz3D = 0
-                !Only covering the bottom for now... need to change this to include the surface
                 do t=1, size(curr%field,3)
-                    !!$OMP PARALLEL PRIVATE(j, i)
-                    !!$OMP DO
                     do j=1, size(curr%field,2)
                         do i=1, size(curr%field,1)
                             dwz3D(i,j,t) = -bathymetry_3D(i,j,t)
                         end do
                     end do
-                    !!$OMP END DO
-                    !!$OMP END PARALLEL
                 end do
                 curr%field = dwz3D
             end if
         class is (scalar4d_field_class)               
             if (curr%name == Globals%Var%dwz) then
+                zIndx = self%getDimIndex(Globals%Var%level)
                 allocate(dwz4D(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
-                dimIndx = self%getDimIndex(Globals%Var%level)
-                !Get bathymetry matrix and point curr pointer back to the dwz matrix.
+                
+                if (allocated(self%dim(zIndx)%field1D)) then
+                    !! must be netcdf
+                    useVerticalZ = .false.
+                elseif (allocated(self%dim(zIndx)%field4D)) then
+                    useVerticalZ = .true.
+                endif
+                
+                !Get bathymetry matrix and point curr pointer back to the dwz matrix.                
                 call self%getVarByName4D(varName = Globals%Var%bathymetry, outField_4D = bathymetry_4D, origVar = curr%name)
                 dwz4D = 0
-                !Only covering the bottom for now... need to change this to include the surface
-                !write(*,*)"tamanhos field 1 2 3 4 = ", size(curr%field,1), size(curr%field,2),size(curr%field,3),size(curr%field,4)
+                
                 if (size(curr%field,3) == 1) then
+                    !Results are 2D. DWZ is equal to bathymetry
                     do t=1, size(curr%field,4)
-                        !!$OMP PARALLEL PRIVATE(j, i, k, found)
-                        !!$OMP DO
                         do j=1, size(curr%field,2)
                             do i=1, size(curr%field,1)
                                 dwz4D(i,j,:,t) = abs(bathymetry_4D(i,j,:,t))
                             end do
                         end do
                     enddo
+                elseif (useVerticalZ) then
+                    !Get DWZ through difference between layer depths
+                    dwz4D(:,:,:,:) = self%dim(zIndx)%field4D(:,:,2:size(self%dim(zIndx)%field4D,3),:) - self%dim(zIndx)%field4D(:,:,:size(self%dim(zIndx)%field4D,3)-1,:)
                 else
+                    !Need to use bathymetry to get the layer that is closest to the bottom (must be netcdf)
                     do t=1, size(curr%field,4)
-                        !!$OMP PARALLEL PRIVATE(j, i, k, found)
-                        !!$OMP DO
                         do j=1, size(curr%field,2)
                             do i=1, size(curr%field,1)
                                 found = .false.
                                 do k=1, size(curr%field,3)
                                     if (found) then
-                                        dwz4D(i,j,k,t) = self%dim(dimIndx)%field1D(k) - self%dim(dimIndx)%field1D(k-1)
+                                        dwz4D(i,j,k,t) = self%dim(zIndx)%field1D(k) - self%dim(zIndx)%field1D(k-1)
                                     else
-                                        if (self%dim(dimIndx)%field1D(k) > bathymetry_4D(i,j,1,t)) then
+                                        if (self%dim(zIndx)%field1D(k) > bathymetry_4D(i,j,1,t)) then
                                             !Found first
-                                            dwz4D(i,j,k,t) = abs((bathymetry_4D(i,j,1,t) - (self%dim(dimIndx)%field1D(k))) * 2)
+                                            dwz4D(i,j,k,t) = abs((bathymetry_4D(i,j,1,t) - (self%dim(zIndx)%field1D(k))) * 2)
                                             found = .true.
                                         end if
                                     end if
                                 end do
                             end do
                         end do
-                        !!$OMP END DO
-                        !!$OMP END PARALLEL
-                    end do
+                    end do  
                 endif
+                
                 curr%field = dwz4D
             end if
         class default
