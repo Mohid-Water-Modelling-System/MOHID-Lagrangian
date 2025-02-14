@@ -517,7 +517,9 @@
     integer, intent(in), optional :: dimID !lat = 1 or lon = 2
     real(prec), allocatable, dimension(:) :: comp1d
     real(prec), allocatable, dimension(:,:) :: comp2d
+    real(prec), allocatable, dimension(:,:,:,:) :: comp4d
     integer, allocatable, dimension(:) :: aux
+    integer, allocatable, dimension(:,:) :: aux_2D
     type(string) :: outext
     !Begin-----------------------------------------------
     select type(self)
@@ -543,8 +545,20 @@
             comp2d = value
             aux = minloc(abs(comp2d - self%field2D), DIM=dimID) !output is a 1D array
             getFieldNearestIndex = minval(aux) !get the smallest row or column ID
+        elseif (allocated(self%field4D)) then
+            if (.not. present(dimID)) then
+                outext = '[field_class::getFieldNearestIndex]: for a 4D field, dimID variable must be provided'
+                call Log%put(outext)
+                stop
+            endif
+            allocate(comp4d(size(self%field4D,1), size(self%field4D,2), size(self%field4D,3), size(self%field4D,4)))
+            !minloc will give an array the size of the perpendicular direction of dimID
+            allocate(aux(4))
+            comp4d = value
+            aux = minloc(abs(comp4d - self%field4D))
+            getFieldNearestIndex = min(aux(3) - 1, 1) !get the smallest vertical layer ID
         else
-            outext = '[field_class::getFieldNearestIndex]: scalar field must be 1D or 2D'
+            outext = '[field_class::getFieldNearestIndex]: scalar field must be 1D or 2D or 4D'
             call Log%put(outext)
             stop
         endif

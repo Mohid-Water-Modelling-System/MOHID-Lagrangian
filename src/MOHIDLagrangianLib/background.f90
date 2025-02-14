@@ -594,15 +594,18 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
     allocate(getPointDimIndexes(size(self%dim)))
     do i= 1, size(self%dim)
         if (self%dim(i)%name == Globals%Var%time)  getPointDimIndexes(i) = self%dim(i)%getFieldNearestIndex(time)
-        if (self%dim(i)%name == Globals%Var%level) getPointDimIndexes(i) = self%dim(i)%getFieldNearestIndex(pt%z)
+        !!AQUI
+        if (self%dim(i)%name == Globals%Var%level) getPointDimIndexes(i) = self%dim(i)%getFieldNearestIndex(pt%z, dimID = 3)
         if (allocated(self%dim(i)%field1D)) then
             if (self%dim(i)%name == Globals%Var%lon) getPointDimIndexes(i) = self%dim(i)%getFieldNearestIndex(pt%x)
             if (self%dim(i)%name == Globals%Var%lat) getPointDimIndexes(i) = self%dim(i)%getFieldNearestIndex(pt%y)
         elseif (allocated(self%dim(i)%field2D)) then
             if (self%dim(i)%name == Globals%Var%lon) then
-                getPointDimIndexes(i) = self%dim(i)%getFieldNearestIndex(pt%x, dimID = 1)
+                !getPointDimIndexes(i) = self%dim(i)%getFieldNearestIndex(pt%x, dimID = 1)
+                getPointDimIndexes(i) = self%dim(i)%getFieldNearestIndex(pt%x, dimID = 2)
             elseif (self%dim(i)%name == Globals%Var%lat) then
-                getPointDimIndexes(i) = self%dim(i)%getFieldNearestIndex(pt%y, dimID = 2)
+                !getPointDimIndexes(i) = self%dim(i)%getFieldNearestIndex(pt%y, dimID = 2)
+                getPointDimIndexes(i) = self%dim(i)%getFieldNearestIndex(pt%y, dimID = 1)
             endif
         endif
     end do
