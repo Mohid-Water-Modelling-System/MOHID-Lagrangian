@@ -62,6 +62,7 @@
     procedure :: getGridType
     procedure, private :: getSlabDim
     procedure, private :: getSlabDim_2D
+    procedure, private :: getSlabDim_4D
     procedure, private :: getPointDimIndexes
     procedure :: finalize => cleanBackground
     procedure, private :: cleanFields
@@ -487,30 +488,36 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
             if (allocated(self%dim(i)%field1D)) then
                 uubound(i) = min(uubound(i)+2, size(self%dim(i)%field1D))
             elseif (allocated(self%dim(i)%field2D)) then
-                uubound(i) = min(uubound(i)+2, size(self%dim(i)%field2D,2))
+                uubound(i) = min(uubound(i)+2, size(self%dim(i)%field2D,1))
             endif
         elseif (self%dim(i)%name == Globals%Var%lon) then
             !write(*,*)"Entrei na lon"
             if (allocated(self%dim(i)%field1D)) then
                 uubound(i) = min(uubound(i)+2, size(self%dim(i)%field1D))
             elseif (allocated(self%dim(i)%field2D)) then
-                uubound(i) = min(uubound(i)+2, size(self%dim(i)%field2D,1))
+                uubound(i) = min(uubound(i)+2, size(self%dim(i)%field2D,2))
             endif
-        else 
-            uubound(i) = min(uubound(i)+2, size(self%dim(i)%field1D))
+        else
+            if (allocated(self%dim(i)%field1D)) then
+                uubound(i) = min(uubound(i)+2, size(self%dim(i)%field1D))
+            elseif (allocated(self%dim(i)%field4D)) then
+                !VerticalZ is 4D and holds faces, not center.
+                uubound(i) = min(uubound(i)+2, size(self%dim(i)%field4D,3)-1)
+            endif
         endif
     end do
-    !End Sobrinho
     !write(*,*)"A entrar no ciclo do self%dim"
     do i=1, size(self%dim)
-        !write(*,*)"nome da dimensao = ", trim(self%dim(i)%name)
+        write(*,*)"nome da dimensao = ", trim(self%dim(i)%name)
         if (allocated(self%dim(i)%field1D)) then
             !write(*,*)"Entrei field 1D "
             call backgrounDims(i)%scalar1d%initialize(self%dim(i)%name, self%dim(i)%units, 1, self%getSlabDim(i, llbound(i), uubound(i)))
         elseif (allocated(self%dim(i)%field2D)) then
             !write(*,*)"Entrei field 2D "
             !Assuming this is lat or lon so using llbound (1) and (2)
-            call backgrounDims(i)%scalar2d%initialize(self%dim(i)%name, self%dim(i)%units, 1, self%getSlabDim_2D(i,llbound(1),uubound(1),llbound(2),uubound(2)))
+            call backgrounDims(i)%scalar2d%initialize(self%dim(i)%name, self%dim(i)%units, 2, self%getSlabDim_2D(i,llbound, uubound))
+        elseif (allocated(self%dim(i)%field4D)) then
+            call backgrounDims(i)%scalar4d%initialize(self%dim(i)%name, self%dim(i)%units, 4, self%getSlabDim_4D(i,llbound, uubound))
         end if
         backgrounDims(i)%name = self%dim(i)%name !necessary for background dims constructor
     end do
@@ -546,10 +553,10 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
     !creating bounding box
     dimExtents = 0.0
     do i = 1, size(backgrounDims)
-        if (backgrounDims(i)%name == Globals%Var%lon) then
+        if (backgrounDims(i)%name == Globals%Var%lat) then
             dimExtents(1,1) = backgrounDims(i)%getFieldMinBound()
             dimExtents(1,2) = backgrounDims(i)%getFieldMaxBound()
-        else if (backgrounDims(i)%name == Globals%Var%lat) then
+        elseif (backgrounDims(i)%name == Globals%Var%lon) then
             dimExtents(2,1) = backgrounDims(i)%getFieldMinBound()
             dimExtents(2,2) = backgrounDims(i)%getFieldMaxBound()
         else if (backgrounDims(i)%name == Globals%Var%level) then
@@ -558,9 +565,14 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
         end if
     end do
     
-    !write(*,*)"Acabei dimExtents"
-    extents%pt = dimExtents(1,1)*ex + dimExtents(2,1)*ey + dimExtents(3,1)*ez
-    pt = dimExtents(1,2)*ex + dimExtents(2,2)*ey + dimExtents(3,2)*ez
+    write(*,*)"Acabei dimExtents", ex, ey, ez
+    write(*,*)"dimExtents (1,1)", dimExtents(1,1)
+    write(*,*)"dimExtents (1,2)", dimExtents(1,2)
+    write(*,*)"dimExtents (2,1)", dimExtents(2,1)
+    write(*,*)"dimExtents (2,2)", dimExtents(2,2)
+    !extents%pt = dimExtents(1,1)*ex + dimExtents(2,1)*ey + dimExtents(3,1)*ez
+    extents%pt = dimExtents(2,1)*ex + dimExtents(1,1)*ey + dimExtents(3,1)*ez
+    pt = dimExtents(2,2)*ex + dimExtents(1,2)*ey + dimExtents(3,2)*ez
     extents%size = pt - extents%pt
     !creating the sliced background
     !write(*,*)"extents e pt"
@@ -628,14 +640,29 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
     !> @author Joao Sobrinho - Colab Atlantic
     !> @brief
     !> returns a 2D matrix witn a sliced dimension
-    !> @param[in] self, numDim, llbound1, uubound1, llbound2, uubound2
+    !> @param[in] self, numDim, llbound, uubound
     !---------------------------------------------------------------------------
-    function getSlabDim_2D(self, numDim, llbound1, uubound1, llbound2, uubound2 )
+    function getSlabDim_2D(self, numDim, llbound, uubound)
     class(background_class), intent(in) :: self
-    integer, intent(in) :: numDim, llbound1, uubound1, llbound2, uubound2 
+    integer, intent(in)              :: numDim
+    integer, dimension(:), intent(in) :: llbound, uubound
     real(prec), allocatable, dimension(:,:) :: getSlabDim_2D
-    allocate(getSlabDim_2D, source = self%dim(numDim)%field2D(llbound1:uubound1,llbound2:uubound2))
+    allocate(getSlabDim_2D, source = self%dim(numDim)%field2D(llbound(1):uubound(1),llbound(2):uubound(2)))
     end function getSlabDim_2D
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho
+    !> @brief
+    !> returns a 4D matrix witn a sliced dimension
+    !> @param[in] self, numDim, llbound, uubound
+    !---------------------------------------------------------------------------
+    function getSlabDim_4D(self, numDim, llbound, uubound )
+    class(background_class), intent(in) :: self
+    integer, intent(in) :: numDim
+    integer, dimension(:), intent(in) :: llbound, uubound
+    real(prec), allocatable, dimension(:,:,:,:) :: getSlabDim_4D
+    allocate(getSlabDim_4D, source = self%dim(numDim)%field4D(llbound(1):uubound(1),llbound(2):uubound(2), llbound(3):uubound(3), llbound(4):uubound(4)))
+    end function getSlabDim_4D
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -1733,8 +1760,14 @@ do3:                do i=1, size(curr%field,1)
             !write(*,*)"Size dim1d : ", dimSize(i)
         elseif (allocated(self%dim(i)%field2D)) then
             !write(*,*)"Dim é 2d : ", trim(self%dim(i)%name)
-            if (self%dim(i)%name == Globals%Var%lon) dimSize(i) = size(self%dim(i)%field2D, 1)
-            if (self%dim(i)%name == Globals%Var%lat) dimSize(i) = size(self%dim(i)%field2D, 2)
+            if (Globals%SimDefs%inputFromHDF5) then
+                if (self%dim(i)%name == Globals%Var%lon) dimSize(i) = size(self%dim(i)%field2D, 2)-1
+                if (self%dim(i)%name == Globals%Var%lat) dimSize(i) = size(self%dim(i)%field2D, 1)-1
+            else
+                if (self%dim(i)%name == Globals%Var%lon) dimSize(i) = size(self%dim(i)%field2D, 2)
+                if (self%dim(i)%name == Globals%Var%lat) dimSize(i) = size(self%dim(i)%field2D, 1)
+            endif
+            
             !write(*,*)"Size dim2d : ", dimSize(i)
         endif
     end do
@@ -1744,11 +1777,11 @@ do3:                do i=1, size(curr%field,1)
         select type(aField)
         class is (field_class)
             fieldShape = aField%getFieldShape()
-            !write(*,*)"variable name = ",  trim(aField%name)
-            !do i=1,size(dimsize)
-            !   write(*,*)"dimSize = ",  dimSize(i)
-            !   write(*,*)"fieldShape = ",  fieldShape(i)
-            !enddo
+            write(*,*)"variable name = ",  trim(aField%name)
+            do i=1,size(dimsize)
+               write(*,*)"dimSize = ",  dimSize(i)
+               write(*,*)"fieldShape = ",  fieldShape(i)
+            enddo
             equal = all(dimSize.eq.aField%getFieldShape())
             if (.not.equal) check = .false.
             class default
