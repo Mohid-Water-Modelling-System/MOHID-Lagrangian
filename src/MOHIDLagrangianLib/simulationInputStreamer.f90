@@ -153,6 +153,7 @@
         !Call reader
         getCurrentsFile = ncReader%getFullFile(fileName, varList, syntecticVar)
     else
+        call Globals%SimDefs%setInputFileType(.true.)
         getCurrentsFile = hdf5Reader%getFullFile(fileName, varList, syntecticVar)
     endif
     

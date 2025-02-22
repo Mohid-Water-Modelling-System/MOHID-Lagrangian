@@ -556,19 +556,28 @@
     logical, dimension(:), intent(inout) :: outOfBounds
     integer, intent(in) :: gridType
     integer, dimension(size(state,1), 2) :: grdCoord
+    integer                              :: dim_level
     !Begin---------------------------------------------------------------
     if (gridType == Globals%GridTypes%curvilinear) then
         !write(*,*)"Entrei curvilinear"
         grdCoord = self%getArrayCoord_curv(state, bdata, outOfBounds)
-        xx=grdCoord(:,1)
-        yy=grdCoord(:,2)
+        xx=grdCoord(:,2) !Alterado para xx ser coluna 2
+        yy=grdCoord(:,1) !Alterado para yy ser coluna 1
     else
         !write(*,*)"Entrei normais"
-        xx = self%getArrayCoord(state(:,1), bdata, Globals%Var%lon, outOfBounds)
+        xx = self%getArrayCoord(state(:,1), bdata, Globals%Var%lon, outOfBounds) !State(:,1) is always Lon
         yy = self%getArrayCoord(state(:,2), bdata, Globals%Var%lat, outOfBounds)
     endif
-    zz = self%getArrayCoord(state(:,3), bdata, Globals%Var%level, outOfBounds)
+    !Get time
     tt = self%getPointCoordNonRegular(time, bdata, Globals%Var%time)
+    
+    !Get vertical position
+    dim_level = bdata%getDimIndex(Globals%Var%level)
+    if (allocated(bdata%dim(dim_lon)%field4D) .and. Globals%SimDefs%inputFromHDF5) !Means it is Verticalz from MOHID hdf5.
+        zz = self%getArrayCoord(state(:,3), bdata, Globals%Var%level, outOfBounds, xx = xx, yy = yy, tt = tt)
+    else
+        zz = self%getArrayCoord(state(:,3), bdata, Globals%Var%level, outOfBounds)
+    endif
     end subroutine Trc2Grid_4D
     
     !---------------------------------------------------------------------------
@@ -604,11 +613,11 @@
     maxBound_lat = bdata%dim(dim_lat)%getFieldMaxBound()
     where (xdata(:,2) > maxBound_lat) out = .true.
     
-    !write(*,*)"tamanho da dimensao 1 da matriz longitude = ", size(bdata%dim(dim_lon)%field2D,1)
+    write(*,*)"tamanho da dimensao 1 da matriz longitude = ", size(bdata%dim(dim_lon)%field2D,1)
     do id = 1, size(xdata,1)
         if (.not. out(id)) then
-            dj: do j = 2, size(bdata%dim(dim_lon)%field2D,1)-1
-                do i = 2, size(bdata%dim(dim_lon)%field2D,2)-1
+            dj: do j = 2, size(bdata%dim(dim_lon)%field2D,2)-1
+                do i = 2, size(bdata%dim(dim_lon)%field2D,1)-1
                     !Define polygon of each grid cell
                     cellPolygon(1)%x = bdata%dim(dim_lon)%field2D(i,j) !lower left corner
                     cellPolygon(1)%y = bdata%dim(dim_lat)%field2D(i,j) 
@@ -666,7 +675,7 @@
                             perc_y    = ((1./da)**pw+(1./db)**pw) / sumAux            
                         endif
                         getArrayCoord_curv(id,1) = j + j*perc_x !relative position to J index
-                        getArrayCoord_curv(id,2) = i + i*perc_x !relative position to I index
+                        getArrayCoord_curv(id,2) = i + i*perc_y !relative position to I index
                         exit dj
                     endif
                 enddo
@@ -796,23 +805,32 @@
     !> array.
     !> @param[in] self, xdata, bdata, dimName, out
     !---------------------------------------------------------------------------
-    function getArrayCoord(self, xdata, bdata, dimName, out, bat)
+    function getArrayCoord(self, xdata, bdata, dimName, out, bat, xx, yy, tt)
     class(interpolator_class), intent(in) :: self
     real(prec), dimension(:), intent(in):: xdata                !< Tracer coordinate component
     type(background_class), intent(in) :: bdata                 !< Background to use
     type(string), intent(in) :: dimName
     logical, dimension(:), intent(inout) :: out
     real(prec), dimension(:), optional, intent(in) :: bat
+    real(prec), dimension(:), optional, intent(in):: xx, yy, tt
     integer :: dim                                              !< corresponding background dimension
     real(prec), dimension(size(xdata)) :: getArrayCoord         !< coordinates in array index
     dim = bdata%getDimIndex(dimName)
-    if (bdata%regularDim(dim)) getArrayCoord = self%getArrayCoordRegular(xdata, bdata, dim, out)
+    if (bdata%regularDim(dim)) then
+        getArrayCoord = self%getArrayCoordRegular(xdata, bdata, dim, out)
+    endif
+    
     if (.not.bdata%regularDim(dim)) then
         !write(*,*)"Entrei .not.bdata%regularDim(dim)", trim(dimName)
         if (present(bat)) then
             getArrayCoord = self%getArrayCoordNonRegular(xdata, bdata, dim, out, bat=bat)
         else
-            getArrayCoord = self%getArrayCoordNonRegular(xdata, bdata, dim, out)
+            if (present(xx)) then
+                !VerticalZ
+                getArrayCoord = self%getArrayCoordNonRegular(xdata, bdata, dim, out, xx = xx, yy = yy, tt = tt)
+            else
+                getArrayCoord = self%getArrayCoordNonRegular(xdata, bdata, dim, out)
+            endif
         end if
     end if 
 
@@ -912,13 +930,14 @@
     !> Returns the array coordinate of a point, along a given dimension.
     !> @param[in] self, xdata, bdata, dim, out, bat
     ! !---------------------------------------------------------------------------
-    function getArrayCoordNonRegular(self, xdata, bdata, dim, out, bat)
+    function getArrayCoordNonRegular(self, xdata, bdata, dim, out, bat, xx, yy, tt)
     class(interpolator_class), intent(in) :: self
     real(prec), dimension(:), intent(in):: xdata                    !< Tracer coordinate component
     type(background_class), intent(in) :: bdata                     !< Background to use
     integer, intent(in) :: dim
     logical, dimension(:), intent(inout) :: out
     real(prec), dimension(:), optional, intent(in) :: bat
+    real(prec), dimension(:), optional, intent(in):: xx, yy, tt
     integer :: i                                                
     integer :: id, idx_1, idx_2, indx, fieldLength, dimSize                              
     real(prec), dimension(size(xdata)) :: getArrayCoordNonRegular   !< coordinates in array index
@@ -934,6 +953,8 @@
         endif
     elseif (allocated(bdata%dim(dim)%field2D)) then
         dimSize = 2
+    elseif (allocated(bdata%dim(dim)%field4D)) then
+        dimSize = 4 !For VerticalZ
     endif
     
     getArrayCoordNonRegular = 1
@@ -972,7 +993,7 @@
                 getArrayCoordNonRegular(id) = idx_1 + abs((xdata(id)-bdata%dim(dim)%field1D(idx_1))/(bdata%dim(dim)%field1D(idx_2)-bdata%dim(dim)%field1D(idx_1)))
             end do
         end if
-    else !2D lat and lon grid (not yet ready for a 3D vertical layer dimension
+    elseif (dimSize == 2) then !2D lat and lon grid (not yet ready for a 3D vertical layer dimension
         if (present(bat)) then
             outext = '[Interpolator::getArrayCoordNonRegular] correction with bathymetry cannot yet be done when level dimension is not 1D, stoping'
             call Log%put(outext)
@@ -1010,6 +1031,11 @@
                 getArrayCoordNonRegular(id) = idx_1 + abs((xdata(id)-bdata%dim(dim)%field2D(1,idx_1))/(bdata%dim(dim)%field2D(1,idx_2)-bdata%dim(dim)%field2D(1,idx_1)))
             end do
         endif
+    elseif (dimSize == 4 .and. present(xx)) then
+        !Get position for instant 1
+        
+        
+        !Get position for instant 2
     endif
 
     end function getArrayCoordNonRegular

@@ -1373,12 +1373,12 @@ do1:                do indx=1, self%nVars
                 self%dimData(DimCounter)%name    = trim(nameString)
                 self%dimData(DimCounter)%simName = Globals%Var%getVarSimName(trim(nameString))
                 self%dimData(DimCounter)%nDims = rank
-                !write(*,*)"name e simName Dim = ", TRIM(nameString), trim(self%dimData(DimCounter)%simName)
-                !Distinguir entre lat e lon para obter o dimLength correto. (1 = Lon, 2 = Lat)
-                if (Globals%Var%checkVarIsLon(nameString)) then
+                write(*,*)"name e simName Dim = ", TRIM(nameString), trim(self%dimData(DimCounter)%simName)
+                !Distinguir entre lat e lon para obter o dimLength correto. (1 = Lat, 2 = Lon)
+                if (Globals%Var%checkVarIsLat(nameString)) then
                     self%dimData(DimCounter)%length  = maxdims(1)
                     self%dimData(DimCounter)%dimid   = 1
-                elseif (Globals%Var%checkVarIsLat(nameString)) then
+                elseif (Globals%Var%checkVarIsLon(nameString)) then
                     self%dimData(DimCounter)%length  = maxdims(2)
                     self%dimData(DimCounter)%dimid   = 2
                 elseif (Globals%Var%checkVarIsDepth(nameString)) then
@@ -1395,23 +1395,23 @@ do1:                do indx=1, self%nVars
                 self%varData(VarCounter)%ndims = rank
                 allocate(self%varData(VarCounter)%dimids(rank))
                 if (rank == 2) then !2D
-                    self%varData(VarCounter)%dimids(1) = 1 !Lon
-                    self%varData(VarCounter)%dimids(2) = 2 !Lat
+                    self%varData(VarCounter)%dimids(1) = 1 !Lat
+                    self%varData(VarCounter)%dimids(2) = 2 !Lon
                 elseif (rank == 3) then
-                    self%varData(VarCounter)%dimids(1) = 1 !Lon
-                    self%varData(VarCounter)%dimids(2) = 2 !Lat
+                    self%varData(VarCounter)%dimids(1) = 1 !Lat
+                    self%varData(VarCounter)%dimids(2) = 2 !Lon
                     self%varData(VarCounter)%dimids(3) = 3 !Depth (VerticalZ)
                 endif
             else
                 self%varData(VarCounter)%ndims = rank + 1
                 allocate(self%varData(VarCounter)%dimids(rank + 1))
                 if (rank == 2) then !2D
-                    self%varData(VarCounter)%dimids(1) = 1 !Lon
-                    self%varData(VarCounter)%dimids(2) = 2 !Lat
+                    self%varData(VarCounter)%dimids(1) = 1 !Lat
+                    self%varData(VarCounter)%dimids(2) = 2 !Lon
                     self%varData(VarCounter)%dimids(3) = 4 !Time
                 elseif (rank == 3) then
-                    self%varData(VarCounter)%dimids(1) = 1 !Lon
-                    self%varData(VarCounter)%dimids(2) = 2 !Lat
+                    self%varData(VarCounter)%dimids(1) = 1 !Lat
+                    self%varData(VarCounter)%dimids(2) = 2 !Lon
                     self%varData(VarCounter)%dimids(3) = 3 !Depth (VerticalZ)
                     self%varData(VarCounter)%dimids(4) = 4 !Time
                 endif

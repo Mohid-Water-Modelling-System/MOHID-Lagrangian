@@ -556,7 +556,7 @@
             allocate(aux(4))
             comp4d = value
             aux = minloc(abs(comp4d - self%field4D))
-            getFieldNearestIndex = min(aux(3) - 1, 1) !get the smallest vertical layer ID
+            getFieldNearestIndex = max(aux(3) - 1, 1) !get the smallest vertical layer ID
         else
             outext = '[field_class::getFieldNearestIndex]: scalar field must be 1D or 2D or 4D'
             call Log%put(outext)

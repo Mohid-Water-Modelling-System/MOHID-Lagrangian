@@ -84,6 +84,7 @@
         real(prec)      ::  tracerMaxAge !< removes tracers with age greater than maxTracerAge
         real(prec)      ::  Temperature_add_offset !< adds offset to temperature from netcdf
         real(prec)      ::  WqDt !< water quality process time step
+        logical         :: inputFromHDF5 = .false.
     contains
     procedure :: setdp
     procedure :: setdt
@@ -97,6 +98,7 @@
     procedure :: setTemperature_add_offset  !Only here becasue some files from SINTEF were not properly converted due to
                                             ! some error in mohid's convert to hdf5 tool
     procedure :: setWqDt
+    procedure, public :: setInputFileType
     procedure :: print => printsimdefs
     end type simdefs_t
 
@@ -494,6 +496,15 @@
     call SimMemory%adddef(sizem)
 
     end subroutine setdefaults
+    
+    subroutine setInputFileType (self, isInputFileHDF5)
+    class(simdefs_t), intent(inout) :: self
+    logical isInputFileHDF5
+    !Begin------------------------------------------
+    
+    self%inputFromHDF5 = isInputFileHDF5
+        
+    end subroutine setInputFileType
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
