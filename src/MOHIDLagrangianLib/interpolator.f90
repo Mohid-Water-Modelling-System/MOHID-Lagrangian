@@ -74,7 +74,8 @@
     logical :: interp, requireVertInt
     real(prec) :: newtime
     class(*), pointer :: aField
-    integer :: i, gridType, count
+    integer :: i, count
+    logical :: gridIsCurvilinear
     type(string) :: outext
     real(prec), dimension(size(state,1)) :: xx, yy, zz
     logical, dimension(size(state,1)) :: outOfBounds
@@ -109,11 +110,11 @@
                 if (interp) then
                     outOfBounds = .false.
                     var_name(i) = aField%name
-                    gridType = bdata%getGridType()
-                    !write(*,*)"Sai do gridType"
+                    gridIsCurvilinear = bdata%getGridIsCurvilinear()
+                    !write(*,*)"Sai do gridIsCurvilinear"
                     
                     !produce xx, yy and zz vectors and tt value according to grid type
-                    call self%Trc2Grid_4D(state,bdata,time,xx,yy,zz,tt,outOfBounds,gridType)
+                    call self%Trc2Grid_4D(state,bdata,time,xx,yy,zz,tt,outOfBounds,gridIsCurvilinear)
                     !write(*,*)"Sai do Trc2Grid_4D"
                     
                     if (var_name(i) == Globals%Var%landIntMask) then
@@ -544,9 +545,9 @@
     !> @author Joao Sobrinho - Colab Atlantic
     !> @brief
     !> Returns the grid coordinates arrays of a set of tracer coordinates
-    !> @param[in] self, state, bdata, time, xx, yy, zz, tt, outOfBounds, gridType
+    !> @param[in] self, state, bdata, time, xx, yy, zz, tt, outOfBounds, gridIsCurvilinear
     !---------------------------------------------------------------------------
-    subroutine Trc2Grid_4D(self, state, bdata, time, xx, yy, zz, tt, outOfBounds, gridType)
+    subroutine Trc2Grid_4D(self, state, bdata, time, xx, yy, zz, tt, outOfBounds, gridIsCurvilinear)
     class(interpolator_class), intent(in) :: self
     real(prec), dimension(:,:), intent(in) :: state
     type(background_class), intent(in) :: bdata                 !< Background to use
@@ -554,11 +555,11 @@
     real(prec), dimension(size(state,1)), intent(out) :: xx, yy, zz
     real(prec), intent(out) :: tt
     logical, dimension(:), intent(inout) :: outOfBounds
-    integer, intent(in) :: gridType
+    logical, intent(in) :: gridIsCurvilinear
     integer, dimension(size(state,1), 2) :: grdCoord
     integer                              :: dim_level
     !Begin---------------------------------------------------------------
-    if (gridType == Globals%GridTypes%curvilinear) then
+    if (gridIsCurvilinear) then
         !write(*,*)"Entrei curvilinear"
         grdCoord = self%getArrayCoord_curv(state, bdata, outOfBounds)
         xx=grdCoord(:,2) !Alterado para xx ser coluna 2
@@ -619,7 +620,7 @@
             x = xdata(id,1)
             y = xdata(id,2)
             dj: do j = 2, size(bdata%dim(dim_lon)%field2D,2)-1
-                do i = 2, size(bdata%dim(dim_lon)%field2D,1)-1
+                do i = 2, size(bdata%dim(dim_lat)%field2D,1)-1
                     !Define polygon of each grid cell
                     cellPolygon(1)%x = bdata%dim(dim_lon)%field2D(i,j) !lower left corner
                     cellPolygon(1)%y = bdata%dim(dim_lat)%field2D(i,j) 
@@ -633,11 +634,11 @@
                     cellPolygon(5)%y = bdata%dim(dim_lat)%field2D(i,j)
                 
                     limLeft = min(cellPolygon(1)%x, cellPolygon(2)%x) !limit left
-                    limBottom = min(cellPolygon(1)%x, cellPolygon(4)%x) !limit bottom
-                    limRight = max(cellPolygon(3)%y, cellPolygon(4)%y) !limit right
+                    limBottom = min(cellPolygon(1)%y, cellPolygon(4)%y) !limit bottom
+                    limRight = max(cellPolygon(3)%x, cellPolygon(4)%x) !limit right
                     limTop = max(cellPolygon(2)%y, cellPolygon(3)%y) !limit top
                     
-                    if((x<limLeft) .or. (x>limRight) .or. (y>limTop) .or. (y<limBottom)) exit dj !Skip point
+                    if((x<limLeft) .or. (x>limRight) .or. (y>limTop) .or. (y<limBottom)) cycle !Skip point
                     
                     foundCell = self%isPointInsidePolygon(x, y, cellPolygon)
                     if (foundCell) then
@@ -1044,6 +1045,10 @@
         !Get position for instant 1
         t1 = floor(tt)
         t2 = ceiling(tt)
+        
+        write(*,*) "Size dim z = ", size(bdata%dim(dim)%field4D, 3)
+        write(*,*) "Size dim y = ", size(bdata%dim(dim)%field4D, 2)
+        write(*,*) "Size dim x = ", size(bdata%dim(dim)%field4D, 1)
         
         do concurrent(id = 1:size(xdata), .not. out(id))
             i = floor(xx(id))

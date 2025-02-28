@@ -41,6 +41,7 @@
         type(box) :: extents                                                    !< shape::box that defines the extents of the Background solution
         type(scalar_dimfield_class), allocatable, dimension(:) :: dim             !< Dimensions of the Background fields (time,lon,lat,level for example)
         logical, allocatable, dimension(:) :: regularDim                        !< Flag that indicates if the respective dimension is regular or irregular
+        logical :: gridIsCurvilinear
         type(fieldsList_class) :: fields                                        !< Linked list to store the fields in the Background
         type(stringList_class) :: variables
     contains
@@ -59,7 +60,7 @@
     procedure :: fillClosedPoints
     procedure :: copy
     procedure :: hasVars
-    procedure :: getGridType
+    procedure :: getGridIsCurvilinear
     procedure, private :: getSlabDim
     procedure, private :: getSlabDim_2D
     procedure, private :: getSlabDim_4D
@@ -1440,30 +1441,16 @@ do3:                do i=1, size(curr%field,1)
     !---------------------------------------------------------------------------
     !> @author Joao Sobrinho - Colab Atlantic
     !> @brief
-    !> returns the type of grid provided in a netcdf 
+    !> returns true if grid is curvilinear 
     !> @param[in] self
     !---------------------------------------------------------------------------
-    integer function getGridType(self)
+    logical function getGridIsCurvilinear(self)
     class(background_class), intent(in) :: self
-    integer :: i
-    real(prec) :: aux
     !Begin ---------------------------------------------------------------------
-    getGridType = 1
-    do i=1, size(self%dim)
-        if (self%dim(i)%name == Globals%Var%lat) then
-            if (allocated(self%dim(i)%field2D)) then
-                !If latitude changes along longitude, grid is curvilinear
-                !write(*,*)"tamanho dim1 no getgridtype = ", size(self%dim(i)%field2D,1)
-                aux = maxval(self%dim(i)%field2D(2:size(self%dim(i)%field2D,1),1)-self%dim(i)%field2D(:size(self%dim(i)%field2D,1)-1,1))
-                !write(*,*)"aux = ", aux
-                if (aux /= 0) then
-                    getGridType = Globals%GridTypes%curvilinear
-                endif
-                return
-            endif
-        end if
-    end do
-    end function getGridType
+
+    getGridIsCurvilinear = self%gridIsCurvilinear
+
+    end function getGridIsCurvilinear
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -1575,6 +1562,7 @@ do3:                do i=1, size(curr%field,1)
                 eta = (fmax-fmin)/(10.0*size(dims(i)%scalar2d%field,1))
                 dreg = (fmax-fmin)/(size(dims(i)%scalar2d%field, 1))
                 self%regularDim(i) = all(abs((dims(i)%scalar2d%field(2:,1)-dims(i)%scalar2d%field(:size(dims(i)%scalar2d%field,1)-1,1)) - dreg) < abs(eta))
+                self%gridIsCurvilinear = maxval(self%dim(i)%field2D(1,2:size(self%dim(i)%field2D,2))-self%dim(i)%field2D(1,1)) < abs(eta/10)
                 write(*,*)"Regular dim lat = ", self%regularDim(i), i
             elseif (dims(i)%name == Globals%Var%lon) then
                 fmin = dims(i)%scalar2d%getFieldMinBound(arrayDim=2) !lon columns are in dimension2 CHANGED in Jan 2025 (was dimension1)

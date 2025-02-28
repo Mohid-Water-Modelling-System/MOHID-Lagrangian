@@ -330,11 +330,6 @@
     procedure :: getDateTimeStamp
     end type sim_time_t
     
-    type :: gridTypes_t
-        integer :: curvilinear = 2
-    contains
-    end type gridTypes_t
-    
     type :: sources_t
         integer, allocatable, dimension(:) :: sourcesID
         real(prec), allocatable, dimension(:) :: bottom_emission_depth
@@ -365,7 +360,6 @@
         type(maskVals_t)    :: Mask
         type(tracerTypes_t) :: Types
         type(dataTypes_t)   :: DataTypes
-        type(gridTypes_t)   :: GridTypes
         type(sources_t)     :: Sources
         type(extImpFiles_t) :: ExtImpFiles !Will have to be changed when other types of files are added (oil for example)
     contains
