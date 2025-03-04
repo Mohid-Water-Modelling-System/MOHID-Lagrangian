@@ -1562,7 +1562,7 @@ do3:                do i=1, size(curr%field,1)
                 eta = (fmax-fmin)/(10.0*size(dims(i)%scalar2d%field,1))
                 dreg = (fmax-fmin)/(size(dims(i)%scalar2d%field, 1))
                 self%regularDim(i) = all(abs((dims(i)%scalar2d%field(2:,1)-dims(i)%scalar2d%field(:size(dims(i)%scalar2d%field,1)-1,1)) - dreg) < abs(eta))
-                self%gridIsCurvilinear = maxval(self%dim(i)%field2D(1,2:size(self%dim(i)%field2D,2))-self%dim(i)%field2D(1,1)) < abs(eta/10)
+                self%gridIsCurvilinear = maxval(dims(i)%scalar2d%field(1,2:size(dims(i)%scalar2d%field,2))-dims(i)%scalar2d%field(1,1)) > abs(eta/10)
                 write(*,*)"Regular dim lat = ", self%regularDim(i), i
             elseif (dims(i)%name == Globals%Var%lon) then
                 fmin = dims(i)%scalar2d%getFieldMinBound(arrayDim=2) !lon columns are in dimension2 CHANGED in Jan 2025 (was dimension1)

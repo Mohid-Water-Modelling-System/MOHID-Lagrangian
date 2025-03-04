@@ -567,6 +567,7 @@
     else
         !write(*,*)"Entrei normais"
         xx = self%getArrayCoord(state(:,1), bdata, Globals%Var%lon, outOfBounds) !State(:,1) is always Lon
+        write(*,*)"xx(10) = ", xx(10)
         yy = self%getArrayCoord(state(:,2), bdata, Globals%Var%lat, outOfBounds)
     endif
     !Get time
@@ -576,6 +577,13 @@
     dim_level = bdata%getDimIndex(Globals%Var%level)
     if (allocated(bdata%dim(dim_level)%field4D) .and. Globals%SimDefs%inputFromHDF5) then!Means it is Verticalz from MOHID hdf5.
         zz = self%getArrayCoord(state(:,3), bdata, Globals%Var%level, outOfBounds, xx = xx, yy = yy, tt = tt)
+        write(*,*)"zz(1) = ",zz(1)
+        write(*,*)"zz(10) = ",zz(10)
+        write(*,*)"zz(50) = ",zz(50)
+        write(*,*)"zz(500) = ",zz(500)
+        write(*,*)"zz(1000) = ",zz(1000)
+        write(*,*)"zz(10000) = ",zz(10000)
+        write(*,*)"zz(50000) = ",zz(50000)
     else
         zz = self%getArrayCoord(state(:,3), bdata, Globals%Var%level, outOfBounds)
     endif
@@ -804,7 +812,7 @@
     !> @brief
     !> Returns the array coordinates of a set of points, given a coordinate
     !> array.
-    !> @param[in] self, xdata, bdata, dimName, out
+    !> @param[in] self, xdata, bdata, dimName, out, bat, xx, yy, tt
     !---------------------------------------------------------------------------
     function getArrayCoord(self, xdata, bdata, dimName, out, bat, xx, yy, tt)
     class(interpolator_class), intent(in) :: self
@@ -823,6 +831,7 @@
             getArrayCoord = self%getArrayCoordRegular(xdata, bdata, dim, out, xx = xx, yy = yy, tt = tt)
         else
             getArrayCoord = self%getArrayCoordRegular(xdata, bdata, dim, out)
+            write(*,*)"getArrayCoord(10) = ", getArrayCoord(10)
         endif
         
     endif
@@ -889,19 +898,24 @@
         maxBound = bdata%dim(dim)%getFieldMaxBound()
         !write(*,*)"maxBound = ", maxBound
         !write(*,*)"tamanho = ", size(bdata%dim(dim)%field2D,indx)
-        if (bdata%dim(dim)%name == Globals%Var%lat) indx = 2 !lat varies with index 2 of field2D
-        if (bdata%dim(dim)%name == Globals%Var%lon) indx = 1 !lon varies with index 2 of field2D
+        if (bdata%dim(dim)%name == Globals%Var%lat) indx = 1 !lat varies with index 2 of field2D
+        if (bdata%dim(dim)%name == Globals%Var%lon) indx = 2 !lon varies with index 2 of field2D
         res = abs(maxBound - minBound)/(size(bdata%dim(dim)%field2D,indx)-1.0)
-        !write(*,*)"res = ", res
+        write(*,*)"res = ", res
+        write(*,*)"xdata(10) = ", xdata(10)
+        write(*,*)"xdata - minBound = ", xdata(10) - minBound
+        write(*,*)"getArrayCoordRegular 1 = ", (xdata(10) - minBound)/res
+        write(*,*)"getArrayCoordRegular 2 = ", (xdata(10) - minBound)/res + 1.0
         getArrayCoordRegular = (xdata - minBound)/res + 1.0 !this will give the index along the dimension indx which intersects with the xdata
         !do i = 1, size(xdata)
         !    write(*,*)"getArrayCoordRegular (i) = ", getArrayCoordRegular(i)
         !enddo
         
     endif
-    
+    write(*,*)"out 10 = ", out(10)
     where (xdata < minBound) out = .true.
     where (xdata > maxBound) out = .true.
+    write(*,*)"out 10 saida = ", out(10)
     end function getArrayCoordRegular
     
     
@@ -937,7 +951,7 @@
     !> @author Daniel Garaboa Paz - USC
     !> @brief
     !> Returns the array coordinate of a point, along a given dimension.
-    !> @param[in] self, xdata, bdata, dim, out, bat
+    !> @param[in] self, xdata, bdata, dim, out, bat, xx, yy, tt
     ! !---------------------------------------------------------------------------
     function getArrayCoordNonRegular(self, xdata, bdata, dim, out, bat, xx, yy, tt)
     class(interpolator_class), intent(in) :: self
@@ -949,9 +963,9 @@
     real(prec), dimension(:), optional, intent(in):: xx, yy
     real(prec), optional, intent(in):: tt
     integer :: i, j, k                              
-    integer :: id, idx_1, idx_2, indx, fieldLength, dimSize                              
+    integer :: id, idx_1, idx_2, indx, fieldLength, dimSize, t1, t2                             
     real(prec), dimension(size(xdata)) :: getArrayCoordNonRegular   !< coordinates in array index
-    real(prec) :: minBound, maxBound, positionT1, positionT2, t1, t2
+    real(prec) :: minBound, maxBound, positionT1, positionT2, distance
     type(string) :: outext
     !Begin--------------------------------------------------------------------------  
     if (allocated(bdata%dim(dim)%field1D)) then
@@ -1046,13 +1060,10 @@
         t1 = floor(tt)
         t2 = ceiling(tt)
         
-        write(*,*) "Size dim z = ", size(bdata%dim(dim)%field4D, 3)
-        write(*,*) "Size dim y = ", size(bdata%dim(dim)%field4D, 2)
-        write(*,*) "Size dim x = ", size(bdata%dim(dim)%field4D, 1)
-        
         do concurrent(id = 1:size(xdata), .not. out(id))
-            i = floor(xx(id))
-            j = floor(yy(id))
+            i = floor(yy(id))
+            j = floor(xx(id))
+            
             do k = 2, size(bdata%dim(dim)%field4D, 3)
                 if (bdata%dim(dim)%field4D(i, j, k, t1) >= xdata(id)) then
                     idx_1 = k-1
@@ -1060,11 +1071,17 @@
                     exit
                 end if
             end do
-            positionT1 = idx_1 + abs((xdata(id)-bdata%dim(dim)%field4D(i,j,idx_1,t1))/(bdata%dim(dim)%field4D(i,j,idx_2,t1)-bdata%dim(dim)%field4D(i,j,idx_1,t1)))
+            
+            distance = (bdata%dim(dim)%field4D(i,j,idx_2,t1)-bdata%dim(dim)%field4D(i,j,idx_1,t1))
+            if (distance == 0) then
+                positionT1 = 1
+            else
+                positionT1 = idx_1 + abs((xdata(id)-bdata%dim(dim)%field4D(i,j,idx_1,t1))/distance)
+            endif
             
             !Get position for instant 2
-            positionT2 = positionT1
             if (t1 /= t2) then
+                positionT2 = positionT1
                 do k = 2, size(bdata%dim(dim)%field4D, 3)
                     if (bdata%dim(dim)%field4D(i, j, k, t2) >= xdata(id)) then
                         idx_1 = k-1
@@ -1072,12 +1089,18 @@
                         exit
                     end if
                 end do
-                positionT2 = idx_1 + abs((xdata(id)-bdata%dim(dim)%field4D(i,j,idx_1,t2))/(bdata%dim(dim)%field4D(i,j,idx_2,t2)-bdata%dim(dim)%field4D(i,j,idx_1,t2)))
+                
+                distance = (bdata%dim(dim)%field4D(i,j,idx_2,t2)-bdata%dim(dim)%field4D(i,j,idx_1,t2))
+                if (distance == 0) then
+                    positionT2 = 1
+                else
+                    positionT2 = idx_1 + abs((xdata(id)-bdata%dim(dim)%field4D(i,j,idx_1,t2))/distance)
+                endif
+                getArrayCoordNonRegular(id) = (positionT1 + positionT2) / 2
+            else
+                getArrayCoordNonRegular(id) = positionT1
             endif
-            
-            getArrayCoordNonRegular = (positionT1 + positionT2) / 2
         end do
-        !Get position for instant 2
     endif
 
     end function getArrayCoordNonRegular
