@@ -110,8 +110,8 @@
         allocate(varList(7))
         allocate(syntecticVar(7))
     else
-        allocate(varList(8))
-        allocate(syntecticVar(8))
+        allocate(varList(9))
+        allocate(syntecticVar(9))
     endif
     
     varList(1) = Globals%Var%u
@@ -129,19 +129,19 @@
     !varList(7) = Globals%Var%ssh
     !syntecticVar(7) = .false.
     if (fileName%extension() == '.nc') then
+        varList(7) = Globals%Var%bathymetry
         if (Globals%SimDefs%bathyminNetcdf == 1) then
-            varList(7) = Globals%Var%bathymetry
             syntecticVar(7) = .false.
         else
-            varList(7) = Globals%Var%bathymetry
             syntecticVar(7) = .true.
         end if
     else
         varList(7) = Globals%Var%bathymetry
         syntecticVar(7) = .false.
-        
-        varList(8) = Globals%Var%openPoints
+        varList(8) = Globals%Var%ssh
         syntecticVar(8) = .false.
+        varList(9) = Globals%Var%openPoints
+        syntecticVar(9) = .false.
     endif
     
     !need to send to different readers here if different file formats

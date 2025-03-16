@@ -156,7 +156,12 @@
         call hdf5File%getMappingVar(varList(realVarIdx), gfield(mapVarID), varList(mapVarID), units)
         do i=1, size(syntecticVar)-1
             write(*,*)"Getting Var name = ", varList(i)
-            call hdf5File%getVar(varList(mapVarID), gfield(i), gfield(mapVarID), syntecticVar(i), varList(i), units)
+            if (.not. syntecticVar(i)) then
+                call hdf5File%getVar(varList(i), gfield(i), gfield(mapVarID), syntecticVar(i), varList(i), units)
+            else
+                call hdf5File%getVar(varList(mapVarID), gfield(i), gfield(mapVarID), syntecticVar(i), varList(i), units)
+            endif
+            
         end do
     end if
     
@@ -526,7 +531,7 @@
                     endif
                 end if
                 if (.not.bVar) then
-                    call varField%initialize(altName, self%varData(i)%units, tempRealField3D)
+                    call varField%initialize(varName, self%varData(i)%units, tempRealField3D)
                 else
                     dimName = altName
                     varUnits = altUnits
@@ -555,7 +560,7 @@
                         outext = '[hdf5Parser::getVar]:WARNING - variables without _fillvalue, you might have some problems in a few moments. Masks will not work properly (beaching, land exclusion,...)'
                         call Log%put(outext)
                     end if
-                    !Aqui sera onde se incluirao os openpoints
+                    
                     if (altName == Globals%Var%resolution) then
                         tempRealField4D = Globals%Mask%waterVal
                     else
@@ -566,7 +571,7 @@
                 end if
                 
                 if (.not.bVar) then
-                    call varField%initialize(altName, self%varData(i)%units, tempRealField4D)
+                    call varField%initialize(varName, self%varData(i)%units, tempRealField4D)
                 else
                     dimName = altName
                     varUnits = self%varData(i)%units
@@ -586,10 +591,10 @@ do1:                do indx=1, self%nVars
                             end do
                             if (self%varData(indx)%ndims == 4) then
                                 variable_u_is4D = .true.
-                                allocate(tempRealField4D(varShape(1)-1,varShape(2)-1, u_Shape(3), u_Shape(4)))
+                                allocate(tempRealField4D(varShape(1)-1,varShape(2)-1, u_Shape(3)-1, u_Shape(4)))
                                 exit do1
                             else
-                                allocate(tempRealField3D(varShape(1)-1,varShape(2)-1, u_Shape(3)))
+                                allocate(tempRealField3D(varShape(1)-1,varShape(2)-1, u_Shape(3)-1))
                                 exit do1
                             end if
                             
@@ -613,12 +618,12 @@ do1:                do indx=1, self%nVars
                                     tempRealField4D(:,:,k,t) = - tempRealField2D(:,:)
                                 end do
                             end do
-                            call varField%initialize(altName, self%varData(i)%units, tempRealField4D)
+                            call varField%initialize(varName, self%varData(i)%units, tempRealField4D)
                         else
                             do k=1, size(tempRealField4D,3)
                                 tempRealField3D(:,:,k) = - tempRealField2D(:,:)
                             end do
-                            call varField%initialize(altName, self%varData(i)%units, tempRealField3D)
+                            call varField%initialize(varName, self%varData(i)%units, tempRealField3D)
                         end if
                         
                     else
@@ -627,12 +632,12 @@ do1:                do indx=1, self%nVars
                         stop
                     end if
                 else
-                    outext = '[hdf5parser::getVar]: Variable '//altName//' is 2D and not bathymetry, so it is not supported. Stopping'
+                    outext = '[hdf5parser::getVar]: Variable '//varName//' is 2D and not bathymetry, so it is not supported. Stopping'
                     call Log%put(outext)
                     stop
                 end if
             else
-                outext = '[hdf5parser::getVar]: Variable '//altName//' has a non-supported dimensionality. Stopping'
+                outext = '[hdf5parser::getVar]: Variable '//varName//' has a non-supported dimensionality. Stopping'
                 call Log%put(outext)
                 stop
             end if

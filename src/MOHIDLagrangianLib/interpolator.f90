@@ -336,34 +336,48 @@
     !do concurrent(i=1:n_e, .not. out(i))
     do i = 1, n_e
         if (.not. out(i)) then
-            !write(*,*)"x0(i), y0(i), z0(i), t0 = ", x0(i), y0(i), z0(i), t0
-            !write(*,*)"x1(i), y1(i), z1(i), t1 = ", x0(i), y0(i), z0(i), t0
-            !write(*,*)"xd(i), yd(i), zd(i), td = ", xd(i), yd(i), zd(i), td
-            !write(*,*)"field(x0(i),y0(i),z0(i),t0) = ", field(x0(i),y0(i),z0(i),t0)
-            !write(*,*)"field(x0(i),y1(i),z0(i),t0) = ", field(x0(i),y1(i),z0(i),t0)
-            !write(*,*)"field(x0(i),y0(i),z1(i),t0) = ", field(x0(i),y0(i),z1(i),t0)
-            !write(*,*)"field(x0(i),y1(i),z1(i),t0) = ", field(x0(i),y1(i),z1(i),t0)
+            write(*,*)"x0(i), y0(i), z0(i), t0 = ", x0(i), y0(i), z0(i), t0
+            write(*,*)"x1(i), y1(i), z1(i), t1 = ", x1(i), y1(i), z1(i), t0
+            write(*,*)"xd(i), yd(i), zd(i), td = ", xd(i), yd(i), zd(i), td
+            write(*,*)"field(x0(i),y0(i),z0(i),t0) = ", field(x0(i),y0(i),z0(i),t0)
+            write(*,*)"field(x0(i),y1(i),z0(i),t0) = ", field(x0(i),y1(i),z0(i),t0)
+            write(*,*)"field(x0(i),y0(i),z1(i),t0) = ", field(x0(i),y0(i),z1(i),t0)
+            write(*,*)"field(x0(i),y1(i),z1(i),t0) = ", field(x0(i),y1(i),z1(i),t0)
         
             c000(i) = field(x0(i),y0(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),z0(i),t0)*xd(i) !y0x0z0t0!  y0x1z0t0
+            write(*,*)"c000 = ", c000(i)
             c100(i) = field(x0(i),y1(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),z0(i),t0)*xd(i)
+            write(*,*)"c100 = ", c000(i)
             c010(i) = field(x0(i),y0(i),z1(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),z1(i),t0)*xd(i)
+            write(*,*)"c010 = ", c000(i)
             c110(i) = field(x0(i),y1(i),z1(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),z1(i),t0)*xd(i)
+            write(*,*)"c110 = ", c000(i)
         
             c001(i) = field(x0(i),y0(i),z0(i),t1)*(1.-xd(i)) + field(x1(i),y0(i),z0(i),t1)*xd(i) !y0x0z0t0!  y0x1z0t0
             c101(i) = field(x0(i),y1(i),z0(i),t1)*(1.-xd(i)) + field(x1(i),y1(i),z0(i),t1)*xd(i)
             c011(i) = field(x0(i),y0(i),z1(i),t1)*(1.-xd(i)) + field(x1(i),y0(i),z1(i),t1)*xd(i)
             c111(i) = field(x0(i),y1(i),z1(i),t1)*(1.-xd(i)) + field(x1(i),y1(i),z1(i),t1)*xd(i)
+            write(*,*)"c001 = ", c001(i)
+            write(*,*)"c101 = ", c101(i)
+            write(*,*)"c011 = ", c011(i)
+            write(*,*)"c111 = ", c111(i)
         ! Interpolation on the second dimension and collapse it to a two dimension problem
             c00(i) = c000(i)*(1.-yd(i))+c100(i)*yd(i)
             c10(i) = c010(i)*(1.-yd(i))+c110(i)*yd(i)
             c01(i) = c001(i)*(1.-yd(i))+c101(i)*yd(i)
             c11(i) = c011(i)*(1.-yd(i))+c111(i)*yd(i)
+            write(*,*)"c00 = ", c00(i)
+            write(*,*)"c10 = ", c10(i)
+            write(*,*)"c01 = ", c01(i)
+            write(*,*)"c11 = ", c11(i)
         ! Interpolation on the third dimension and collapse it to a one dimension problem
             c0(i) = c00(i)*(1.-zd(i))+c10(i)*zd(i)
+            write(*,*)"c0 = ", c0(i)
             c1(i) = c01(i)*(1.-zd(i))+c11(i)*zd(i)
+            write(*,*)"c1 = ", c1(i)
         ! Interpolation on the time dimension and get the final result.
             interp4D(i) = c0(i)*(1.-td)+c1(i)*td
-            !write(*,*)"interp4D(i) = ", interp4D(i)
+            write(*,*)"interp4D(i) = ", interp4D(i)
         endif
     end do
     end function interp4D

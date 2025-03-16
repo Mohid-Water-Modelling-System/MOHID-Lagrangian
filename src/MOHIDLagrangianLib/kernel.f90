@@ -181,6 +181,8 @@
     !interpolate each background
     
     !correcting for maximum admissible level in the background
+    
+    !FIQUEI AQUI : É preciso separar entre netcdf cf e hdf5. o netcdf fica como está, o hdf5 tem de ir buscar a batimetria e somar o water level
     maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .false.)   
     if (maxLevel(2) /= MV) where (sv%state(:,3) > maxLevel(2)) sv%state(:,3) = maxLevel(2)-0.00001
     !update land interaction status

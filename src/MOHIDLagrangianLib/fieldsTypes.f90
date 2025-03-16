@@ -1350,6 +1350,8 @@
             getFieldMinBound = minval(self%field1D)
         elseif (allocated(self%field2D)) then
             getFieldMinBound = minval(self%field2D)
+        elseif (allocated(self%field4D)) then
+            getFieldMinBound = minval(self%field4D)
         end if
     class is (scalar1d_field_class)
         getFieldMinBound = minval(self%field)
