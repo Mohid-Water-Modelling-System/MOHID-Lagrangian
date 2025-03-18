@@ -276,6 +276,7 @@
     procedure, public  :: checkVarIsLat
     procedure, public  :: checkVarIsDepth
     procedure, public  :: checkVarIsTime
+    procedure, public  :: checkVarIsSSH
     procedure, public  :: checkMappingVar
     end type var_names_t
     
@@ -1103,6 +1104,25 @@
     end if
     end function checkVarIsTime
     
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho
+    !> @brief
+    !> returns true if the input variable name is defined in the model as ssh
+    !> @param[in] self, var
+    !---------------------------------------------------------------------------
+    logical function checkVarIsSSH(self, var)
+    type(string), intent(in) :: var
+    class(var_names_t), intent(inout) :: self
+    !Begin-----------------------------------------------------
+    checkVarIsSSH = .false.
+    !searching for ssh
+    if (var == self%ssh .or. .not.self%sshVariants%notRepeated(var)) then
+        checkVarIsSSH = .true.
+        return
+    end if
+    end function checkVarIsSSH
+    
+    !---------------------------------------------------------------------------
     !> @author Joao Sobrinho
     !> @brief
     !> returns true if the input variable name is defined in the model as openPoints

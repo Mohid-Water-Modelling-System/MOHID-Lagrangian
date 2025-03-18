@@ -1201,6 +1201,9 @@
             !write(*,*)"size field 3 = ", size(self%field,3)
             call getFieldSlice%initialize(self%name, self%units, self%field(llbound(1):uubound(1), llbound(2):uubound(2), llbound(3):uubound(3)))
             sliced = .true.
+        elseif(size(llbound) == 4 .and. self%name == Globals%Var%ssh) then
+            call getFieldSlice%initialize(self%name, self%units, self%field(llbound(1):uubound(1), llbound(2):uubound(2), llbound(4):uubound(4)))
+            sliced = .true.
         end if
     class is (scalar4d_field_class)
         if (size(llbound) == 4) then

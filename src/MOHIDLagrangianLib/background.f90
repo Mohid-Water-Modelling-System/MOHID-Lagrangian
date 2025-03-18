@@ -531,6 +531,7 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
         curr => self%fields%currentValue() ! get current value
         select type(curr)
         class is (field_class)
+            write(*,*) "curr%name", trim(curr%name)
             !write(*,*)"llbound(1):uubound(1) hyperslab = ", llbound(1), uubound(1)
             !write(*,*)"llbound(2):uubound(2) hyperslab = ", llbound(2), uubound(2)
             !write(*,*)"llbound(3):uubound(3) hyperslab = ", llbound(3), uubound(3)
@@ -1755,7 +1756,9 @@ do3:                do i=1, size(curr%field,1)
                 if (self%dim(i)%name == Globals%Var%lon) dimSize(i) = size(self%dim(i)%field2D, 2)
                 if (self%dim(i)%name == Globals%Var%lat) dimSize(i) = size(self%dim(i)%field2D, 1)
             endif
-            
+        elseif (allocated(self%dim(i)%field4D)) then
+            !Must be verticalZ, i must be 3.
+            dimSize(i) = size(self%dim(i)%field4D, 3)-1
             !write(*,*)"Size dim2d : ", dimSize(i)
         endif
     end do

@@ -1408,12 +1408,25 @@ do1:                do indx=1, self%nVars
                     self%varData(VarCounter)%dimids(3) = 3 !Depth (VerticalZ)
                 endif
             else
-                self%varData(VarCounter)%ndims = rank + 1
-                allocate(self%varData(VarCounter)%dimids(rank + 1))
+                if (Globals%Var%checkVarIsSSH(nameString)) then
+                    self%varData(VarCounter)%ndims = rank + 2
+                    allocate(self%varData(VarCounter)%dimids(rank + 2))
+                else
+                    self%varData(VarCounter)%ndims = rank + 1
+                    allocate(self%varData(VarCounter)%dimids(rank + 1))
+                endif
+                
                 if (rank == 2) then !2D
-                    self%varData(VarCounter)%dimids(1) = 1 !Lat
-                    self%varData(VarCounter)%dimids(2) = 2 !Lon
-                    self%varData(VarCounter)%dimids(3) = 4 !Time
+                    if (Globals%Var%checkVarIsSSH(nameString)) then
+                        self%varData(VarCounter)%dimids(1) = 1 !Lat
+                        self%varData(VarCounter)%dimids(2) = 2 !Lon
+                        self%varData(VarCounter)%dimids(3) = 3 !Depth (VerticalZ)
+                        self%varData(VarCounter)%dimids(4) = 4 !Time
+                    else
+                        self%varData(VarCounter)%dimids(1) = 1 !Lat
+                        self%varData(VarCounter)%dimids(2) = 2 !Lon
+                        self%varData(VarCounter)%dimids(3) = 4 !Time
+                    endif
                 elseif (rank == 3) then
                     self%varData(VarCounter)%dimids(1) = 1 !Lat
                     self%varData(VarCounter)%dimids(2) = 2 !Lon
