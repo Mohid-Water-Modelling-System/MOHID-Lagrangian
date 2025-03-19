@@ -542,15 +542,28 @@
                 !    allocate(tempRealField4D(varShape(1), varShape(2), varShape(3), varShape(4))) !allocating a place to read the field data to
                 !    allocate(tempRealField3D(varShape(1), varShape(2), varShape(3)))
                 !else
-                    allocate(tempRealField4D(varShape(1)-1, varShape(2)-1, varShape(3)-1, varShape(4))) !allocating a place to read the field data to
-                    allocate(tempRealField3D(varShape(1)-1, varShape(2)-1, varShape(3)-1))
+                allocate(tempRealField4D(varShape(1)-1, varShape(2)-1, varShape(3)-1, varShape(4))) !allocating a place to read the field data to
+                allocate(tempRealField3D(varShape(1)-1, varShape(2)-1, varShape(3)-1))
                 !endif
                 
                 if (.not.bVar) then
+                    if (varName == Globals%Var%ssh) then
+                        allocate(tempRealField2D(varShape(1)-1, varShape(2)-1))
+                    endif
+                    
                     do t=1, varShape(4)
                         !Depth is assumed to be VerticalZ which is a 4D var.
-                        call self%readHDFVariable(self%varData(i), array3D = tempRealField3D, outputNumber = t)
-                        tempRealField4D(:,:,:,t) = tempRealField3D
+                        if (varName == Globals%Var%ssh) then
+                            call self%readHDFVariable(self%varData(i), array2D = tempRealField2D, outputNumber = t)
+                            do k =1, varShape(3)-1
+                                tempRealField3D(:,:,k) = tempRealField2D
+                            enddo
+                            tempRealField4D(:,:,:,t) = tempRealField3D(:,:,:)
+                        else
+                            call self%readHDFVariable(self%varData(i), array3D = tempRealField3D, outputNumber = t)
+                            tempRealField4D(:,:,:,t) = tempRealField3D 
+                        endif
+
                     enddo
                     where (mapField%intScalar4D%field == 0)
                         tempRealField4D = 0.0
@@ -1409,15 +1422,21 @@ do1:                do indx=1, self%nVars
                 endif
             else
                 if (Globals%Var%checkVarIsSSH(nameString)) then
-                    self%varData(VarCounter)%ndims = rank + 2
-                    allocate(self%varData(VarCounter)%dimids(rank + 2))
+                    if (self%ndims == 3) then
+                        self%varData(VarCounter)%ndims = rank + 1
+                        allocate(self%varData(VarCounter)%dimids(rank + 1))
+                    elseif (self%ndims == 4) then
+                        self%varData(VarCounter)%ndims = rank + 2
+                        allocate(self%varData(VarCounter)%dimids(rank + 2))
+                    endif
+                    
                 else
                     self%varData(VarCounter)%ndims = rank + 1
                     allocate(self%varData(VarCounter)%dimids(rank + 1))
                 endif
                 
                 if (rank == 2) then !2D
-                    if (Globals%Var%checkVarIsSSH(nameString)) then
+                    if (Globals%Var%checkVarIsSSH(nameString) .and. self%ndims == 4) then
                         self%varData(VarCounter)%dimids(1) = 1 !Lat
                         self%varData(VarCounter)%dimids(2) = 2 !Lon
                         self%varData(VarCounter)%dimids(3) = 3 !Depth (VerticalZ)
