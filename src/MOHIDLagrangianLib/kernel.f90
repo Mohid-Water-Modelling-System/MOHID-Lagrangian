@@ -184,8 +184,14 @@
     
     !TODO : If the hdf5 does not have ssh, should use the verticalZ (meaning we must save an extra 2D var with the hdf original var (cell faces)
     if (Globals%simDefs%inputFromHDF5) then
-        col_ssh = Utils%find_str(var_name, Globals%Var%ssh, .true.)
-        where (sv%state(:,3) >  var_dt(:,col_ssh)) sv%state(:,3) = var_dt(:,col_ssh) - 0.00001
+        col_ssh = Utils%find_str(var_name, Globals%Var%ssh, .false.)
+        if (col_ssh /= MV_INT) then
+            where (sv%state(:,3) >  var_dt(:,col_ssh)) sv%state(:,3) = var_dt(:,col_ssh) - 0.00001
+        else
+            !ssh not found... assume 0.0 as the limit
+            where (sv%state(:,3) >  0.0) sv%state(:,3) = - 0.00001
+        endif
+        
     else
         maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .false.)   
         if (maxLevel(2) /= MV) where (sv%state(:,3) > maxLevel(2)) sv%state(:,3) = maxLevel(2)-0.00001  
