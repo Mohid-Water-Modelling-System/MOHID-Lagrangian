@@ -53,6 +53,7 @@ sys.path.append(commonPath)
 import os_dir
 import about
 import ncMetaParser
+import hdf5MetaParser
 import xmlWriter
 
 
@@ -94,7 +95,7 @@ def run():
 
         
     #------------------------------------------------------
-    fileExtensions = ['.nc', '.nc4']
+    fileExtensions = ['.nc', '.nc4', '.hdf5']
     
     #going for each input directory and indexing its files
     inputFileCurrents = []
@@ -140,19 +141,35 @@ def run():
         for inputList in inputFile:
             if len(inputList) > 0:
                 ncMeta = []
+                hdf5Meta = []
                 for idir in inputList:
                     for ifile in idir:
                         print('--> reading file', ifile)
-                        ncMeta.append(ncMetaParser.ncMetadata(ifile, StartTime))
-                ncMeta.sort(key=lambda x: x.startTime)
-                # Going throug all the files and check the time axis integrity.
-                ncMetaParser.ncDimParser.checkTime(ncMeta)
-                indexer.openCollection(inputType[i])
-                print('--> indexing',inputType[i],'data')
-                for ncfile in ncMeta:
-                    indexer.writeFile(ncfile.getName(), ncfile.getstartTime(), ncfile.getendTime(), ncfile.getstartDate().strftime("%Y %m %d %H %M %S"), ncfile.getendDate().strftime("%Y %m %d %H %M %S"))		
-                indexer.closeCollection(inputType[i])
-                i = i+1
+                        if ".hdf5" in ifile:
+                            hdf5Meta.append(hdf5MetaParser.hdf5Metadata(ifile, StartTime))
+                            #chama leitor de hdf5
+                        else:
+                            ncMeta.append(ncMetaParser.ncMetadata(ifile, StartTime))
+                if len(hdf5Meta) > 0:
+                    hdf5Meta.sort(key=lambda x: x.startTime)
+                    # Going throug all the files and check the time axis integrity.
+                    hdf5MetaParser.hdf5DimParser.checkTime(hdf5Meta)
+                    indexer.openCollection(inputType[i])
+                    print('--> indexing',inputType[i],'data')
+                    for hdf5file in hdf5Meta:
+                        indexer.writeFile(hdf5file.getName(), hdf5file.getstartTime(), hdf5file.getendTime(), hdf5file.getstartDate().strftime("%Y %m %d %H %M %S"), hdf5file.getendDate().strftime("%Y %m %d %H %M %S"))		
+                    indexer.closeCollection(inputType[i])
+                    i = i+1
+                elif len(ncMeta) > 0:
+                    ncMeta.sort(key=lambda x: x.startTime)
+                    # Going throug all the files and check the time axis integrity.
+                    ncMetaParser.ncDimParser.checkTime(ncMeta)
+                    indexer.openCollection(inputType[i])
+                    print('--> indexing',inputType[i],'data')
+                    for ncfile in ncMeta:
+                        indexer.writeFile(ncfile.getName(), ncfile.getstartTime(), ncfile.getendTime(), ncfile.getstartDate().strftime("%Y %m %d %H %M %S"), ncfile.getendDate().strftime("%Y %m %d %H %M %S"))		
+                    indexer.closeCollection(inputType[i])
+                    i = i+1
         
         indexer.closeFile()
         print('-> All done, wrote', indexerFileName+'.xml', 'indexing file')

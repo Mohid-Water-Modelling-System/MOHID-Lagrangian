@@ -23,6 +23,7 @@
     use common_modules
     use xmlParser_mod
     use netcdfParser_mod
+    use hdf5Parser_mod
     use fieldTypes_mod
     use background_mod
     use blocks_mod
@@ -103,9 +104,16 @@
     type(string), allocatable, dimension(:) :: varList
     logical, allocatable, dimension(:) :: syntecticVar
     type(ncReader_class) :: ncReader
+    type(hdf5Reader_class) :: hdf5Reader
     !write(*,*)"Entrei get currentsFile"
-    allocate(varList(7))
-    allocate(syntecticVar(7))
+    if (fileName%extension() == '.nc') then
+        allocate(varList(7))
+        allocate(syntecticVar(7))
+    else
+        allocate(varList(9))
+        allocate(syntecticVar(9))
+    endif
+    
     varList(1) = Globals%Var%u
     syntecticVar(1) = .false.
     varList(2) = Globals%Var%v
@@ -120,15 +128,35 @@
     syntecticVar(6) = .true.
     !varList(7) = Globals%Var%ssh
     !syntecticVar(7) = .false.
-    if (Globals%SimDefs%bathyminNetcdf == 1) then
+    if (fileName%extension() == '.nc') then
         varList(7) = Globals%Var%bathymetry
-        syntecticVar(7) = .false.
+        if (Globals%SimDefs%bathyminNetcdf == 1) then
+            syntecticVar(7) = .false.
+        else
+            syntecticVar(7) = .true.
+        end if
     else
         varList(7) = Globals%Var%bathymetry
-        syntecticVar(7) = .true.
-    end if
+        syntecticVar(7) = .false.
+        varList(8) = Globals%Var%ssh
+        syntecticVar(8) = .false.
+        varList(9) = Globals%Var%openPoints
+        syntecticVar(9) = .false.
+    endif
+    
     !need to send to different readers here if different file formats
-    getCurrentsFile = ncReader%getFullFile(fileName, varList, syntecticVar)
+    
+    !Check format type:
+    write(*,*) "Nome do ficheiro = ", trim(filename%chars())
+    
+    if (fileName%extension() == '.nc') then
+        !Call reader
+        getCurrentsFile = ncReader%getFullFile(fileName, varList, syntecticVar)
+    else
+        call Globals%SimDefs%setInputFileType(.true.)
+        getCurrentsFile = hdf5Reader%getFullFile(fileName, varList, syntecticVar)
+    endif
+    
     !write(*,*)"entrar makeLandMaskField"
     call getCurrentsFile%makeLandMaskField()
     !write(*,*)"sair makeLandMaskField"

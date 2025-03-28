@@ -276,7 +276,6 @@
     subroutine getFile(self, filename)
     class(ncfile_class), intent(inout) :: self
     type(string), intent(in) :: filename
-    integer :: i
     self%filename = filename
     call self%getNCid()
     call self%getNCglobalMetadata()
@@ -320,7 +319,7 @@
     !---------------------------------------------------------------------------
     subroutine getNCVarMetadata(self)
     class(ncfile_class), intent(inout) :: self
-    integer :: i, j, ndims, nAtts, maxdims
+    integer :: i, ndims, nAtts, maxdims
     integer :: dimids(self%nDims)
     integer :: tempStatus
     character(CHAR_LEN) :: varName, units
@@ -480,10 +479,10 @@
     type(string), intent(in) :: varName
     type(generic_field_class), allocatable, dimension(:), intent(out) :: dimsArrays
     real(prec), allocatable, dimension(:) :: tempRealArray1D
-    real(prec), allocatable, dimension(:,:) :: tempRealArray2D
+    real(prec), allocatable, dimension(:,:) :: tempRealArray2D, auxRealField2D
     type(string) :: dimName, dimUnits
     integer, allocatable, dimension(:) :: varShape
-    integer :: i, j, k, ndim, var
+    integer :: i, j, k, ndim, var, i1, j1
     type(dim_t) :: tempDim
     logical :: increase_flag, neg_flag, foundDimVar, found2dDimVar, LatOrLon
     !Begin-----------------------------------------------------------------------
@@ -522,13 +521,20 @@
                                     !Lat or Lon found, so allocate 2D field
                                     !write(*,*)"varShape(1) = ", varShape(1)
                                     !write(*,*)"varShape(2) = ", varShape(2)
-                                    allocate(tempRealArray2D(varShape(1), varShape(2))) !allocating a place to read the field data to
+                                    allocate(auxRealField2D(varShape(1), varShape(2))) !allocating a place to read the field data to
+                                    allocate(tempRealArray2D(varShape(2), varShape(1))) !allocating a place to read the field data to
                                     dimName = self%varData(var)%simName
                                     !write(*,*)"simulation name of dimension = ", dimName
                                     dimUnits = self%varData(var)%units
                                     !write(*,*)"dimUnits of dimension = ", dimUnits
                                     !Here is where Lat, Lon and Depth are read from the netcdf
-                                    self%status = nf90_get_var(self%ncID, self%varData(var)%varid, tempRealArray2D)
+                                    self%status = nf90_get_var(self%ncID, self%varData(var)%varid, auxRealField2D)
+                                    
+                                    do i1=1,varShape(1)
+                                    do j1=1,varShape(2)
+                                        tempRealArray2D(j1,i1) = auxRealField2D(i1,j1)
+                                    enddo
+                                    enddo
                                     call self%check()
                                     found2dDimVar = .true.
                                     exit cd1
@@ -632,7 +638,7 @@
     type(scalar1d_field_class), allocatable, dimension(:), intent(out) :: dimsArrays
     real(prec), allocatable, dimension(:) :: tempRealArray, tempRealArrayDelta
     type(string) :: dimName, dimUnits
-    integer :: i, j, k, l
+    integer :: i, j, k
     logical :: increase_flag, neg_flag 
     !Variable IDs (self%dimData(k)) : 1-time, 2-lat, 3-lon, 4-depth
     do i=1, self%nVars !going trough all variables
@@ -731,12 +737,11 @@
     logical, optional, intent(in) :: binaryVar
     type(string), optional, intent(in) :: altName, altUnits
     logical :: bVar
-    real(prec), allocatable, dimension(:) :: tempRealField1D
-    real(prec), allocatable, dimension(:,:) :: tempRealField2D
-    real(prec), allocatable, dimension(:,:,:) :: tempRealField3D
-    real(prec), allocatable, dimension(:,:,:,:) :: tempRealField4D
+    real(prec), allocatable, dimension(:,:) :: tempRealField2D, auxRealField2D
+    real(prec), allocatable, dimension(:,:,:) :: tempRealField3D, auxRealField3D
+    real(prec), allocatable, dimension(:,:,:,:) :: tempRealField4D, auxRealField4D
     type(string) :: dimName, varUnits
-    integer :: i, j, k, id_dim, first,last, t, indx, j2
+    integer :: i, j, k, id_dim, t, indx, i1, j1, j2
     type(dim_t) :: tempDim, uDim
     integer, allocatable, dimension(:) :: varShape, u_Shape
     type(string) :: outext
@@ -754,8 +759,18 @@
                 varShape(j) = tempDim%length
             end do
             if(self%varData(i)%ndims == 3) then !3D variable
-                allocate(tempRealField3D(varShape(1),varShape(2),varShape(3)))
-                self%status = nf90_get_var(self%ncID, self%varData(i)%varid, tempRealField3D)
+                allocate(auxRealField3D(varShape(1),varShape(2),varShape(3)))
+                allocate(tempRealField3D(varShape(2),varShape(1),varShape(3))) !Write it as in MOHID hdf5s
+                self%status = nf90_get_var(self%ncID, self%varData(i)%varid, auxRealField3D)
+                !self%status = nf90_get_var(self%ncID, self%varData(i)%varid, tempRealField3D)
+                do k=1,varShape(3)
+                do i1=1,varShape(1)
+                do j1=1,varShape(2)
+                    tempRealField3D(j1,i1,k) = auxRealField3D(i1,j1,k)
+                enddo
+                enddo
+                enddo
+                
                 call self%check()
                 if (.not.bVar) then
                     where (tempRealField3D /= self%varData(i)%fillvalue)
@@ -792,8 +807,19 @@
                     call varField%initialize(dimName, varUnits, tempRealField3D)
                 end if
             else if(self%varData(i)%ndims == 4) then !4D variable                
-                allocate(tempRealField4D(varShape(1),varShape(2),varShape(3),varShape(4)))
-                self%status = nf90_get_var(self%ncID, self%varData(i)%varid, tempRealField4D)
+                allocate(auxRealField4D(varShape(1),varShape(2),varShape(3),varShape(4)))
+                allocate(tempRealField4D(varShape(2),varShape(1),varShape(3),varShape(4)))
+                self%status = nf90_get_var(self%ncID, self%varData(i)%varid, auxRealField4D)
+                !self%status = nf90_get_var(self%ncID, self%varData(i)%varid, tempRealField4D)
+                do t=1,varShape(4)
+                do k=1,varShape(3)
+                do i1=1,varShape(1)
+                do j1=1,varShape(2)
+                    tempRealField4D(j1,i1,k,t) = auxRealField4D(i1,j1,k,t)
+                enddo
+                enddo
+                enddo
+                enddo
                 call self%check()
                 if (.not.bVar) then
                     if ((varName == Globals%Var%temp) .and. (Globals%simdefs%Temperature_add_offset /= 0)) then
@@ -842,7 +868,8 @@
                 end if
             elseif(self%varData(i)%ndims == 2) then !2D variable, for now only bathymetry
                 if (self%varData(i)%simName == Globals%Var%bathymetry) then
-                    allocate(tempRealField2D(varShape(1),varShape(2)))
+                    allocate(auxRealField2D(varShape(1),varShape(2)))
+                    allocate(tempRealField2D(varShape(2),varShape(1)))
 do1:                do indx=1, self%nVars
                         !Find velocity u matrix to get its dimensions
                         if (self%varData(indx)%simName == Globals%Var%u) then
@@ -853,17 +880,22 @@ do1:                do indx=1, self%nVars
                             end do
                             if (self%varData(indx)%ndims == 4) then
                                 variable_u_is4D = .true.
-                                allocate(tempRealField4D(varShape(1),varShape(2), u_Shape(3), u_Shape(4)))
+                                allocate(tempRealField4D(varShape(2),varShape(1), u_Shape(3), u_Shape(4)))
                                 exit do1
                             else
-                                allocate(tempRealField3D(varShape(1),varShape(2), u_Shape(3)))
+                                allocate(tempRealField3D(varShape(2),varShape(1), u_Shape(3)))
                                 exit do1
                             end if
                             
                         end if
                     end do do1
                     
-                    self%status = nf90_get_var(self%ncID, self%varData(i)%varid, tempRealField2D)
+                    self%status = nf90_get_var(self%ncID, self%varData(i)%varid, auxRealField2D)
+                    do i1=1,varShape(1)
+                    do j1=1,varShape(2)
+                        tempRealField2D(j1,i1) = auxRealField2D(i1,j1)
+                    enddo
+                    enddo
                     call self%check()
                     if (.not.bVar) then
                         where (tempRealField2D /= self%varData(i)%fillvalue)
@@ -1034,7 +1066,6 @@ do1:                do indx=1, self%nVars
     subroutine correctNCTime(timeComments, timeArray)
     type(string), intent(inout) :: timeComments
     real(prec), dimension(:), intent(inout) :: timeArray
-    integer :: i
     type(string), allocatable :: dc(:), dates(:), hours(:)
     type(string) :: isoDateStr
     integer, dimension(6) :: date

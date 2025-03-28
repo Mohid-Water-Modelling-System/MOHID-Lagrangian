@@ -140,7 +140,7 @@
     type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
-    integer :: i, j, col_age, col_bat, col_bat_sv, col_landintmask, col_res
+    integer :: i, j, col_age, col_bat, col_bat_sv, col_landintmask, col_res, col_ssh
     real(prec) :: maxLevel(2)
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
@@ -181,8 +181,22 @@
     !interpolate each background
     
     !correcting for maximum admissible level in the background
-    maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .false.)   
-    if (maxLevel(2) /= MV) where (sv%state(:,3) > maxLevel(2)) sv%state(:,3) = maxLevel(2)-0.00001
+    
+    !TODO : If the hdf5 does not have ssh, should use the verticalZ (meaning we must save an extra 2D var with the hdf original var (cell faces)
+    if (Globals%simDefs%inputFromHDF5) then
+        col_ssh = Utils%find_str(var_name, Globals%Var%ssh, .false.)
+        if (col_ssh /= MV_INT) then
+            where (sv%state(:,3) >  var_dt(:,col_ssh)) sv%state(:,3) = var_dt(:,col_ssh) - 0.00001
+        else
+            !ssh not found... assume 0.0 as the limit
+            where (sv%state(:,3) >  0.0) sv%state(:,3) = - 0.00001
+        endif
+        
+    else
+        maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .false.)   
+        if (maxLevel(2) /= MV) where (sv%state(:,3) > maxLevel(2)) sv%state(:,3) = maxLevel(2)-0.00001  
+    endif
+    
     !update land interaction status
     col_landintmask = Utils%find_str(var_name, Globals%Var%landIntMask)
     sv%landIntMask = var_dt(:,col_landintmask)
