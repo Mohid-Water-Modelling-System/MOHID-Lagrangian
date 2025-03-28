@@ -83,27 +83,27 @@
     !begin----------------------------------------------------------------------------
     !Check field extents and what particles will be interpolated
     !interpolate each field to the correspoing slice in var_dt
-    write(*,*)"Entrei interpolador"
+    !write(*,*)"Entrei interpolador"
     i = 1
     call bdata%fields%reset()                   ! reset list iterator
-    write(*,*) "numero de fields no bdata = ", bdata%fields%getsize()
+    !write(*,*) "numero de fields no bdata = ", bdata%fields%getsize()
     do while(bdata%fields%moreValues())         ! loop while there are values
         interp = .true.
         requireVertInt = .true.
         aField => bdata%fields%currentValue()   ! get current value
-        write(*,*)"Entrei no do while"
+        !write(*,*)"Entrei no do while"
         select type(aField)
         class is(scalar4d_field_class)          !4D interpolation is possible
-            write(*,*)"Variavel que entro no while = ", trim(aField%name)
+            !write(*,*)"Variavel que entro no while = ", trim(aField%name)
             if (self%interpType == 1) then !linear interpolation in space and time
                 if (present(toInterp)) then
                     !write(*,*)"toInterp present"
-                    do count=1,size(toInterp)
-                        write(*,*)"variavel para interpolar = ", trim(toInterp(count))
-                        write(*,*)"variavel no field = ", trim(aField%name)
-                    enddo
+                    !do count=1,size(toInterp)
+                    !    write(*,*)"variavel para interpolar = ", trim(toInterp(count))
+                    !    write(*,*)"variavel no field = ", trim(aField%name)
+                    !enddo
                     if (.not.(any(toInterp == aField%name))) then
-                        write(*,*)"toInterp false"
+                        !write(*,*)"toInterp false"
                         interp = .false.
                     end if
                 end if
@@ -111,38 +111,38 @@
                     outOfBounds = .false.
                     var_name(i) = aField%name
                     gridIsCurvilinear = bdata%getGridIsCurvilinear()
-                    write(*,*)"Sai do gridIsCurvilinear"
+                    !write(*,*)"Sai do gridIsCurvilinear"
                     
                     !produce xx, yy and zz vectors and tt value according to grid type
                     call self%Trc2Grid_4D(state,bdata,time,xx,yy,zz,tt,outOfBounds,gridIsCurvilinear)
-                    write(*,*)"Sai do Trc2Grid_4D"
+                    !write(*,*)"Sai do Trc2Grid_4D"
                     
                     if (var_name(i) == Globals%Var%landIntMask) then
                         !adjust interpolation to bathymetry rather than vertical layers. important for ressuspension processes
-                        write(*,*)"get bathymetry"
+                        !write(*,*)"get bathymetry"
                         call bdata%getVarByName4D(varName = Globals%Var%bathymetry, outField_4D = bathymetry, origVar = aField%name)
                         allocate(var_dt_aux(size(state,1)))
-                        write(*,*)"Entrar em interp4D_Hor"
+                        !write(*,*)"Entrar em interp4D_Hor"
                         var_dt_aux = self%interp4D_Hor(xx, yy, zz, tt, outOfBounds, bathymetry, size(bathymetry,1), size(bathymetry,2), size(bathymetry,3), size(bathymetry,4), size(state,1))
-                        write(*,*)"Saida de interp4D_Hor"
+                        !write(*,*)"Saida de interp4D_Hor"
                         zz = self%getArrayCoord(state(:,3), bdata, Globals%Var%level, outOfBounds, bat = var_dt_aux)
-                        write(*,*)"Saida de getArrayCoord"
+                        !write(*,*)"Saida de getArrayCoord"
                         deallocate(var_dt_aux)
                         nullify(bathymetry)
                     end if
-                    write(*,*)"entrada para if de reqVertInt"
+                    !write(*,*)"entrada para if de reqVertInt"
                     if (present(reqVertInt)) then
                         !Interpolate on 2D even if the field is 3D (usefull for Bottom stress)
                         requireVertInt = reqVertInt
                     end if
                     if (requireVertInt) then
-                        write(*,*)"entrada requireVertInt...........Variavel = ", trim(aField%name)
+                        !write(*,*)"entrada requireVertInt...........Variavel = ", trim(aField%name)
                         var_dt(:,i) = self%interp4D(xx, yy, zz, tt, outOfBounds, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(state,1))
-                        write(*,*)"Saida requireVertInt. var_dt(1,i) = ", var_dt(1,i)
+                        !write(*,*)"Saida requireVertInt. var_dt(1,i) = ", var_dt(1,i)
                     else
-                        write(*,*)"Entrada requireVertInt false"
+                        !write(*,*)"Entrada requireVertInt false"
                         var_dt(:,i) = self%interp4D_Hor(xx, yy, zz, tt, outOfBounds, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(state,1))
-                        write(*,*)"Saia requireVertInt false. var_dt(1,i) = ", var_dt(1,i)
+                        !write(*,*)"Saia requireVertInt false. var_dt(1,i) = ", var_dt(1,i)
                     end if
                 end if
             end if !add more interpolation types here
@@ -336,48 +336,48 @@
     !do concurrent(i=1:n_e, .not. out(i))
     do i = 1, n_e
         if (.not. out(i)) then
-            write(*,*)"x0(i), y0(i), z0(i), t0 = ", x0(i), y0(i), z0(i), t0
-            write(*,*)"x1(i), y1(i), z1(i), t1 = ", x1(i), y1(i), z1(i), t0
-            write(*,*)"xd(i), yd(i), zd(i), td = ", xd(i), yd(i), zd(i), td
-            write(*,*)"field(x0(i),y0(i),z0(i),t0) = ", field(x0(i),y0(i),z0(i),t0)
-            write(*,*)"field(x0(i),y1(i),z0(i),t0) = ", field(x0(i),y1(i),z0(i),t0)
-            write(*,*)"field(x0(i),y0(i),z1(i),t0) = ", field(x0(i),y0(i),z1(i),t0)
-            write(*,*)"field(x0(i),y1(i),z1(i),t0) = ", field(x0(i),y1(i),z1(i),t0)
+            !write(*,*)"x0(i), y0(i), z0(i), t0 = ", x0(i), y0(i), z0(i), t0
+            !write(*,*)"x1(i), y1(i), z1(i), t1 = ", x1(i), y1(i), z1(i), t0
+            !write(*,*)"xd(i), yd(i), zd(i), td = ", xd(i), yd(i), zd(i), td
+            !write(*,*)"field(x0(i),y0(i),z0(i),t0) = ", field(x0(i),y0(i),z0(i),t0)
+            !write(*,*)"field(x0(i),y1(i),z0(i),t0) = ", field(x0(i),y1(i),z0(i),t0)
+            !write(*,*)"field(x0(i),y0(i),z1(i),t0) = ", field(x0(i),y0(i),z1(i),t0)
+            !write(*,*)"field(x0(i),y1(i),z1(i),t0) = ", field(x0(i),y1(i),z1(i),t0)
         
             c000(i) = field(x0(i),y0(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),z0(i),t0)*xd(i) !y0x0z0t0!  y0x1z0t0
-            write(*,*)"c000 = ", c000(i)
+            !write(*,*)"c000 = ", c000(i)
             c100(i) = field(x0(i),y1(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),z0(i),t0)*xd(i)
-            write(*,*)"c100 = ", c000(i)
+            !write(*,*)"c100 = ", c000(i)
             c010(i) = field(x0(i),y0(i),z1(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),z1(i),t0)*xd(i)
-            write(*,*)"c010 = ", c000(i)
+            !write(*,*)"c010 = ", c000(i)
             c110(i) = field(x0(i),y1(i),z1(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),z1(i),t0)*xd(i)
-            write(*,*)"c110 = ", c000(i)
+            !write(*,*)"c110 = ", c000(i)
         
             c001(i) = field(x0(i),y0(i),z0(i),t1)*(1.-xd(i)) + field(x1(i),y0(i),z0(i),t1)*xd(i) !y0x0z0t0!  y0x1z0t0
             c101(i) = field(x0(i),y1(i),z0(i),t1)*(1.-xd(i)) + field(x1(i),y1(i),z0(i),t1)*xd(i)
             c011(i) = field(x0(i),y0(i),z1(i),t1)*(1.-xd(i)) + field(x1(i),y0(i),z1(i),t1)*xd(i)
             c111(i) = field(x0(i),y1(i),z1(i),t1)*(1.-xd(i)) + field(x1(i),y1(i),z1(i),t1)*xd(i)
-            write(*,*)"c001 = ", c001(i)
-            write(*,*)"c101 = ", c101(i)
-            write(*,*)"c011 = ", c011(i)
-            write(*,*)"c111 = ", c111(i)
+            !write(*,*)"c001 = ", c001(i)
+            !write(*,*)"c101 = ", c101(i)
+            !write(*,*)"c011 = ", c011(i)
+            !write(*,*)"c111 = ", c111(i)
         ! Interpolation on the second dimension and collapse it to a two dimension problem
             c00(i) = c000(i)*(1.-yd(i))+c100(i)*yd(i)
             c10(i) = c010(i)*(1.-yd(i))+c110(i)*yd(i)
             c01(i) = c001(i)*(1.-yd(i))+c101(i)*yd(i)
             c11(i) = c011(i)*(1.-yd(i))+c111(i)*yd(i)
-            write(*,*)"c00 = ", c00(i)
-            write(*,*)"c10 = ", c10(i)
-            write(*,*)"c01 = ", c01(i)
-            write(*,*)"c11 = ", c11(i)
+            !write(*,*)"c00 = ", c00(i)
+            !write(*,*)"c10 = ", c10(i)
+            !write(*,*)"c01 = ", c01(i)
+            !write(*,*)"c11 = ", c11(i)
         ! Interpolation on the third dimension and collapse it to a one dimension problem
             c0(i) = c00(i)*(1.-zd(i))+c10(i)*zd(i)
-            write(*,*)"c0 = ", c0(i)
+            !write(*,*)"c0 = ", c0(i)
             c1(i) = c01(i)*(1.-zd(i))+c11(i)*zd(i)
-            write(*,*)"c1 = ", c1(i)
+            !write(*,*)"c1 = ", c1(i)
         ! Interpolation on the time dimension and get the final result.
             interp4D(i) = c0(i)*(1.-td)+c1(i)*td
-            write(*,*)"interp4D(i) = ", interp4D(i)
+            !write(*,*)"interp4D(i) = ", interp4D(i)
         endif
     end do
     end function interp4D
@@ -598,7 +598,7 @@
     else
         !write(*,*)"Entrei normais"
         xx = self%getArrayCoord(state(:,1), bdata, Globals%Var%lon, outOfBounds) !State(:,1) is always Lon
-        write(*,*)"xx(1) = ", xx(1)
+        !write(*,*)"xx(1) = ", xx(1)
         yy = self%getArrayCoord(state(:,2), bdata, Globals%Var%lat, outOfBounds)
     endif
     !Get time
@@ -608,7 +608,7 @@
     dim_level = bdata%getDimIndex(Globals%Var%level)
     if (allocated(bdata%dim(dim_level)%field4D) .and. Globals%SimDefs%inputFromHDF5) then!Means it is Verticalz from MOHID hdf5.
         zz = self%getArrayCoord(state(:,3), bdata, Globals%Var%level, outOfBounds, xx = xx, yy = yy, tt = tt)
-        write(*,*)"zz(1) = ",zz(1)
+        !write(*,*)"zz(1) = ",zz(1)
     else
         zz = self%getArrayCoord(state(:,3), bdata, Globals%Var%level, outOfBounds)
     endif
@@ -647,7 +647,7 @@
     maxBound_lat = bdata%dim(dim_lat)%getFieldMaxBound()
     where (xdata(:,2) > maxBound_lat) out = .true.
     
-    write(*,*)"tamanho da dimensao 1 da matriz longitude = ", size(bdata%dim(dim_lon)%field2D,1)
+    !write(*,*)"tamanho da dimensao 1 da matriz longitude = ", size(bdata%dim(dim_lon)%field2D,1)
     do id = 1, size(xdata,1)
         if (.not. out(id)) then
             x = xdata(id,1)
@@ -856,7 +856,7 @@
             getArrayCoord = self%getArrayCoordRegular(xdata, bdata, dim, out, xx = xx, yy = yy, tt = tt)
         else
             getArrayCoord = self%getArrayCoordRegular(xdata, bdata, dim, out)
-            write(*,*)"getArrayCoord(1) = ", getArrayCoord(1)
+            !write(*,*)"getArrayCoord(1) = ", getArrayCoord(1)
         endif
         
     endif
@@ -926,21 +926,21 @@
         if (bdata%dim(dim)%name == Globals%Var%lat) indx = 1 !lat varies with index 2 of field2D
         if (bdata%dim(dim)%name == Globals%Var%lon) indx = 2 !lon varies with index 2 of field2D
         res = abs(maxBound - minBound)/(size(bdata%dim(dim)%field2D,indx)-1.0)
-        write(*,*)"res = ", res
-        write(*,*)"xdata(1) = ", xdata(1)
-        write(*,*)"xdata - minBound = ", xdata(1) - minBound
-        write(*,*)"getArrayCoordRegular 1 = ", (xdata(1) - minBound)/res
-        write(*,*)"getArrayCoordRegular 2 = ", (xdata(1) - minBound)/res + 1.0
+        !write(*,*)"res = ", res
+        !write(*,*)"xdata(1) = ", xdata(1)
+        !write(*,*)"xdata - minBound = ", xdata(1) - minBound
+        !write(*,*)"getArrayCoordRegular 1 = ", (xdata(1) - minBound)/res
+        !write(*,*)"getArrayCoordRegular 2 = ", (xdata(1) - minBound)/res + 1.0
         getArrayCoordRegular = (xdata - minBound)/res + 1.0 !this will give the index along the dimension indx which intersects with the xdata
         !do i = 1, size(xdata)
         !    write(*,*)"getArrayCoordRegular (i) = ", getArrayCoordRegular(i)
         !enddo
         
     endif
-    write(*,*)"out 1 = ", out(1)
+    !write(*,*)"out 1 = ", out(1)
     where (xdata < minBound) out = .true.
     where (xdata > maxBound) out = .true.
-    write(*,*)"out 1 saida = ", out(1)
+    !write(*,*)"out 1 saida = ", out(1)
     end function getArrayCoordRegular
     
     
@@ -1091,9 +1091,9 @@
                 i = floor(yy(id))
                 j = floor(xx(id))
             
-                write(*,*)"Depth k =1 = ", bdata%dim(dim)%field4D(i, j, 1, t1)
-                write(*,*)"Depth k =2 = ", bdata%dim(dim)%field4D(i, j, 2, t1)
-                write(*,*)"Depth k =3 = ", bdata%dim(dim)%field4D(i, j, 3, t1)
+                !write(*,*)"Depth k =1 = ", bdata%dim(dim)%field4D(i, j, 1, t1)
+                !write(*,*)"Depth k =2 = ", bdata%dim(dim)%field4D(i, j, 2, t1)
+                !write(*,*)"Depth k =3 = ", bdata%dim(dim)%field4D(i, j, 3, t1)
                 idx_1 = size(bdata%dim(dim)%field4D,3)
                 idx_2 = idx_1
                 do k = 2, size(bdata%dim(dim)%field4D, 3)
