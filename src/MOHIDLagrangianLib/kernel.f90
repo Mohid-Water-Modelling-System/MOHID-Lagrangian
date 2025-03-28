@@ -158,16 +158,23 @@
     
     !write(*,*)"Saida setCommonProcesses interpolate"
     bottom_emmission = .false.
-    col_bat = Utils%find_str(var_name, Globals%Var%bathymetry, .true.)
+    col_bat = Utils%find_str(var_name, Globals%Var%bathymetry, .false.)
     !Set tracers bathymetry
-    col_bat_sv = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
-    sv%state(:,col_bat_sv) = var_dt(:,col_bat)
+    col_bat_sv = Utils%find_str(sv%varName, Globals%Var%bathymetry, .false.)
+    if (col_bat_sv /= MV_INT) then
+        sv%state(:,col_bat_sv) = var_dt(:,col_bat)
+    else
+        sv%state(:,col_bat_sv) = 0.0
+    endif
     
     tag = 'age'
     col_age = Utils%find_str(sv%varName, tag, .true.)
     
-    where (sv%state(:,3) < var_dt(:,col_bat)) sv%state(:,3) = var_dt(:,col_bat)
-        
+    !Check for particles below sea bottom
+    if (col_bat /= MV_INT) then
+        where (sv%state(:,3) < var_dt(:,col_bat)) sv%state(:,3) = var_dt(:,col_bat)
+    endif
+    
     if (size(sv%source) > 0) then
         !if any of the sources defined by the user has the option bottom_emission then the model must check
         !wheter any new tracer needs to be positioned at the bottom

@@ -147,9 +147,9 @@
     !need to send to different readers here if different file formats
     
     !Check format type:
-    write(*,*) "Nome do ficheiro = ", trim(filename%chars())
+    !write(*,*) "Nome do ficheiro = ", trim(filename%chars())
     
-    if (fileName%extension() == '.nc') then
+    if (fileName%extension() == '.nc' .or. fileName%extension() == '.nc4') then
         !Call reader
         getCurrentsFile = ncReader%getFullFile(fileName, varList, syntecticVar)
     else

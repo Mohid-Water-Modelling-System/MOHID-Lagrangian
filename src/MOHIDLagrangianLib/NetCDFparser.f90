@@ -607,7 +607,14 @@
                         end if
                         
                         if (allocated(tempRealArray1D)) then
-                            call dimsArrays(j)%initialize(dimName, dimUnits, tempRealArray1D)
+                            if (dimName == Globals%Var%lon) then
+                                call dimsArrays(2)%initialize(dimName, dimUnits, tempRealArray1D)
+                            elseif (dimName == Globals%Var%lat) then
+                                call dimsArrays(1)%initialize(dimName, dimUnits, tempRealArray1D)
+                            else
+                                call dimsArrays(j)%initialize(dimName, dimUnits, tempRealArray1D)
+                            endif
+                            
                             deallocate(tempRealArray1D)
                             foundDimVar = .true.
                         elseif (allocated(tempRealArray2D)) then

@@ -221,7 +221,7 @@ do1:do while(self%fields%moreValues())     ! loop while there are values to proc
                 end if
             end if
         class is (scalar3d_field_class)
-                    write(*,*)"Variavel = : ", trim(curr%name)
+                    !write(*,*)"Variavel = : ", trim(curr%name)
             if (curr%name == varName) then
                 if (present(outField_3D)) then
                     outField_3D => curr%field
@@ -232,7 +232,7 @@ do1:do while(self%fields%moreValues())     ! loop while there are values to proc
                 endif
             end if
         class is (scalar4d_field_class)
-                    write(*,*)"Variavel = : ", trim(curr%name)
+                    !write(*,*)"Variavel = : ", trim(curr%name)
             if (curr%name == varName) then
                 if (present(outField_4D)) then
                     outField_4D => curr%field
@@ -509,7 +509,7 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
     end do
     !write(*,*)"A entrar no ciclo do self%dim"
     do i=1, size(self%dim)
-        write(*,*)"nome da dimensao = ", trim(self%dim(i)%name)
+        !write(*,*)"nome da dimensao = ", trim(self%dim(i)%name)
         if (allocated(self%dim(i)%field1D)) then
             !write(*,*)"Entrei field 1D "
             call backgrounDims(i)%scalar1d%initialize(self%dim(i)%name, self%dim(i)%units, 1, self%getSlabDim(i, llbound(i), uubound(i)))
@@ -531,7 +531,7 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
         curr => self%fields%currentValue() ! get current value
         select type(curr)
         class is (field_class)
-            write(*,*) "curr%name", trim(curr%name)
+            !write(*,*) "curr%name", trim(curr%name)
             !write(*,*)"llbound(1):uubound(1) hyperslab = ", llbound(1), uubound(1)
             !write(*,*)"llbound(2):uubound(2) hyperslab = ", llbound(2), uubound(2)
             !write(*,*)"llbound(3):uubound(3) hyperslab = ", llbound(3), uubound(3)
@@ -567,11 +567,11 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
         end if
     end do
     
-    write(*,*)"Acabei dimExtents", ex, ey, ez
-    write(*,*)"dimExtents (1,1)", dimExtents(1,1)
-    write(*,*)"dimExtents (1,2)", dimExtents(1,2)
-    write(*,*)"dimExtents (2,1)", dimExtents(2,1)
-    write(*,*)"dimExtents (2,2)", dimExtents(2,2)
+    !write(*,*)"Acabei dimExtents", ex, ey, ez
+    !write(*,*)"dimExtents (1,1)", dimExtents(1,1)
+    !write(*,*)"dimExtents (1,2)", dimExtents(1,2)
+    !write(*,*)"dimExtents (2,1)", dimExtents(2,1)
+    !write(*,*)"dimExtents (2,2)", dimExtents(2,2)
     !extents%pt = dimExtents(1,1)*ex + dimExtents(2,1)*ey + dimExtents(3,1)*ez
     extents%pt = dimExtents(2,1)*ex + dimExtents(1,1)*ey + dimExtents(3,1)*ez
     pt = dimExtents(2,2)*ex + dimExtents(1,2)*ey + dimExtents(3,2)*ez
@@ -803,7 +803,7 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
         select type(curr)
         class is (scalar3d_field_class)
             if (curr%name == Globals%Var%landIntMask) then
-                write(*,*)"Curr Name = ", TRIM(curr%name)
+               ! write(*,*)"Curr Name = ", TRIM(curr%name)
                 allocate(shiftleftlon3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
                 allocate(shiftuplat3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
                 allocate(shiftrigthlon3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
@@ -830,7 +830,7 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
             end if
         class is (scalar4d_field_class)
             if (curr%name == Globals%Var%landIntMask) then
-                write(*,*)"Curr Name = ", TRIM(curr%name)
+                !write(*,*)"Curr Name = ", TRIM(curr%name)
                 allocate(shiftleftlon4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
                 allocate(shiftuplat4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
                 allocate(shiftrigthlon4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
@@ -922,12 +922,12 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
                 xIndx = self%getDimIndex(Globals%Var%lon)
                 yIndx = self%getDimIndex(Globals%Var%lat)
                 if (allocated(self%dim(xIndx)%field1D)) then
-                    do j=1, size(xx3d,2)
-                        xx3d(:,j,1) = Utils%geo2m(abs(self%dim(xIndx)%field1D(:size(curr%field,1)-1) - self%dim(xIndx)%field1D(2:)), self%dim(yIndx)%field1D(j), .false.)
+                    do i=1, size(xx3d,1)
+                        xx3d(i,:,1) = Utils%geo2m(abs(self%dim(xIndx)%field1D(:size(curr%field,2)-1) - self%dim(xIndx)%field1D(2:)), self%dim(yIndx)%field1D(i), .false.)
                     end do
-                    yy3d(1,:,1) = Utils%geo2m(abs(self%dim(yIndx)%field1D(:size(curr%field,2)-1) - self%dim(yIndx)%field1D(2:)), self%dim(yIndx)%field1D(1), .true.)
-                    do i=2, size(yy3d,1)
-                        yy3d(i,:,1) = yy3d(1,:,1)
+                    yy3d(:,1,1) = Utils%geo2m(abs(self%dim(yIndx)%field1D(:size(curr%field,1)-1) - self%dim(yIndx)%field1D(1:)), self%dim(yIndx)%field1D(1), .true.)
+                    do j=2, size(yy3d,2)
+                        yy3d(:,j,1) = yy3d(:,1,1)
                     end do
                 elseif (allocated(self%dim(xIndx)%field2D)) then
                     
@@ -1195,13 +1195,15 @@ do3:                do i=1, size(curr%field,1)
                 !Get bathymetry matrix and point curr pointer back to the dwz matrix.
                 call self%getVarByName4D(varName = Globals%Var%bathymetry, outField_3D = bathymetry_3D, origVar = curr%name)
                 dwz3D = 0
-                do t=1, size(curr%field,3)
-                    do j=1, size(curr%field,2)
-                        do i=1, size(curr%field,1)
-                            dwz3D(i,j,t) = -bathymetry_3D(i,j,t)
+                if (associated(bathymetry_3D)) then
+                    do t=1, size(curr%field,3)
+                        do j=1, size(curr%field,2)
+                            do i=1, size(curr%field,1)
+                                dwz3D(i,j,t) = -bathymetry_3D(i,j,t)
+                            end do
                         end do
                     end do
-                end do
+                endif
                 curr%field = dwz3D
             end if
         class is (scalar4d_field_class)               
@@ -1220,40 +1222,41 @@ do3:                do i=1, size(curr%field,1)
                 call self%getVarByName4D(varName = Globals%Var%bathymetry, outField_4D = bathymetry_4D, origVar = curr%name)
                 dwz4D = 0
                 
-                if (size(curr%field,3) == 1) then
-                    !Results are 2D. DWZ is equal to bathymetry
-                    do t=1, size(curr%field,4)
-                        do j=1, size(curr%field,2)
-                            do i=1, size(curr%field,1)
-                                dwz4D(i,j,:,t) = abs(bathymetry_4D(i,j,:,t))
-                            end do
-                        end do
-                    enddo
-                elseif (useVerticalZ) then
-                    !Get DWZ through difference between layer depths
-                    dwz4D(:,:,:,:) = self%dim(zIndx)%field4D(:,:,2:size(self%dim(zIndx)%field4D,3),:) - self%dim(zIndx)%field4D(:,:,:size(self%dim(zIndx)%field4D,3)-1,:)
-                else
-                    !Need to use bathymetry to get the layer that is closest to the bottom (must be netcdf)
-                    do t=1, size(curr%field,4)
-                        do j=1, size(curr%field,2)
-                            do i=1, size(curr%field,1)
-                                found = .false.
-                                do k=1, size(curr%field,3)
-                                    if (found) then
-                                        dwz4D(i,j,k,t) = self%dim(zIndx)%field1D(k) - self%dim(zIndx)%field1D(k-1)
-                                    else
-                                        if (self%dim(zIndx)%field1D(k) > bathymetry_4D(i,j,1,t)) then
-                                            !Found first
-                                            dwz4D(i,j,k,t) = abs((bathymetry_4D(i,j,1,t) - (self%dim(zIndx)%field1D(k))) * 2)
-                                            found = .true.
-                                        end if
-                                    end if
+                if (associated(bathymetry_4D)) then
+                    if (size(curr%field,3) == 1) then
+                        !Results are 2D. DWZ is equal to bathymetry
+                        do t=1, size(curr%field,4)
+                            do j=1, size(curr%field,2)
+                                do i=1, size(curr%field,1)
+                                    dwz4D(i,j,:,t) = abs(bathymetry_4D(i,j,:,t))
                                 end do
                             end do
-                        end do
-                    end do  
+                        enddo
+                    elseif (useVerticalZ) then
+                        !Get DWZ through difference between layer depths
+                        dwz4D(:,:,:,:) = self%dim(zIndx)%field4D(:,:,2:size(self%dim(zIndx)%field4D,3),:) - self%dim(zIndx)%field4D(:,:,:size(self%dim(zIndx)%field4D,3)-1,:)
+                    else
+                        !Need to use bathymetry to get the layer that is closest to the bottom (must be netcdf)
+                        do t=1, size(curr%field,4)
+                            do j=1, size(curr%field,2)
+                                do i=1, size(curr%field,1)
+                                    found = .false.
+                                    do k=1, size(curr%field,3)
+                                        if (found) then
+                                            dwz4D(i,j,k,t) = self%dim(zIndx)%field1D(k) - self%dim(zIndx)%field1D(k-1)
+                                        else
+                                            if (self%dim(zIndx)%field1D(k) > bathymetry_4D(i,j,1,t)) then
+                                                !Found first
+                                                dwz4D(i,j,k,t) = abs((bathymetry_4D(i,j,1,t) - (self%dim(zIndx)%field1D(k))) * 2)
+                                                found = .true.
+                                            end if
+                                        end if
+                                    end do
+                                end do
+                            end do
+                        end do  
+                    endif
                 endif
-                
                 curr%field = dwz4D
             end if
         class default
@@ -1530,17 +1533,17 @@ do3:                do i=1, size(curr%field,1)
     do i=1,  size(dims)
         !write(*,*)"i = ", i
         if (allocated(dims(i)%scalar1d%field)) then
-            write(*,*)"alocado 1d = ", trim(dims(i)%name)
+            !write(*,*)"alocado 1d = ", trim(dims(i)%name)
             call self%dim(i)%initialize(dims(i)%scalar1d%name, dims(i)%scalar1d%units, 1, dims(i)%scalar1d%field)
         elseif (allocated(dims(i)%scalar2d%field)) then
-            write(*,*)"alocado 2d = ", trim(dims(i)%name)
+            !write(*,*)"alocado 2d = ", trim(dims(i)%name)
             call self%dim(i)%initialize(dims(i)%scalar2d%name, dims(i)%scalar2d%units, 2, dims(i)%scalar2d%field)
         elseif (allocated(dims(i)%scalar3d%field)) then
             call self%dim(i)%initialize(dims(i)%scalar3d%name, dims(i)%scalar3d%units, 3, dims(i)%scalar3d%field)
-            write(*,*)"alocado 3d = ", trim(dims(i)%name)
+            !write(*,*)"alocado 3d = ", trim(dims(i)%name)
         elseif (allocated(dims(i)%scalar4d%field)) then
             call self%dim(i)%initialize(dims(i)%scalar4d%name, dims(i)%scalar4d%units, 4, dims(i)%scalar4d%field)
-            write(*,*)"alocado 4d = ", trim(dims(i)%name)
+            !write(*,*)"alocado 4d = ", trim(dims(i)%name)
         else
             outext = '[background_class::setDims] Unexepected type of content, dimension provided is not a 1D or 2D Field'
             call Log%put(outext)
@@ -1556,7 +1559,7 @@ do3:                do i=1, size(curr%field,1)
             dreg = (fmax-fmin)/(size(dims(i)%scalar1d%field))
             self%regularDim(i) = all(abs(dims(i)%scalar1d%field(2:)-dims(i)%scalar1d%field(:size(dims(i)%scalar1d%field)-1) - dreg) < abs(eta))
         elseif (allocated(dims(i)%scalar2d%field)) then
-            write(*,*)"alocado 2d 2 = ", trim(dims(i)%name)
+            !write(*,*)"alocado 2d 2 = ", trim(dims(i)%name)
             if (dims(i)%name == Globals%Var%lat) then
                 fmin = dims(i)%scalar2d%getFieldMinBound(arrayDim=1) !lat rows are in dimension1 CHANGED in Jan 2025 (was dimension2)
                 fmax = dims(i)%scalar2d%getFieldMaxBound(arrayDim=1) !lat rows are in dimension1 CHANGED in Jan 2025 (was dimension2)
@@ -1564,15 +1567,15 @@ do3:                do i=1, size(curr%field,1)
                 dreg = (fmax-fmin)/(size(dims(i)%scalar2d%field, 1))
                 self%regularDim(i) = all(abs((dims(i)%scalar2d%field(2:,1)-dims(i)%scalar2d%field(:size(dims(i)%scalar2d%field,1)-1,1)) - dreg) < abs(eta))
                 self%gridIsCurvilinear = maxval(dims(i)%scalar2d%field(1,2:size(dims(i)%scalar2d%field,2))-dims(i)%scalar2d%field(1,1)) > abs(eta/10)
-                write(*,*)"Regular dim lat = ", self%regularDim(i), i
+                !write(*,*)"Regular dim lat = ", self%regularDim(i), i
             elseif (dims(i)%name == Globals%Var%lon) then
                 fmin = dims(i)%scalar2d%getFieldMinBound(arrayDim=2) !lon columns are in dimension2 CHANGED in Jan 2025 (was dimension1)
                 fmax = dims(i)%scalar2d%getFieldMaxBound(arrayDim=2) !lon columns are in dimension2 CHANGED in Jan 2025 (was dimension1)
-                write(*,*) "Size dims(i)%scalar2d%field,2) = ", size(dims(i)%scalar2d%field,2)
+                !write(*,*) "Size dims(i)%scalar2d%field,2) = ", size(dims(i)%scalar2d%field,2)
                 eta = (fmax-fmin)/(10.0*size(dims(i)%scalar2d%field,2))
                 dreg = (fmax-fmin)/(size(dims(i)%scalar2d%field,2))
                 self%regularDim(i) = all(abs((dims(i)%scalar2d%field(1,2:)-dims(i)%scalar2d%field(1,:size(dims(i)%scalar2d%field,2)-1)) - dreg) < abs(eta))
-                write(*,*)"Regular dim lon = ", self%regularDim(i), i
+                !write(*,*)"Regular dim lon = ", self%regularDim(i), i
             endif
         elseif (allocated(dims(i)%scalar3d%field)) then
             self%regularDim(i) = .false.
@@ -1768,10 +1771,10 @@ do3:                do i=1, size(curr%field,1)
         select type(aField)
         class is (field_class)
             fieldShape = aField%getFieldShape()
-            write(*,*)"variable name = ",  trim(aField%name)
+            !write(*,*)"variable name = ",  trim(aField%name)
             do i=1,size(dimsize)
-               write(*,*)"dimSize = ",  dimSize(i)
-               write(*,*)"fieldShape = ",  fieldShape(i)
+               !write(*,*)"dimSize = ",  dimSize(i)
+               !write(*,*)"fieldShape = ",  fieldShape(i)
             enddo
             equal = all(dimSize.eq.aField%getFieldShape())
             if (.not.equal) check = .false.
