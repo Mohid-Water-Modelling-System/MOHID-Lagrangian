@@ -165,8 +165,8 @@ if(WINDOWS)
 			"${item}"
 			$<TARGET_FILE_DIR:${BIN_NAME}>)
 	ENDFOREACH(item)
-	set(dlls_PATH ${PROJECT_SOURCE_DIR}/ExternalLibs/dlls)
-	FOREACH(item ${dlls_PATH})
+	# set(dlls_PATH ${PROJECT_SOURCE_DIR}/ExternalLibs/dlls)
+	FOREACH(item ${HDF5_DLL_LIBS})
 	  add_custom_command(TARGET ${BIN_NAME} POST_BUILD
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different
 			"${item}"
