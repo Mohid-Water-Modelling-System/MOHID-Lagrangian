@@ -161,7 +161,7 @@
     col_bat = Utils%find_str(var_name, Globals%Var%bathymetry, .false.)
     !Set tracers bathymetry
     col_bat_sv = Utils%find_str(sv%varName, Globals%Var%bathymetry, .false.)
-    if (col_bat_sv /= MV_INT) then
+    if (col_bat /= MV_INT) then
         sv%state(:,col_bat_sv) = var_dt(:,col_bat)
     else
         sv%state(:,col_bat_sv) = 0.0
