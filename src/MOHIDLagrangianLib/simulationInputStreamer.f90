@@ -106,7 +106,7 @@
     type(ncReader_class) :: ncReader
     type(hdf5Reader_class) :: hdf5Reader
     !write(*,*)"Entrei get currentsFile"
-    if (fileName%extension() == '.nc') then
+    if (fileName%extension() == '.nc' .or. fileName%extension() == '.nc4') then
         allocate(varList(7))
         allocate(syntecticVar(7))
     else
@@ -128,7 +128,7 @@
     syntecticVar(6) = .true.
     !varList(7) = Globals%Var%ssh
     !syntecticVar(7) = .false.
-    if (fileName%extension() == '.nc') then
+    if (fileName%extension() == '.nc' .or. fileName%extension() == '.nc4') then
         varList(7) = Globals%Var%bathymetry
         if (Globals%SimDefs%bathyminNetcdf == 1) then
             syntecticVar(7) = .false.

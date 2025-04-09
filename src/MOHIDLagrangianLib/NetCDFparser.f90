@@ -142,7 +142,9 @@
     end do
     if (realVarIdx /= 0) then
         do i=1, size(syntecticVar)
+            !write(*,*)"Getting Var name = ", varList(i)
             if(.not.syntecticVar(i)) then !normal variable, put it on a generic field
+                !write(*,*)"getting normal variable"
                 call ncFile%getVar(varList(i), gfield(i))
             else                          !synthetic variable to be constructed based on the field of a normal variable
                 call ncFile%getVar(varList(realVarIdx), gfield(i), .true., varList(i), units)
@@ -760,6 +762,8 @@
 
     do i=1, self%nVars !going trough all variables
         if (self%varData(i)%simName == varName ) then   !found the requested var
+            !write(*,*)"Getting Var for simulation name = ", self%varData(i)%simName
+            !write(*,*)"Getting Var name = ", varName
             allocate(varShape(self%varData(i)%ndims))
             do j=1, self%varData(i)%ndims   !going trough all of the variable dimensions
                 tempDim = self%getDimByDimID(self%varData(i)%dimids(j))
