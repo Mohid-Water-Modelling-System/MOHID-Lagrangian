@@ -536,11 +536,11 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
             !write(*,*)"llbound(2):uubound(2) hyperslab = ", llbound(2), uubound(2)
             !write(*,*)"llbound(3):uubound(3) hyperslab = ", llbound(3), uubound(3)
             gfield(i) = curr%getFieldSlice(llbound, uubound)
-            !if (allocated(gfield(i)%scalar3d%field)) then
-            !    write(*,*)"tamanho final gfield 1 = ", size(gfield(i)%scalar3d%field,1)
-            !    write(*,*)"tamanho final gfield 2 = ", size(gfield(i)%scalar3d%field,2)
-            !    write(*,*)"tamanho final gfield 3 = ", size(gfield(i)%scalar3d%field,3)
-            !endif
+            if (allocated(gfield(i)%scalar3d%field)) then
+                !write(*,*)"tamanho final gfield 1 = ", size(gfield(i)%scalar3d%field,1)
+                !write(*,*)"tamanho final gfield 2 = ", size(gfield(i)%scalar3d%field,2)
+                !write(*,*)"tamanho final gfield 3 = ", size(gfield(i)%scalar3d%field,3)
+            endif
             class default
             outext = '[background_class::getHyperSlab] Unexepected type of content, not a scalar Field'
             call Log%put(outext)
@@ -810,13 +810,13 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
                 allocate(shiftdownlat3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
                 allocate(beach3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
                 shiftleftlon3d = .false.
-                shiftleftlon3d(:size(curr%field,1)-1,:,:) = abs(curr%field(:size(curr%field,1)-1,:,:) - curr%field(2:,:,:)) /= 0.0
+                shiftleftlon3d(:,:size(curr%field,2)-1,:) = abs(curr%field(:,:size(curr%field,2)-1,:) - curr%field(:,2:,:)) /= 0.0
                 shiftrigthlon3d = .false.
-                shiftrigthlon3d(2:,:,:) = abs(curr%field(2:,:,:) - curr%field(:size(curr%field,1)-1,:,:)) /= 0.0
+                shiftrigthlon3d(:,2:,:) = abs(curr%field(:,2:,:) - curr%field(:,:size(curr%field,2)-1,:)) /= 0.0
                 shiftuplat3d = .false.
-                shiftuplat3d(:,:size(curr%field,2)-1,:) = abs(curr%field(:,:size(curr%field,2)-1,:) - curr%field(:,2:,:)) /= 0.0
+                shiftuplat3d(:size(curr%field,1)-1,:,:) = abs(curr%field(:size(curr%field,1)-1,:,:) - curr%field(2:,:,:)) /= 0.0
                 shiftdownlat3d = .false.
-                shiftdownlat3d(:, 2:,:) = abs(curr%field(:,2:,:) - curr%field(:,:size(curr%field,2)-1,:)) /= 0.0
+                shiftdownlat3d(2:, :,:) = abs(curr%field(2:,:,:) - curr%field(:size(curr%field,1)-1,:,:)) /= 0.0
                 beach3d = .false.
                 beach3d = shiftleftlon3d .or. shiftrigthlon3d .or. shiftuplat3d .or. shiftdownlat3d !colapsing all the shifts
                 beach3d = beach3d .and. (curr%field == Globals%Mask%waterVal) !just points that were already wet
@@ -840,13 +840,13 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
                 allocate(beach4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
                 allocate(bed4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
                 shiftleftlon4d = .false.
-                shiftleftlon4d(:size(curr%field,1)-1,:,:,:) = abs(curr%field(:size(curr%field,1)-1,:,:,:) - curr%field(2:,:,:,:)) /= 0.0
+                shiftleftlon4d(:,:size(curr%field,2)-1,:,:) = abs(curr%field(:,:size(curr%field,2)-1,:,:) - curr%field(:,2:,:,:)) /= 0.0
                 shiftrigthlon4d = .false.
-                shiftrigthlon4d(2:,:,:,:) = abs(curr%field(2:,:,:,:) - curr%field(:size(curr%field,1)-1,:,:,:)) /= 0.0
+                shiftrigthlon4d(:,2:,:,:) = abs(curr%field(:,2:,:,:) - curr%field(:,:size(curr%field,2)-1,:,:)) /= 0.0
                 shiftdownlat4d = .false.
-                shiftdownlat4d(:,:size(curr%field,2)-1,:,:) = abs(curr%field(:,:size(curr%field,2)-1,:,:) - curr%field(:,2:,:,:)) /= 0.0
+                shiftdownlat4d(:size(curr%field,1)-1,:,:,:) = abs(curr%field(:size(curr%field,1)-1,:,:,:) - curr%field(2:,:,:,:)) /= 0.0
                 shiftuplat4d = .false.
-                shiftuplat4d(:,2:,:,:) = abs(curr%field(:,2:,:,:) - curr%field(:,:size(curr%field,2)-1,:,:)) /= 0.0
+                shiftuplat4d(2:,:,:,:) = abs(curr%field(2:,:,:,:) - curr%field(:size(curr%field,1)-1,:,:,:)) /= 0.0
                 shiftUpLevel = .false.
                 shiftUpLevel(:,:,2:,:) = abs(curr%field(:,:,2:,:) - curr%field(:,:,:size(curr%field,3)-1,:)) /= 0.0
                 shiftDownLevel = .false.
@@ -978,14 +978,13 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
                 xx4d = -99999.0
                 xIndx = self%getDimIndex(Globals%Var%lon)
                 yIndx = self%getDimIndex(Globals%Var%lat)
-                
-                if (allocated(self%dim(xIndx)%field1D)) then
-                    do j=1, size(xx4d,2)
-                        xx4d(:,j,1,1) = Utils%geo2m(abs(self%dim(xIndx)%field1D(:size(curr%field,1)-1) - self%dim(xIndx)%field1D(2:)), self%dim(yIndx)%field1D(j), .false.)
+                if (allocated(self%dim(xIndx)%field1D)) then                    
+                    do i=1, size(xx4d,1)
+                        xx4d(i,:,1,1) = Utils%geo2m(abs(self%dim(xIndx)%field1D(:size(curr%field,2)-1) - self%dim(xIndx)%field1D(2:)), self%dim(yIndx)%field1D(i), .false.)
                     end do
-                    yy4d(1,:,1,1) = Utils%geo2m(abs(self%dim(yIndx)%field1D(:size(curr%field,2)-1) - self%dim(yIndx)%field1D(2:)), self%dim(yIndx)%field1D(1), .true.)
-                    do i=2, size(yy4d,1)
-                        yy4d(i,:,1,1) = yy4d(1,:,1,1)
+                    yy4d(:,1,1,1) = Utils%geo2m(abs(self%dim(yIndx)%field1D(:size(curr%field,1)-1) - self%dim(yIndx)%field1D(1:)), self%dim(yIndx)%field1D(1), .true.)
+                    do j=2, size(yy4d,2)
+                        yy4d(:,j,1,1) = yy4d(:,1,1,1)
                     end do
                 elseif (allocated(self%dim(xIndx)%field2D)) then
                     !for a given row (i) go through all columns (j) of lat and lon vectors. Send to geo2m the lon difference and the lat vector for each row.

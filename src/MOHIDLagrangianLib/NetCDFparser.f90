@@ -133,6 +133,7 @@
             call ncFile%getVarDimensions_variable(varList(i), backgrounDims)
             !call ncFile%getVarDimensions(varList(i), backgrounDims)
             
+            !write(*,*)"backgroundDims 1, 2, 3, 4 : ", backgrounDims(1)%Name, backgrounDims(2)%Name, backgrounDims(3)%Name
             if (allocated(backgrounDims)) then
                 realVarIdx = i
                 valorminimo = backgrounDims(3)%GetFieldMinBound()
@@ -190,84 +191,6 @@
     valorminimo = backgrounDims(3)%getFieldMinBound()
     !write(*,*) "Sai do getFullFile"
     end function getFullFile
-    
-    !type(background_class) function getFullFile(self, fileName, varList, syntecticVar)
-    !class(ncReader_class), intent(in) :: self
-    !type(string), intent(in) :: fileName
-    !type(string), dimension(:), intent(in) :: varList
-    !logical, dimension(:), intent(in) :: syntecticVar    
-    !type(ncfile_class) :: ncFile
-    !type(scalar1d_field_class), allocatable, dimension(:) :: backgrounDims
-    !type(generic_field_class), allocatable, dimension(:) :: gfield
-    !type(string) :: name, units
-    !type(box) :: extents
-    !type(vector) :: pt
-    !real(prec), dimension(3,2) :: dimExtents
-    !integer :: i, realVarIdx
-    !type(string) :: outext
-    !real(prec) :: valorminimo
-    !
-    !allocate(gfield(size(syntecticVar)))
-    !realVarIdx = 0
-    !units = '-'
-    !outext = '->Reading '//fileName
-    !call Log%put(outext,.false.)
-    !
-    !call ncFile%initialize(fileName)
-    !do i=1, size(syntecticVar)
-    !    if(.not.syntecticVar(i)) then !finding the first real variable to extract dimension arrays
-    !        call ncFile%getVarDimensions(varList(i), backgrounDims)
-    !        
-    !        if (allocated(backgrounDims)) then
-    !            realVarIdx = i
-    !            valorminimo = backgrounDims(3)%getFieldMinBound()
-    !            exit
-    !        end if 
-    !    end if
-    !end do
-    !if (realVarIdx /= 0) then
-    !    do i=1, size(syntecticVar)
-    !        if(.not.syntecticVar(i)) then !normal variable, put it on a generic field
-    !            call ncFile%getVar(varList(i), gfield(i))
-    !        else                          !synthetic variable to be constructed based on the field of a normal variable
-    !            call ncFile%getVar(varList(realVarIdx), gfield(i), .true., varList(i), units)
-    !        end if
-    !    end do
-    !end if
-    !call ncFile%finalize()
-    !
-    !dimExtents = 0.0
-    !
-    !do i = 1, size(backgrounDims)
-    !    write(*,*) "backgroundDims name = ", backgrounDims(i)%name
-    !    if (backgrounDims(i)%name == Globals%Var%lon) then
-    !        dimExtents(1,1) = backgrounDims(i)%getFieldMinBound()
-    !        write(*,*) "dimExtents(1,1) = ", dimExtents(1,1)
-    !        dimExtents(1,2) = backgrounDims(i)%getFieldMaxBound()
-    !        write(*,*) "dimExtents(1,2) = ", dimExtents(1,2)
-    !    else if (backgrounDims(i)%name == Globals%Var%lat) then
-    !        dimExtents(2,1) = backgrounDims(i)%getFieldMinBound()
-    !        write(*,*) "dimExtents(2,1) = ", dimExtents(2,1)
-    !        dimExtents(2,2) = backgrounDims(i)%getFieldMaxBound()
-    !        write(*,*) "dimExtents(2,2) = ", dimExtents(2,2)
-    !    else if (backgrounDims(i)%name == Globals%Var%level) then
-    !        dimExtents(3,1) = backgrounDims(i)%getFieldMinBound()
-    !        write(*,*) "dimExtents(3,1) = ", dimExtents(3,1)
-    !        dimExtents(3,2) = backgrounDims(i)%getFieldMaxBound()
-    !        write(*,*) "dimExtents(3,2) = ", dimExtents(3,2)
-    !    end if
-    !end do
-    !write(*,*) "Sai do ciclo dos backgrounddims"
-    !extents%pt = dimExtents(1,1)*ex + dimExtents(2,1)*ey + dimExtents(3,1)*ez
-    !pt = dimExtents(1,2)*ex + dimExtents(2,2)*ey + dimExtents(3,2)*ez
-    !extents%size = pt - extents%pt
-    !name = fileName%basename(strip_last_extension=.true.)
-    !getFullFile = Background(1, name, extents, backgrounDims)
-    !do i = 1, size(gfield)
-    !    call getFullFile%add(gfield(i))
-    !end do
-    !valorminimo = backgrounDims(3)%getFieldMinBound()
-    !end function getFullFile
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -610,11 +533,20 @@
                         
                         if (allocated(tempRealArray1D)) then
                             if (dimName == Globals%Var%lon) then
+                                !write(*,*)"initializing dimArrays(2) with dimName = ", dimName
                                 call dimsArrays(2)%initialize(dimName, dimUnits, tempRealArray1D)
+                                !write(*,*)"dimData k = ", trim(Globals%Var%getVarSimName(self%dimData(k)%name))
+                                dimsArrays(2)%name = Globals%Var%getVarSimName(self%dimData(k)%name)
+                                !write(*,*)"nome gravado = ", j, trim(dimsArrays(j)%name)
                             elseif (dimName == Globals%Var%lat) then
+                                !write(*,*)"initializing dimArrays(1) with dimName = ", dimName
                                 call dimsArrays(1)%initialize(dimName, dimUnits, tempRealArray1D)
+                                !write(*,*)"dimData k = ", trim(Globals%Var%getVarSimName(self%dimData(k)%name))
+                                dimsArrays(2)%name = Globals%Var%getVarSimName(self%dimData(k)%name)
+                                !write(*,*)"nome gravado = ", j, trim(dimsArrays(j)%name)
                             else
                                 call dimsArrays(j)%initialize(dimName, dimUnits, tempRealArray1D)
+                                dimsArrays(j)%name = Globals%Var%getVarSimName(self%dimData(k)%name)
                             endif
                             
                             deallocate(tempRealArray1D)
@@ -624,8 +556,9 @@
                             deallocate(tempRealArray2D)
                             foundDimVar = .true.
                         end if
-                        dimsArrays(j)%name = Globals%Var%getVarSimName(self%dimData(k)%name)
-                        !write(*,*)"nome gravado = ", trim(dimsArrays(j)%name)
+                        !write(*,*)"dimData k = ", trim(Globals%Var%getVarSimName(self%dimData(k)%name))
+                        !dimsArrays(j)%name = Globals%Var%getVarSimName(self%dimData(k)%name)
+                        !write(*,*)"nome gravado = ", j, trim(dimsArrays(j)%name)
                     end if
                 end do
             end do
@@ -808,6 +741,10 @@
                         end if
                     end if
                 end do
+                
+                !write(*,*)"Size temReakField3D = ", size(tempRealField3D,1), size(tempRealField3D,2), size(tempRealField3D,3)
+                !write(*,*)"Value in temReakField4D(10,10,1) = ", tempRealField3D(10,10,1) 
+
                 if (.not.bVar) then
                     call varField%initialize(varName, self%varData(i)%units, tempRealField3D)
                 else
@@ -831,6 +768,8 @@
                 enddo
                 enddo
                 enddo
+                !write(*,*)"Size temReakField4D = ", size(tempRealField4D,1), size(tempRealField4D,2), size(tempRealField4D,3), size(tempRealField4D,4)
+                !write(*,*)"Value in temReakField4D(10,10,surface,1) = ", tempRealField4D(10,10,size(tempRealField4D,3),1) 
                 call self%check()
                 if (.not.bVar) then
                     if ((varName == Globals%Var%temp) .and. (Globals%simdefs%Temperature_add_offset /= 0)) then
