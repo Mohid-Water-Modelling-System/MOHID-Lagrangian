@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<materials>
+	<plastic>
+		<bag_1>
+			<particulate value="1" />
+			<density value="950.0" />
+			<radius value="0.02" />
+			<volume value="0.0004" />
+			<area value="0.04" />
+			<property key="condition" value="0.95" />
+			<property key="degradation_rate" value="0.00000000158" />
+		</bag_1>
+		<heavy_net>
+			<particulate value="1" />
+			<density value="1100.0" />
+			<radius value="0.02" />
+			<volume value="0.00002" />
+			<area value="0.025" />
+			<property key="condition" value="0.91" />
+			<property key="degradation_rate" value="0.000000000317" />
+		</heavy_net>
+        <mussel_peg>
+			<particulate value="1" />
+			<density value="950.0" />
+			<!--density value="1100" /-->
+			<radius value="0.17" />
+			<volume value="0.000017" />
+			<area value="0.0017" />
+			<property key="condition" value="0.95" />
+			<property key="degradation_rate" value="0.00000000158" />
+		</mussel_peg>
+	</plastic>
+	<paper>
+		<cardboard_1>
+			<particulate value="1" />
+			<density value="1050.0" />
+			<radius value="0.01" />
+			<volume value="0.0002" />
+			<area value="0.02" />
+			<property key="condition" value="0.95" />
+			<property key="degradation_rate" value="0.0" />
+		</cardboard_1>
+	</paper>
+	<seed>
+		<kelp_seed_heavy>
+			<particulate value="1" />
+			<density value="1050.0" />
+			<radius value="0.0001" />
+			<volume value="0.0000000000042" />
+			<area value="0.0000000314" />
+			<property key="condition" value="0.95" />
+		</kelp_seed_heavy>
+		<kelp_seed_medium>
+			<particulate value="1" />
+			<density value="1030.0" />
+            <radius value="0.0001" />
+			<volume value="0.0000000000042" />
+			<area value="0.0000000314" />
+			<property key="condition" value="0.95" />
+		</kelp_seed_medium>
+		<kelp_seed_light>
+			<particulate value="1" />
+			<density value="1025.0" />
+			<radius value="0.0001" />
+			<volume value="0.0000000000042" />
+			<area value="0.0000000314" />
+			<property key="condition" value="0.95" />
+		</kelp_seed_light>
+	</seed>
+	<detritus>
+		<Kelp_detritus_heavy_100g>
+			<particulate value="1" />
+			<density value="1030.0" />
+            <radius value="0.028512" />
+			<volume value="0.00009709" />
+			<area value="0.010215" />
+			<property key="condition" value="0.95" />
+		</Kelp_detritus_heavy_100g>
+		<Kelp_detritus_heavy_1kg>
+			<particulate value="1" />
+			<density value="1030.0" />
+            <radius value="0.061427" />
+			<volume value="0.0009709" />
+			<area value="0.047416" />
+			<property key="condition" value="0.95" />
+		</Kelp_detritus_heavy_1kg>
+		<Kelp_detritus_medium_100g>
+			<particulate value="1" />
+			<density value="1027.0" />
+            <radius value="0.028539" />
+			<volume value="0.00009737" />
+			<area value="0.010235" />
+			<property key="condition" value="0.95" />
+		</Kelp_detritus_medium_100g>
+		<Kelp_detritus_medium_1kg>
+			<particulate value="1" />
+			<density value="1027.0" />
+            <radius value="0.061487" />
+			<volume value="0.0009737" />
+			<area value="0.047508" />
+			<property key="condition" value="0.95" />
+		</Kelp_detritus_medium_1kg>
+		<Kelp_detritus_light_100g>
+			<particulate value="1" />
+			<density value="1026.0" />
+            <radius value="0.028549" />
+			<volume value="0.00009747" />
+			<area value="0.010242" />
+			<property key="condition" value="0.95" />
+		</Kelp_detritus_light_100g>
+		<Kelp_detritus_light_1kg>
+			<particulate value="1" />
+			<density value="1026.0" />
+            <radius value="0.061507" />
+			<volume value="0.0009747" />
+			<area value="0.047539" />
+			<property key="condition" value="0.95" />
+		</Kelp_detritus_light_1kg>
+        
+	</detritus>
+</materials>

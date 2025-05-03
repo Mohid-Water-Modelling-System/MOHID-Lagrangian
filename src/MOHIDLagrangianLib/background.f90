@@ -469,13 +469,13 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
     !It is done because the netcdf can be much larger than the simulation bounding box
     llbound = self%getPointDimIndexes(domain%pt, ltime(1))
     uubound = self%getPointDimIndexes(domain%pt+domain%size, ltime(2))
-    !write(*,*)"llbound e uubound ini = ", llbound, uubound
+    write(*,*)"llbound e uubound ini = ", llbound, uubound
     !slicing dimensions
     allocate(backgrounDims(size(self%dim)))
-    !write(*,*)"regularDim (1) no getHyperSlab = ", self%regularDim(1)
-    !write(*,*)"regularDim (2) no getHyperSlab = ", self%regularDim(2)
-    !write(*,*)"regularDim (3) no getHyperSlab = ", self%regularDim(3)
-    !write(*,*)"regularDim (4) no getHyperSlab = ", self%regularDim(4)
+    write(*,*)"regularDim (1) no getHyperSlab = ", self%regularDim(1)
+    write(*,*)"regularDim (2) no getHyperSlab = ", self%regularDim(2)
+    write(*,*)"regularDim (3) no getHyperSlab = ", self%regularDim(3)
+    write(*,*)"regularDim (4) no getHyperSlab = ", self%regularDim(4)
     !If a grid is 2D, at this moment it must be structured and in degrees. If lat changes with lon, model will not work
     do i=1, size(self%dim)
         if (llbound(i) > uubound(i)) then !because We're not inverting the dimension and fields - Needs to be corrected
@@ -489,14 +489,22 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
             if (allocated(self%dim(i)%field1D)) then
                 uubound(i) = min(uubound(i)+2, size(self%dim(i)%field1D))
             elseif (allocated(self%dim(i)%field2D)) then
-                uubound(i) = min(uubound(i)+2, size(self%dim(i)%field2D,1))
+                if (Globals%SimDefs%inputFromHDF5) then
+                    uubound(i) = min(uubound(i)+2, size(self%dim(i)%field2D,1)-1)
+                else
+                    uubound(i) = min(uubound(i)+2, size(self%dim(i)%field2D,1))
+                endif
             endif
         elseif (self%dim(i)%name == Globals%Var%lon) then
             !write(*,*)"Entrei na lon"
             if (allocated(self%dim(i)%field1D)) then
                 uubound(i) = min(uubound(i)+2, size(self%dim(i)%field1D))
             elseif (allocated(self%dim(i)%field2D)) then
-                uubound(i) = min(uubound(i)+2, size(self%dim(i)%field2D,2))
+                if (Globals%SimDefs%inputFromHDF5) then
+                    uubound(i) = min(uubound(i)+2, size(self%dim(i)%field2D,2)-1)
+                else
+                    uubound(i) = min(uubound(i)+2, size(self%dim(i)%field2D,2))
+                endif
             endif
         else
             if (allocated(self%dim(i)%field1D)) then
@@ -507,14 +515,14 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
             endif
         endif
     end do
-    !write(*,*)"A entrar no ciclo do self%dim"
+    write(*,*)"A entrar no ciclo do self%dim"
     do i=1, size(self%dim)
-        !write(*,*)"nome da dimensao = ", trim(self%dim(i)%name)
+        write(*,*)"nome da dimensao = ", trim(self%dim(i)%name)
         if (allocated(self%dim(i)%field1D)) then
-            !write(*,*)"Entrei field 1D "
+            write(*,*)"Entrei field 1D "
             call backgrounDims(i)%scalar1d%initialize(self%dim(i)%name, self%dim(i)%units, 1, self%getSlabDim(i, llbound(i), uubound(i)))
         elseif (allocated(self%dim(i)%field2D)) then
-            !write(*,*)"Entrei field 2D "
+            write(*,*)"Entrei field 2D "
             !Assuming this is lat or lon so using llbound (1) and (2)
             call backgrounDims(i)%scalar2d%initialize(self%dim(i)%name, self%dim(i)%units, 2, self%getSlabDim_2D(i,llbound, uubound))
         elseif (allocated(self%dim(i)%field4D)) then
@@ -524,22 +532,22 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
     end do
     !slicing variables
     allocate(gfield(self%fields%getSize()))
-    !write(*,*)"tamanho do gfield logo de inicio = ", size(gfield)
+    write(*,*)"tamanho do gfield logo de inicio = ", size(gfield)
     i=1
     call self%fields%reset()               ! reset list iterator
     do while(self%fields%moreValues())     ! loop while there are values
         curr => self%fields%currentValue() ! get current value
         select type(curr)
         class is (field_class)
-            !write(*,*) "curr%name", trim(curr%name)
-            !write(*,*)"llbound(1):uubound(1) hyperslab = ", llbound(1), uubound(1)
-            !write(*,*)"llbound(2):uubound(2) hyperslab = ", llbound(2), uubound(2)
-            !write(*,*)"llbound(3):uubound(3) hyperslab = ", llbound(3), uubound(3)
+            write(*,*) "curr%name", trim(curr%name)
+            write(*,*)"llbound(1):uubound(1) hyperslab = ", llbound(1), uubound(1)
+            write(*,*)"llbound(2):uubound(2) hyperslab = ", llbound(2), uubound(2)
+            write(*,*)"llbound(3):uubound(3) hyperslab = ", llbound(3), uubound(3)
             gfield(i) = curr%getFieldSlice(llbound, uubound)
             if (allocated(gfield(i)%scalar3d%field)) then
-                !write(*,*)"tamanho final gfield 1 = ", size(gfield(i)%scalar3d%field,1)
-                !write(*,*)"tamanho final gfield 2 = ", size(gfield(i)%scalar3d%field,2)
-                !write(*,*)"tamanho final gfield 3 = ", size(gfield(i)%scalar3d%field,3)
+                write(*,*)"tamanho final gfield 1 = ", size(gfield(i)%scalar3d%field,1)
+                write(*,*)"tamanho final gfield 2 = ", size(gfield(i)%scalar3d%field,2)
+                write(*,*)"tamanho final gfield 3 = ", size(gfield(i)%scalar3d%field,3)
             endif
             class default
             outext = '[background_class::getHyperSlab] Unexepected type of content, not a scalar Field'
@@ -551,7 +559,7 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
         nullify(curr)
     end do
     call self%fields%reset()               ! reset list iterator
-    !write(*,*)"Acabei getFieldSlice"
+    write(*,*)"Acabei getFieldSlice"
     !creating bounding box
     dimExtents = 0.0
     do i = 1, size(backgrounDims)
@@ -1528,21 +1536,21 @@ do3:                do i=1, size(curr%field,1)
     allocate(self%dim(size(dims)))
     allocate(self%regularDim(size(dims)))
     self%regularDim = .false.
-    !write(*,*)"tamanho dims = ", size(dims)
+    write(*,*)"tamanho dims = ", size(dims)
     do i=1,  size(dims)
-        !write(*,*)"i = ", i
+        write(*,*)"i = ", i
         if (allocated(dims(i)%scalar1d%field)) then
-            !write(*,*)"alocado 1d = ", trim(dims(i)%name)
+            write(*,*)"alocado 1d = ", trim(dims(i)%name)
             call self%dim(i)%initialize(dims(i)%scalar1d%name, dims(i)%scalar1d%units, 1, dims(i)%scalar1d%field)
         elseif (allocated(dims(i)%scalar2d%field)) then
-            !write(*,*)"alocado 2d = ", trim(dims(i)%name)
+            write(*,*)"alocado 2d = ", trim(dims(i)%name)
             call self%dim(i)%initialize(dims(i)%scalar2d%name, dims(i)%scalar2d%units, 2, dims(i)%scalar2d%field)
         elseif (allocated(dims(i)%scalar3d%field)) then
             call self%dim(i)%initialize(dims(i)%scalar3d%name, dims(i)%scalar3d%units, 3, dims(i)%scalar3d%field)
-            !write(*,*)"alocado 3d = ", trim(dims(i)%name)
+            write(*,*)"alocado 3d = ", trim(dims(i)%name)
         elseif (allocated(dims(i)%scalar4d%field)) then
             call self%dim(i)%initialize(dims(i)%scalar4d%name, dims(i)%scalar4d%units, 4, dims(i)%scalar4d%field)
-            !write(*,*)"alocado 4d = ", trim(dims(i)%name)
+            write(*,*)"alocado 4d = ", trim(dims(i)%name)
         else
             outext = '[background_class::setDims] Unexepected type of content, dimension provided is not a 1D or 2D Field'
             call Log%put(outext)
@@ -1558,7 +1566,7 @@ do3:                do i=1, size(curr%field,1)
             dreg = (fmax-fmin)/(size(dims(i)%scalar1d%field))
             self%regularDim(i) = all(abs(dims(i)%scalar1d%field(2:)-dims(i)%scalar1d%field(:size(dims(i)%scalar1d%field)-1) - dreg) < abs(eta))
         elseif (allocated(dims(i)%scalar2d%field)) then
-            !write(*,*)"alocado 2d 2 = ", trim(dims(i)%name)
+            write(*,*)"alocado 2d 2 = ", trim(dims(i)%name)
             if (dims(i)%name == Globals%Var%lat) then
                 fmin = dims(i)%scalar2d%getFieldMinBound(arrayDim=1) !lat rows are in dimension1 CHANGED in Jan 2025 (was dimension2)
                 fmax = dims(i)%scalar2d%getFieldMaxBound(arrayDim=1) !lat rows are in dimension1 CHANGED in Jan 2025 (was dimension2)
@@ -1566,15 +1574,15 @@ do3:                do i=1, size(curr%field,1)
                 dreg = (fmax-fmin)/(size(dims(i)%scalar2d%field, 1))
                 self%regularDim(i) = all(abs((dims(i)%scalar2d%field(2:,1)-dims(i)%scalar2d%field(:size(dims(i)%scalar2d%field,1)-1,1)) - dreg) < abs(eta))
                 self%gridIsCurvilinear = maxval(dims(i)%scalar2d%field(1,2:size(dims(i)%scalar2d%field,2))-dims(i)%scalar2d%field(1,1)) > abs(eta/10)
-                !write(*,*)"Regular dim lat = ", self%regularDim(i), i
+                write(*,*)"Regular dim lat = ", self%regularDim(i), i
             elseif (dims(i)%name == Globals%Var%lon) then
                 fmin = dims(i)%scalar2d%getFieldMinBound(arrayDim=2) !lon columns are in dimension2 CHANGED in Jan 2025 (was dimension1)
                 fmax = dims(i)%scalar2d%getFieldMaxBound(arrayDim=2) !lon columns are in dimension2 CHANGED in Jan 2025 (was dimension1)
-                !write(*,*) "Size dims(i)%scalar2d%field,2) = ", size(dims(i)%scalar2d%field,2)
+                write(*,*) "Size dims(i)%scalar2d%field,2) = ", size(dims(i)%scalar2d%field,2)
                 eta = (fmax-fmin)/(10.0*size(dims(i)%scalar2d%field,2))
                 dreg = (fmax-fmin)/(size(dims(i)%scalar2d%field,2))
                 self%regularDim(i) = all(abs((dims(i)%scalar2d%field(1,2:)-dims(i)%scalar2d%field(1,:size(dims(i)%scalar2d%field,2)-1)) - dreg) < abs(eta))
-                !write(*,*)"Regular dim lon = ", self%regularDim(i), i
+                write(*,*)"Regular dim lon = ", self%regularDim(i), i
             endif
         elseif (allocated(dims(i)%scalar3d%field)) then
             self%regularDim(i) = .false.

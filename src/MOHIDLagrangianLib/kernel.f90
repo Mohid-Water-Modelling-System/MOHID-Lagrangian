@@ -278,16 +278,20 @@
     !Set tracers temperature
     !Not usable for dilution of temperature so will need to be changed in the future (for example save in a ambient_temp sv name)
     if (sv%ttype /= Globals%Types%base) then
-        col_temp = Utils%find_str(var_name, Globals%Var%temp, .true.)
+        col_temp = Utils%find_str(var_name, Globals%Var%temp, .false.)
         !write(*,*)"Saida col_temp"
-        col_temp_sv = Utils%find_str(sv%varName, Globals%Var%temp, .true.)
-        sv%state(:,col_temp_sv) = var_dt(:,col_temp)
+        col_temp_sv = Utils%find_str(sv%varName, Globals%Var%temp, .false.)
         !write(*,*)"Saida col_temp_sv"
         !Set tracers salinity
-        col_sal = Utils%find_str(var_name, Globals%Var%sal, .true.)
-        col_sal_sv = Utils%find_str(sv%varName, Globals%Var%sal, .true.)
-    
-        sv%state(:,col_sal_sv) = var_dt(:,col_sal)
+        col_sal = Utils%find_str(var_name, Globals%Var%sal, .false.)
+        col_sal_sv = Utils%find_str(sv%varName, Globals%Var%sal, .false.)
+        if (col_temp /= MV_INT .and. col_temp_sv /= MV_INT) then
+           sv%state(:,col_temp_sv) = var_dt(:,col_temp) 
+        endif
+        
+        if (col_sal /= MV_INT .and. col_sal_sv /= MV_INT) then
+            sv%state(:,col_sal_sv) = var_dt(:,col_sal)
+        endif
     endif
 
     
