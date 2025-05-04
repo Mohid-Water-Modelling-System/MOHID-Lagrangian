@@ -150,12 +150,12 @@
     end do
 
     if (realVarIdx /= 0) then
-        write(*,*)"Getting MapVar"
+        !write(*,*)"Getting MapVar"
         !Allocates and saves the mapping var using velU as source for dimensions
         mapVarID = size(syntecticVar)
         call hdf5File%getMappingVar(varList(realVarIdx), gfield(mapVarID), varList(mapVarID), units)
         do i=1, size(syntecticVar)-1
-            write(*,*)"Getting Var name = ", varList(i)
+            !write(*,*)"Getting Var name = ", varList(i)
             if (.not. syntecticVar(i)) then
                 call hdf5File%getVar(varList(i), gfield(i), gfield(mapVarID), syntecticVar(i), varList(i), units)
             else
@@ -335,55 +335,55 @@
     type(dim_t) :: tempDim
     logical :: foundDimVar, found2dDimVar, isSpaceDimension
     !Begin-----------------------------------------------------------------------
-    write(*,*)"entrei getVarDimensions_variable"
+    !write(*,*)"entrei getVarDimensions_variable"
     do i=1, self%nVars !going trough all variables
-        write(*,*)"i = ", i
-        write(*,*)"var name = ", varName
-        write(*,*)"sim name = ", self%varData(i)%simName
+        !write(*,*)"i = ", i
+        !write(*,*)"var name = ", varName
+        !write(*,*)"sim name = ", self%varData(i)%simName
         !write(*,*)"sim name = ", trim(self%varData(i)%simName)
         if (self%varData(i)%simName == varName) then   !found the requested var
-            write(*,*)"number of dims in varname = ", self%varData(i)%ndims
+            !write(*,*)"number of dims in varname = ", self%varData(i)%ndims
             allocate(dimsArrays(self%varData(i)%ndims)) !allocating dimension fields
             allocate(varShape(self%varData(i)%ndims))
-            write(*,*)"allocate done"
+            !write(*,*)"allocate done"
             !Get vector dimension vectors
             do ndim =1, self%varData(i)%ndims   !going trough all of the variable dimensions
-                write(*,*)"ndim =  ", ndim
+                !write(*,*)"ndim =  ", ndim
                 tempDim = self%getDimByDimID(self%varData(i)%dimids(ndim))
                 varShape(ndim) = tempDim%length
             end do
-            write(*,*)"varshape done"
+            !write(*,*)"varshape done"
             do j=1, self%varData(i)%ndims   !going trough all of the variable dimensions
-                write(*,*)"dims dimension = ", self%nDims
+                !write(*,*)"dims dimension = ", self%nDims
                 foundDimVar = .false.
                 do k=1, self%nDims  !going trough the dimensions of the file
-                    write(*,*)"enteri novo k "
-                    write(*,*)"dim ID da dimensao atual da variavel =  ", self%varData(i)%dimids(j)
-                    write(*,*)"dim ID do dimData =  ", self%dimData(k)%dimid
-                    write(*,*)"nome da dimensao (k) =  ", trim(self%dimData(k)%name)
+                    !write(*,*)"enteri novo k "
+                    !write(*,*)"dim ID da dimensao atual da variavel =  ", self%varData(i)%dimids(j)
+                    !write(*,*)"dim ID do dimData =  ", self%dimData(k)%dimid
+                    !write(*,*)"nome da dimensao (k) =  ", trim(self%dimData(k)%name)
                     if (self%varData(i)%dimids(j) == self%dimData(k)%dimid) then    !found a corresponding dimension between the variable and the file
                         found2dDimVar = .false.
-                        write(*,*)"enteri if self%varData(i)%dimids(j) == self%dimData(k)%dimid "
+                        !write(*,*)"enteri if self%varData(i)%dimids(j) == self%dimData(k)%dimid "
                         isSpaceDimension = Globals%Var%checkDimensionName(self%dimData(k)%name) !Lat and lon have the same dimensions so dont need to check if it is lat or lon
                 cd1:    if (self%grid_2D .and. isSpaceDimension) then
                     dvar:   do var = 1, self%nVars !going trough all file variables
                                 isSpaceDimension = .false.
-                                write(*,*)"Var to check = ", TRIM(self%varData(var)%name)
-                                write(*,*)"dimData name = ", TRIM(self%dimData(k)%name)
+                                !write(*,*)"Var to check = ", TRIM(self%varData(var)%name)
+                                !write(*,*)"dimData name = ", TRIM(self%dimData(k)%name)
                                 testeString = Globals%Var%getVarSimName(self%dimData(k)%name)
-                                write(*,*)"DimData SimName = ", TRIM(testeString)
-                                write(*,*)"Var SimName = ", TRIM(self%varData(var)%simName)
+                                !write(*,*)"DimData SimName = ", TRIM(testeString)
+                                !write(*,*)"Var SimName = ", TRIM(self%varData(var)%simName)
                                 
                                 isSpaceDimension = Globals%Var%checkDimensionName(self%varData(var)%name)
-                                write(*,*)"isSpaceDimension = ", isSpaceDimension
+                                !write(*,*)"isSpaceDimension = ", isSpaceDimension
                                 if ((isSpaceDimension) .and. (Globals%Var%getVarSimName(self%dimData(k)%name)==self%varData(var)%simName)) then
                                     !Lat or Lon found, so allocate 2D field
-                                    write(*,*)"varShape(1) = ", varShape(1)
-                                    write(*,*)"varShape(2) = ", varShape(2)
+                                    !write(*,*)"varShape(1) = ", varShape(1)
+                                    !write(*,*)"varShape(2) = ", varShape(2)
                                     if (self%dimData(k)%ndims == 2) then
                                         allocate(tempRealArray2D(varShape(1), varShape(2))) !allocating a place to read the field data to
                                         dimName = self%varData(var)%simName
-                                        write(*,*)"simulation name of dimension = ", dimName
+                                        !write(*,*)"simulation name of dimension = ", dimName
                                         dimUnits = self%varData(var)%units
                                         !write(*,*)"dimUnits of dimension = ", dimUnits
                                         !Here is where Lat, Lon and Depth are read from the hdf5
@@ -393,9 +393,9 @@
                                         allocate(tempRealArray4D(varShape(1)-1, varShape(2)-1, varShape(3), varShape(4))) !allocating a place to read the field data to
                                         allocate(tempRealArray3D(varShape(1)-1, varShape(2)-1, varShape(3)))
                                         dimName = self%varData(var)%simName
-                                        write(*,*)"simulation name of dimension = ", dimName
+                                        !write(*,*)"simulation name of dimension = ", dimName
                                         dimUnits = self%varData(var)%units
-                                        write(*,*)"dimUnits of dimension = ", dimUnits
+                                        !write(*,*)"dimUnits of dimension = ", dimUnits
                                         !Here is where Lat, Lon and Depth are read from the hdf5
                                         do t=1, varShape(4)
                                             !Depth is assumed to be VerticalZ which is a 4D var.
@@ -403,18 +403,18 @@
                                             tempRealArray4D(:,:,:,t) = - tempRealArray3D
                                         enddo
                                         
-                                        write(*,*) "Min Val = ", MinVal(tempRealArray4D)
+                                        !write(*,*) "Min Val = ", MinVal(tempRealArray4D)
                                         where (tempRealArray4D > -Globals%Parameters%FillValueReal / 2.0)
                                             tempRealArray4D = 0.0
                                         endwhere
-                                        write(*,*) "Max Val = ", MaxVal(tempRealArray4D)
+                                        !write(*,*) "Max Val = ", MaxVal(tempRealArray4D)
                                     else
                                         allocate(tempRealArray1D(self%dimData(k)%length)) !allocating a place to read the field data to
                                         dimName = self%dimData(k)%simName
-                                        write(*,*)"Dim name = ", dimName
+                                        !write(*,*)"Dim name = ", dimName
                                         dimUnits = self%dimData(k)%units
-                                        write(*,*)"dimUnits = ", dimUnits
-                                        write(*,*)"self%dimData(k)%varid = ", self%dimData(k)%varid
+                                        !write(*,*)"dimUnits = ", dimUnits
+                                        !write(*,*)"self%dimData(k)%varid = ", self%dimData(k)%varid
                             
                                         call self%readHDFTime(self%varData(var), tempRealArray1D, varShape(4))
                                     endif
@@ -457,13 +457,13 @@
                             foundDimVar = .true.
                         end if
                         dimsArrays(j)%name = Globals%Var%getVarSimName(self%dimData(k)%name)
-                        write(*,*)"nome gravado = ", trim(dimsArrays(j)%name)
+                        !write(*,*)"nome gravado = ", trim(dimsArrays(j)%name)
                     end if
                 end do
             end do
         end if
     end do
-    write(*,*)"sai getVarDimensions_variable"
+    !write(*,*)"sai getVarDimensions_variable"
     end subroutine getVarDimensions_variable
     
     !---------------------------------------------------------------------------
@@ -495,8 +495,8 @@
     variable_u_is4D = .false.
     do i=1, self%nVars !going trough all variables
         if (self%varData(i)%simName == varName ) then   !found the requested var
-            write(*,*)"Getting Var for simulation name = ", self%varData(i)%simName
-            write(*,*)"Getting Var name = ", varName
+            !write(*,*)"Getting Var for simulation name = ", self%varData(i)%simName
+            !write(*,*)"Getting Var name = ", varName
             allocate(varShape(self%varData(i)%ndims))
             do j=1, self%varData(i)%ndims   !going trough all of the variable dimensions
                 tempDim = self%getDimByDimID(self%varData(i)%dimids(j))
@@ -851,8 +851,8 @@ do1:                do indx=1, self%nVars
     
     do i=1, self%nVars !going trough all variables
         if (self%varData(i)%simName == varName ) then   !found the requested var
-            write(*,*)"Getting Var for simulation name = ", self%varData(i)%simName
-            write(*,*)"Getting Var name = ", varName
+            !write(*,*)"Getting Var for simulation name = ", self%varData(i)%simName
+            !write(*,*)"Getting Var name = ", varName
             allocate(varShape(self%varData(i)%ndims))
             do j=1, self%varData(i)%ndims   !going trough all of the variable dimensions
                 tempDim = self%getDimByDimID(self%varData(i)%dimids(j))
@@ -1059,7 +1059,7 @@ do1:                do indx=1, self%nVars
             !Check if is a known variable or Dim. If not, skip this dataset and write a warning.
             !This way, only dims and variables are saved into memory
             nameString = trim(obj_nameIn)
-            write(*,*)"nameString ini = ", TRIM(nameString)
+            !write(*,*)"nameString ini = ", TRIM(nameString)
             
             !Testing group and obj names
             testResultsGroup = .true.
@@ -1067,7 +1067,7 @@ do1:                do indx=1, self%nVars
             
             testString = trim(GroupNameIn)
             testString = testString%replace(old='/Grid/', new='')
-            write(*,*)"testString = ", TRIM(testString)
+            !write(*,*)"testString = ", TRIM(testString)
             !Because VerticalZ in MOHID is a group name... but the dataset name is Vertical_00001...
             if (Globals%Var%checkVarIsDepth(testString)) then
                 testString = testString%replace(old='VerticalZ', new='Vertical')
@@ -1086,12 +1086,12 @@ do1:                do indx=1, self%nVars
             if (testResultsGroup) then
                 testString = trim(GroupNameIn)
                 testString = testString%replace(old='/Results/', new='')
-                write(*,*)"testString = ", TRIM(testString)
+                !write(*,*)"testString = ", TRIM(testString)
             
                 exitAfterAddVar = .false.
                 if (testString//"_00001" == trim(obj_nameIn)) then
                     nameString = testString
-                    write(*,*)"nameString = ", TRIM(nameString)
+                    !write(*,*)"nameString = ", TRIM(nameString)
                     exitAfterAddVar = .true.
                     testTimeGroup = .false.
                 endif
@@ -1100,14 +1100,14 @@ do1:                do indx=1, self%nVars
             if (testTimeGroup) then
                 testString = trim(GroupNameIn)
                 testString = testString%replace(old='/', new='')
-                write(*,*)"testString time group = ", TRIM(testString)
+                !write(*,*)"testString time group = ", TRIM(testString)
                 
                 if (testString == "GridCorners3D") cycle
             
                 exitAfterAddVar = .false.
                 if (testString//"_00001" == trim(obj_nameIn)) then
                     nameString = testString
-                    write(*,*)"nameString time group = ", TRIM(nameString)
+                    !write(*,*)"nameString time group = ", TRIM(nameString)
                     exitAfterAddVar = .true.
                 endif
             endif
@@ -1127,7 +1127,7 @@ do1:                do indx=1, self%nVars
             endif
             
             self%nDims = max(self%nDims, rank+1)
-            write(*,*)"nameString adicionada no addVars = ", TRIM(nameString)
+            !write(*,*)"nameString adicionada no addVars = ", TRIM(nameString)
             self%nVars = self%nVars + 1
             
             if (exitAfterAddVar) then
@@ -1306,7 +1306,7 @@ do1:                do indx=1, self%nVars
             
             testString = trim(GroupNameIn)
             testString = testString%replace(old='/Grid/', new='')
-            write(*,*)"testString e  group name in = ", TRIM(testString), trim(GroupNameIn)
+            !write(*,*)"testString e  group name in = ", TRIM(testString), trim(GroupNameIn)
             !Because VerticalZ in MOHID is a group name... but the dataset name is Vertical_00001...
             if (Globals%Var%checkVarIsDepth(testString)) then
                 testString = testString%replace(old='VerticalZ', new='Vertical')
@@ -1316,7 +1316,7 @@ do1:                do indx=1, self%nVars
             exitAfterAddVar = .false.
             if (testString//"_00001" == trim(obj_nameIn)) then
                 nameString = testString
-                write(*,*)"nameString = ", TRIM(nameString)
+                !write(*,*)"nameString = ", TRIM(nameString)
                 exitAfterAddVar = .true.
                 testResultsGroup = .false.
                 testTimeGroup = .false.
@@ -1326,12 +1326,12 @@ do1:                do indx=1, self%nVars
             if (testResultsGroup) then
                 testString = trim(GroupNameIn)
                 testString = testString%replace(old='/Results/', new='')
-                write(*,*)"testString = ", TRIM(testString)
+                !write(*,*)"testString = ", TRIM(testString)
             
                 exitAfterAddVar = .false.
                 if (testString//"_00001" == trim(obj_nameIn)) then
                     nameString = testString
-                    write(*,*)"nameString = ", TRIM(nameString)
+                    !write(*,*)"nameString = ", TRIM(nameString)
                     exitAfterAddVar = .true.
                     testTimeGroup = .false.
                     isStaticVariable = .false.
@@ -1341,7 +1341,7 @@ do1:                do indx=1, self%nVars
             if (testTimeGroup) then
                 testString = trim(GroupNameIn)
                 testString = testString%replace(old='/', new='')
-                write(*,*)"testString time group = ", TRIM(testString)
+                !write(*,*)"testString time group = ", TRIM(testString)
             
                 if (testString == "GridCorners3D") then
                     deallocate(dims, maxdims)
@@ -1351,14 +1351,14 @@ do1:                do indx=1, self%nVars
                 exitAfterAddVar = .false.
                 if (testString//"_00001" == trim(obj_nameIn)) then
                     nameString = testString
-                    write(*,*)"nameString time group = ", TRIM(nameString)
+                    !write(*,*)"nameString time group = ", TRIM(nameString)
                     exitAfterAddVar = .true.
                 endif
             endif
 
             if (.NOT. Globals%Var%checkDimensionName(nameString) .AND. (.NOT. Globals%Var%checkVarSimName(nameString)) .AND. .NOT. exitAfterAddVar) then
                 !Skip and let users know
-                write(*,*)"nameString desconhecida = ", TRIM(nameString)
+                !write(*,*)"nameString desconhecida = ", TRIM(nameString)
                 outext = '[hdf5parser::gethdfNumberOfVarsAndMaxDims]: the hdf file '//trim(self%filename%chars())// ' has a variable that is not recognized by the model: ' // nameString // '. skipping it'
                 call Log%put(outext)
                 !Closes data space
@@ -1375,7 +1375,7 @@ do1:                do indx=1, self%nVars
             self%varData(VarCounter)%name = trim(nameString)
             self%varData(VarCounter)%simName = Globals%Var%getVarSimName(trim(nameString))
             self%varData(VarCounter)%hdf5GroupName = trim(GroupNameIn)
-            write(*,*)"name e simName Var = ", trim(nameString), TRIM(self%varData(VarCounter)%simName)
+            !write(*,*)"name e simName Var = ", trim(nameString), TRIM(self%varData(VarCounter)%simName)
             self%varData(VarCounter)%varid = VarCounter
                 
             self%varData(VarCounter)%units = 'none'
@@ -1392,7 +1392,7 @@ do1:                do indx=1, self%nVars
                 self%dimData(DimCounter)%name    = trim(nameString)
                 self%dimData(DimCounter)%simName = Globals%Var%getVarSimName(trim(nameString))
                 self%dimData(DimCounter)%nDims = rank
-                write(*,*)"name e simName Dim = ", TRIM(nameString), trim(self%dimData(DimCounter)%simName)
+                !write(*,*)"name e simName Dim = ", TRIM(nameString), trim(self%dimData(DimCounter)%simName)
                 !Distinguir entre lat e lon para obter o dimLength correto. (1 = Lat, 2 = Lon)
                 if (Globals%Var%checkVarIsLat(nameString)) then
                     self%dimData(DimCounter)%length  = maxdims(1)
