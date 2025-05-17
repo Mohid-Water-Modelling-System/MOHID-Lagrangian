@@ -133,6 +133,7 @@
             call ncFile%getVarDimensions_variable(varList(i), backgrounDims)
             !call ncFile%getVarDimensions(varList(i), backgrounDims)
             
+            !write(*,*)"backgroundDims 1, 2, 3, 4 : ", backgrounDims(1)%Name, backgrounDims(2)%Name, backgrounDims(3)%Name
             if (allocated(backgrounDims)) then
                 realVarIdx = i
                 valorminimo = backgrounDims(3)%GetFieldMinBound()
@@ -142,7 +143,9 @@
     end do
     if (realVarIdx /= 0) then
         do i=1, size(syntecticVar)
+            !write(*,*)"Getting Var name = ", varList(i)
             if(.not.syntecticVar(i)) then !normal variable, put it on a generic field
+                !write(*,*)"getting normal variable"
                 call ncFile%getVar(varList(i), gfield(i))
             else                          !synthetic variable to be constructed based on the field of a normal variable
                 call ncFile%getVar(varList(realVarIdx), gfield(i), .true., varList(i), units)
@@ -188,84 +191,6 @@
     valorminimo = backgrounDims(3)%getFieldMinBound()
     !write(*,*) "Sai do getFullFile"
     end function getFullFile
-    
-    !type(background_class) function getFullFile(self, fileName, varList, syntecticVar)
-    !class(ncReader_class), intent(in) :: self
-    !type(string), intent(in) :: fileName
-    !type(string), dimension(:), intent(in) :: varList
-    !logical, dimension(:), intent(in) :: syntecticVar    
-    !type(ncfile_class) :: ncFile
-    !type(scalar1d_field_class), allocatable, dimension(:) :: backgrounDims
-    !type(generic_field_class), allocatable, dimension(:) :: gfield
-    !type(string) :: name, units
-    !type(box) :: extents
-    !type(vector) :: pt
-    !real(prec), dimension(3,2) :: dimExtents
-    !integer :: i, realVarIdx
-    !type(string) :: outext
-    !real(prec) :: valorminimo
-    !
-    !allocate(gfield(size(syntecticVar)))
-    !realVarIdx = 0
-    !units = '-'
-    !outext = '->Reading '//fileName
-    !call Log%put(outext,.false.)
-    !
-    !call ncFile%initialize(fileName)
-    !do i=1, size(syntecticVar)
-    !    if(.not.syntecticVar(i)) then !finding the first real variable to extract dimension arrays
-    !        call ncFile%getVarDimensions(varList(i), backgrounDims)
-    !        
-    !        if (allocated(backgrounDims)) then
-    !            realVarIdx = i
-    !            valorminimo = backgrounDims(3)%getFieldMinBound()
-    !            exit
-    !        end if 
-    !    end if
-    !end do
-    !if (realVarIdx /= 0) then
-    !    do i=1, size(syntecticVar)
-    !        if(.not.syntecticVar(i)) then !normal variable, put it on a generic field
-    !            call ncFile%getVar(varList(i), gfield(i))
-    !        else                          !synthetic variable to be constructed based on the field of a normal variable
-    !            call ncFile%getVar(varList(realVarIdx), gfield(i), .true., varList(i), units)
-    !        end if
-    !    end do
-    !end if
-    !call ncFile%finalize()
-    !
-    !dimExtents = 0.0
-    !
-    !do i = 1, size(backgrounDims)
-    !    write(*,*) "backgroundDims name = ", backgrounDims(i)%name
-    !    if (backgrounDims(i)%name == Globals%Var%lon) then
-    !        dimExtents(1,1) = backgrounDims(i)%getFieldMinBound()
-    !        write(*,*) "dimExtents(1,1) = ", dimExtents(1,1)
-    !        dimExtents(1,2) = backgrounDims(i)%getFieldMaxBound()
-    !        write(*,*) "dimExtents(1,2) = ", dimExtents(1,2)
-    !    else if (backgrounDims(i)%name == Globals%Var%lat) then
-    !        dimExtents(2,1) = backgrounDims(i)%getFieldMinBound()
-    !        write(*,*) "dimExtents(2,1) = ", dimExtents(2,1)
-    !        dimExtents(2,2) = backgrounDims(i)%getFieldMaxBound()
-    !        write(*,*) "dimExtents(2,2) = ", dimExtents(2,2)
-    !    else if (backgrounDims(i)%name == Globals%Var%level) then
-    !        dimExtents(3,1) = backgrounDims(i)%getFieldMinBound()
-    !        write(*,*) "dimExtents(3,1) = ", dimExtents(3,1)
-    !        dimExtents(3,2) = backgrounDims(i)%getFieldMaxBound()
-    !        write(*,*) "dimExtents(3,2) = ", dimExtents(3,2)
-    !    end if
-    !end do
-    !write(*,*) "Sai do ciclo dos backgrounddims"
-    !extents%pt = dimExtents(1,1)*ex + dimExtents(2,1)*ey + dimExtents(3,1)*ez
-    !pt = dimExtents(1,2)*ex + dimExtents(2,2)*ey + dimExtents(3,2)*ez
-    !extents%size = pt - extents%pt
-    !name = fileName%basename(strip_last_extension=.true.)
-    !getFullFile = Background(1, name, extents, backgrounDims)
-    !do i = 1, size(gfield)
-    !    call getFullFile%add(gfield(i))
-    !end do
-    !valorminimo = backgrounDims(3)%getFieldMinBound()
-    !end function getFullFile
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -276,7 +201,6 @@
     subroutine getFile(self, filename)
     class(ncfile_class), intent(inout) :: self
     type(string), intent(in) :: filename
-    integer :: i
     self%filename = filename
     call self%getNCid()
     call self%getNCglobalMetadata()
@@ -320,7 +244,7 @@
     !---------------------------------------------------------------------------
     subroutine getNCVarMetadata(self)
     class(ncfile_class), intent(inout) :: self
-    integer :: i, j, ndims, nAtts, maxdims
+    integer :: i, ndims, nAtts, maxdims
     integer :: dimids(self%nDims)
     integer :: tempStatus
     character(CHAR_LEN) :: varName, units
@@ -480,10 +404,10 @@
     type(string), intent(in) :: varName
     type(generic_field_class), allocatable, dimension(:), intent(out) :: dimsArrays
     real(prec), allocatable, dimension(:) :: tempRealArray1D
-    real(prec), allocatable, dimension(:,:) :: tempRealArray2D
+    real(prec), allocatable, dimension(:,:) :: tempRealArray2D, auxRealField2D
     type(string) :: dimName, dimUnits
     integer, allocatable, dimension(:) :: varShape
-    integer :: i, j, k, ndim, var
+    integer :: i, j, k, ndim, var, i1, j1
     type(dim_t) :: tempDim
     logical :: increase_flag, neg_flag, foundDimVar, found2dDimVar, LatOrLon
     !Begin-----------------------------------------------------------------------
@@ -522,13 +446,20 @@
                                     !Lat or Lon found, so allocate 2D field
                                     !write(*,*)"varShape(1) = ", varShape(1)
                                     !write(*,*)"varShape(2) = ", varShape(2)
-                                    allocate(tempRealArray2D(varShape(1), varShape(2))) !allocating a place to read the field data to
+                                    allocate(auxRealField2D(varShape(1), varShape(2))) !allocating a place to read the field data to
+                                    allocate(tempRealArray2D(varShape(2), varShape(1))) !allocating a place to read the field data to
                                     dimName = self%varData(var)%simName
                                     !write(*,*)"simulation name of dimension = ", dimName
                                     dimUnits = self%varData(var)%units
                                     !write(*,*)"dimUnits of dimension = ", dimUnits
                                     !Here is where Lat, Lon and Depth are read from the netcdf
-                                    self%status = nf90_get_var(self%ncID, self%varData(var)%varid, tempRealArray2D)
+                                    self%status = nf90_get_var(self%ncID, self%varData(var)%varid, auxRealField2D)
+                                    
+                                    do i1=1,varShape(1)
+                                    do j1=1,varShape(2)
+                                        tempRealArray2D(j1,i1) = auxRealField2D(i1,j1)
+                                    enddo
+                                    enddo
                                     call self%check()
                                     found2dDimVar = .true.
                                     exit cd1
@@ -601,7 +532,23 @@
                         end if
                         
                         if (allocated(tempRealArray1D)) then
-                            call dimsArrays(j)%initialize(dimName, dimUnits, tempRealArray1D)
+                            if (dimName == Globals%Var%lon) then
+                                !write(*,*)"initializing dimArrays(2) with dimName = ", dimName
+                                call dimsArrays(2)%initialize(dimName, dimUnits, tempRealArray1D)
+                                !write(*,*)"dimData k = ", trim(Globals%Var%getVarSimName(self%dimData(k)%name))
+                                dimsArrays(2)%name = Globals%Var%getVarSimName(self%dimData(k)%name)
+                                !write(*,*)"nome gravado = ", j, trim(dimsArrays(j)%name)
+                            elseif (dimName == Globals%Var%lat) then
+                                !write(*,*)"initializing dimArrays(1) with dimName = ", dimName
+                                call dimsArrays(1)%initialize(dimName, dimUnits, tempRealArray1D)
+                                !write(*,*)"dimData k = ", trim(Globals%Var%getVarSimName(self%dimData(k)%name))
+                                dimsArrays(2)%name = Globals%Var%getVarSimName(self%dimData(k)%name)
+                                !write(*,*)"nome gravado = ", j, trim(dimsArrays(j)%name)
+                            else
+                                call dimsArrays(j)%initialize(dimName, dimUnits, tempRealArray1D)
+                                dimsArrays(j)%name = Globals%Var%getVarSimName(self%dimData(k)%name)
+                            endif
+                            
                             deallocate(tempRealArray1D)
                             foundDimVar = .true.
                         elseif (allocated(tempRealArray2D)) then
@@ -609,8 +556,9 @@
                             deallocate(tempRealArray2D)
                             foundDimVar = .true.
                         end if
-                        dimsArrays(j)%name = Globals%Var%getVarSimName(self%dimData(k)%name)
-                        !write(*,*)"nome gravado = ", trim(dimsArrays(j)%name)
+                        !write(*,*)"dimData k = ", trim(Globals%Var%getVarSimName(self%dimData(k)%name))
+                        !dimsArrays(j)%name = Globals%Var%getVarSimName(self%dimData(k)%name)
+                        !write(*,*)"nome gravado = ", j, trim(dimsArrays(j)%name)
                     end if
                 end do
             end do
@@ -632,7 +580,7 @@
     type(scalar1d_field_class), allocatable, dimension(:), intent(out) :: dimsArrays
     real(prec), allocatable, dimension(:) :: tempRealArray, tempRealArrayDelta
     type(string) :: dimName, dimUnits
-    integer :: i, j, k, l
+    integer :: i, j, k
     logical :: increase_flag, neg_flag 
     !Variable IDs (self%dimData(k)) : 1-time, 2-lat, 3-lon, 4-depth
     do i=1, self%nVars !going trough all variables
@@ -731,12 +679,11 @@
     logical, optional, intent(in) :: binaryVar
     type(string), optional, intent(in) :: altName, altUnits
     logical :: bVar
-    real(prec), allocatable, dimension(:) :: tempRealField1D
-    real(prec), allocatable, dimension(:,:) :: tempRealField2D
-    real(prec), allocatable, dimension(:,:,:) :: tempRealField3D
-    real(prec), allocatable, dimension(:,:,:,:) :: tempRealField4D
+    real(prec), allocatable, dimension(:,:) :: tempRealField2D, auxRealField2D
+    real(prec), allocatable, dimension(:,:,:) :: tempRealField3D, auxRealField3D
+    real(prec), allocatable, dimension(:,:,:,:) :: tempRealField4D, auxRealField4D
     type(string) :: dimName, varUnits
-    integer :: i, j, k, id_dim, first,last, t, indx, j2
+    integer :: i, j, k, id_dim, t, indx, i1, j1, j2
     type(dim_t) :: tempDim, uDim
     integer, allocatable, dimension(:) :: varShape, u_Shape
     type(string) :: outext
@@ -748,14 +695,26 @@
 
     do i=1, self%nVars !going trough all variables
         if (self%varData(i)%simName == varName ) then   !found the requested var
+            !write(*,*)"Getting Var for simulation name = ", self%varData(i)%simName
+            !write(*,*)"Getting Var name = ", varName
             allocate(varShape(self%varData(i)%ndims))
             do j=1, self%varData(i)%ndims   !going trough all of the variable dimensions
                 tempDim = self%getDimByDimID(self%varData(i)%dimids(j))
                 varShape(j) = tempDim%length
             end do
             if(self%varData(i)%ndims == 3) then !3D variable
-                allocate(tempRealField3D(varShape(1),varShape(2),varShape(3)))
-                self%status = nf90_get_var(self%ncID, self%varData(i)%varid, tempRealField3D)
+                allocate(auxRealField3D(varShape(1),varShape(2),varShape(3)))
+                allocate(tempRealField3D(varShape(2),varShape(1),varShape(3))) !Write it as in MOHID hdf5s
+                self%status = nf90_get_var(self%ncID, self%varData(i)%varid, auxRealField3D)
+                !self%status = nf90_get_var(self%ncID, self%varData(i)%varid, tempRealField3D)
+                do k=1,varShape(3)
+                do i1=1,varShape(1)
+                do j1=1,varShape(2)
+                    tempRealField3D(j1,i1,k) = auxRealField3D(i1,j1,k)
+                enddo
+                enddo
+                enddo
+                
                 call self%check()
                 if (.not.bVar) then
                     where (tempRealField3D /= self%varData(i)%fillvalue)
@@ -782,6 +741,10 @@
                         end if
                     end if
                 end do
+                
+                !write(*,*)"Size temReakField3D = ", size(tempRealField3D,1), size(tempRealField3D,2), size(tempRealField3D,3)
+                !write(*,*)"Value in temReakField4D(10,10,1) = ", tempRealField3D(10,10,1) 
+
                 if (.not.bVar) then
                     call varField%initialize(varName, self%varData(i)%units, tempRealField3D)
                 else
@@ -792,8 +755,21 @@
                     call varField%initialize(dimName, varUnits, tempRealField3D)
                 end if
             else if(self%varData(i)%ndims == 4) then !4D variable                
-                allocate(tempRealField4D(varShape(1),varShape(2),varShape(3),varShape(4)))
-                self%status = nf90_get_var(self%ncID, self%varData(i)%varid, tempRealField4D)
+                allocate(auxRealField4D(varShape(1),varShape(2),varShape(3),varShape(4)))
+                allocate(tempRealField4D(varShape(2),varShape(1),varShape(3),varShape(4)))
+                self%status = nf90_get_var(self%ncID, self%varData(i)%varid, auxRealField4D)
+                !self%status = nf90_get_var(self%ncID, self%varData(i)%varid, tempRealField4D)
+                do t=1,varShape(4)
+                do k=1,varShape(3)
+                do i1=1,varShape(1)
+                do j1=1,varShape(2)
+                    tempRealField4D(j1,i1,k,t) = auxRealField4D(i1,j1,k,t)
+                enddo
+                enddo
+                enddo
+                enddo
+                !write(*,*)"Size temReakField4D = ", size(tempRealField4D,1), size(tempRealField4D,2), size(tempRealField4D,3), size(tempRealField4D,4)
+                !write(*,*)"Value in temReakField4D(10,10,surface,1) = ", tempRealField4D(10,10,size(tempRealField4D,3),1) 
                 call self%check()
                 if (.not.bVar) then
                     if ((varName == Globals%Var%temp) .and. (Globals%simdefs%Temperature_add_offset /= 0)) then
@@ -842,7 +818,8 @@
                 end if
             elseif(self%varData(i)%ndims == 2) then !2D variable, for now only bathymetry
                 if (self%varData(i)%simName == Globals%Var%bathymetry) then
-                    allocate(tempRealField2D(varShape(1),varShape(2)))
+                    allocate(auxRealField2D(varShape(1),varShape(2)))
+                    allocate(tempRealField2D(varShape(2),varShape(1)))
 do1:                do indx=1, self%nVars
                         !Find velocity u matrix to get its dimensions
                         if (self%varData(indx)%simName == Globals%Var%u) then
@@ -853,17 +830,22 @@ do1:                do indx=1, self%nVars
                             end do
                             if (self%varData(indx)%ndims == 4) then
                                 variable_u_is4D = .true.
-                                allocate(tempRealField4D(varShape(1),varShape(2), u_Shape(3), u_Shape(4)))
+                                allocate(tempRealField4D(varShape(2),varShape(1), u_Shape(3), u_Shape(4)))
                                 exit do1
                             else
-                                allocate(tempRealField3D(varShape(1),varShape(2), u_Shape(3)))
+                                allocate(tempRealField3D(varShape(2),varShape(1), u_Shape(3)))
                                 exit do1
                             end if
                             
                         end if
                     end do do1
                     
-                    self%status = nf90_get_var(self%ncID, self%varData(i)%varid, tempRealField2D)
+                    self%status = nf90_get_var(self%ncID, self%varData(i)%varid, auxRealField2D)
+                    do i1=1,varShape(1)
+                    do j1=1,varShape(2)
+                        tempRealField2D(j1,i1) = auxRealField2D(i1,j1)
+                    enddo
+                    enddo
                     call self%check()
                     if (.not.bVar) then
                         where (tempRealField2D /= self%varData(i)%fillvalue)
@@ -1034,7 +1016,6 @@ do1:                do indx=1, self%nVars
     subroutine correctNCTime(timeComments, timeArray)
     type(string), intent(inout) :: timeComments
     real(prec), dimension(:), intent(inout) :: timeArray
-    integer :: i
     type(string), allocatable :: dc(:), dates(:), hours(:)
     type(string) :: isoDateStr
     integer, dimension(6) :: date

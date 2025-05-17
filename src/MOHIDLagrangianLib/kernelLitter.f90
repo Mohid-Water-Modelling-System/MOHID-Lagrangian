@@ -84,46 +84,48 @@
     real(prec):: compute_rate = 86400
     !begin---------------------------------------------------------------------------
     Biofouling = 0.0
-    tag = 'density'
-    col_density = Utils%find_str(sv%varName, tag, .true.)
-    tag = 'volume'
-    col_volume = Utils%find_str(sv%varName, tag, .true.)
-    tag = 'age'
-    col_age = Utils%find_str(sv%varName, tag, .true.)
+    if (any(Globals%Sources%biofouling_start_after > 0.0)) then
+        tag = 'density'
+        col_density = Utils%find_str(sv%varName, tag, .true.)
+        tag = 'volume'
+        col_volume = Utils%find_str(sv%varName, tag, .true.)
+        tag = 'age'
+        col_age = Utils%find_str(sv%varName, tag, .true.)
     
-    !Compute only when time of the oldest particle is a multiple of 86400s, to reduce simulation time
-    max_age = maxval(sv%state(:,col_age))
-    if (mod(max_age,compute_rate) == 0) then    
-        !kg/m3
-        density_biofouling = 2500.0
-        !kg         =        kg/m3            *         m3
-        mass_litter = sv%state(:,col_density) * sv%state(:,col_volume)
+        !Compute only when time of the oldest particle is a multiple of 86400s, to reduce simulation time
+        max_age = maxval(sv%state(:,col_age))
+        if (mod(max_age,compute_rate) == 0) then    
+            !kg/m3
+            density_biofouling = 2500.0
+            !kg         =        kg/m3            *         m3
+            mass_litter = sv%state(:,col_density) * sv%state(:,col_volume)
         
-        !This is the main part.
-        !If new methods are to be included, they should be added here as new function or routine calls
-        where (sv%state(:, col_age) > Globals%Sources%biofouling_start_after(sv%source(:)))
-            ! Kg            =        Kg       *               1/s                             *     s
-            mass_biofouling = mass_biofouling * Globals%Sources%biofouling_rate(sv%source(:)) * compute_rate
-        elsewhere
-            !initial biofouling mass in kg is a function of size (or weight) of litter. Not taking into account other types
-            !of degradation but as plastic degrades very slowly, I'm assuming this will generate very small errors.
-            mass_biofouling = 0.01 * mass_litter
-        endwhere
+            !This is the main part.
+            !If new methods are to be included, they should be added here as new function or routine calls
+            where (sv%state(:, col_age) > Globals%Sources%biofouling_start_after(sv%source(:)))
+                ! Kg            =        Kg       *               1/s                             *     s
+                mass_biofouling = mass_biofouling * Globals%Sources%biofouling_rate(sv%source(:)) * compute_rate
+            elsewhere
+                !initial biofouling mass in kg is a function of size (or weight) of litter. Not taking into account other types
+                !of degradation but as plastic degrades very slowly, I'm assuming this will generate very small errors.
+                mass_biofouling = 0.01 * mass_litter
+            endwhere
     
-        !m3               =       Kg        / Kg/m3
-        volume_biofouling = mass_biofouling / density_biofouling
-        !increase mass. biofilm includes shellfish
-        total_mass = mass_litter + mass_biofouling
-        !total volume is the sum of litter volume and biofouling volume
-        total_volume = sv%state(:,col_volume) + volume_biofouling
+            !m3               =       Kg        / Kg/m3
+            volume_biofouling = mass_biofouling / density_biofouling
+            !increase mass. biofilm includes shellfish
+            total_mass = mass_litter + mass_biofouling
+            !total volume is the sum of litter volume and biofouling volume
+            total_volume = sv%state(:,col_volume) + volume_biofouling
         
-        !increase in density
-        !Kg/(m3.dt)               = Kg/m3 new                  -     Kg/m3 old           / s
-        Biofouling(:,col_density) = ((total_mass/total_volume) - sv%state(:,col_density))/dt
-        where(sv%state(:,col_density) > 2000.0) sv%active = .false.
+            !increase in density
+            !Kg/(m3.dt)               = Kg/m3 new                  -     Kg/m3 old           / s
+            Biofouling(:,col_density) = ((total_mass/total_volume) - sv%state(:,col_density))/dt
+            where(sv%state(:,col_density) > 2000.0) sv%active = .false.
         
-    end if
-
+        end if
+    endif
+    
     end function BioFouling
 
     !---------------------------------------------------------------------------

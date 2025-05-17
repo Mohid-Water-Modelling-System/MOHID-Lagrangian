@@ -61,6 +61,7 @@
         integer         :: OutputFormat              !< Format of the output files (default=2) NetCDF=1, VTK=2
         integer         :: OutputFormatIndexes(2)    !< Index list for the output file format selector
         type(string)    :: OutputFormatNames(2)      !< Names list for the output file format selector
+        real(prec)      :: FillValueReal = -9.9e15
     contains
     procedure :: setParam
     procedure :: check
@@ -83,6 +84,7 @@
         real(prec)      ::  tracerMaxAge !< removes tracers with age greater than maxTracerAge
         real(prec)      ::  Temperature_add_offset !< adds offset to temperature from netcdf
         real(prec)      ::  WqDt !< water quality process time step
+        logical         :: inputFromHDF5 = .false.
     contains
     procedure :: setdp
     procedure :: setdt
@@ -96,6 +98,7 @@
     procedure :: setTemperature_add_offset  !Only here becasue some files from SINTEF were not properly converted due to
                                             ! some error in mohid's convert to hdf5 tool
     procedure :: setWqDt
+    procedure, public :: setInputFileType
     procedure :: print => printsimdefs
     end type simdefs_t
 
@@ -214,6 +217,7 @@
         type(string) :: phytoplankton
         type(string) :: zooplankton
         type(string) :: inorganic_phosphorus
+        type(string) :: openpoints
         type(string) :: lon
         type(string) :: lat
         type(string) :: level
@@ -253,6 +257,7 @@
         type(stringList_class) :: phytoplanktonVariants
         type(stringList_class) :: zooplanktonVariants
         type(stringList_class) :: inorganic_phosphorusVariants
+        type(stringList_class) :: openpointsVariants
         type(stringList_class) :: lonVariants
         type(stringList_class) :: latVariants
         type(stringList_class) :: levelVariants
@@ -265,7 +270,14 @@
     procedure, public  :: getVarSimName
     procedure, public  :: checkVarSimName
     procedure, public  :: checkDimensionName
+    procedure, public  :: checkSpaceDimensionName
     procedure, public  :: checkLatOrLon
+    procedure, public  :: checkVarIsLon
+    procedure, public  :: checkVarIsLat
+    procedure, public  :: checkVarIsDepth
+    procedure, public  :: checkVarIsTime
+    procedure, public  :: checkVarIsSSH
+    procedure, public  :: checkMappingVar
     end type var_names_t
     
     type :: varBackground_t
@@ -319,11 +331,6 @@
     procedure :: getDateTimeStamp
     end type sim_time_t
     
-    type :: gridTypes_t
-        integer :: curvilinear = 2
-    contains
-    end type gridTypes_t
-    
     type :: sources_t
         integer, allocatable, dimension(:) :: sourcesID
         real(prec), allocatable, dimension(:) :: bottom_emission_depth
@@ -354,7 +361,6 @@
         type(maskVals_t)    :: Mask
         type(tracerTypes_t) :: Types
         type(dataTypes_t)   :: DataTypes
-        type(gridTypes_t)   :: GridTypes
         type(sources_t)     :: Sources
         type(extImpFiles_t) :: ExtImpFiles !Will have to be changed when other types of files are added (oil for example)
     contains
@@ -485,6 +491,15 @@
     call SimMemory%adddef(sizem)
 
     end subroutine setdefaults
+    
+    subroutine setInputFileType (self, isInputFileHDF5)
+    class(simdefs_t), intent(inout) :: self
+    logical isInputFileHDF5
+    !Begin------------------------------------------
+    
+    self%inputFromHDF5 = isInputFileHDF5
+        
+    end subroutine setInputFileType
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -704,6 +719,11 @@
         getVarSimName = self%inorganic_phosphorus
         return
     end if
+    !searching for openpoints
+    if (var == self%openpoints .or. .not.self%openpointsVariants%notRepeated(var)) then
+        getVarSimName = self%openpoints
+        return
+    end if
     !searching for lon
     if (var == self%lon .or. .not.self%lonVariants%notRepeated(var)) then
         getVarSimName = self%lon
@@ -892,6 +912,11 @@
         checkVarSimName = .true.
         return
     end if
+    !searching for openpoints
+    if (var == self%openpoints .or. .not.self%openpointsVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
     !searching for lon
     if (var == self%lon .or. .not.self%lonVariants%notRepeated(var)) then
         checkVarSimName = .true.
@@ -954,6 +979,35 @@
     end if
 
     end function checkDimensionName
+    
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> returns true is the input variable name is defined in the model as a space dimension variable
+    !> @param[in] self, var
+    !---------------------------------------------------------------------------
+    logical function checkSpaceDimensionName(self, var)
+    type(string), intent(in) :: var
+    class(var_names_t), intent(inout) :: self
+    !Begin-----------------------------------------------------
+    checkSpaceDimensionName = .false.
+    
+    !searching for lon
+    if (var == self%lon .or. .not.self%lonVariants%notRepeated(var)) then
+        checkSpaceDimensionName = .true.
+        return
+    end if
+    !searching for lat
+    if (var == self%lat .or. .not.self%latVariants%notRepeated(var)) then
+        checkSpaceDimensionName = .true.
+        return
+    end if
+    !searching for level
+    if (var == self%level .or. .not.self%levelVariants%notRepeated(var)) then
+        checkSpaceDimensionName = .true.
+        return
+    end if
+
+    end function checkSpaceDimensionName
 
     !---------------------------------------------------------------------------
     !> @author Joao Sobrinho - Colab Atlantic
@@ -978,6 +1032,113 @@
     end if
     end function checkLatOrLon
     
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho
+    !> @brief
+    !> returns true if the input variable name is defined in the model as longitude
+    !> @param[in] self, var
+    !---------------------------------------------------------------------------
+    logical function checkVarIsLon(self, var)
+    type(string), intent(in) :: var
+    class(var_names_t), intent(inout) :: self
+    !Begin-----------------------------------------------------
+    checkVarIsLon = .false.
+    !searching for lon
+    if (var == self%lon .or. .not.self%lonVariants%notRepeated(var)) then
+        checkVarIsLon = .true.
+        return
+    end if
+    end function checkVarIsLon
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho
+    !> @brief
+    !> returns true if the input variable name is defined in the model as latitude
+    !> @param[in] self, var
+    !---------------------------------------------------------------------------
+    logical function checkVarIsLat(self, var)
+    type(string), intent(in) :: var
+    class(var_names_t), intent(inout) :: self
+    !Begin-----------------------------------------------------
+    checkVarIsLat = .false.
+    !searching for lat
+    if (var == self%lat .or. .not.self%latVariants%notRepeated(var)) then
+        checkVarIsLat = .true.
+        return
+    end if
+    end function checkVarIsLat
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho
+    !> @brief
+    !> returns true if the input variable name is defined in the model as depth
+    !> @param[in] self, var
+    !---------------------------------------------------------------------------
+    logical function checkVarIsDepth(self, var)
+    type(string), intent(in) :: var
+    class(var_names_t), intent(inout) :: self
+    !Begin-----------------------------------------------------
+    checkVarIsDepth = .false.
+    !searching for level
+    if (var == self%level .or. .not.self%levelVariants%notRepeated(var)) then
+        checkVarIsDepth = .true.
+        return
+    end if
+    end function checkVarIsDepth
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho
+    !> @brief
+    !> returns true if the input variable name is defined in the model as time
+    !> @param[in] self, var
+    !---------------------------------------------------------------------------
+    logical function checkVarIsTime(self, var)
+    type(string), intent(in) :: var
+    class(var_names_t), intent(inout) :: self
+    !Begin-----------------------------------------------------
+    checkVarIsTime = .false.
+    !searching for time
+    if (var == self%time .or. .not.self%timeVariants%notRepeated(var)) then
+        checkVarIsTime = .true.
+        return
+    end if
+    end function checkVarIsTime
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho
+    !> @brief
+    !> returns true if the input variable name is defined in the model as ssh
+    !> @param[in] self, var
+    !---------------------------------------------------------------------------
+    logical function checkVarIsSSH(self, var)
+    type(string), intent(in) :: var
+    class(var_names_t), intent(inout) :: self
+    !Begin-----------------------------------------------------
+    checkVarIsSSH = .false.
+    !searching for ssh
+    if (var == self%ssh .or. .not.self%sshVariants%notRepeated(var)) then
+        checkVarIsSSH = .true.
+        return
+    end if
+    end function checkVarIsSSH
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho
+    !> @brief
+    !> returns true if the input variable name is defined in the model as openPoints
+    !> @param[in] self, var
+    !---------------------------------------------------------------------------
+    logical function checkMappingVar(self, var)
+    type(string), intent(in) :: var
+    class(var_names_t), intent(inout) :: self
+    !Begin-----------------------------------------------------
+    checkMappingVar = .false.
+    !searching for time
+    if (var == self%openpoints .or. .not.self%openpointsVariants%notRepeated(var)) then
+        checkMappingVar = .true.
+        return
+    end if
+    end function checkMappingVar
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -1089,6 +1250,8 @@
     call self%setCurrVar(tag, self%Var%zooplankton, self%Var%zooplanktonVariants, varNode)
     tag="inorganic_phosphorus"
     call self%setCurrVar(tag, self%Var%inorganic_phosphorus, self%Var%inorganic_phosphorusVariants, varNode)
+    tag="openpoints"
+    call self%setCurrVar(tag, self%Var%openpoints, self%Var%openpointsVariants, varNode)
     
     end subroutine setVarNames
 

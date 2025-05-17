@@ -140,7 +140,7 @@
     type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
-    integer :: i, j, col_age, col_bat, col_bat_sv, col_landintmask, col_res
+    integer :: i, j, col_age, col_bat, col_bat_sv, col_landintmask, col_res, col_ssh
     real(prec) :: maxLevel(2)
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
@@ -158,16 +158,23 @@
     
     !write(*,*)"Saida setCommonProcesses interpolate"
     bottom_emmission = .false.
-    col_bat = Utils%find_str(var_name, Globals%Var%bathymetry, .true.)
+    col_bat = Utils%find_str(var_name, Globals%Var%bathymetry, .false.)
     !Set tracers bathymetry
-    col_bat_sv = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
-    sv%state(:,col_bat_sv) = var_dt(:,col_bat)
+    col_bat_sv = Utils%find_str(sv%varName, Globals%Var%bathymetry, .false.)
+    if (col_bat /= MV_INT) then
+        sv%state(:,col_bat_sv) = var_dt(:,col_bat)
+    else
+        sv%state(:,col_bat_sv) = 0.0
+    endif
     
     tag = 'age'
     col_age = Utils%find_str(sv%varName, tag, .true.)
     
-    where (sv%state(:,3) < var_dt(:,col_bat)) sv%state(:,3) = var_dt(:,col_bat)
-        
+    !Check for particles below sea bottom
+    if (col_bat /= MV_INT) then
+        where (sv%state(:,3) < var_dt(:,col_bat)) sv%state(:,3) = var_dt(:,col_bat)
+    endif
+    
     if (size(sv%source) > 0) then
         !if any of the sources defined by the user has the option bottom_emission then the model must check
         !wheter any new tracer needs to be positioned at the bottom
@@ -181,8 +188,22 @@
     !interpolate each background
     
     !correcting for maximum admissible level in the background
-    maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .false.)   
-    if (maxLevel(2) /= MV) where (sv%state(:,3) > maxLevel(2)) sv%state(:,3) = maxLevel(2)-0.00001
+    
+    !TODO : If the hdf5 does not have ssh, should use the verticalZ (meaning we must save an extra 2D var with the hdf original var (cell faces)
+    if (Globals%simDefs%inputFromHDF5) then
+        col_ssh = Utils%find_str(var_name, Globals%Var%ssh, .false.)
+        if (col_ssh /= MV_INT) then
+            where (sv%state(:,3) >  var_dt(:,col_ssh)) sv%state(:,3) = var_dt(:,col_ssh) - 0.00001
+        else
+            !ssh not found... assume 0.0 as the limit
+            where (sv%state(:,3) >  0.0) sv%state(:,3) = - 0.00001
+        endif
+        
+    else
+        maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .false.)   
+        if (maxLevel(2) /= MV) where (sv%state(:,3) > maxLevel(2)) sv%state(:,3) = maxLevel(2)-0.00001  
+    endif
+    
     !update land interaction status
     col_landintmask = Utils%find_str(var_name, Globals%Var%landIntMask)
     sv%landIntMask = var_dt(:,col_landintmask)
@@ -257,16 +278,20 @@
     !Set tracers temperature
     !Not usable for dilution of temperature so will need to be changed in the future (for example save in a ambient_temp sv name)
     if (sv%ttype /= Globals%Types%base) then
-        col_temp = Utils%find_str(var_name, Globals%Var%temp, .true.)
+        col_temp = Utils%find_str(var_name, Globals%Var%temp, .false.)
         !write(*,*)"Saida col_temp"
-        col_temp_sv = Utils%find_str(sv%varName, Globals%Var%temp, .true.)
-        sv%state(:,col_temp_sv) = var_dt(:,col_temp)
+        col_temp_sv = Utils%find_str(sv%varName, Globals%Var%temp, .false.)
         !write(*,*)"Saida col_temp_sv"
         !Set tracers salinity
-        col_sal = Utils%find_str(var_name, Globals%Var%sal, .true.)
-        col_sal_sv = Utils%find_str(sv%varName, Globals%Var%sal, .true.)
-    
-        sv%state(:,col_sal_sv) = var_dt(:,col_sal)
+        col_sal = Utils%find_str(var_name, Globals%Var%sal, .false.)
+        col_sal_sv = Utils%find_str(sv%varName, Globals%Var%sal, .false.)
+        if (col_temp /= MV_INT .and. col_temp_sv /= MV_INT) then
+           sv%state(:,col_temp_sv) = var_dt(:,col_temp) 
+        endif
+        
+        if (col_sal /= MV_INT .and. col_sal_sv /= MV_INT) then
+            sv%state(:,col_sal_sv) = var_dt(:,col_sal)
+        endif
     endif
 
     

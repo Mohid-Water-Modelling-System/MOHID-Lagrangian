@@ -124,8 +124,8 @@ if(WINDOWS)
   target_link_libraries (${BIN_NAME} ${csv_LIBS})
   target_link_libraries (${BIN_NAME} ${FOX_LIBS})
   target_link_libraries (${BIN_NAME} ${MOHID_LIBS})
-  #target_link_libraries (${BIN_NAME} ${HDF5_LIBS})
   target_link_libraries (${BIN_NAME} ${NETCDF_LIBS})
+  target_link_libraries (${BIN_NAME} ${HDF5_LIBS})
 elseif(OSX)
   target_link_libraries (${BIN_NAME} ${base_LIBS})
   target_link_libraries (${BIN_NAME} ${datetime_LIBS})
@@ -165,8 +165,8 @@ if(WINDOWS)
 			"${item}"
 			$<TARGET_FILE_DIR:${BIN_NAME}>)
 	ENDFOREACH(item)
-	set(dlls_PATH ${PROJECT_SOURCE_DIR}/ExternalLibs/dlls)
-	FOREACH(item ${dlls_PATH})
+	# set(dlls_PATH ${PROJECT_SOURCE_DIR}/ExternalLibs/dlls)
+	FOREACH(item ${HDF5_DLL_LIBS})
 	  add_custom_command(TARGET ${BIN_NAME} POST_BUILD
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different
 			"${item}"

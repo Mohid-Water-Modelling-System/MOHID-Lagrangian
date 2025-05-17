@@ -597,9 +597,9 @@
         call Log%put(outext,.false.)
     end if
     Globals%SimDefs%blocksize = sBlock(1)%extents%size
-    !do i=1, size(sBlock)
-    !    call sBlock(i)%print()
-    !enddo
+    do i=1, size(sBlock)
+        call sBlock(i)%print()
+    enddo
     return
     end subroutine setBlocks
 

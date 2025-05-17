@@ -72,6 +72,8 @@
     newsv%active = self%active
     allocate(newsv%varName(size(self%varName)))
     newsv%varName = self%varName
+    allocate(newsv%source(size(self%source)))
+    newsv%source = self%source  
     !maybe no need to copy source, id and tracer pointer
     
     end subroutine copyState
