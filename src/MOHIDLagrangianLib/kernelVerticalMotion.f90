@@ -203,7 +203,7 @@
         reynoldsNumber = self%Reynolds(sv%state(:,6), kvisco, sv%state(:,rIdx))
         cd = self%dragCoefficient(shapeFactor, sv%state(:,rIdx), reynoldsNumber) 
         ! Get buoyancy
-        where ((reynoldsNumber /=0.) .and. (dist2bottom < landIntThreshold))
+        where ((reynoldsNumber /=0.) .and. (dist2bottom > landIntThreshold))
             Buoyancy(:,3) = signZ*sqrt((-2.*Globals%Constants%Gravity%z) * (shapeFactor/cd) * densityRelation)
         end where
     end if
