@@ -33,15 +33,18 @@
     end type paper_par_class
 
     type :: paper_state_class             !<Type - State variables of a tracer object representing a paper material
-        real(prec) :: density                       !< density of the material
-        real(prec) :: radius                        !< Tracer radius (m)
-        real(prec) :: volume                        !< Tracer volume (m3)
-        real(prec) :: area                          !< Tracer area (m2)
-        real(prec) :: condition                     !< Material condition (1-0)
-        real(prec) :: degradation_rate              !< degradation rate of the material
-        real(prec) :: concentration                 !< Particle concentration
-        real(prec) :: temperature                   !< temperature of the tracer
-        real(prec) :: salinity                      !< salinity of the tracer
+        real(prec)  :: density                       !< density of the material
+        real(prec)  :: radius                        !< Tracer radius (m)
+        real(prec)  :: volume                        !< Tracer volume (m3)
+        real(prec)  :: area                          !< Tracer area (m2)
+        real(prec)  :: condition                     !< Material condition (1-0)
+        real(prec)  :: degradation_rate              !< degradation rate of the material
+        real(prec)  :: concentration                 !< Particle concentration
+        real(prec)  :: temperature                   !< temperature of the tracer
+        real(prec)  :: salinity                      !< salinity of the tracer
+        !logical     :: beachPeriod                   !< consecutive period of time (in seconds) that the tracer has been beached
+        !integer     :: beachAreaId                   !< beaching area Id where the tracer last beached
+        !integer     :: beachedWaterLevel             !< Water level at the time the tracer was beachded
     end type paper_state_class
 
     type, extends(tracer_class) :: paper_class    !<Type - The paper material Lagrangian tracer class
@@ -72,7 +75,7 @@
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
     class(paper_class), intent(in) :: self
-    getNumVars = 23
+    getNumVars = 27
     end function getNumVars
 
     !---------------------------------------------------------------------------
@@ -99,15 +102,18 @@
     getStateArray(13) = self%now%bathymetry
     getStateArray(14) = self%now%dwz
     getStateArray(15) = self%now%dist2bottom
-    getStateArray(16) = self%mnow%density
-    getStateArray(17) = self%mnow%radius
-    getStateArray(18) = self%mnow%volume
-    getStateArray(19) = self%mnow%area
-    getStateArray(20) = self%mnow%condition
-    getStateArray(21) = self%mnow%degradation_rate
-    getStateArray(22) = self%mnow%concentration
-    getStateArray(23) = self%mnow%temperature
-    getStateArray(24) = self%mnow%salinity
+    getStateArray(16) = self%now%beachPeriod
+    getStateArray(17) = self%now%beachAreaId
+    getStateArray(18) = self%now%beachedWaterLevel
+    getStateArray(19) = self%mnow%density
+    getStateArray(20) = self%mnow%radius
+    getStateArray(21) = self%mnow%volume
+    getStateArray(22) = self%mnow%area
+    getStateArray(23) = self%mnow%condition
+    getStateArray(24) = self%mnow%degradation_rate
+    getStateArray(25) = self%mnow%concentration
+    getStateArray(26) = self%mnow%temperature
+    getStateArray(27) = self%mnow%salinity
     end function getStateArray
 
     !---------------------------------------------------------------------------
@@ -134,15 +140,18 @@
     self%now%bathymetry   = StateArray(13)
     self%now%dwz          = StateArray(14)
     self%now%dist2bottom = StateArray(15)
-    self%mnow%density = StateArray(16)
-    self%mnow%radius = StateArray(17)
-    self%mnow%volume = StateArray(18)
-    self%mnow%area = StateArray(19)
-    self%mnow%condition = StateArray(20)
-    self%mnow%degradation_rate = StateArray(21)
-    self%mnow%concentration = StateArray(22)
-    self%mnow%temperature = StateArray(23)
-    self%mnow%salinity = StateArray(24)
+    self%now%beachPeriod = StateArray(16)
+    self%now%beachAreaId = StateArray(17)
+    self%now%beachedWaterLevel = StateArray(18)
+    self%mnow%density = StateArray(19)
+    self%mnow%radius = StateArray(20)
+    self%mnow%volume = StateArray(21)
+    self%mnow%area = StateArray(22)
+    self%mnow%condition = StateArray(23)
+    self%mnow%degradation_rate = StateArray(24)
+    self%mnow%concentration = StateArray(25)
+    self%mnow%temperature = StateArray(26)
+    self%mnow%salinity = StateArray(27)
     end subroutine setStateArray
 
     !---------------------------------------------------------------------------
@@ -201,16 +210,16 @@
     end if
 
     !filling the rest of the varName list
-    constructor%varName(16) = Globals%Var%density
-    constructor%varName(17) = 'radius'
-    constructor%varName(18) = 'volume'
-    constructor%varName(19) = 'area'
-    constructor%varName(20) = 'condition'
-    constructor%varName(21) = 'degradation_rate'
-    constructor%varName(22) = 'concentration'
+    constructor%varName(19) = Globals%Var%density
+    constructor%varName(20) = 'radius'
+    constructor%varName(21) = 'volume'
+    constructor%varName(22) = 'area'
+    constructor%varName(23) = 'condition'
+    constructor%varName(24) = 'degradation_rate'
+    constructor%varName(25) = 'concentration'
     !constructor%varName(19) = 'particulate'
-    constructor%varName(23) = 'temp'
-    constructor%varName(24) = 'salt'
+    constructor%varName(26) = 'temp'
+    constructor%varName(27) = 'salt'
     
     end function constructor
 

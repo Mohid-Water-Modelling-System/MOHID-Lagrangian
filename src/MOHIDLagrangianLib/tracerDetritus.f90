@@ -41,6 +41,9 @@
         real(prec) :: initial_volume                !< initial volume of tracer
         real(prec) :: temperature                   !< temperature of the tracer
         real(prec) :: salinity                      !< salinity of the tracer
+        !logical    :: beachPeriod                   !< consecutive period of time (in seconds) that the tracer has been beached
+        !integer    :: beachAreaId                   !< beaching area Id where the tracer last beached
+        !integer    :: beachedWaterLevel             !< Water level at the time the tracer was beachded
     end type detritus_state_class
 
     type, extends(tracer_class) :: detritus_class    !<Type - The detritus material Lagrangian tracer class
@@ -71,7 +74,7 @@
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
     class(detritus_class), intent(in) :: self
-    getNumVars = 23
+    getNumVars = 26
     end function getNumVars
 
     !---------------------------------------------------------------------------
@@ -98,14 +101,17 @@
     getStateArray(13) = self%now%bathymetry
     getStateArray(14) = self%now%dwz
     getStateArray(15) = self%now%dist2bottom
-    getStateArray(16) = self%mnow%density
-    getStateArray(17) = self%mnow%radius
-    getStateArray(18) = self%mnow%volume
-    getStateArray(19) = self%mnow%area
-    getStateArray(20) = self%mnow%condition
-    getStateArray(21) = self%mnow%initial_volume
-    getStateArray(22) = self%mnow%temperature
-    getStateArray(23) = self%mnow%salinity
+    getStateArray(16) = self%now%beachPeriod
+    getStateArray(17) = self%now%beachAreaId
+    getStateArray(18) = self%now%beachedWaterLevel
+    getStateArray(19) = self%mnow%density
+    getStateArray(20) = self%mnow%radius
+    getStateArray(21) = self%mnow%volume
+    getStateArray(22) = self%mnow%area
+    getStateArray(23) = self%mnow%condition
+    getStateArray(24) = self%mnow%initial_volume
+    getStateArray(25) = self%mnow%temperature
+    getStateArray(26) = self%mnow%salinity
     end function getStateArray
 
     !---------------------------------------------------------------------------
@@ -132,14 +138,17 @@
     self%now%bathymetry   = StateArray(13)
     self%now%dwz          = StateArray(14)
     self%now%dist2bottom = StateArray(15)
-    self%mnow%density = StateArray(16)
-    self%mnow%radius = StateArray(17)
-    self%mnow%volume = StateArray(18)
-    self%mnow%area = StateArray(19)
-    self%mnow%condition = StateArray(20)
-    self%mnow%initial_volume = StateArray(21)
-    self%mnow%temperature = StateArray(22)
-    self%mnow%salinity = StateArray(23)
+    self%now%beachPeriod = StateArray(16)
+    self%now%beachAreaId = StateArray(17)
+    self%now%beachedWaterLevel = StateArray(18)
+    self%mnow%density = StateArray(19)
+    self%mnow%radius = StateArray(20)
+    self%mnow%volume = StateArray(21)
+    self%mnow%area = StateArray(22)
+    self%mnow%condition = StateArray(23)
+    self%mnow%initial_volume = StateArray(24)
+    self%mnow%temperature = StateArray(25)
+    self%mnow%salinity = StateArray(26)
     end subroutine setStateArray
 
     !---------------------------------------------------------------------------
@@ -192,15 +201,15 @@
     end if
     
     !filling the rest of the varName list
-    constructor%varName(16) = Globals%Var%density
-    constructor%varName(17) = 'radius'
-    constructor%varName(18) = 'volume'
-    constructor%varName(19) = 'area'
-    constructor%varName(20) = 'condition'
+    constructor%varName(19) = Globals%Var%density
+    constructor%varName(20) = 'radius'
+    constructor%varName(21) = 'volume'
+    constructor%varName(22) = 'area'
+    constructor%varName(23) = 'condition'
     !constructor%varName(20) = 'particulate'
-    constructor%varName(21) = 'initial_volume'
-    constructor%varName(22) = 'temp'
-    constructor%varName(23) = 'salt'
+    constructor%varName(24) = 'initial_volume'
+    constructor%varName(25) = 'temp'
+    constructor%varName(26) = 'salt'
     end function constructor
 
     end module tracerdetritus_mod

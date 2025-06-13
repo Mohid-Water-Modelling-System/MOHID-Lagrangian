@@ -32,6 +32,8 @@
     use utilities_mod
     use xmlParser_mod
     use abstract_LinkedList_mod
+    use geometry_mod
+    use simulationMemory_mod
 
     implicit none
     private
@@ -84,7 +86,8 @@
         real(prec)      ::  tracerMaxAge !< removes tracers with age greater than maxTracerAge
         real(prec)      ::  Temperature_add_offset !< adds offset to temperature from netcdf
         real(prec)      ::  WqDt !< water quality process time step
-        logical         :: inputFromHDF5 = .false.
+        logical         ::  inputFromHDF5 = .false.
+        integer         ::  FreeLitterAtBeaching = 0
     contains
     procedure :: setdp
     procedure :: setdt
@@ -98,6 +101,7 @@
     procedure :: setTemperature_add_offset  !Only here becasue some files from SINTEF were not properly converted due to
                                             ! some error in mohid's convert to hdf5 tool
     procedure :: setWqDt
+    procedure :: setFreeLitterAtBeaching
     procedure, public :: setInputFileType
     procedure :: print => printsimdefs
     end type simdefs_t
@@ -347,7 +351,38 @@
     procedure :: print => printWaterQualityFileName !Will need changing when other files are added, such as oil.
     end type extImpFiles_t
     
+    type :: beach_par                          !<Type - parameters of a source object
+        integer :: id                           !< unique source identification (integer)
+        integer :: coastType                    !< Coast type used to define the probability method
+        integer :: unbeach                      !< Should tracers unbeach (1 or 0)
+        integer :: runUpEffect                  !< Compute Runup effect
+        integer :: runUpEffectUnbeach           !< include runup effect for unbeaching
+        real(prec) :: probability               !< adjustable probability of beaching
+        real(prec) :: waterColumnThreshold      !< minimum water column for beaching to be computed
+        real(prec) :: beachTimeScale            !< Time scale use to calculate the beach probability = 1-exp(dt/beach_time_scale). dt = (CurrentTime - LastAtualization)
+        real(prec) :: unbeachTimeScale          !< Time scale use to calculate the Unbeach probability = 1-exp(BeachPeriod/unbeach_time_scale)
+        real(prec) :: beachSlope                !< Beach slope
+        type(string) :: beaching_geometry       !< polygon describing the beach geometry
+        class(shape), allocatable :: geometry   !< geometry shapetype (must be polygon)
+    end type beach_par
+    
+    type :: beach_class           !<Type - The beach class
+        type(beach_par)   :: par           !<To access parameters
+    contains
+    procedure :: initialize => initializeBeachAreas
+    !procedure :: isParticulate !Sobrinho - Apagar
+    !procedure :: check !Sobrinho - Apagar
+    end type beach_class
 
+    type :: beachArray_class
+        type(beach_class), allocatable, dimension(:) :: beachArea
+    contains
+    procedure :: initialize => initAreas
+    procedure :: finalize => killAreas
+    end type beachArray_class
+
+    !Simulation variables
+    
     type :: globals_class   !<Globals class - This is a container for every global variable on the simulation
         type(parameters_t)  :: Parameters
         type(simdefs_t)     :: SimDefs
@@ -363,6 +398,7 @@
         type(dataTypes_t)   :: DataTypes
         type(sources_t)     :: Sources
         type(extImpFiles_t) :: ExtImpFiles !Will have to be changed when other types of files are added (oil for example)
+        type(beachArray_class) :: BeachingAreas !< Beaching Areas array, used exclusively for building the case from a description file
     contains
     procedure :: initialize => setdefaults
     procedure :: setTimeDate
@@ -2406,6 +2442,123 @@
     sizem = sizeof(self%VerticalVelMethod)
     call SimMemory%adddef(sizem)
     end subroutine setVerticalVelMethod
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho
+    !> @brief
+    !> Is beaching method based on project FreeLitterAt enabled
+    !> @param[in] self, read_FreeLitterAtBeaching
+    !---------------------------------------------------------------------------
+    subroutine setFreeLitterAtBeaching(self, read_FreeLitterAtBeaching)
+    class(simdefs_t), intent(inout) :: self
+    type(string), intent(in) :: read_FreeLitterAtBeaching
+    type(string) :: outext
+    integer :: sizem
+    if ((read_FreeLitterAtBeaching%to_number(kind=1._I8P) < 0) .OR. (read_FreeLitterAtBeaching%to_number(kind=1._I8P) > 1)) then
+        outext='FreeLitterAtBeaching must be either 0 or 1'
+        call Log%put(outext)
+    else
+        self%FreeLitterAtBeaching=read_FreeLitterAtBeaching%to_number(kind=1._I8P)
+    endif
+    sizem = sizeof(self%FreeLitterAtBeaching)
+    call SimMemory%adddef(sizem)
+    end subroutine setFreeLitterAtBeaching
+    
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho
+    !> @brief
+    !> source inititialization proceadure - initializes Beaching variables
+    !> @param[in] beach, id, coastType, probability, waterColumnThreshold, beachTimeScale, unbeach, unbeachTimeScale, runUpEffect,&
+    !> beachSlope, runUpEffectUnbeach, beaching_geometry, shapetype
+    !---------------------------------------------------------------------------
+    subroutine initializeBeachAreas(beach, id, coastType, probability, waterColumnThreshold, &
+                                beachTimeScale, unbeach, unbeachTimeScale, runUpEffect, &
+                                beachSlope, runUpEffectUnbeach, beaching_geometry, shapetype)
+    class(beach_class) :: beach
+    integer, intent(in) :: id
+    integer, intent(in) :: coastType
+    integer, intent(in) :: unbeach
+    integer, intent(in) :: runUpEffect
+    integer, intent(in) :: runUpEffectUnbeach
+    real(prec), intent(in) :: probability
+    real(prec), intent(in) :: waterColumnThreshold
+    real(prec), intent(in) :: beachTimeScale
+    real(prec), intent(in) :: unbeachTimeScale
+    real(prec), intent(in) :: beachSlope
+    type(string), intent(in) :: beaching_geometry
+    class(shape), intent(in) :: shapetype
+    
+    !Locals-----------------------------------------
+    
+    integer :: sizem, i
+    type(string) :: outext
+    integer :: err
+    !begin------------------------------------------
+    
+    !Setting parameters
+    beach%par%id=id
+    beach%par%coastType=coastType
+    beach%par%probability = probability
+    beach%par%waterColumnThreshold = waterColumnThreshold
+    beach%par%beachTimeScale = beachTimeScale
+    beach%par%unbeach = unbeach
+    beach%par%unbeachTimeScale = unbeachTimeScale
+    beach%par%runUpEffect = runUpEffect
+    !Setting possible variable position
+    beach%par%beachSlope = beachSlope
+    beach%par%runUpEffectUnbeach = runUpEffectUnbeach
+    beach%par%beaching_geometry = beaching_geometry
+    allocate(beach%par%geometry, source=shapetype)
+
+    sizem = sizeof(beach)
+    call SimMemory%addbeachArea(sizem)
+    !TODO - Add print like it is done in sources.
+
+    end subroutine initializeBeachAreas
+    
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho
+    !> @brief
+    !> source allocation routine - allocates beaching areas objects
+    !> @param[in] self,nareas
+    !---------------------------------------------------------------------------
+    subroutine initAreas(self,nareas)
+    implicit none
+    class(beachArray_class), intent(inout) :: self
+    integer, intent(in) :: nareas
+    integer err
+    type(string) :: outext, temp
+    allocate(self%beachArea(nareas), stat=err)
+    if(err/=0)then
+        outext='[initAreas]: Cannot allocate Beach Areas, stoping'
+        call Log%put(outext)
+        stop
+    else
+        temp = nareas
+        outext = 'Allocated '// temp // ' Areas.'
+        call Log%put(outext)
+    endif
+    end subroutine initAreas
+
+    !---------------------------------------------------------------------------
+    !> @author Sobrinho
+    !> @brief
+    !> source group destructor - deallocates beach areas objects
+    !---------------------------------------------------------------------------
+    subroutine killAreas(self)
+    implicit none
+    class(beachArray_class), intent(inout) :: self
+    integer err
+    type(string) :: outext
+    if (allocated(self%beachArea)) deallocate(self%beachArea, stat=err)
+    if(err/=0)then
+        outext='[killSources]: Cannot deallocate Sources, stoping'
+        call Log%put(outext)
+        stop
+    endif
+    end subroutine killAreas
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

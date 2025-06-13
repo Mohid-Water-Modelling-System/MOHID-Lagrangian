@@ -33,6 +33,7 @@
     end type kernelUtils_class
      
     public :: kernelUtils_class
+    public :: WaveRunUpStockdon2006
     contains
 
     !---------------------------------------------------------------------------
@@ -215,6 +216,31 @@
     radiation = radiation_SW * exp(-sv%state(:,c_SWcoef) * depth)
     
     end subroutine computeSWRadiation
+    
+    !> @author Joao Sobrinho
+    !> @brief
+    !> Wave run-up calculation for waves collapsing on the beach using the formula of Stockdon2006 et al. (2006)
+    real(prec) function WaveRunUpStockdon2006(Hs,Tp,m)    
+        !Arguments-------------------------------------------------------------
+        real(prec) , intent(in)        :: Hs,Tp,m !Significant wave height, Peak period, Beach slope 
+        !Local-----------------------------------------------------------------
+        real(prec)                     :: L, E, Sw, Sig
+        !Begin-----------------------------------------------------------------   
+        if (Hs > 0.001) then 
+            L = Gravity * Tp**2 / (2*Pi) 
+            E = m / sqrt(Hs/L)
+            if (E >= 0.3) then
+                Sw  = 0.75 * Hs * E
+                Sig = 0.06 * sqrt(Hs * L)
+                WaveRunUpStockdon2006 = 1.1 * (0.35*Hs*E + 0.5*sqrt(Sw**2+Sig**2))
+            else
+                WaveRunUpStockdon2006 = 0.043 * sqrt(Hs * L)
+            endif
+        else
+            WaveRunUpStockdon2006 = 0.
+        endif
+    
+    end function WaveRunUpStockdon2006
 
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - GFNL

@@ -48,6 +48,7 @@
     procedure :: isBoundedSingle, isBoundedArray
     generic :: isBounded => isBoundedSingle, isBoundedArray
     procedure :: appendArraysUniqueReal
+    procedure :: isPointInsidePolygon
     end type utils_class
 
     type(utils_class) :: Utils
@@ -561,5 +562,117 @@
 
     if (present(usedArray)) allocate(usedArray, source = usedTemp)
     end subroutine appendArraysUniqueReal
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> Imported from MOHID horizontalgrid module
+    !> The first action performed is an acceleration test. if 
+    !>                   point is not inside maximum limits of the polygon
+    !>                   then it is not inside the polygon. If point is inside
+    !>                   the maximum bounds of the polygon then there is a 
+    !>                   possibility of being inside the polygon. Thus, it is 
+    !>                   drawn a "semi-recta" on the X axis to the right of the
+    !>                   point. If the "semi-recta" intersects the polygon an 
+    !>                   odd ("ímpar") number of times then the point is 
+    !>                   inside the polygon. The intersection test is performed 
+    !>                   for every segment of the polygon. If the point belongs 
+    !>                   is a vertix of the polygon or belongs to one of the 
+    !>                   segments that defines the polygon then it is considered 
+    !>                   to be inside the polygon. There are a few cases in which
+    !>                   special care needs to be taken, regarding the intersection
+    !>                   counting. If the intersection point coincides with one of 
+    !>                   the vertices then one intersection is counted only if it is
+    !>                   the vertice with the higher Y value. This is the way to 
+    !>                   count only one intersection once one polygon vertix belongs
+    !>                   to two segments and otherwise it would be tested twice.
+    !>                   Another case is when the segment belongs to the "semi-recta".
+    !>                   In this case no intersection is counted. This in the next 
+    !>                   segment to be tested the "semi-recta" will intersect the first
+    !>                   vertice of the segment. If the segments slope is negative then
+    !>                   the vertice has the higher Y value and one intersection is 
+    !>                   counted.
+    !> @param[in] self, x, y, polygon
+    logical function isPointInsidePolygon(self, x, y, polygon)
+    class(utils_class), intent(in) :: self
+    real(prec), intent(in) :: x, y
+    type(vector), dimension(5), intent(in) :: polygon !Vertices of the grid cell polygon
+    integer :: i
+    real(prec) :: segStart_x, segEnd_x, segStart_y, segEnd_y
+    integer :: numberOfIntersections
+    real(prec) :: slope, intersectionPointX, higherY
+    !Begin-----------------------------------------------------------------
+
+    isPointInsidePolygon  = .false.
+    NumberOfIntersections = 0
+
+    do i = 1, 4 !Go through all vertices
+        !construct segment
+        segStart_x = polygon(i)%x
+        segStart_y = polygon(i)%y
+        segEnd_x = polygon(i+1)%x
+        segEnd_y = polygon(i+1)%y
+            
+        !if point coincides with one of the segments vertices then
+        !it in inside the polygon
+        if(((x == segStart_x) .and. (y == segStart_y)) .or. ((x == segEnd_x) .and. (y == segEnd_y))) then
+            isPointInsidePolygon = .true.
+            return
+        !if point is placed between the segment vertices in the Y axis
+        elseif(((y <= segStart_y) .and. (y >= segEnd_y)) .or. ((y >= segStart_y) .and. (y <= segEnd_y)))then
+            !if segment has a slope
+            if(segStart_y /= segEnd_y)then 
+                !compute slope
+                slope = (segStart_x - segEnd_x) / (segStart_y - segEnd_y)
+                !compute intersection point X coordinate of the "semi-recta" with the segment 
+                intersectionPointX = segStart_x - slope * (segStart_y - y)
+                !if point belongs to the segment then it is inside the polygon
+                if(intersectionPointX == x)then
+                    isPointInsidePolygon = .true.
+                    return
+                elseif(intersectionPointX > x)then
+                    !if the intersection point coincides with one of the vertices then one intersection
+                    !is counted only if it is the vertice with the higher Y value 
+                    if((y == segStart_y) .or. (y == segEnd_y)) then
+                        !find higher segment ends higher Y coordinate
+                        higherY = max(segStart_y, segEnd_y)
+                        if(y == higherY) numberOfIntersections = numberOfIntersections + 1
+                    else
+                        !if the intersection point is placed to the right of the point or
+                        !if the point belongs to the segment then one intersection is counted
+                        numberOfIntersections = numberOfIntersections + 1
+                    end if
+                end if
+            elseif(segStart_y == segEnd_y)then
+                if(y == segStart_y)then
+                    if(segStart_x > segEnd_x)then
+                        if((x <= segStart_x) .and. (x >= segEnd_x))then
+                            !if point belongs to the segment then it is inside the polygon
+                            isPointInsidePolygon = .true.
+                            return
+                        end if
+                    elseif(segStart_x < segEnd_x)then
+                        if((x >= segStart_x) .and. (x <= segEnd_x))then
+                            !if point belongs to the segment then it is inside the polygon
+                            isPointInsidePolygon = .true.
+                            return
+                        end if
+                    elseif(segStart_x == segEnd_x)then
+                        if(x == segStart_x)then
+                            !if point belongs to the segment then it is inside the polygon
+                            isPointInsidePolygon = .true.
+                            return
+                        end if
+                    end if                       
+                end if
+            end if
+        end if
+    enddo
+
+    !if number of intersections is odd (odd = ímpar) then
+    !point is inside the polygon
+    if(numberOfIntersections/2. > int(numberOfIntersections/2.)) isPointInsidePolygon = .true.
+
+    end function isPointInsidePolygon
 
     end module utilities_mod

@@ -31,12 +31,14 @@
         integer :: size_of_tracers   !< Size of the tracers in memory (bytes)
         integer :: size_of_defs      !< Size of the parameters and definitions in memory (bytes)
         integer :: size_of_blocks    !< Size of the Blocks in memory (bytes)
+        integer :: size_of_beaches    !< Size of the Blocks in memory (bytes)
         integer :: ntrc              !< Expected number of Tracers for the simulation (by Source emission at least)
         integer :: sizeTrc           !< Size of a dummy Tracer, in bytes
     contains
     procedure :: initialize => initializeMemory
     procedure :: addblock
     procedure :: addsource
+    procedure :: addbeachArea
     procedure :: setracer
     procedure :: adddef
     procedure :: getotal
@@ -66,6 +68,7 @@
     self%size_of_tracers = 0
     self%size_of_defs = 0
     self%size_of_blocks = 0
+    self%size_of_beaches = 0
     end subroutine
 
     !---------------------------------------------------------------------------
@@ -77,7 +80,7 @@
     implicit none
     class(memory_t), intent(inout) :: self
     integer, intent(out) :: size
-    size = self%size_of_sources + self%size_of_tracers + self%size_of_defs + self%size_of_blocks
+    size = self%size_of_sources + self%size_of_tracers + self%size_of_defs + self%size_of_blocks + self%size_of_beaches
     end subroutine
 
     !---------------------------------------------------------------------------
@@ -126,6 +129,17 @@
     class(memory_t), intent(inout) :: self
     integer, intent(in) :: size
     self%size_of_sources = self%size_of_sources + size
+    end subroutine
+    
+    !> @author Joao Sobrinho
+    !> @brief
+    !> Method to add the size of a Beach area to the memory log.
+    !---------------------------------------------------------------------------
+    subroutine addbeachArea(self,size)
+    implicit none
+    class(memory_t), intent(inout) :: self
+    integer, intent(in) :: size
+    self%size_of_beaches = self%size_of_beaches + size
     end subroutine
 
     !---------------------------------------------------------------------------

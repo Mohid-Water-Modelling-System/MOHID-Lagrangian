@@ -26,7 +26,7 @@
 
     use simulationPrecision_mod
     use simulationLogger_mod
-    use simulationGlobals_mod
+    !use simulationGlobals_mod
     use utilities_mod
     use xmlParser_mod
 
@@ -46,6 +46,7 @@
     procedure :: getPoints                  !<Function that retuns the points (vertexes) that define the geometrical shape
     procedure :: getnumPoints               !<Function that returns the number of points (vertexes) that define the geometrical shape
     procedure, public :: setPolygon         !<assembles a polygon from a file
+    procedure, public :: isPolygon          !<returns true if type is polygon
     procedure :: print => printGeometry     !<prints the geometry type and contents
     end type geometry_class
 
@@ -79,6 +80,8 @@
     procedure, public :: setBoundingBox
     procedure, public :: getMetricPolygon
     end type
+    
+    type(string) :: notRead
 
     type(geometry_class) :: Geometry
 
@@ -132,6 +135,8 @@
     self%list(4) ='sphere'
     self%list(5) ='polygon'
     self%list(6) ='polyline'
+    
+    notRead = 'notRead'
     end subroutine allocatelist
 
     !---------------------------------------------------------------------------
@@ -152,6 +157,24 @@
         endif
     enddo
     end function inlist
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho
+    !> @brief
+    !> Public function that returns a logical if the input geometry name is a polygon
+    !> @param[in] self, geomname
+    !---------------------------------------------------------------------------
+    logical function isPolygon(self, geomname) result(tf)
+    implicit none
+    class(geometry_class), intent(in) :: self
+    type(string), intent(in) :: geomname
+    integer :: i
+    tf = .false.
+
+    if (geomname == 'polygon') then
+        tf = .true.
+    endif
+    end function isPolygon
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
