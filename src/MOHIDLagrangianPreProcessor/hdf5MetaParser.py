@@ -58,12 +58,13 @@ class hdf5Metadata:
         self.endTime = (self.endDate - baseTime).total_seconds()
         
     def getTimeString(self, i):
-        if i > 9:
-            str_time = 'Time_000' + str(i)
+
+        if i > 999:
+            str_time = 'Time_0' + str(i)
         elif i > 99:
             str_time = 'Time_00' + str(i)
-        elif i > 999:
-            str_time = 'Time_0' + str(i)
+        elif i > 9:
+            str_time = 'Time_000' + str(i)
         else:
             str_time = 'Time_0000' + str(i)
         return str_time
