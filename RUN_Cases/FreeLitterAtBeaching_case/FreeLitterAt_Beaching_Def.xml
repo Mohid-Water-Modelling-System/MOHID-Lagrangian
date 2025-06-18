@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<case>
+	<execution>
+		<parameters>
+			<parameter key="Start" value="2024 01 01 00 00 00" comment="Date of initial instant" units_comment="space delimited ISO 8601 format up to seconds" />
+			<parameter key="End"   value="2024 01 05 00 00 00" comment="Date of final instant" units_comment="ISO format" />
+			<parameter key="Integrator" value="1" comment="Integration Algorithm 1:Euler, 2:Multi-Step Euler, 3:RK4 (default=1)" />			
+			<parameter key="Threads" value="1" comment="Computation threads for shared memory computation (default=auto)" />
+			<parameter key="OutputWriteTime" value="1000" comment="Time out data (1/Hz)" units_comment="seconds" />
+		</parameters>
+		<variableNaming>
+			<file name="ncNamesLibrary.xml"/>
+		</variableNaming>
+	</execution>
+	<caseDefinitions>
+		<inputData>
+			<inputDataDir name="hdfFields/hydrodynamic" type="hydrodynamic"/>
+			<inputDataDir name="hdfFields/waves" type="waves"/>
+			<inputDataDir name="hdfFields/meteo" type="meteorology"/>
+		</inputData>
+		<simulation>
+			<resolution dp="100" units_comment="metres (m)"/>
+			<timestep dt="360.0" units_comment="seconds (s)"/>
+			<BoundingBoxMin x="-10" y="41.0" z="-5" units_comment="(deg,deg,m)"/>
+			<BoundingBoxMax x="-9.99" y="41.03" z="5" units_comment="(deg,deg,m)"/>	
+       		<VerticalVelMethod value="1" comment="1:From velocity fields, 2:Divergence based, 3:Disabled. Default = 1" />
+            <BathyminNetcdf value="1" comment="bathymetry is a property in the netcdf. 1:true, 0:false (computes from layer depth and openPoints. Default = 1"/>
+            <RemoveLandTracer value="0" comment="Remove tracers on land 0:No, 1:Yes. Default = 0" />
+            <Beaching>
+                <BeachingEnabled value="1" comment="on=1, off=0"/>
+                <BeachingArea>
+                    <BeachAreaID id="1" comment="Beaching area ID" />
+                    <polygon>
+                        <file name="data/Schematic.xy"/>
+                        <verticalBoundingBox min="-5.0" max="5.0"/>
+                    </polygon>
+                    <CoastType value="1" comment="Integer value for mapping purposes only value must be > 0"/>
+                    <Probability value="0.5" comment="Value between 0 and 1"/>
+                    <WaterColumnThreshold value="0.1" comment="water column limit below which litter can beach" units_comment="seconds (s)" />
+                    <BeachTimeScale value="3600" comment="Time scale use to calculate the beach probability"/>
+                    <Unbeach value="1" comment="1=can unbeach after beaching, 0 otherwize"/>
+                    <UnbeachTimeScale value="43200" comment="Time scale use to calculate the Unbeach probability" units_comment="seconds (s)" />
+                    <RunUpEffect value="1" comment="Beached water level (important for the unbeach process) takes in consideration the wave run up effect"/>
+                    <BeachSlope value="0.005" comment="parameter use to compute the wave run up effect"/>
+                    <RunUpEffectUnbeach value="1" comment="Beached water level (important for the unbeach process) takes in consideration the wave run up effect"/>
+                </BeachingArea>
+            </Beaching>
+        </simulation>
+		<sourceDefinitions>
+			<source>
+				<setsource id="1" name="Litter_plastic" />
+				<rate_seconds value="360" comment="emission step in seconds. 3600 is a tracer per hour" />
+                <rate_trcPerEmission value="1000" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
+				<active start="0" end="360" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
+				<point x="-9.9985" y="41.015" z="2.0" units_comment="(deg,deg,m)"/>
+			</source>
+		</sourceDefinitions>
+		<sourceTypes>
+			<types>
+				<type source="1" type="plastic" property="mussel_peg" comment="" />
+			</types>
+			<file name="materialTypes.xml"/>
+		</sourceTypes>		
+		<constants>
+			<BeachingLevel value="-5.0" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />
+			<DiffusionCoeff value="50" comment="Horizontal diffusion coefficient. Default = 1.0" units_comment="m2/s" />
+		</constants>
+	</caseDefinitions>
+</case>

@@ -382,7 +382,7 @@
     integer :: i, j, k
     logical :: readflag
     integer :: id
-    type(string) :: name, source_geometry, tag, att_name, att_val, att_val2, att_val3, rate_file, posi_file
+    type(string) :: name, source_geometry, tag, att_name, att_val, att_val2, rate_file, posi_file
     real(prec) :: emitting_rate, rateScale, start, finish, temp, bottom_emission_depth, biofouling_rate, biofouling_start_after
     real(prec) :: tracer_volume
     logical :: emitting_fixed, posi_fixed, rateRead
@@ -435,27 +435,21 @@
         att_name="value"
         call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val, readflag, .false.)
         if (readflag) then
-            tag="rate_seconds"
+            tag="rate_trcPerEmission"
             att_name="value"
             readflag = .false.
             call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val2, readflag, .false.)
-            if (readflag) then !Recieved rate in seconds
-                tag="rate_trcPerEmission"
-                att_name="value"
-                readflag = .false.
-                call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val3, readflag, .false.)
-                if (readflag) then !Recieved number of tracers per rate_seconds
-                    rateRead = .true.
-                    emitting_rate = 1/att_val2%to_number(kind=1._R8P) * att_val3%to_number(kind=1._R8P) !if 3600s, 5tracers and dt = 60 => 0.08 tracers per DT
-                    emitting_fixed = .true.
-                else !if rate_seconds is used, then rate_trcPerEmission is needed
-                    rateRead = .false.
-                endif
-            else ! recieved rate in dt steps
+            if (readflag) then !Recieved number of tracers per rate_seconds
                 rateRead = .true.
-                emitting_rate = 1.0/(att_val%to_number(kind=1._R8P)*Globals%SimDefs%dt)
+                emitting_rate = 1.0/att_val%to_number(kind=1._R8P) * att_val2%to_number(kind=1._R8P) !if 3600s, 5tracers and dt = 60 => 0.08 tracers per DT
                 emitting_fixed = .true.
+            else !if rate_seconds is used, then rate_trcPerEmission is needed
+                rateRead = .false.
             endif
+        else ! recieved rate in dt steps
+            rateRead = .true.
+            emitting_rate = 1.0/(att_val%to_number(kind=1._R8P)*Globals%SimDefs%dt)
+            emitting_fixed = .true.
         end if
         tag="rate"
         att_name="value"

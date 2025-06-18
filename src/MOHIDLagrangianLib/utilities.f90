@@ -596,7 +596,7 @@
     logical function isPointInsidePolygon(self, x, y, polygon)
     class(utils_class), intent(in) :: self
     real(prec), intent(in) :: x, y
-    type(vector), dimension(5), intent(in) :: polygon !Vertices of the grid cell polygon
+    type(vector), dimension(:), intent(in) :: polygon !Vertices of the polygon
     integer :: i
     real(prec) :: segStart_x, segEnd_x, segStart_y, segEnd_y
     integer :: numberOfIntersections
@@ -606,7 +606,7 @@
     isPointInsidePolygon  = .false.
     NumberOfIntersections = 0
 
-    do i = 1, 4 !Go through all vertices
+    do i = 1, size(polygon)-1 !Go through all vertices
         !construct segment
         segStart_x = polygon(i)%x
         segStart_y = polygon(i)%y

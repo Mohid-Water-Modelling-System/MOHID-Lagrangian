@@ -1277,6 +1277,8 @@
             getFieldMaxBound = maxval(self%field1D)
         elseif (allocated(self%field2D)) then
             getFieldMaxBound = maxval(self%field2D)
+        elseif (allocated(self%field4D)) then
+            getFieldMaxBound = maxval(self%field4D)
         end if
     class is (scalar1d_field_class)
         getFieldMaxBound = maxval(self%field)

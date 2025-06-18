@@ -416,7 +416,7 @@
                                         !write(*,*)"dimUnits = ", dimUnits
                                         !write(*,*)"self%dimData(k)%varid = ", self%dimData(k)%varid
                             
-                                        call self%readHDFTime(self%varData(var), tempRealArray1D, varShape(4))
+                                        call self%readHDFTime(self%varData(var), tempRealArray1D, varShape(size(varShape)))
                                     endif
                                     
                                     found2dDimVar = .true.
@@ -494,6 +494,7 @@
     bVar = binaryVar
     variable_u_is4D = .false.
     do i=1, self%nVars !going trough all variables
+        !write(*,*)"var in the system = ", i, self%varData(i)%simName
         if (self%varData(i)%simName == varName ) then   !found the requested var
             !write(*,*)"Getting Var for simulation name = ", self%varData(i)%simName
             !write(*,*)"Getting Var name = ", varName
@@ -504,6 +505,7 @@
             end do
             
             if(self%varData(i)%ndims == 3) then !3D variable
+                !write(*,*)"entrei 3D = ", varName
                 !if (altName == Globals%Var%resolution) then
                 !    allocate(tempRealField2D(varShape(1), varShape(2)))
                 !    allocate(tempRealField3D(varShape(1), varShape(2),varShape(3)))
@@ -539,6 +541,7 @@
                     call varField%initialize(dimName, varUnits, tempRealField3D)
                 end if
             else if(self%varData(i)%ndims == 4) then !4D variable
+                !write(*,*)"entrei 4D = ", varName
                 !if (altName == Globals%Var%resolution) then
                 !    allocate(tempRealField4D(varShape(1), varShape(2), varShape(3), varShape(4))) !allocating a place to read the field data to
                 !    allocate(tempRealField3D(varShape(1), varShape(2), varShape(3)))
@@ -593,6 +596,7 @@
                     call varField%initialize(dimName, varUnits, tempRealField4D)
                 end if
             elseif(self%varData(i)%ndims == 2) then !2D variable, for now only bathymetry
+                !write(*,*)"entrei batimetria = ", varName
                 if (self%varData(i)%simName == Globals%Var%bathymetry) then
                     allocate(tempRealField2D(varShape(1)-1,varShape(2)-1))
 do1:                do indx=1, self%nVars

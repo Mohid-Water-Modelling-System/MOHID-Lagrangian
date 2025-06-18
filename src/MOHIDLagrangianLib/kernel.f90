@@ -124,7 +124,7 @@
                     self%Aging(sv) + MOHIDWaterQuality%WQProcess(sv, bdata, time, dt) + MOHIDWaterQuality%Dilution(sv, bdata, time, dt)
     end if
     if (Globals%simDefs%FreeLitterAtBeaching == 1) then
-        runKernel = self%FreeLitterAtBeaching(sv, runKernel, dt)
+        runKernel = self%FreeLitterAtBeaching(sv, bdata, time, runKernel, dt)
     else
         runKernel = self%Beaching(sv, runKernel)
     endif
@@ -595,18 +595,24 @@
     !> and how beaching occurs using the formulation devised in Project FreeLitterAt. Affects the state vector and state vector derivative.
     !> @param[in] self, sv, svDt, dt
     !---------------------------------------------------------------------------
-    function FreeLitterAtBeaching(self, sv, svDt, dt)
+    function FreeLitterAtBeaching(self, sv, bdata, time, svDt, dt)
     class(kernel_class), intent(inout) :: self
     type(stateVector_class), intent(inout) :: sv
     real(prec), dimension(size(sv%state,1),size(sv%state,2)), intent(in) :: svDt
+    type(background_class), dimension(:), intent(in) :: bdata
+    real(prec), intent(in) :: time
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: FreeLitterAtBeaching
     real(prec), intent(in) :: dt
     real(prec)  :: limLeft, limRight, limBottom, limTop, x, y
     real(prec) :: WaterColumn, WaterLevel, rand1, Probability, Tbeach, Tunbeach, Hs, Tp, m
-    type(vector), dimension(5) :: beachPolygon !Vertices of the beching area polygon
+    type(vector), dimension(2) :: beachPolygonBBox !Vertices of the beching area polygon
+    type(vector), dimension(:), allocatable :: beachPolygonVertices !Vertices of the beching area polygon
     integer :: col_age, col_bat, col_Hs, col_Tp, col_beachPeriod, col_beachedWaterLevel, col_ssh, col_beachAreaId
     type(string) :: tag, outext
+    real(prec), dimension(:,:), allocatable :: var_dt
+    type(string), dimension(:), allocatable :: var_name
     integer :: i, np, j
+    type(string), dimension(:), allocatable :: requiredVars
     !Begin------------------------------------------------------
     
     FreeLitterAtBeaching = svDt
@@ -620,48 +626,52 @@
     
     write(*,*)"id da beaching area = ", Globals%BeachingAreas%beachArea(1)%par%id
     write(*,*)"waterColumnThreshold da beaching area = ", Globals%BeachingAreas%beachArea(1)%par%waterColumnThreshold
-
+    
+    allocate(requiredVars(4))
+    requiredVars(1) = Globals%Var%bathymetry
+    requiredVars(2) = Globals%Var%ssh
+    requiredVars(3) = Globals%Var%hs
+    requiredVars(4) = Globals%Var%ts
+    
+    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
+    
     tag = 'age'
     col_age = Utils%find_str(sv%varName, tag, .true.)
-    col_bat = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)       
-    col_ssh = Utils%find_str(sv%varName, Globals%Var%ssh, .true.)
+    col_bat = Utils%find_str(var_name, Globals%Var%bathymetry, .true.)       
+    col_ssh = Utils%find_str(var_name, Globals%Var%ssh, .true.)
     
     tag = 'beachPeriod'
     col_beachPeriod = Utils%find_str(sv%varName, tag, .true.)
     
+    tag = 'beachAreaId'
+    col_beachAreaId = Utils%find_str(sv%varName, tag, .true.)
+    
     if (any(Globals%BeachingAreas%beachArea(:)%par%runUpEffect == 1)) then
-        col_Hs = Utils%find_str(sv%varName, Globals%Var%hs, .true.) ! Significant Wave Height      
-        col_Tp = Utils%find_str(sv%varName, Globals%Var%ts, .true.) ! Wave Period     
+        col_Hs = Utils%find_str(var_name, Globals%Var%hs, .true.) ! Significant Wave Height      
+        col_Tp = Utils%find_str(var_name, Globals%Var%ts, .true.) ! Wave Period     
     endif
     
     do i=1,size(Globals%BeachingAreas%beachArea)
         
-        beachPolygon = Geometry%getPoints(Globals%BeachingAreas%beachArea(i)%par%geometry)
+        beachPolygonBBox = Geometry%getBoundingBox(Globals%BeachingAreas%beachArea(i)%par%geometry)
+        allocate(beachPolygonVertices(size(Geometry%getPoints(Globals%BeachingAreas%beachArea(i)%par%geometry))))
+        beachPolygonVertices = Geometry%getPoints(Globals%BeachingAreas%beachArea(i)%par%geometry)
         
-        write(*,*) "beachPolygon (1,x) = ", beachPolygon(1)%x
-        write(*,*) "beachPolygon (1,y) = ", beachPolygon(1)%y
-        write(*,*) "beachPolygon (2,x) = ", beachPolygon(2)%x
-        write(*,*) "beachPolygon (2,y) = ", beachPolygon(2)%y
-        write(*,*) "beachPolygon (3,x) = ", beachPolygon(3)%x
-        write(*,*) "beachPolygon (3,y) = ", beachPolygon(3)%y
-        write(*,*) "beachPolygon (4,x) = ", beachPolygon(4)%x
-        write(*,*) "beachPolygon (4,y) = ", beachPolygon(4)%y
-            
-        limLeft = min(beachPolygon(1)%x, beachPolygon(2)%x) !limit left
-        limBottom = min(beachPolygon(1)%y, beachPolygon(4)%y) !limit bottom
-        limRight = max(beachPolygon(3)%x, beachPolygon(4)%x) !limit right
-        limTop = max(beachPolygon(2)%y, beachPolygon(3)%y) !limit top
+        limLeft = beachPolygonBBox(1)%x !limit left
+        limBottom = beachPolygonBBox(1)%y !limit bottom
+        limRight = beachPolygonBBox(2)%x !limit right
+        limTop = beachPolygonBBox(2)%y !limit top
         
         Tbeach      = Globals%BeachingAreas%beachArea(i)%par%beachTimeScale
         Tunbeach    = Globals%BeachingAreas%beachArea(i)%par%unbeachTimeScale
-    
+
         do np=1, size(sv%state,1)
                 
             if (sv%state(np,col_beachPeriod) > 0.0 .and. sv%state(np,col_beachAreaId) == Globals%BeachingAreas%beachArea(i)%par%id) then
                 ! Already beached in this beaching area, so try and unbeach it. no need to check if it is inside the beaching area
-                WaterLevel = sv%state(np,col_ssh)
+                WaterLevel = var_dt(np,col_ssh)
             
-                WaterColumn =  WaterLevel + sv%state(np,col_bat)
+                WaterColumn =  WaterLevel + var_dt(np,col_bat)
             
                 if (WaterColumn > Globals%BeachingAreas%beachArea(i)%par%waterColumnThreshold) then
                 
@@ -672,11 +682,11 @@
                     if (Probability > rand1) then
                             
                         if (Globals%BeachingAreas%beachArea(i)%par%runUpEffectUnbeach == 1) then
-                            Hs         = sv%state(np,col_Hs)
-                            Tp         = sv%state(np,col_Tp) 
+                            Hs         = var_dt(np,col_Hs)
+                            Tp         = var_dt(np,col_Tp) 
                             m          = Globals%BeachingAreas%beachArea(i)%par%beachSlope
 
-                            WaterLevel = sv%state(np,col_ssh) + WaveRunUpStockdon2006(Hs,Tp,m)   
+                            WaterLevel = var_dt(np,col_ssh) + WaveRunUpStockdon2006(Hs,Tp,m)   
                         endif
 
                         if (WaterLevel > sv%state(np,col_beachedWaterLevel)) then
@@ -689,41 +699,41 @@
             else !Not beached yet, try beaching it. Need to check if tracer is inside beaching area
                     
                 !Skip all tracers outside the limits of this beaching area
-                if ((sv%state(np,1)<limLeft) .or. (sv%state(np,1)>limRight) .or. (sv%state(np,2)>limTop) .or. (sv%state(np,2)<limBottom)) then
-                    !if they have a chance to be inside, check if they actually are (which takes more time)
-                    if (Utils%isPointInsidePolygon(x, y, beachPolygon)) then
-                        WaterColumn =  sv%state(np,col_ssh) + sv%state(np,col_bat)
+                if (Utils%isPointInsidePolygon(x, y, beachPolygonVertices)) then
+                    WaterColumn =  var_dt(np,col_ssh) + var_dt(np,col_bat)
             
-                        if (WaterColumn < Globals%BeachingAreas%beachArea(i)%par%waterColumnThreshold) then
+                    if (WaterColumn < Globals%BeachingAreas%beachArea(i)%par%waterColumnThreshold) then
                 
-                            call random_number(rand1)
+                        call random_number(rand1)
                 
-                            Probability = 1 - exp(-dt/Tbeach)
+                        Probability = 1 - exp(-dt/Tbeach)
 
-                            if (Probability > rand1) then 
-                                if (Globals%BeachingAreas%beachArea(i)%par%runUpEffect == 1) then
-                                    Hs         = sv%state(np,col_Hs)
-                                    Tp         = sv%state(np,col_Tp) 
-                                    m          = Globals%BeachingAreas%beachArea(i)%par%beachSlope
+                        if (Probability > rand1) then 
+                            if (Globals%BeachingAreas%beachArea(i)%par%runUpEffect == 1) then
+                                Hs         = var_dt(np,col_Hs)
+                                Tp         = var_dt(np,col_Tp) 
+                                m          = Globals%BeachingAreas%beachArea(i)%par%beachSlope
 
-                                    sv%state(np,col_beachedWaterLevel) = sv%state(np,col_ssh) + WaveRunUpStockdon2006(Hs,Tp,m)  
-                                else
-                                    sv%state(np,col_beachedWaterLevel) = sv%state(np,col_ssh)
-                                endif
-                                    
-                                sv%state(np,col_beachPeriod) = sv%state(np,col_beachPeriod) + 1.0 !this is a derivative so in the end this will mean +dt
-                                
-                                do j=1,3
-                                    FreeLitterAtBeaching(np,i) = 0.0 !Do not change positions
-                                    sv%state(np,i+3) = 0.0 !nor velocities
-                                end do
+                                sv%state(np,col_beachedWaterLevel) = var_dt(np,col_ssh) + WaveRunUpStockdon2006(Hs,Tp,m)  
+                            else
+                                sv%state(np,col_beachedWaterLevel) = var_dt(np,col_ssh)
                             endif
-                        endif 
-                    endif
-                endif   
+                                    
+                            sv%state(np,col_beachPeriod) = sv%state(np,col_beachPeriod) + 1.0 !this is a derivative so in the end this will mean +dt
+                                
+                            do j=1,3
+                                FreeLitterAtBeaching(np,i) = 0.0 !Do not change positions
+                                sv%state(np,i+3) = 0.0 !nor velocities
+                            end do
+                        endif
+                    endif 
+                endif
             endif
         enddo
     enddo
+    
+    deallocate(var_dt)
+    deallocate(var_name)
     
     end function FreeLitterAtBeaching
 
