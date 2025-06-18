@@ -26,7 +26,7 @@ rem CODES are executed according the selected parameters of execution in this ca
 
 python %PreProcessor% -i %dirout%/%name%.xml -o %dirout%
 
-REM %mohidlagrangian% -i %dirout%/%name%.xml -o %dirout%
+%mohidlagrangian% -i %dirout%/%name%.xml -o %dirout%
 if not "%ERRORLEVEL%" == "0" goto fail
 
 :success

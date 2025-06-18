@@ -623,10 +623,7 @@
         call Log%put(outext)
         return
     endif
-    
-    write(*,*)"id da beaching area = ", Globals%BeachingAreas%beachArea(1)%par%id
-    write(*,*)"waterColumnThreshold da beaching area = ", Globals%BeachingAreas%beachArea(1)%par%waterColumnThreshold
-    
+       
     allocate(requiredVars(4))
     requiredVars(1) = Globals%Var%bathymetry
     requiredVars(2) = Globals%Var%ssh
