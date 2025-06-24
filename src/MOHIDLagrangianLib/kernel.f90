@@ -268,7 +268,7 @@
         requiredVars(2) = Globals%Var%sal
         requiredVars(3) = Globals%Var%dwz
     endif
-    !write(*,*)"Entrada getInterpolatedFields"
+
     call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
     !write(*,*)"Saida getInterpolatedFields"
     !do i=1, size(var_name)

@@ -2,7 +2,7 @@
 <case>
 	<execution>
 		<parameters>
-			<parameter key="Start" value="2024 01 01 00 00 00" comment="Date of initial instant" units_comment="space delimited ISO 8601 format up to seconds" />
+			<parameter key="Start" value="2024 01 01 01 00 00" comment="Date of initial instant" units_comment="space delimited ISO 8601 format up to seconds" />
 			<parameter key="End"   value="2024 01 05 00 00 00" comment="Date of final instant" units_comment="ISO format" />
 			<parameter key="Integrator" value="1" comment="Integration Algorithm 1:Euler, 2:Multi-Step Euler, 3:RK4 (default=1)" />			
 			<parameter key="Threads" value="1" comment="Computation threads for shared memory computation (default=auto)" />
@@ -23,7 +23,7 @@
 			<timestep dt="360.0" units_comment="seconds (s)"/>
 			<BoundingBoxMin x="-10" y="41.0" z="-5" units_comment="(deg,deg,m)"/>
 			<BoundingBoxMax x="-9.99" y="41.03" z="5" units_comment="(deg,deg,m)"/>	
-       		<VerticalVelMethod value="1" comment="1:From velocity fields, 2:Divergence based, 3:Disabled. Default = 1" />
+       		<VerticalVelMethod value="3" comment="1:From velocity fields, 2:Divergence based, 3:Disabled. Default = 1" />
             <BathyminNetcdf value="1" comment="bathymetry is a property in the netcdf. 1:true, 0:false (computes from layer depth and openPoints. Default = 1"/>
             <RemoveLandTracer value="0" comment="Remove tracers on land 0:No, 1:Yes. Default = 0" />
             <Beaching>

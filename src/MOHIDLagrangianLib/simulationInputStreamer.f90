@@ -187,8 +187,17 @@
     type(ncReader_class) :: ncReader
     type(hdf5Reader_class) :: hdf5Reader
 
-    allocate(varList(3))
-    allocate(syntecticVar(3))
+    if (fileName%extension() == '.nc' .or. fileName%extension() == '.nc4') then
+        allocate(varList(3))
+        allocate(syntecticVar(3))
+    else
+        !Hdf5s have openpoints so lets use them
+        allocate(varList(4))
+        allocate(syntecticVar(4))
+        varList(4) = Globals%Var%openPoints
+        syntecticVar(4) = .false.
+    endif
+
     varList(1) = Globals%Var%u10
     syntecticVar(1) = .false.
     varList(2) = Globals%Var%v10

@@ -109,7 +109,7 @@
                     outOfBounds = .false.
                     var_name(i) = aField%name
                     gridIsCurvilinear = bdata%getGridIsCurvilinear()
-                    !write(*,*)"Sai do gridIsCurvilinear"
+                    !write(*,*)"Sai do gridIsCurvilinear", gridIsCurvilinear
                     
                     !produce xx, yy and zz vectors and tt value according to grid type
                     call self%Trc2Grid_4D(state,bdata,time,xx,yy,zz,tt,outOfBounds,gridIsCurvilinear)
@@ -499,6 +499,7 @@
         xx = self%getArrayCoord(state(:,1), bdata, Globals%Var%lon, outOfBounds) !State(:,1) is always Lon
         !write(*,*)"xx(1) = ", xx(1)
         yy = self%getArrayCoord(state(:,2), bdata, Globals%Var%lat, outOfBounds)
+        !write(*,*)"yy(1) = ", yy(1)
     endif
     !Get time
     tt = self%getPointCoordNonRegular(time, bdata, Globals%Var%time)
@@ -510,7 +511,7 @@
         !write(*,*)"zz(1) = ",zz(1)
     else
         zz = self%getArrayCoord(state(:,3), bdata, Globals%Var%level, outOfBounds)
-        !write(*,*)"zz(1:4) = ", zz(1),zz(2),zz(3),zz(4)
+        !write(*,*)"zz(1) = ", zz(1)
     endif
     end subroutine Trc2Grid_4D
     
@@ -762,12 +763,12 @@
     endif
     
     if (.not.bdata%regularDim(dim)) then
-        !write(*,*)"Entrei .not.bdata%regularDim(dim)", trim(dimName)
         if (present(bat)) then
             getArrayCoord = self%getArrayCoordNonRegular(xdata, bdata, dim, out, bat=bat)
         else
             if (present(xx)) then
                 !VerticalZ
+                !write(*,*)"Entrei .not.bdata%regularDim(dim) sem bat e com xx", trim(dimName)
                 getArrayCoord = self%getArrayCoordNonRegular(xdata, bdata, dim, out, xx = xx, yy = yy, tt = tt)
             else
                 getArrayCoord = self%getArrayCoordNonRegular(xdata, bdata, dim, out)
@@ -891,7 +892,7 @@
     real(prec), dimension(size(xdata)) :: getArrayCoordNonRegular   !< coordinates in array index
     real(prec) :: minBound, maxBound, positionT1, positionT2, distance
     type(string) :: outext
-    !Begin--------------------------------------------------------------------------  
+    !Begin--------------------------------------------------------------------------    
     if (allocated(bdata%dim(dim)%field1D)) then
         fieldLength = size(bdata%dim(dim)%field1D)
         dimSize = 1
@@ -1012,7 +1013,8 @@
                 end do
             
                 distance = (bdata%dim(dim)%field4D(i,j,idx_2,t1)-bdata%dim(dim)%field4D(i,j,idx_1,t1))
-                if (distance == 0) then
+                if (distance == 0 .or. xdata(id) < bdata%dim(dim)%field4D(i, j, idx_1, t1)) then
+                    !Also use idx_1 if xdata is outside the vertical bounds
                     positionT1 = idx_1
                 else
                     positionT1 = idx_1 + abs((xdata(id)-bdata%dim(dim)%field4D(i,j,idx_1,t1))/distance)
@@ -1032,7 +1034,8 @@
                     end do
                 
                     distance = (bdata%dim(dim)%field4D(i,j,idx_2,t2)-bdata%dim(dim)%field4D(i,j,idx_1,t2))
-                    if (distance == 0) then
+                    if (distance == 0 .or. xdata(id) < bdata%dim(dim)%field4D(i, j, idx_1, t2)) then
+                        !Also use idx_1 if xdata is outside the vertical bounds
                         positionT2 = idx_1
                     else
                         positionT2 = idx_1 + abs((xdata(id)-bdata%dim(dim)%field4D(i,j,idx_1,t2))/distance)

@@ -506,21 +506,20 @@
             
             if(self%varData(i)%ndims == 3) then !3D variable
                 !write(*,*)"entrei 3D = ", varName
-                !if (altName == Globals%Var%resolution) then
-                !    allocate(tempRealField2D(varShape(1), varShape(2)))
-                !    allocate(tempRealField3D(varShape(1), varShape(2),varShape(3)))
-                !else
-                    allocate(tempRealField2D(varShape(1)-1, varShape(2)-1))
-                    allocate(tempRealField3D(varShape(1)-1, varShape(2)-1,varShape(3)))
-                !endif
+                allocate(tempRealField2D(varShape(1)-1, varShape(2)-1))
+                allocate(tempRealField3D(varShape(1)-1, varShape(2)-1,varShape(3)))
+                
                 if (.not.bVar) then
                     do t=1, varShape(3)
                         call self%readHDFVariable(self%varData(i), array2D = tempRealField2D, outputNumber = t)
                         tempRealField3D(:,:,t) = tempRealField2D
                     enddo
-                    where (mapField%intScalar3D%field == 0)
-                        tempRealField3D = 0.0
-                    end where
+                    !TODO add this next part into the var structure
+                    if (varName /= Globals%Var%ssh) then
+                        where (mapField%intScalar3D%field == 0)
+                            tempRealField3D = 0.0
+                        end where
+                    endif
                 else
                     if (self%varData(i)%fillvalue == MV) then
                         outext = '[hdf5Parser::getVar]:WARNING - variables without _fillvalue, you might have some problems in a few moments. Masks will not work properly (beaching, land exclusion,...)'
@@ -542,13 +541,9 @@
                 end if
             else if(self%varData(i)%ndims == 4) then !4D variable
                 !write(*,*)"entrei 4D = ", varName
-                !if (altName == Globals%Var%resolution) then
-                !    allocate(tempRealField4D(varShape(1), varShape(2), varShape(3), varShape(4))) !allocating a place to read the field data to
-                !    allocate(tempRealField3D(varShape(1), varShape(2), varShape(3)))
-                !else
+                
                 allocate(tempRealField4D(varShape(1)-1, varShape(2)-1, varShape(3)-1, varShape(4))) !allocating a place to read the field data to
                 allocate(tempRealField3D(varShape(1)-1, varShape(2)-1, varShape(3)-1))
-                !endif
                 
                 if (.not.bVar) then
                     if (varName == Globals%Var%ssh) then
@@ -569,9 +564,12 @@
                         endif
 
                     enddo
-                    where (mapField%intScalar4D%field == 0)
-                        tempRealField4D = 0.0
-                    end where
+                    !TODO add this next part into the var structure
+                    if (varName /= Globals%Var%ssh) then
+                        where (mapField%intScalar4D%field == 0)
+                            tempRealField4D = 0.0
+                        end where
+                    endif
                 else
                     if (self%varData(i)%fillvalue == MV) then
                         outext = '[hdf5Parser::getVar]:WARNING - variables without _fillvalue, you might have some problems in a few moments. Masks will not work properly (beaching, land exclusion,...)'
@@ -855,7 +853,6 @@ do1:                do indx=1, self%nVars
     
     do i=1, self%nVars !going trough all variables
         if (self%varData(i)%simName == varName ) then   !found the requested var
-            !write(*,*)"Getting Var for simulation name = ", self%varData(i)%simName
             !write(*,*)"Getting Var name = ", varName
             allocate(varShape(self%varData(i)%ndims))
             do j=1, self%varData(i)%ndims   !going trough all of the variable dimensions
@@ -869,16 +866,21 @@ do1:                do indx=1, self%nVars
                 
                 do var = 1, self%nVars
                     if (self%varData(var)%simName == mapVarName) then
-                        if (self%varData(var)%ndims == 3) then
+                        
+                        if (self%varData(var)%ndims == 2 .or. (self%varData(var)%ndims == 3 .and. self%varData(var)%isStaticInTime)) then
+                            !map var has one less dimensions as vel U (probably openpoints). must be a 2D waterpoints matrix or
+                            !map var is static(in time) = waterpoints or waterpoints2D
+                            call self%readHDFIntVariable(self%varData(var), array2D = tempIntegerField2D)
+                            do t=1, varShape(3)
+                                tempIntegerField3D(:,:,t) = tempIntegerField2D
+                            enddo
+                        elseif (self%varData(var)%ndims == 3) then
+                            !write(*,*)"Getting mavarname = ", self%varData(var)%simName
                             !map var has the same dimensions as vel U (probably openpoints) and one of the dims is time
                             do t=1, varShape(3)
                                 call self%readHDFIntVariable(self%varData(var), array2D = tempIntegerField2D, outputNumber = t)
                                 tempIntegerField3D(:,:,t) = tempIntegerField2D
                             enddo
-                        elseif (self%varData(var)%ndims == 2) then
-                            !map var has one less dimensions as vel U (probably openpoints). must be a 2D waterpoints matrix
-                            call self%readHDFIntVariable(self%varData(i), array2D = tempIntegerField2D)
-                            tempIntegerField3D(:,:,1:varShape(3)) = tempIntegerField3D
                         else
                             outext = '[hdf5parser::getMappingVar]: Variable '//mapVarName//' has a non-supported dimensionality. Stopping'
                             call Log%put(outext)
