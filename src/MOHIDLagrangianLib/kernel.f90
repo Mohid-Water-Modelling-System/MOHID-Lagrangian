@@ -694,7 +694,8 @@
                 endif
             
             else !Not beached yet, try beaching it. Need to check if tracer is inside beaching area
-                    
+                x = sv%state(np,1)
+                y = sv%state(np,2)
                 !Skip all tracers outside the limits of this beaching area
                 if (Utils%isPointInsidePolygon(x, y, beachPolygonVertices)) then
                     WaterColumn =  var_dt(np,col_ssh) + var_dt(np,col_bat)
