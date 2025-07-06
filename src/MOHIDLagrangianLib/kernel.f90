@@ -270,10 +270,6 @@
     endif
 
     call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
-    !write(*,*)"Saida getInterpolatedFields"
-    !do i=1, size(var_name)
-    !    write(*,*)"Var name i : ", i, trim(var_name(i))
-    !enddo
     
     !Set tracers dwz
     col_dwz = Utils%find_str(var_name, Globals%Var%dwz, .true.)
@@ -285,10 +281,7 @@
     !Not usable for dilution of temperature so will need to be changed in the future (for example save in a ambient_temp sv name)
     if (sv%ttype /= Globals%Types%base) then
         col_temp = Utils%find_str(var_name, Globals%Var%temp, .false.)
-        !write(*,*)"Saida col_temp"
         col_temp_sv = Utils%find_str(sv%varName, Globals%Var%temp, .false.)
-        !write(*,*)"Saida col_temp_sv"
-        !Set tracers salinity
         col_sal = Utils%find_str(var_name, Globals%Var%sal, .false.)
         col_sal_sv = Utils%find_str(sv%varName, Globals%Var%sal, .false.)
         if (col_temp /= MV_INT .and. col_temp_sv /= MV_INT) then
@@ -303,7 +296,6 @@
     
     deallocate(var_name)
     deallocate(var_dt)
-    !write(*,*)"Saida interpolate_backgrounds"
     end subroutine interpolate_backgrounds
     
     !---------------------------------------------------------------------------
@@ -341,7 +333,6 @@
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
     integer :: nf, nf_u, nf_v, col_u, col_dwz, col_v, col_w, part_idx, col_dist2bottom
-    !integer :: nf, i, col_u, col_dwz, col_v, col_w, col_bat, part_idx
     real(prec), dimension(:,:), allocatable :: var_dt, var_hor_dt
     type(string), dimension(:), allocatable :: var_name, var_name_hor
     type(string), dimension(:), allocatable :: requiredVars, requiredHorVars
@@ -367,14 +358,13 @@
     requiredHorVars(1) = Globals%Var%u
     requiredHorVars(2) = Globals%Var%v
     requiredHorVars(3) = Globals%Var%w
-    !write(*,*)"Entrada interpolacao kinematic 1"
+    
     call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
-    !write(*,*)"Saida interpolacao kinematic 1"
+
     LagrangianKinematic = 0.0
     !Correct bottom values
-    !write(*,*)"Entrada interpolacao kinematic 2"
+    
     call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredHorVars, var_hor_dt, var_name_hor, reqVertInt = .false.)
-    !write(*,*)"Entrada interpolacao kinematic 2"
     
     col_u = Utils%find_str(var_name_hor, Globals%Var%u, .true.)
     col_v = Utils%find_str(var_name_hor, Globals%Var%v, .true.)
@@ -438,7 +428,6 @@
     deallocate(var_hor_dt)
     deallocate(var_name_hor)
     deallocate(var_name)
-    !write(*,*)"Saida kinematic"
     end function LagrangianKinematic
 
     !---------------------------------------------------------------------------
@@ -579,11 +568,6 @@
             Beaching(:,i) = svDt(:,i)*beachCoeff !position derivative is affected
             sv%state(:,i+3) = sv%state(:,i+3)*beachCoeff !so are the velocities
         end do
-        !zero vertical velocity in beached particles?
-        !where (beachCoeff /= 1.0)
-        !    Beaching(:,3) = 0.0
-        !    sv%state(:,6) = 0.0
-        !end where
     end if   
 
     end function Beaching
@@ -607,12 +591,13 @@
     real(prec) :: WaterColumn, WaterLevel, rand1, Probability, Tbeach, Tunbeach, Hs, Tp, m
     type(vector), dimension(2) :: beachPolygonBBox !Vertices of the beching area polygon
     type(vector), dimension(:), allocatable :: beachPolygonVertices !Vertices of the beching area polygon
-    integer :: col_age, col_bat, col_Hs, col_Tp, col_beachPeriod, col_beachedWaterLevel, col_ssh, col_beachAreaId
+    integer :: col_bat, col_Hs, col_Tp, col_beachPeriod, col_beachedWaterLevel, col_ssh, col_beachAreaId
     type(string) :: tag, outext
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
     integer :: i, np, j
     type(string), dimension(:), allocatable :: requiredVars
+    type(string) :: temp_str
     !Begin------------------------------------------------------
     
     FreeLitterAtBeaching = svDt
@@ -632,8 +617,6 @@
     
     call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
     
-    tag = 'age'
-    col_age = Utils%find_str(sv%varName, tag, .true.)
     col_bat = Utils%find_str(var_name, Globals%Var%bathymetry, .true.)       
     col_ssh = Utils%find_str(var_name, Globals%Var%ssh, .true.)
     
@@ -642,6 +625,9 @@
     
     tag = 'beachAreaId'
     col_beachAreaId = Utils%find_str(sv%varName, tag, .true.)
+    
+    tag = 'beachedWaterLevel'
+    col_beachedWaterLevel = Utils%find_str(sv%varName, tag, .true.)
     
     if (any(Globals%BeachingAreas%beachArea(:)%par%runUpEffect == 1)) then
         col_Hs = Utils%find_str(var_name, Globals%Var%hs, .true.) ! Significant Wave Height      
@@ -668,9 +654,21 @@
                 ! Already beached in this beaching area, so try and unbeach it. no need to check if it is inside the beaching area
                 WaterLevel = var_dt(np,col_ssh)
             
-                WaterColumn =  WaterLevel + var_dt(np,col_bat)
-            
-                if (WaterColumn > Globals%BeachingAreas%beachArea(i)%par%waterColumnThreshold) then
+                WaterColumn =  WaterLevel - var_dt(np,col_bat)
+                
+                !if (np==13) then
+                !    temp_str = WaterColumn
+                !    outext = 'WaterColumn = ' //temp_str// ''
+                !    call Log%put(outext)
+                !    temp_str = var_dt(np,col_ssh)
+                !    outext = 'ssh = '//temp_str// ''
+                !    temp_str = var_dt(np,col_bat)
+                !    call Log%put(outext)
+                !    outext = 'bat = '//temp_str// ''
+                !    call Log%put(outext)
+                !endif
+                sv%state(np,col_beachPeriod) = sv%state(np,col_beachPeriod) + dt
+                if (abs(WaterColumn) > Globals%BeachingAreas%beachArea(i)%par%waterColumnThreshold) then
                 
                     call random_number(rand1)
                     
@@ -698,10 +696,9 @@
                 y = sv%state(np,2)
                 !Skip all tracers outside the limits of this beaching area
                 if (Utils%isPointInsidePolygon(x, y, beachPolygonVertices)) then
-                    WaterColumn =  var_dt(np,col_ssh) + var_dt(np,col_bat)
-            
-                    if (WaterColumn < Globals%BeachingAreas%beachArea(i)%par%waterColumnThreshold) then
-                
+                    WaterColumn =  var_dt(np,col_ssh) - var_dt(np,col_bat)
+                    if (abs(WaterColumn) < Globals%BeachingAreas%beachArea(i)%par%waterColumnThreshold) then
+                        
                         call random_number(rand1)
                 
                         Probability = 1 - exp(-dt/Tbeach)
@@ -717,14 +714,14 @@
                                 sv%state(np,col_beachedWaterLevel) = var_dt(np,col_ssh)
                             endif
                                     
-                            sv%state(np,col_beachPeriod) = sv%state(np,col_beachPeriod) + 1.0 !this is a derivative so in the end this will mean +dt
-                                
+                            sv%state(np,col_beachPeriod) = sv%state(np,col_beachPeriod) + dt !this is a derivative so in the end this will mean +dt
+                            
                             do j=1,3
-                                FreeLitterAtBeaching(np,i) = 0.0 !Do not change positions
-                                sv%state(np,i+3) = 0.0 !nor velocities
+                                FreeLitterAtBeaching(np,j) = 0.0 !Do not change positions
+                                sv%state(np,j+3) = 0.0 !nor velocities
                             end do
                         endif
-                    endif 
+                    endif
                 endif
             endif
         enddo

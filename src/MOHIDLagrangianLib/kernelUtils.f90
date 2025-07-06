@@ -225,9 +225,10 @@
         real(prec) , intent(in)        :: Hs,Tp,m !Significant wave height, Peak period, Beach slope 
         !Local-----------------------------------------------------------------
         real(prec)                     :: L, E, Sw, Sig
+        real(prec)                     :: Pi = 4*atan(1.0)
         !Begin-----------------------------------------------------------------   
         if (Hs > 0.001) then 
-            L = Gravity * Tp**2 / (2*Pi) 
+            L = (-Globals%Constants%Gravity%z) * Tp**2 / (2*Pi) 
             E = m / sqrt(Hs/L)
             if (E >= 0.3) then
                 Sw  = 0.75 * Hs * E

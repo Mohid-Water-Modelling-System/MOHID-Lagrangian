@@ -514,6 +514,7 @@
                         call self%readHDFVariable(self%varData(i), array2D = tempRealField2D, outputNumber = t)
                         tempRealField3D(:,:,t) = tempRealField2D
                     enddo
+                    
                     !TODO add this next part into the var structure
                     if (varName /= Globals%Var%ssh) then
                         where (mapField%intScalar3D%field == 0)
@@ -553,6 +554,7 @@
                     do t=1, varShape(4)
                         !Depth is assumed to be VerticalZ which is a 4D var.
                         if (varName == Globals%Var%ssh) then
+                            !Lagrangian considers vertical position positive downwards so water level needs to be negative
                             call self%readHDFVariable(self%varData(i), array2D = tempRealField2D, outputNumber = t)
                             do k =1, varShape(3)-1
                                 tempRealField3D(:,:,k) = tempRealField2D
@@ -662,173 +664,6 @@ do1:                do indx=1, self%nVars
 
     end subroutine getVar
 
-!    !---------------------------------------------------------------------------
-!    !> @author Ricardo Birjukovs Canelas - MARETEC
-!    !> @brief
-!    !> Reads the fields from the nc file for a given variable.
-!    !> returns a generic field, with a name, units and data
-!    !> @param[in] self, varName, varField, binaryVar, altName, altUnits
-!    !---------------------------------------------------------------------------
-!    subroutine getVar(self, varName, varField, binaryVar, altName, altUnits)
-!    class(hdf5file_class), intent(inout) :: self
-!    type(string), intent(in) :: varName
-!    type(generic_field_class), intent(out) :: varField
-!    logical, optional, intent(in) :: binaryVar
-!    type(string), optional, intent(in) :: altName, altUnits
-!    logical :: bVar
-!    real(prec), allocatable, dimension(:) :: tempRealField1D
-!    real(prec), allocatable, dimension(:,:) :: tempRealField2D
-!    real(prec), allocatable, dimension(:,:,:) :: tempRealField3D
-!    real(prec), allocatable, dimension(:,:,:,:) :: tempRealField4D
-!    type(string) :: dimName, varUnits
-!    integer :: i, j, k, id_dim, first,last, t, indx, j2
-!    type(dim_t) :: tempDim, uDim
-!    integer, allocatable, dimension(:) :: varShape, u_Shape
-!    type(string) :: outext
-!    logical variable_u_is4D
-!    
-!    bVar= .false.
-!    if(present(binaryVar)) bVar = binaryVar
-!    variable_u_is4D = .false.
-!
-!    do i=1, self%nVars !going trough all variables
-!        if (self%varData(i)%simName == varName ) then   !found the requested var
-!            write(*,*)"Getting Var for simulation name = ", self%varData(i)%simName
-!            write(*,*)"Getting Var name = ", varName
-!            allocate(varShape(self%varData(i)%ndims))
-!            do j=1, self%varData(i)%ndims   !going trough all of the variable dimensions
-!                tempDim = self%getDimByDimID(self%varData(i)%dimids(j))
-!                varShape(j) = tempDim%length
-!            end do
-!            
-!            if(self%varData(i)%ndims == 3) then !3D variable
-!                allocate(tempRealField2D(varShape(1)-1, varShape(2)-1))
-!                allocate(tempRealField3D(varShape(1)-1, varShape(2)-1,varShape(3)))
-!                do t=1, varShape(3)
-!                    call self%readHDFVariable(self%varData(i), array2D = tempRealField2D, outputNumber = t)
-!                    tempRealField3D(:,:,t) = tempRealField2D
-!                enddo
-!                if (.not.bVar) then
-!                    where (tempRealField3D == self%varData(i)%fillvalue / 2.0)
-!                        tempRealField3D = 0.0
-!                    end where
-!                else
-!                    if (self%varData(i)%fillvalue == MV) then
-!                        outext = '[hdf5Parser::getVar]:WARNING - variables without _fillvalue, you might have some problems in a few moments. Masks will not work properly (beaching, land exclusion,...)'
-!                    call Log%put(outext)
-!                    end if
-!                    where (tempRealField3D > self%varData(i)%fillvalue / 2.0) tempRealField3D = Globals%Mask%waterVal
-!                    where (tempRealField3D < self%varData(i)%fillvalue / 2.0) tempRealField3D = Globals%Mask%landVal
-!                end if
-!                if (.not.bVar) then
-!                    call varField%initialize(varName, self%varData(i)%units, tempRealField3D)
-!                else
-!                    dimName = varName
-!                    if(present(altName)) dimName = altName
-!                    varUnits = self%varData(i)%units
-!                    if(present(altUnits)) varUnits = altUnits
-!                    call varField%initialize(dimName, varUnits, tempRealField3D)
-!                end if
-!            else if(self%varData(i)%ndims == 4) then !4D variable                
-!                allocate(tempRealField4D(varShape(1)-1, varShape(2)-1, varShape(3), varShape(4))) !allocating a place to read the field data to
-!                allocate(tempRealField3D(varShape(1)-1, varShape(2)-1, varShape(3)))
-!                do t=1, varShape(4)
-!                    !Depth is assumed to be VerticalZ which is a 4D var.
-!                    call self%readHDFVariable(self%varData(i), array3D = tempRealField3D, outputNumber = t)
-!                    tempRealField4D(:,:,:,t) = tempRealField3D
-!                enddo
-!                
-!                if (.not.bVar) then
-!                    where (tempRealField4D < self%varData(i)%fillvalue / 2.0)
-!                        tempRealField4D = 0.0
-!                    end where
-!                else
-!                    if (self%varData(i)%fillvalue == MV) then
-!                        outext = '[hdf5Parser::getVar]:WARNING - variables without _fillvalue, you might have some problems in a few moments. Masks will not work properly (beaching, land exclusion,...)'
-!                    call Log%put(outext)
-!                    end if
-!                    !Aqui sera onde se incluirao os openpoints
-!                    where (tempRealField4D > self%varData(i)%fillvalue / 2.0) tempRealField4D = Globals%Mask%waterVal
-!                    where (tempRealField4D < self%varData(i)%fillvalue / 2.0) tempRealField4D = Globals%Mask%landVal
-!                end if
-!                
-!                if (.not.bVar) then
-!                    call varField%initialize(varName, self%varData(i)%units, tempRealField4D)
-!                else
-!                    dimName = varName
-!                    if(present(altName)) dimName = altName
-!                    varUnits = self%varData(i)%units
-!                    if(present(altUnits)) varUnits = altUnits
-!                    call varField%initialize(dimName, varUnits, tempRealField4D)
-!                end if
-!            elseif(self%varData(i)%ndims == 2) then !2D variable, for now only bathymetry
-!                if (self%varData(i)%simName == Globals%Var%bathymetry) then
-!                    allocate(tempRealField2D(varShape(1)-1,varShape(2)-1))
-!do1:                do indx=1, self%nVars
-!                        !Find velocity u matrix to get its dimensions
-!                        if (self%varData(indx)%simName == Globals%Var%u) then
-!                            allocate(u_Shape(self%varData(indx)%ndims))
-!                            do j2=1, self%varData(indx)%ndims   !going trough all of the variable dimensions
-!                                uDim = self%getDimByDimID(self%varData(indx)%dimids(j2))
-!                                u_Shape(j2) = uDim%length
-!                            end do
-!                            if (self%varData(indx)%ndims == 4) then
-!                                variable_u_is4D = .true.
-!                                allocate(tempRealField4D(varShape(1)-1,varShape(2)-1, u_Shape(3), u_Shape(4)))
-!                                exit do1
-!                            else
-!                                allocate(tempRealField3D(varShape(1)-1,varShape(2)-1, u_Shape(3)))
-!                                exit do1
-!                            end if
-!                            
-!                        end if
-!                    end do do1
-!                    
-!                    call self%readHDFVariable(self%varData(i), array2D = tempRealField2D)
-!                    
-!                    if (.not.bVar) then
-!                        !Leaving this commented because I am assuming only bathymetry gets in here and it is better that it has a fillvaluereal
-!                        ! value instead of 0.0
-!                        !where (tempRealField2D /= self%varData(i)%fillvalue)
-!                        !    tempRealField2D = tempRealField2D*self%varData(i)%scale + self%varData(i)%offset
-!                        !elsewhere (tempRealField2D == self%varData(i)%fillvalue)
-!                        !    tempRealField2D = 0.0
-!                        !end where
-!                        if (variable_u_is4D) then
-!                            !For bathymetry, converts the 2D input field into a 4D field to be consistent with velocity matrixes
-!                            do t=1,size(tempRealField4D,4)
-!                                do k=1, size(tempRealField4D,3)
-!                                    tempRealField4D(:,:,k,t) = - tempRealField2D(:,:)
-!                                end do
-!                            end do
-!                            call varField%initialize(varName, self%varData(i)%units, tempRealField4D)
-!                        else
-!                            do k=1, size(tempRealField4D,3)
-!                                tempRealField3D(:,:,k) = - tempRealField2D(:,:)
-!                            end do
-!                            call varField%initialize(varName, self%varData(i)%units, tempRealField3D)
-!                        end if
-!                        
-!                    else
-!                        outext = '[hdf5parser::getVar]: Variable '//varName//' is synthetic and cannot have 2D dimensionality. Stopping'
-!                        call Log%put(outext)
-!                        stop
-!                    end if
-!                else
-!                    outext = '[hdf5parser::getVar]: Variable '//varName//' is 2D and not bathymetry, so it is not supported. Stopping'
-!                    call Log%put(outext)
-!                    stop
-!                end if
-!            else
-!                outext = '[hdf5parser::getVar]: Variable '//varName//' has a non-supported dimensionality. Stopping'
-!                call Log%put(outext)
-!                stop
-!            end if
-!        end if
-!    end do
-!
-!    end subroutine getVar
-!    
     !---------------------------------------------------------------------------
     !> @author Joao Sobrinho
     !> @brief

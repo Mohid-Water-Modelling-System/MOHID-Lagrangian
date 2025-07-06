@@ -41,9 +41,9 @@
         real(prec) :: bathymetry = MV           !< bathymetry value interpolated to the tracers location
         real(prec) :: dwz = MV                  !< thickness of the vertical cell
         real(prec) :: dist2bottom               !< tracer's distance to bottom
-        logical    :: beachPeriod               !< consecutive period of time (in seconds) that the tracer has been beached
+        real(prec) :: beachPeriod               !< consecutive period of time (in seconds) that the tracer has been beached
         integer    :: beachAreaId               !< beaching area Id where the tracer last beached
-        integer    :: beachedWaterLevel         !< Water level at the time the tracer was beachded
+        real(prec) :: beachedWaterLevel         !< Water level at the time the tracer was beachded
     end type tracer_state_class
 
     type :: tracer_class                   !<Type - The pure Lagrangian tracer class
@@ -209,6 +209,7 @@
     constructor%varName(15) = 'dist2bottom'
     constructor%varName(16) = 'beachPeriod'
     constructor%varName(17) = 'beachAreaId'
+    constructor%varName(18) = 'beachedWaterLevel'
     end function constructor
 
     end module tracerBase_mod
