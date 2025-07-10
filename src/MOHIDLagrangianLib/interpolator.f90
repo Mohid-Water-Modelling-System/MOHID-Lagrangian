@@ -113,6 +113,7 @@
                     
                     !produce xx, yy and zz vectors and tt value according to grid type
                     call self%Trc2Grid_4D(state,bdata,time,xx,yy,zz,tt,outOfBounds,gridIsCurvilinear)
+                    
                     !write(*,*)"Sai do Trc2Grid_4D"
                     
                     if (var_name(i) == Globals%Var%landIntMask) then
@@ -135,7 +136,7 @@
                     end if
                     if (requireVertInt) then
                         !write(*,*)"entrada requireVertInt...........Variavel = ", trim(aField%name)
-                        var_dt(:,i) = self%interp4D(xx, yy, zz, tt, outOfBounds, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(state,1))
+                        var_dt(:,i) = self%interp4D(xx, yy, zz, tt, outOfBounds, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(state,1), isSsh = (var_name(i) == Globals%Var%ssh)) 
                         !write(*,*)"Saida requireVertInt. var_dt(1,i) = ", var_dt(1,i)
                     else
                         !write(*,*)"Entrada requireVertInt false"
@@ -184,7 +185,7 @@
     !> of the whole hypercube.
     !> @param[in] self, x, y, z, t, out, field, n_fv, n_cv, n_pv, n_tv, n_e
     !---------------------------------------------------------------------------
-    function interp4D(self, x, y, z, t, out, field, n_fv, n_cv, n_pv, n_tv, n_e)
+    function interp4D(self, x, y, z, t, out, field, n_fv, n_cv, n_pv, n_tv, n_e, isSsh)
     class(interpolator_class), intent(in) :: self
     real(prec), dimension(n_e),intent(in):: x, y, z                       !< 1-d. Array of particle component positions in array coordinates
     real(prec), intent(in) :: t                                           !< time to interpolate to in array coordinates
@@ -192,15 +193,18 @@
     real(prec), dimension(n_fv, n_cv, n_pv, n_tv), intent(in) :: field    !< Field data with dimensions [n_fv,n_cv,n_pv,n_tv]
     integer, intent(in) :: n_fv, n_cv, n_pv, n_tv                         !< field dimensions
     integer, intent(in) :: n_e                                            !< Number of particles to interpolate to
+    logical, optional, intent(in) :: isSsh
     integer, dimension(n_e) :: x0, y0, z0, x1, y1, z1
     real(prec), dimension(n_e) :: xd, yd, zd, c000, c100, c010, c110, c001
     real(prec), dimension(n_e) :: c101, c011, c111, c00, c10, c01, c11, c0, c1
     real(prec) :: td
     integer :: i, t0, t1
+    logical :: localIsSsh = .false.
     real(prec), dimension(n_e) :: interp4D                                !< Field evaluated at x,y,z,t
     ! From x,y,z,t in array coordinates, find the the box inside the field where the particle is
     !write(*,*)"Entrada interp4D"
     !do concurrent(i=1:n_e, .not. out(i))
+    if (present(IsSsh)) localIsSsh = IsSsh
     do i = 1, n_e
         if (.not. out(i)) then
             x0(i) = floor(x(i))
@@ -242,7 +246,6 @@
             !write(*,*)"field(y0(i),x1(i),z0(i),t0) = ", field(y0(i),x1(i),z0(i),t0)
             !write(*,*)"field(y0(i),x0(i),z1(i),t0) = ", field(y0(i),x0(i),z1(i),t0)
             !write(*,*)"field(y0(i),x1(i),z1(i),t0) = ", field(y0(i),x1(i),z1(i),t0)
-        
             c000(i) = field(y0(i),x0(i),z0(i),t0)*(1.-xd(i)) + field(y0(i),x1(i),z0(i),t0)*xd(i) !y0x0z0t0!  y0x1z0t0
             !write(*,*)"c000 = ", c000(i)
             c100(i) = field(y1(i),x0(i),z0(i),t0)*(1.-xd(i)) + field(y1(i),x1(i),z0(i),t0)*xd(i)
@@ -497,9 +500,9 @@
     else
         !write(*,*)"Entrei normais"
         xx = self%getArrayCoord(state(:,1), bdata, Globals%Var%lon, outOfBounds) !State(:,1) is always Lon
-        !write(*,*)"xx(1) = ", xx(1)
+        !write(*,*)"xx(13) = ", xx(13), state(13,1)
         yy = self%getArrayCoord(state(:,2), bdata, Globals%Var%lat, outOfBounds)
-        !write(*,*)"yy(1) = ", yy(1)
+        !write(*,*)"yy(13) = ", yy(13), state(13,2)
     endif
     !Get time
     tt = self%getPointCoordNonRegular(time, bdata, Globals%Var%time)

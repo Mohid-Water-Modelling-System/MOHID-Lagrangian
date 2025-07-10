@@ -587,8 +587,8 @@
     real(prec), intent(in) :: time
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: FreeLitterAtBeaching
     real(prec), intent(in) :: dt
-    real(prec)  :: limLeft, limRight, limBottom, limTop, x, y
-    real(prec) :: WaterColumn, WaterLevel, rand1, Probability, Tbeach, Tunbeach, Hs, Tp, m
+    real(prec)  :: limLeft, limRight, limBottom, limTop, x, y, Bathymetry
+    real(prec) :: WaterColumn, WaterLevel, rand1, Probability, Tbeach, Tunbeach, Hs, Tp, m, threshold
     type(vector), dimension(2) :: beachPolygonBBox !Vertices of the beching area polygon
     type(vector), dimension(:), allocatable :: beachPolygonVertices !Vertices of the beching area polygon
     integer :: col_bat, col_Hs, col_Tp, col_beachPeriod, col_beachedWaterLevel, col_ssh, col_beachAreaId
@@ -653,8 +653,14 @@
             if (sv%state(np,col_beachPeriod) > 0.0 .and. sv%state(np,col_beachAreaId) == Globals%BeachingAreas%beachArea(i)%par%id) then
                 ! Already beached in this beaching area, so try and unbeach it. no need to check if it is inside the beaching area
                 WaterLevel = var_dt(np,col_ssh)
+                Bathymetry = var_dt(np,col_bat)
             
-                WaterColumn =  WaterLevel - var_dt(np,col_bat)
+                WaterColumn =  WaterLevel - Bathymetry
+                
+                do j=1,3
+                    FreeLitterAtBeaching(np,j) = 0.0 !Do not change positions
+                    sv%state(np,j+3) = 0.0 !nor velocities
+                end do
                 
                 !if (np==13) then
                 !    temp_str = WaterColumn
@@ -668,7 +674,8 @@
                 !    call Log%put(outext)
                 !endif
                 sv%state(np,col_beachPeriod) = sv%state(np,col_beachPeriod) + dt
-                if (abs(WaterColumn) > Globals%BeachingAreas%beachArea(i)%par%waterColumnThreshold) then
+                threshold = Globals%BeachingAreas%beachArea(i)%par%waterColumnThreshold
+                if (WaterColumn > threshold .and. WaterLevel > Bathymetry) then
                 
                     call random_number(rand1)
                     
@@ -696,8 +703,11 @@
                 y = sv%state(np,2)
                 !Skip all tracers outside the limits of this beaching area
                 if (Utils%isPointInsidePolygon(x, y, beachPolygonVertices)) then
-                    WaterColumn =  var_dt(np,col_ssh) - var_dt(np,col_bat)
-                    if (abs(WaterColumn) < Globals%BeachingAreas%beachArea(i)%par%waterColumnThreshold) then
+                    WaterLevel = var_dt(np,col_ssh)
+                    Bathymetry = var_dt(np,col_bat)
+                    WaterColumn =  WaterLevel - Bathymetry
+                    threshold = Globals%BeachingAreas%beachArea(i)%par%waterColumnThreshold
+                    if (WaterColumn < threshold .and. WaterLevel > Bathymetry) then
                         
                         call random_number(rand1)
                 

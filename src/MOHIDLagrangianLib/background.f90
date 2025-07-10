@@ -656,7 +656,26 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
     integer, intent(in)              :: numDim
     integer, dimension(:), intent(in) :: llbound, uubound
     real(prec), allocatable, dimension(:,:) :: getSlabDim_2D
-    allocate(getSlabDim_2D, source = self%dim(numDim)%field2D(llbound(1):uubound(1),llbound(2):uubound(2)))
+    real(prec), allocatable, dimension(:,:) :: auxHDF5LatLon
+    integer                                 :: i, j
+    ! Begin-----------------------------------------------------------------------------
+    !write(*,*) "Var name getslab = ", trim(self%dim(numDim)%name)
+    if ((self%dim(numDim)%name == Globals%Var%lat .or. self%dim(numDim)%name == Globals%Var%lon) .and. Globals%SimDefs%inputFromHDF5) then
+        allocate(auxHDF5LatLon(llbound(1):uubound(1),llbound(2):uubound(2)))
+        !Because Hdf5 MOHID files write lat and lon at faces, need to calculate lat and lon at the center
+        do i=llbound(1), uubound(1)
+        do j=llbound(2), uubound(2)
+            auxHDF5LatLon(i,j) = (self%dim(numDim)%field2D(i,j)   &
+                               + self%dim(numDim)%field2D(i+1,j) &
+                               + self%dim(numDim)%field2D(i+1,j+1) &
+                               + self%dim(numDim)%field2D(i,j+1)) / 4
+        enddo
+        enddo
+        allocate(getSlabDim_2D, source = auxHDF5LatLon(llbound(1):uubound(1),llbound(2):uubound(2)))
+    else
+        allocate(getSlabDim_2D, source = self%dim(numDim)%field2D(llbound(1):uubound(1),llbound(2):uubound(2)))
+    endif
+    
     end function getSlabDim_2D
     
     !---------------------------------------------------------------------------
