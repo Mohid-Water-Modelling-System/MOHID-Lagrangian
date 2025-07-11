@@ -36,9 +36,15 @@ class ncMetadata:
 
         self.fileName = fileName
         ds = xr.open_dataset(self.fileName)
-        tMin = ds.time.min()
-        tMax = ds.time.max()
-        self.time = ds.time.values
+        try:
+            tMin = ds.time.min()
+            tMax = ds.time.max()
+            self.time = ds.time.values
+        except:
+            #era5 models use valid_time because... whyyy???
+            tMin = ds.valid_time.min()
+            tMax = ds.valid_time.max()
+            self.time = ds.valid_time.values
         self.startDate = datetime(tMin.dt.year.item(), tMin.dt.month.item(), tMin.dt.day.item(), tMin.dt.hour.item(), tMin.dt.minute.item(), tMin.dt.second.item())
         self.endDate = datetime(tMax.dt.year.item(), tMax.dt.month.item(), tMax.dt.day.item(), tMax.dt.hour.item(), tMax.dt.minute.item(), tMax.dt.second.item())
         self.startTime = (self.startDate - baseTime).total_seconds()
