@@ -498,9 +498,18 @@
     type(string), dimension(:), allocatable :: requiredVars
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Windage
     real(prec), dimension(size(sv%state,1)) :: depth
-    allocate(requiredVars(2))
+    integer                                 :: numVarsToAllocate, zIndx, col_ssh
+    !Begin-------------------------------------------------------------------
+    numVarsToAllocate = 2
+    if (Globals%simDefs%inputFromHDF5) numVarsToAllocate = 3
+    
+    allocate(requiredVars(numVarsToAllocate))
     requiredVars(1) = Globals%Var%u10
     requiredVars(2) = Globals%Var%v10
+    if (Globals%simDefs%inputFromHDF5) then
+        requiredVars(3) = Globals%Var%ssh
+    endif
+    
     windCoeff = Globals%Constants%WindDragCoeff
     Windage = 0.0
     !interpolate each background
@@ -514,14 +523,37 @@
                 !interpolating all of the data
                 call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name)
                 !computing the depth weight
+                
+                !Ignoring log profile.. We dont seem to take it into consideration in lagrangian global
+                
                 depth = sv%state(:,3)
-                where (depth>=0.0) depth = 0.0
+
+                if (Globals%simDefs%inputFromHDF5) then
+                    col_ssh = Utils%find_str(var_name, Globals%Var%ssh, .false.)
+                    zIndx = self%getDimIndex(Globals%Var%level)
+                    
+                    if (col_ssh /= MV_INT) then
+                        !if tracer is less than 5 cm below ssh, consider full wind effect
+                        where (depth >= (var_dt(:,col_ssh) - 0.05 )) depth = 0.0
+                    else
+                        !ssh not found... assume 0.0 as the limit
+                        where (depth > 0.0) depth = 0.0
+                    endif
+                
+                else
+                    maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .true.)
+                    if (maxLevel(2) /= MV) where (depth >= 0 .or. depth >= maxLevel(2) - 0.05) depth = 0.0
+                endif
+                
+                !This wont do much... unless we actually start considering a depth profile from water level to the input wind data's altitude
                 depth = exp(10.0*depth)
+                
+                
                 !write dx/dt
                 nf = Utils%find_str(var_name, Globals%Var%u10, .true.)
-                where(sv%landIntMask < Globals%Mask%landVal) Windage(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)*windCoeff*depth
+                where(sv%landIntMask < Globals%Mask%landVal) Windage(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)*windCoeff * depth
                 nf = Utils%find_str(var_name, Globals%Var%v10, .true.)
-                where(sv%landIntMask < Globals%Mask%landVal) Windage(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)*windCoeff*depth
+                where(sv%landIntMask < Globals%Mask%landVal) Windage(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)*windCoeff * depth
                 deallocate(var_name)
                 deallocate(var_dt)
             end if

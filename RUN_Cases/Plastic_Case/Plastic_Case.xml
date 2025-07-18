@@ -2,11 +2,11 @@
 <case>
 	<execution>
 		<parameters>
-		    <parameter key="Start" value="2024 12 25 00 00 00" comment="Date of initial instant" units_comment="space delimited ISO 8601 format up to seconds"/>
-		    <parameter key="End" value="2024 12 31 00 00 00" comment="Date of final instant" units_comment="ISO format"/>
+		    <parameter key="Start" value="2025 01 01 00 00 00" comment="Date of initial instant" units_comment="space delimited ISO 8601 format up to seconds"/>
+		    <parameter key="End" value="2025 01 05 00 00 00" comment="Date of final instant" units_comment="ISO format"/>
 		    <parameter key="Integrator" value="2" comment="Integration Algorithm 1:Euler, 2:Multi-Step Euler, 3:RK4 (default=1)"/>
 		    <parameter key="Threads" value="1" comment="Computation threads for shared memory computation (default=auto)"/>
-		    <parameter key="OutputWriteTime" value="86400" comment="Time out data (1/Hz)" units_comment="seconds"/>
+		    <parameter key="OutputWriteTime" value="3600" comment="Time out data (1/Hz)" units_comment="seconds"/>
 		    <parameter key="BufferSize" value="86400" comment="Optional parameter. Controls input frequency" units_comment="seconds"/>
 		</parameters>
 		<outputFields>
@@ -18,49 +18,57 @@
 	</execution>
 	<caseDefinitions>
 		<inputData>
-			<inputDataDir name="Boundary_Conditions" type="hydrodynamic"/>
+			<inputDataDir name="nc_fields/currents" type="hydrodynamic"/>
+			<inputDataDir name="nc_fields/winds" type="meteorology"/>
             <!-- <inputDataDir name="nc_fields/hydrodynamic" type="waterProperties"/> -->
 		</inputData>
 		<simulation>
 		    <resolution dp="8000" units_comment="metres (m)"/>
 		    <timestep dt="180" units_comment="seconds (s)"/>
-		    <BoundingBoxMin x="-9.33333" y="42.00000" z="-1.00000" units_comment="(deg,deg,m)"/>
-		    <BoundingBoxMax x="-8.58333" y="43.00000" z="1.00000" units_comment="(deg,deg,m)"/>
+		    <BoundingBoxMin x="7.66667" y="-70.41666" z="-1.00000" units_comment="(deg,deg,m)"/>
+		    <BoundingBoxMax x="40.66667" y="-61.58333" z="1.00000" units_comment="(deg,deg,m)"/>
 		    <VerticalVelMethod value="3" comment="1:From velocity fields, 2:Divergence based, 3:Disabled. Default = 1"/>
-		    <BathyminNetcdf value="1" comment="bathymetry is a property in the netcdf. 1:true, 0:false (computes from layer depth and openPoints). Default = 1"/>
+		    <BathyminNetcdf value="0" comment="bathymetry is a property in the netcdf. 1:true, 0:false (computes from layer depth and openPoints). Default = 1"/>
 		    <RemoveLandTracer value="0" comment="Remove tracers on land 0:No, 1:Yes. Default = 1"/>
 		    <TracerMaxAge value="0" comment="maximum tracer age. Default = 0.0. read if &gt; 0"/>
 		</simulation>
 		<sourceDefinitions>
 		    <source>
-		        <setsource id="0" name="test"/>
+		        <setsource id="1" name="S1"/>
 		        <rate_seconds value="3600" comment="emission step in seconds. 3600 is a tracer per hour"/>
-		        <rate_trcPerEmission value="5" comment="number of tracers emited every rate_seconds. 5 is a 5 tracers per rate_seconds"/>
-		        <point x="-9.11470" y="42.36932" z="0" units_comment="(deg,deg,m)"/>
+		        <rate_trcPerEmission value="10" comment="number of tracers emited every rate_seconds. 5 is a 5 tracers per rate_seconds"/>
+		        <point x="23.53742" y="-67.94392" z="0" units_comment="(deg,deg,m)"/>
 		    </source>
 		</sourceDefinitions>
 		<sourceTypes>
 			<types>
-                <type source="0" type="plastic" property="mussel_peg" comment="" />
+				<!-- <type source="1" type="plastic" property="mussel_peg" comment="" /> -->
+                <!-- <type source="1" type="plastic" property="mussel_peg" comment="" /> -->
+                <!--type source="2" type="plastic" property="mussel_peg" comment="" />
+                <type source="3" type="plastic" property="mussel_peg" comment="" />
+                <type source="4" type="plastic" property="mussel_peg" comment="" />
+                <type source="5" type="plastic" property="mussel_peg" comment="" />
+                <type source="6" type="plastic" property="mussel_peg" comment="" />
+                <type source="7" type="plastic" property="mussel_peg" comment="" /-->
 			</types>
 			<file name="materialTypes.xml"/>
 		</sourceTypes>		
 		<constants>
 			<BeachingLevel value="-0.1" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />
 			<BeachingStopProb value="0.0" comment="probability of beaching. Default = 0.5" units_comment="m" />
-            <DiffusionCoeff value="1" comment="Horizontal diffusion coefficient. Default = 1.0" units_comment="m2/s" />	
+            <DiffusionCoeff value="800" comment="Horizontal diffusion coefficient. Default = 1.0" units_comment="m2/s" />	
             <!-- <ResuspensionCoeff value="0.1" comment="Resuspension amplitude velocity factor. Default = 0.0" units_comment="n.u" /> -->
             <!-- <CriticalShearErosion value="0.4" comment="CriticalShearErosion value. Default = 0.4" units_comment="N/m2" /> -->
-            <Rugosity value="0.0025" comment="Rugosity value. Default = 0.0025" units_comment="m2/s" />
-            <ToptBMin value="24.8" comment="minimum temperature of the optimal interval for the Bacteria growth. Default = 24.8" units_comment="degrees" />
-            <ToptBMax value="25.1" comment="maximum temperature of the optimal interval for the Bacteria growth. Default = 25.1" units_comment="degrees" />
-            <TBMin value="5" comment="minimum tolerable temperature of the interval for the Bacteria growth. Default = 5" units_comment="degrees" />
-            <TBMax value="35" comment="maximum tolerable temperature of the interval for the Bacteria growth. Default = 35" units_comment="degrees" />
-            <BK1 value="0.05" comment="constant to control temperature response curve shape. Default = 0.05" units_comment="%" />
-            <BK2 value="0.98" comment="constant to control temperature response curve shape. Default = 0.98" units_comment="%" />
-            <BK3 value="0.98" comment="constant to control temperature response curve shape. Default = 0.98" units_comment="%" />
-            <BK4 value="0.02" comment="constant to control temperature response curve shape. Default = 0.05" units_comment="%" />
-            <MaxDegradationRate value="0.03" comment="maximum Degradation rate of organic matter. Default = 0.03" units_comment="1/d" />
+            <!-- <Rugosity value="0.0025" comment="Rugosity value. Default = 0.0025" units_comment="m2/s" /> -->
+            <!-- <ToptBMin value="24.8" comment="minimum temperature of the optimal interval for the Bacteria growth. Default = 24.8" units_comment="degrees" /> -->
+            <!-- <ToptBMax value="25.1" comment="maximum temperature of the optimal interval for the Bacteria growth. Default = 25.1" units_comment="degrees" /> -->
+            <!-- <TBMin value="5" comment="minimum tolerable temperature of the interval for the Bacteria growth. Default = 5" units_comment="degrees" /> -->
+            <!-- <TBMax value="35" comment="maximum tolerable temperature of the interval for the Bacteria growth. Default = 35" units_comment="degrees" /> -->
+            <!-- <BK1 value="0.05" comment="constant to control temperature response curve shape. Default = 0.05" units_comment="%" /> -->
+            <!-- <BK2 value="0.98" comment="constant to control temperature response curve shape. Default = 0.98" units_comment="%" /> -->
+            <!-- <BK3 value="0.98" comment="constant to control temperature response curve shape. Default = 0.98" units_comment="%" /> -->
+            <!-- <BK4 value="0.02" comment="constant to control temperature response curve shape. Default = 0.05" units_comment="%" /> -->
+            <!-- <MaxDegradationRate value="0.03" comment="maximum Degradation rate of organic matter. Default = 0.03" units_comment="1/d" /> -->
 		</constants>
 	</caseDefinitions>
 </case>
