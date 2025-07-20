@@ -498,7 +498,8 @@
     type(string), dimension(:), allocatable :: requiredVars
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Windage
     real(prec), dimension(size(sv%state,1)) :: depth
-    integer                                 :: numVarsToAllocate, zIndx, col_ssh
+    real(prec) :: maxLevel(2)
+    integer                                 :: numVarsToAllocate, col_ssh
     !Begin-------------------------------------------------------------------
     numVarsToAllocate = 2
     if (Globals%simDefs%inputFromHDF5) numVarsToAllocate = 3
@@ -530,7 +531,6 @@
 
                 if (Globals%simDefs%inputFromHDF5) then
                     col_ssh = Utils%find_str(var_name, Globals%Var%ssh, .false.)
-                    zIndx = self%getDimIndex(Globals%Var%level)
                     
                     if (col_ssh /= MV_INT) then
                         !if tracer is less than 5 cm below ssh, consider full wind effect
@@ -547,7 +547,6 @@
                 
                 !This wont do much... unless we actually start considering a depth profile from water level to the input wind data's altitude
                 depth = exp(10.0*depth)
-                
                 
                 !write dx/dt
                 nf = Utils%find_str(var_name, Globals%Var%u10, .true.)

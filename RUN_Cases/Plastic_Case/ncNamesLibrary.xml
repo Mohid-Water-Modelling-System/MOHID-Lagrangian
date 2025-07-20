@@ -105,7 +105,8 @@
 		<time name="time">
 			<variant name="time" />
 			<variant name="Time" />
-			<variant name="TIME" />		
+			<variant name="TIME" />
+			<variant name="valid_time" />
 		</time>
 	</dimensions>
 </naming>
