@@ -230,8 +230,8 @@
     logical, allocatable, dimension(:) :: syntecticVar
     type(ncReader_class) :: ncReader
     type(hdf5Reader_class) :: hdf5Reader
-    allocate(varList(5))
-    allocate(syntecticVar(5))
+    allocate(varList(6))
+    allocate(syntecticVar(6))
     varList(1) = Globals%Var%vsdx
     syntecticVar(1) = .false.
     varList(2) = Globals%Var%vsdy
@@ -242,6 +242,8 @@
     syntecticVar(4) = .false.
     varList(5) = Globals%Var%wd
     syntecticVar(5) = .false.
+    varList(6) = Globals%Var%wl
+    syntecticVar(6) = .false.
     
     !need to send to different readers here if different file formats
     if (fileName%extension() == '.nc' .or. fileName%extension() == '.nc4') then

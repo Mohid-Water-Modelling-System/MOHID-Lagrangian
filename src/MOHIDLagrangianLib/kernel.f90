@@ -431,54 +431,187 @@
     end function LagrangianKinematic
 
     !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @author Joao Sobrinho
     !> @brief
-    !> Computes the influence of wave velocity in tracer kinematics
+    !> Computes the influence of wave velocity in tracer kinematics. computes wave velocity if not present in nc or hdf
     !> @param[in] self, sv, bdata, time
-    !---------------------------------------------------------------------------
     function StokesDrift(self, sv, bdata, time)
     class(kernel_class), intent(inout) :: self
     type(stateVector_class), intent(in) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
-    integer :: np, nf, bkg
+    integer :: col_vsdx, col_vsdy, col_hs, col_ts, col_wd, col_wl, col_bat, col_ssh
+    integer :: bkg
     real(prec) :: waveCoeff
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
     type(string), dimension(:), allocatable :: requiredVars
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: StokesDrift
-    real(prec), dimension(size(sv%state,1)) :: depth
-    allocate(requiredVars(2))
+    real(prec), dimension(size(sv%state,1)) :: depth, WavePeriodAux, WaterDepth, WaveAmplitude
+    real(prec), dimension(size(sv%state,1)) :: AngFrequency, WaveLength, WaveNumber, VelStokesDrift
+    real(prec), dimension(size(sv%state,1)) :: C_Term, F_Aux, G_Aux
+    real(prec) :: maxLevel(2)
+    real(prec) :: Pi = 4*atan(1.0)
+    !Begin--------------------------------------------------------------------
+    allocate(requiredVars(8))
     requiredVars(1) = Globals%Var%vsdx
     requiredVars(2) = Globals%Var%vsdy
+    requiredVars(3) = Globals%Var%hs !wave height
+    requiredVars(4) = Globals%Var%ts !wave period
+    requiredVars(5) = Globals%Var%wd !wave direction
+    requiredVars(6) = Globals%Var%wl !wave lenght
+    requiredVars(7) = Globals%Var%ssh !water level
+    requiredVars(8) = Globals%Var%bathymetry !bathymetry
     waveCoeff = 0.01
     StokesDrift = 0.0
-    !interpolate each background
-    do bkg = 1, size(bdata)
-        if (bdata(bkg)%initialized) then
-            if(bdata(bkg)%hasVars(requiredVars)) then
-                np = size(sv%active) !number of Tracers
-                nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
-                allocate(var_dt(np,nf))
-                allocate(var_name(nf))
-                !interpolating all of the data
-                call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name)
-                !computing the depth weight
-                depth = sv%state(:,3)
-                where (depth>=0.0) depth = 0.0
-                depth = exp(depth)
-                !write dx/dt
-                nf = Utils%find_str(var_name, Globals%Var%vsdx, .true.)
-                where(sv%landIntMask < Globals%Mask%landVal) StokesDrift(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)*waveCoeff*depth
-                nf = Utils%find_str(var_name, Globals%Var%vsdy, .true.)
-                where(sv%landIntMask < Globals%Mask%landVal) StokesDrift(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)*waveCoeff*depth
-                deallocate(var_name)
-                deallocate(var_dt)
-            end if
-        end if
-    end do
+    
+    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, reqVertInt = .false.)
+
+    col_vsdx = Utils%find_str(var_name, Globals%Var%vsdx, .false.)
+    col_vsdy = Utils%find_str(var_name, Globals%Var%vsdy, .false.)
+    col_hs = Utils%find_str(var_name, Globals%Var%hs, .false.)
+    col_ts = Utils%find_str(var_name, Globals%Var%ts, .false.)
+    col_wd = Utils%find_str(var_name, Globals%Var%wd, .false.)
+    col_wl = Utils%find_str(var_name, Globals%Var%wl, .false.)
+    col_bat = Utils%find_str(var_name, Globals%Var%bathymetry, .false.)
+    col_ssh = Utils%find_str(var_name, Globals%Var%ssh, .false.)
+    
+    if (col_vsdx /= MV_INT .and. col_vsdy /= MV_INT) then
+        !computing the depth weight
+        depth = sv%state(:,3)
+        where (depth>=0.0) depth = 0.0
+        depth = exp(depth)
+        !write dx/dt
+        where(sv%landIntMask < Globals%Mask%landVal) StokesDrift(:,1) = Utils%m2geo(var_dt(:,col_vsdx), sv%state(:,2), .false.)*waveCoeff*depth
+        where(sv%landIntMask < Globals%Mask%landVal) StokesDrift(:,2) = Utils%m2geo(var_dt(:,col_vsdy), sv%state(:,2), .true.)*waveCoeff*depth
+    elseif (col_hs /= MV_INT .and. col_ts /= MV_INT .and. col_wd /= MV_INT) then
+        !Could not find stokes velocity (try computing from other wave parameters)
+        
+        if (col_ssh /= MV_INT) then
+            ! get water level and use it to compute particle depth
+            !TODO - make sure the signs are correct
+            depth = max(var_dt(:,col_ssh) - sv%state(:,3), 0.0)
+        else
+            maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .false.) 
+            !use maxlevel
+            if (maxLevel(2) /= MV) then
+                !TODO: check if signs are correct
+                depth = max(maxLevel(2) - sv%state(:,3), 0.0)
+            else
+                depth = 0.0
+            endif
+        endif
+        
+        WavePeriodAux   = max(var_dt(:,col_ts), 0.01)
+        AngFrequency    = 2.0 * Pi / WavePeriodAux
+
+        !Depth               = CurrentPartic%Position%Z-             &
+        !                        Me%EulerModel(emp)%SZZ(i, j, WS_KUB)
+                                              
+        !if (Depth < 0.)       Depth = 0. 
+            
+        WaterDepth     = var_dt(:,col_ssh) - var_dt(np,col_bat)
+        WaveAmplitude  = var_dt(:,col_hs) / 2.
+                        
+        if (col_wl == MV_INT) then
+            !Compute wave lenght from wave period
+            where (var_dt(:,col_ts) < 1e-3) 
+                WaveLength = 0.
+                G_Aux = 0.0
+                F_Aux = 0.0
+            elsewhere
+                G_Aux = ((2 * Pi / WavePeriod)**2) * WaterDepth / 9.81
+                F_Aux = G_Aux + (1 / (1. + 0.6522 * G_Aux + 0.4622 * (G_Aux**2) + &
+                        0.0864 * (G_Aux**4) + 0.0675 * (G_Aux**5)))
+                
+                where (F_Aux > 0. .and. WaterDepth > 0.)
+                    WaveLength = WavePeriod * sqrt(9.81 * WaterDepth / F_Aux)
+                elsewhere
+                    WaveLength = 0.
+                endwhere
+            endwhere
+        else
+            WaveLength = var_dt(:,col_ts)
+        endif                      
+        
+        WaveNumber = max(2.0 * Pi / WaveLength, 0.0)
+        
+        where (WaveNumber == 0.0 .or. WaterDepth == 0.0)
+            VelStokesDrift = 0.0
+        elsewhere (WaterDepth > WaveLength / 2.0)
+            !use longuetHiggins Deep
+            !C_Term = - (WaveAmplitude**2 * AngFrequency * sinh(2.0 * WaveNumber * WaterDepth)) / &
+            !                    ( 4 * WaterDepth * sinh(WaveNumber * WaterDepth)**2)
+                                
+            VelStokesDrift = WaveAmplitude**2 * AngFrequency * WaveNumber * (( cosh(2 * WaveNumber * (Depth - WaterDepth)) ) /         &
+                             ( 2 * (sinh(WaveNumber * WaterDepth)* sinh(WaveNumber * WaterDepth)))) - (WaveAmplitude**2 * AngFrequency * sinh(2.0 * WaveNumber * WaterDepth)) / &
+                             ( 4 * WaterDepth * sinh(WaveNumber * WaterDepth)**2)
+        elsewhere
+            
+            VelStokesDrift  = WaveAmplitude**2 * AngFrequency * WaveNumber * exp(-2* WaveNumber * Depth)
+        
+        endwhere
+        
+        where (VelStokesDrift > 10.0) VelStokesDrift = 0.0
+        
+        StokesDrift(:,1) = Utils%m2geo(cos(WaveDirection * (Pi / 180.)) * VelStokesDrift, sv%state(:,2), .false.)
+        StokesDrift(:,2) = Utils%m2geo(sin(WaveDirection * (Pi / 180.)) * VelStokesDrift, sv%state(:,2), .false.)
+    endif
+    
+    deallocate(var_name)
+    deallocate(var_dt)
+    
 
     end function StokesDrift
+
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Computes the influence of wave velocity in tracer kinematics
+    !> @param[in] self, sv, bdata, time
+    !---------------------------------------------------------------------------
+    !function StokesDrift(self, sv, bdata, time)
+    !class(kernel_class), intent(inout) :: self
+    !type(stateVector_class), intent(in) :: sv
+    !type(background_class), dimension(:), intent(in) :: bdata
+    !real(prec), intent(in) :: time
+    !integer :: np, nf, bkg
+    !real(prec) :: waveCoeff
+    !real(prec), dimension(:,:), allocatable :: var_dt
+    !type(string), dimension(:), allocatable :: var_name
+    !type(string), dimension(:), allocatable :: requiredVars
+    !real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: StokesDrift
+    !real(prec), dimension(size(sv%state,1)) :: depth
+    !allocate(requiredVars(2))
+    !requiredVars(1) = Globals%Var%vsdx
+    !requiredVars(2) = Globals%Var%vsdy
+    !waveCoeff = 0.01
+    !StokesDrift = 0.0
+    !!interpolate each background
+    !do bkg = 1, size(bdata)
+    !    if (bdata(bkg)%initialized) then
+    !        if(bdata(bkg)%hasVars(requiredVars)) then
+    !            np = size(sv%active) !number of Tracers
+    !            nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
+    !            allocate(var_dt(np,nf))
+    !            allocate(var_name(nf))
+    !            !interpolating all of the data
+    !            call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name)
+    !            !computing the depth weight
+    !            depth = sv%state(:,3)
+    !            where (depth>=0.0) depth = 0.0
+    !            depth = exp(depth)
+    !            !write dx/dt
+    !            nf = Utils%find_str(var_name, Globals%Var%vsdx, .true.)
+    !            where(sv%landIntMask < Globals%Mask%landVal) StokesDrift(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)*waveCoeff*depth
+    !            nf = Utils%find_str(var_name, Globals%Var%vsdy, .true.)
+    !            where(sv%landIntMask < Globals%Mask%landVal) StokesDrift(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)*waveCoeff*depth
+    !            deallocate(var_name)
+    !            deallocate(var_dt)
+    !        end if
+    !    end if
+    !end do
+    !
+    !end function StokesDrift
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

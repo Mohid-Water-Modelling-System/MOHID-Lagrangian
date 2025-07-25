@@ -205,6 +205,7 @@
         type(string) :: hs
         type(string) :: ts
         type(string) :: wd
+        type(string) :: wl
         type(string) :: u10
         type(string) :: v10
         type(string) :: rad
@@ -245,6 +246,7 @@
         type(stringList_class) :: hsVariants
         type(stringList_class) :: tsVariants
         type(stringList_class) :: wdVariants
+        type(stringList_class) :: wlVariants
         type(stringList_class) :: u10Variants
         type(stringList_class) :: v10Variants
         type(stringList_class) :: radVariants
@@ -556,6 +558,7 @@
     self%hs      = 'hs'
     self%ts      = 'ts'
     self%wd      = 'wd'
+    self%wd      = 'wl'
     self%u10     = 'u10'
     self%v10     = 'v10'
     self%rad     = 'rad'
@@ -673,6 +676,11 @@
     !searching for wd
     if (var == self%wd .or. .not.self%wdVariants%notRepeated(var)) then
         getVarSimName = self%wd
+        return
+    end if
+    !searching for wl
+    if (var == self%wl .or. .not.self%wlVariants%notRepeated(var)) then
+        getVarSimName = self%wl
         return
     end if
     !searching for u10
@@ -865,6 +873,11 @@
     end if
     !searching for wd
     if (var == self%wd .or. .not.self%wdVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for wl
+    if (var == self%wl .or. .not.self%wlVariants%notRepeated(var)) then
         checkVarSimName = .true.
         return
     end if
