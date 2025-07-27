@@ -359,11 +359,13 @@
     requiredHorVars(2) = Globals%Var%v
     requiredHorVars(3) = Globals%Var%w
     
+    !call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, justRequired = .true.)
     call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
 
     LagrangianKinematic = 0.0
     !Correct bottom values
     
+    !call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredHorVars, var_hor_dt, var_name_hor, justRequired = .true., reqVertInt = .false.)
     call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredHorVars, var_hor_dt, var_name_hor, reqVertInt = .false.)
     
     col_u = Utils%find_str(var_name_hor, Globals%Var%u, .true.)
@@ -447,7 +449,7 @@
     type(string), dimension(:), allocatable :: var_name
     type(string), dimension(:), allocatable :: requiredVars
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: StokesDrift
-    real(prec), dimension(size(sv%state,1)) :: depth, WavePeriodAux, WaterDepth, WaveAmplitude
+    real(prec), dimension(size(sv%state,1)) :: depth, WaterDepth, WaveAmplitude
     real(prec), dimension(size(sv%state,1)) :: AngFrequency, WaveLength, WaveNumber, VelStokesDrift
     real(prec), dimension(size(sv%state,1)) :: C_Term, F_Aux, G_Aux
     real(prec) :: maxLevel(2)
@@ -465,6 +467,7 @@
     waveCoeff = 0.01
     StokesDrift = 0.0
     
+    !call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, justRequired = .true., reqVertInt = .false.)
     call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, reqVertInt = .false.)
 
     col_vsdx = Utils%find_str(var_name, Globals%Var%vsdx, .false.)
@@ -502,15 +505,15 @@
             endif
         endif
         
-        WavePeriodAux   = max(var_dt(:,col_ts), 0.01)
-        AngFrequency    = 2.0 * Pi / WavePeriodAux
+        !WavePeriodAux   = max(var_dt(:,col_ts), 0.01) !only needed if we want to add the uncertainty method of Rod
+        AngFrequency    = 2.0 * Pi / var_dt(:,col_ts)
 
         !Depth               = CurrentPartic%Position%Z-             &
         !                        Me%EulerModel(emp)%SZZ(i, j, WS_KUB)
                                               
         !if (Depth < 0.)       Depth = 0. 
             
-        WaterDepth     = var_dt(:,col_ssh) - var_dt(np,col_bat)
+        WaterDepth     = var_dt(:,col_ssh) - var_dt(:,col_bat)
         WaveAmplitude  = var_dt(:,col_hs) / 2.
                         
         if (col_wl == MV_INT) then
@@ -520,12 +523,12 @@
                 G_Aux = 0.0
                 F_Aux = 0.0
             elsewhere
-                G_Aux = ((2 * Pi / WavePeriod)**2) * WaterDepth / 9.81
+                G_Aux = ((2 * Pi / var_dt(:,col_ts))**2) * WaterDepth / 9.81
                 F_Aux = G_Aux + (1 / (1. + 0.6522 * G_Aux + 0.4622 * (G_Aux**2) + &
                         0.0864 * (G_Aux**4) + 0.0675 * (G_Aux**5)))
                 
                 where (F_Aux > 0. .and. WaterDepth > 0.)
-                    WaveLength = WavePeriod * sqrt(9.81 * WaterDepth / F_Aux)
+                    WaveLength = var_dt(:,col_ts) * sqrt(9.81 * WaterDepth / F_Aux)
                 elsewhere
                     WaveLength = 0.
                 endwhere
@@ -554,8 +557,8 @@
         
         where (VelStokesDrift > 10.0) VelStokesDrift = 0.0
         
-        StokesDrift(:,1) = Utils%m2geo(cos(WaveDirection * (Pi / 180.)) * VelStokesDrift, sv%state(:,2), .false.)
-        StokesDrift(:,2) = Utils%m2geo(sin(WaveDirection * (Pi / 180.)) * VelStokesDrift, sv%state(:,2), .false.)
+        StokesDrift(:,1) = Utils%m2geo(cos(var_dt(:,col_wd) * (Pi / 180.)) * VelStokesDrift, sv%state(:,2), .false.)
+        StokesDrift(:,2) = Utils%m2geo(sin(var_dt(:,col_wd) * (Pi / 180.)) * VelStokesDrift, sv%state(:,2), .false.)
     endif
     
     deallocate(var_name)
@@ -826,17 +829,6 @@
                     sv%state(np,j+3) = 0.0 !nor velocities
                 end do
                 
-                !if (np==13) then
-                !    temp_str = WaterColumn
-                !    outext = 'WaterColumn = ' //temp_str// ''
-                !    call Log%put(outext)
-                !    temp_str = var_dt(np,col_ssh)
-                !    outext = 'ssh = '//temp_str// ''
-                !    temp_str = var_dt(np,col_bat)
-                !    call Log%put(outext)
-                !    outext = 'bat = '//temp_str// ''
-                !    call Log%put(outext)
-                !endif
                 sv%state(np,col_beachPeriod) = sv%state(np,col_beachPeriod) + dt
                 threshold = Globals%BeachingAreas%beachArea(i)%par%waterColumnThreshold
                 if (WaterColumn > threshold .and. WaterLevel > Bathymetry) then

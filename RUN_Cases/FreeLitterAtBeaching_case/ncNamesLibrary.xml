@@ -67,6 +67,7 @@
         </sea_surface_wave_mean_period>
         <sea_surface_wave_mean_direction name="wd" comment="used in CMEMS">
             <variant name="VMDR" comment="used in CMEMS"/>
+            <variant name="mean wave direction" comment="used in MOHID"/>
         </sea_surface_wave_mean_direction>
         <eastward_wind name="u10" comment="used in CMEMS">
             <variant name="wind velocity X" comment="used in MOHID"/>
