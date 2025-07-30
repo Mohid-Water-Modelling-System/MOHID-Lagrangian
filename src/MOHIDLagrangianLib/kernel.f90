@@ -155,12 +155,13 @@
     logical bottom_emmission
     !-----------------------------------------------------------
     !write(*,*)"Entrada setCommonProcesses"
-    allocate(requiredVars(3))
+    allocate(requiredVars(4))
     requiredVars(1) = Globals%Var%landIntMask
     requiredVars(2) = Globals%Var%resolution
     requiredVars(3) = Globals%Var%bathymetry
+    requiredVars(4) = Globals%Var%ssh
     !write(*,*)"Entrada setCommonProcesses interpolate"
-    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
+    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, justRequired = .true.)
     
     !write(*,*)"Saida setCommonProcesses interpolate"
     bottom_emmission = .false.
@@ -269,7 +270,7 @@
         requiredVars(3) = Globals%Var%dwz
     endif
 
-    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
+    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, justRequired = .true.)
     
     !Set tracers dwz
     col_dwz = Utils%find_str(var_name, Globals%Var%dwz, .true.)
@@ -359,14 +360,12 @@
     requiredHorVars(2) = Globals%Var%v
     requiredHorVars(3) = Globals%Var%w
     
-    !call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, justRequired = .true.)
-    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
+    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, justRequired = .true.)
 
     LagrangianKinematic = 0.0
     !Correct bottom values
     
-    !call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredHorVars, var_hor_dt, var_name_hor, justRequired = .true., reqVertInt = .false.)
-    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredHorVars, var_hor_dt, var_name_hor, reqVertInt = .false.)
+    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredHorVars, var_hor_dt, var_name_hor, justRequired = .true., reqVertInt = .false.)
     
     col_u = Utils%find_str(var_name_hor, Globals%Var%u, .true.)
     col_v = Utils%find_str(var_name_hor, Globals%Var%v, .true.)
@@ -455,7 +454,7 @@
     real(prec) :: maxLevel(2)
     real(prec) :: Pi = 4*atan(1.0)
     !Begin--------------------------------------------------------------------
-    allocate(requiredVars(8))
+    allocate(requiredVars(7))
     requiredVars(1) = Globals%Var%vsdx
     requiredVars(2) = Globals%Var%vsdy
     requiredVars(3) = Globals%Var%hs !wave height
@@ -463,12 +462,10 @@
     requiredVars(5) = Globals%Var%wd !wave direction
     requiredVars(6) = Globals%Var%wl !wave lenght
     requiredVars(7) = Globals%Var%ssh !water level
-    requiredVars(8) = Globals%Var%bathymetry !bathymetry
     waveCoeff = 0.01
     StokesDrift = 0.0
     
-    !call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, justRequired = .true., reqVertInt = .false.)
-    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, reqVertInt = .false.)
+    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, justRequired = .true., reqVertInt = .false.)
 
     col_vsdx = Utils%find_str(var_name, Globals%Var%vsdx, .false.)
     col_vsdy = Utils%find_str(var_name, Globals%Var%vsdy, .false.)
@@ -476,7 +473,7 @@
     col_ts = Utils%find_str(var_name, Globals%Var%ts, .false.)
     col_wd = Utils%find_str(var_name, Globals%Var%wd, .false.)
     col_wl = Utils%find_str(var_name, Globals%Var%wl, .false.)
-    col_bat = Utils%find_str(var_name, Globals%Var%bathymetry, .false.)
+    col_bat = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
     col_ssh = Utils%find_str(var_name, Globals%Var%ssh, .false.)
     
     if (col_vsdx /= MV_INT .and. col_vsdy /= MV_INT) then
@@ -776,15 +773,14 @@
         return
     endif
        
-    allocate(requiredVars(4))
-    requiredVars(1) = Globals%Var%bathymetry
-    requiredVars(2) = Globals%Var%ssh
-    requiredVars(3) = Globals%Var%hs
-    requiredVars(4) = Globals%Var%ts
+    allocate(requiredVars(3))
+    requiredVars(1) = Globals%Var%ssh
+    requiredVars(2) = Globals%Var%hs
+    requiredVars(3) = Globals%Var%ts
     
-    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
+    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, justRequired = .true., reqVertInt = .false.)
     
-    col_bat = Utils%find_str(var_name, Globals%Var%bathymetry, .true.)       
+    col_bat = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)       
     col_ssh = Utils%find_str(var_name, Globals%Var%ssh, .true.)
     
     tag = 'beachPeriod'

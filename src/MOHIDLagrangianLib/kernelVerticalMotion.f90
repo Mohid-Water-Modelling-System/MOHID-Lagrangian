@@ -369,7 +369,7 @@
         requiredVars(2) = Globals%Var%ts
         requiredVars(3) = Globals%Var%wd
         
-        call KernelUtils_VerticalMotion%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, reqVertInt = .false.)
+        call KernelUtils_VerticalMotion%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, justRequired = .true., reqVertInt = .false.)
         
         col_temp = Utils%find_str(sv%varName, Globals%Var%temp, .true.)
         col_sal = Utils%find_str(sv%varName, Globals%Var%sal, .true.)

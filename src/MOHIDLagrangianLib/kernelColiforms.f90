@@ -85,7 +85,7 @@
         allocate(requiredVars(1))
         requiredVars(1) = Globals%Var%rad
         
-        call KernelUtils_coliform%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
+        call KernelUtils_coliform%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, justRequired = .true., reqVertInt = .false.)
         
         col_temp = Utils%find_str(sv%varname, Globals%Var%temp, .true.)
         col_sal = Utils%find_str(sv%varname, Globals%Var%sal, .true.)

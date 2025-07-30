@@ -138,10 +138,12 @@
                         !write(*,*)"entrada requireVertInt...........Variavel = ", trim(aField%name)
                         var_dt(:,i) = self%interp4D(xx, yy, zz, tt, outOfBounds, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(state,1), isSsh = (var_name(i) == Globals%Var%ssh)) 
                         !write(*,*)"Saida requireVertInt. var_dt(1,i) = ", var_dt(1,i)
+                        i = i+1
                     else
                         !write(*,*)"Entrada requireVertInt false"
                         var_dt(:,i) = self%interp4D_Hor(xx, yy, zz, tt, outOfBounds, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(state,1))
                         !write(*,*)"Saia requireVertInt false. var_dt(1,i) = ", var_dt(1,i)
+                        i = i+1
                     end if
                 end if
             end if !add more interpolation types here
@@ -159,6 +161,7 @@
                     yy = self%getArrayCoord(state(:,2), bdata, Globals%Var%lat, outOfBounds)
                     tt = self%getPointCoordNonRegular(time, bdata, Globals%Var%time)
                     var_dt(:,i) = self%interp3D(xx, yy, tt, outOfBounds, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(state,1))
+                    i = i+1
                 end if
             end if !add more interpolation types here
             !add more field types here
@@ -168,7 +171,7 @@
             stop
         end select
         call bdata%fields%next()                ! increment the list iterator
-        i = i+1 !to select the correct slice of var_dt for the corresponding field
+        !i = i+1 !to select the correct slice of var_dt for the corresponding field
     end do
     call bdata%fields%reset()                   ! reset list iterator
     !write(*,*)"Sai interpolador"

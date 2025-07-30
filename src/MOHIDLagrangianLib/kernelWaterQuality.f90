@@ -138,7 +138,7 @@
         allocate(requiredVars(1))
         requiredVars(1) = Globals%Var%rad
         
-        call KernelUtils_MOHIDWaterQuality%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
+        call KernelUtils_MOHIDWaterQuality%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, justRequired = .true.)
         !surface radiation
         c_rad = Utils%find_str(var_name, Globals%Var%rad, .true.)
 
@@ -245,9 +245,7 @@
     !TODO : create arrays for all these variables and create  routines to get an array of column IDs.
     Dilution = 0.0
     
-    allocate(requiredVars(15))
-    requiredVars(1) = Globals%Var%u
-    requiredVars(2) = Globals%Var%v
+    allocate(requiredVars(13))
     requiredVars(3) = Globals%Var%dissolved_oxygen
     requiredVars(4) = Globals%Var%nitrate
     requiredVars(5) = Globals%Var%nitrite
@@ -293,10 +291,10 @@
     tag = 'partOrgPho'
     c_PartOrgPho = Utils%find_str(sv%varName, tag, .true.)
     
-    call KernelUtils_MOHIDWaterQuality%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
+    call KernelUtils_MOHIDWaterQuality%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, justRequired = .true.)
     
-    nf_u = Utils%find_str(var_name, Globals%Var%u, .true.)
-    nf_v = Utils%find_str(var_name, Globals%Var%v, .true.)
+    nf_u = Utils%find_str(sv%varName, Globals%Var%u, .true.)
+    nf_v = Utils%find_str(sv%varName, Globals%Var%v, .true.)
     nf_O2 = Utils%find_str(var_name, Globals%Var%dissolved_oxygen, .true.)
     nf_NH4 = Utils%find_str(var_name, Globals%Var%ammonia, .true.)
     nf_NO3 = Utils%find_str(var_name, Globals%Var%nitrate, .true.)

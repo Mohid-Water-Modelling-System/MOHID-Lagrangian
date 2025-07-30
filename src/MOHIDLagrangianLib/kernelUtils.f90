@@ -85,9 +85,13 @@
             !write(*,*)"j do bkgToInterpolate = ", j
             call bkgToInterpolate(i)%bkgVars%toArray(currList)
             !write(*,*)"runInterpolatorOnVars 3 : indice do background = ", bkgToInterpolate(i)%bkgIndex
+            !maxJ = j+bkgToInterpolate(i)%bkgVars%getSize()-1
+            
+            !write(*,*)"maxJ = ", maxJ
             call self%Interpolator%run(sv%state, bdata(bkgToInterpolate(i)%bkgIndex), time, var_dt(:,j:j+bkgToInterpolate(i)%bkgVars%getSize()-1), var_name(j:j+bkgToInterpolate(i)%bkgVars%getSize()-1), currList, reqVertInt=localreqVertInt)
             !write(*,*)"runInterpolatorOnVars 4 : saida :", bkgToInterpolate(i)%bkgVars%getSize()
             j = j + bkgToInterpolate(i)%bkgVars%getSize()
+            !write(*,*)"j no fim = ", j
             deallocate (currList)
         end do
     else
@@ -228,7 +232,7 @@
         real(prec)                     :: Pi = 4*atan(1.0)
         !Begin-----------------------------------------------------------------   
         if (Hs > 0.001) then 
-            L = (-Globals%Constants%Gravity%z) * Tp**2 / (2*Pi) 
+            L = 9.81 * Tp**2 / (2*Pi) 
             E = m / sqrt(Hs/L)
             if (E >= 0.3) then
                 Sw  = 0.75 * Hs * E
