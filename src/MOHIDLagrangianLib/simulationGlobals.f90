@@ -81,6 +81,7 @@
         integer         ::  numblocks       !< Number of blocks in the simulation
         integer         ::  numblocksx, numblocksy  !<Number of blocks along x and y
         integer         ::  VerticalVelMethod !< Vertical velocity method
+        integer         ::  DiffusionMethod !< Horizontal diffusion method. 1-random walk. 2: SullivanAllen
         integer         ::  RemoveLandTracer !< Vertical velocity method
         integer         ::  bathyminNetcdf !< bathymetry is a property inside the netcdf
         real(prec)      ::  tracerMaxAge !< removes tracers with age greater than maxTracerAge
@@ -95,6 +96,7 @@
     procedure :: setCenter
     procedure :: setblocksize
     procedure :: setVerticalVelMethod
+    procedure :: setDiffusionMethod
     procedure :: setRemoveLandTracer
     procedure :: setbathyminNetcdf
     procedure :: settracerMaxAge
@@ -114,6 +116,9 @@
         real(prec)   :: ResuspensionCoeff   !< Resuspension velocity amplitud factor (default=0) 
         real(prec)   :: BeachingStopProb    !< Probablity of beaching stopping a tracer (-)
         real(prec)   :: DiffusionCoeff      !< Horizontal diffusion coefficient (-)
+        real(prec)   :: VarVelHX      !< Horizontal variance of velocity (%)
+        real(prec)   :: VarVelH      !< Horizontal base turbulent velocity (m/s)
+        real(prec)   :: MixingLength      !< Horizontal mixingLength (m) Value dependent on vortices (assume around 4 or 5* grid spacing)
         real(prec)   :: WindDragCoeff      !< Wind drag coefficient (% of wind force)
         real(prec)   :: MeanDensity         !< mean ocean water density.
         real(prec)   :: MeanKVisco          !< mean ocean water kinematic viscosity
@@ -135,6 +140,9 @@
     procedure :: setBeachingLevel
     procedure :: setBeachingStopProb
     procedure :: setDiffusionCoeff
+    procedure :: setVarVelHX
+    procedure :: setVarVelH
+    procedure :: setMixingLength
     procedure :: setWindDragCoeff
     procedure :: setSmallDt
     procedure :: setResuspensionCoeff
@@ -472,6 +480,7 @@
     self%SimDefs%Pointmax = 0.0
     self%SimDefs%Center = 0.0
     self%SimDefs%VerticalVelMethod = 1
+    self%SimDefs%DiffusionMethod = 1
     self%SimDefs%RemoveLandTracer = 0
     self%SimDefs%bathyminNetcdf = 0
     self%SimDefs%tracerMaxAge = 0
@@ -482,6 +491,9 @@
     self%Constants%BeachingLevel = -3.0
     self%Constants%BeachingStopProb = 0.50
     self%Constants%DiffusionCoeff = 1.0
+    self%Constants%VarVelHX = 0.2
+    self%Constants%VarVelH = 0.0
+    self%Constants%MixingLength = 500.0 !Value dependent on vortices (assume around 4 or 5* grid spacing)
     self%Constants%WindDragCoeff = 0.03
     self%Constants%smallDt = 0.0
     self%Constants%ResuspensionCoeff = 0.0
@@ -1837,6 +1849,69 @@
     sizem = sizeof(self%DiffusionCoeff)
     call SimMemory%adddef(sizem)
     end subroutine setDiffusionCoeff
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho
+    !> @brief
+    !> Horizontal turbulent velocity variance setting routine.
+    !> @param[in] self, read_VarVelHX
+    !---------------------------------------------------------------------------
+    subroutine setVarVelHX(self, read_VarVelHX)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_VarVelHX
+    type(string) :: outext
+    integer :: sizem
+    if (read_VarVelHX%to_number(kind=1._R8P) < 0.0) then
+        outext='velocity variance must be zero or positive, assuming default value of 0.2'
+        call Log%put(outext)
+    else
+        self%VarVelHX =read_VarVelHX%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%VarVelHX)
+    call SimMemory%adddef(sizem)
+    end subroutine setVarVelHX
+
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho
+    !> @brief
+    !> Horizontal mixing length.
+    !> @param[in] self, read_MixingLength
+    !---------------------------------------------------------------------------
+    subroutine setMixingLength(self, read_MixingLength)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_MixingLength
+    type(string) :: outext
+    integer :: sizem
+    if (read_MixingLength%to_number(kind=1._R8P) < 0.0) then
+        outext='velocity variance must be zero or positive, assuming default value of 0.2'
+        call Log%put(outext)
+    else
+        self%MixingLength =read_MixingLength%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%MixingLength)
+    call SimMemory%adddef(sizem)
+    end subroutine setMixingLength
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho
+    !> @brief
+    !> Horizontal turbulent base velocity setting routine.
+    !> @param[in] self, read_VarVelH
+    !---------------------------------------------------------------------------
+    subroutine setVarVelH(self, read_VarVelH)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_VarVelH
+    type(string) :: outext
+    integer :: sizem
+    if (read_VarVelH%to_number(kind=1._R8P) < 0.0) then
+        outext='velocity variance must be zero or positive, assuming default value of 0.0'
+        call Log%put(outext)
+    else
+        self%VarVelH =read_VarVelH%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%VarVelH)
+    call SimMemory%adddef(sizem)
+    end subroutine setVarVelH
     !------------------------------------------------------------------------------
     
     !> @author Joao Sobrinho
@@ -2211,6 +2286,12 @@
     outext = outext//'       BeachingStopProb = '//temp_str(1)//' -'//new_line('a')
     temp_str(1)=self%DiffusionCoeff
     outext = outext//'       DiffusionCoeff = '//temp_str(1)//' -'//new_line('a')  
+    temp_str(1)=self%VarVelHX
+    outext = outext//'       VarVelHX = '//temp_str(1)//' -'//new_line('a')  
+    temp_str(1)=self%VarVelH
+    outext = outext//'       VarVelH = '//temp_str(1)//' -'//new_line('a')  
+    temp_str(1)=self%MixingLength
+    outext = outext//'       MixingLength = '//temp_str(1)//' -'//new_line('a')  
     temp_str(1)=self%WindDragCoeff
     outext = outext//'       WindDragCoeff = '//temp_str(1)//' -'//new_line('a')  
     temp_str(1)=self%ResuspensionCoeff
@@ -2459,6 +2540,27 @@
     !---------------------------------------------------------------------------
     !> @author Joao Sobrinho
     !> @brief
+    !> Resuspension setting routine or not
+    !> @param[in] self, read_DiffusionMethod
+    !---------------------------------------------------------------------------
+    subroutine setDiffusionMethod(self, read_DiffusionMethod)
+    class(simdefs_t), intent(inout) :: self
+    type(string), intent(in) :: read_DiffusionMethod
+    type(string) :: outext
+    integer :: sizem
+    if ((read_DiffusionMethod%to_number(kind=1._I8P) < 0) .OR. (read_DiffusionMethod%to_number(kind=1._I8P) > 3)) then
+        outext='Vertical velocity method must be 1:From velocity fields, 2:Divergence or 3:Disabled, assuming default value'
+        call Log%put(outext)
+    else
+        self%DiffusionMethod=read_DiffusionMethod%to_number(kind=1._I8P)
+    endif
+    sizem = sizeof(self%DiffusionMethod)
+    call SimMemory%adddef(sizem)
+    end subroutine setDiffusionMethod
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho
+    !> @brief
     !> Is beaching method based on project FreeLitterAt enabled
     !> @param[in] self, read_FreeLitterAtBeaching
     !---------------------------------------------------------------------------
@@ -2607,6 +2709,8 @@
     end if
     temp_str(1)=self%VerticalVelMethod
     outext = outext//'       VerticalVelMethod = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%DiffusionMethod
+    outext = outext//'       DiffusionMethod = '//temp_str(1)//new_line('a')
     temp_str(1)=self%RemoveLandTracer
     outext = outext//'       RemoveLandTracer = '//temp_str(1)//new_line('a')
     temp_str(1)=self%bathyminNetcdf

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<case>
+	<execution>
+		<parameters>
+			<parameter key="Start" value="2013 01 01 00 00 00" comment="Date of initial instant" units_comment="space delimited ISO 8601 format up to seconds" />
+			<parameter key="End"   value="2013 01 11 00 00 00" comment="Date of final instant" units_comment="ISO format" />
+			<parameter key="Integrator" value="3" comment="Integration Algorithm 1:Euler, 2:Multi-Step Euler, 3:RK4 (default=1)" />			
+			<parameter key="Threads" value="auto" comment="Computation threads for shared memory computation (default=auto)" />			
+			<parameter key="OutputWriteTime" value="2700" comment="Time out data (1/Hz)" units_comment="seconds" />
+		</parameters>
+		<variableNaming>
+			<file name="data/ncNamesLibrary.xml"/>
+		</variableNaming>
+		<postProcessing>
+			<file name="Post_scripts/PostRecipe.xml"/>
+            <file name="Post_scripts/PostRecipe_Polygon.xml"/>
+		</postProcessing>
+	</execution>
+	<caseDefinitions>
+		<inputData>
+			<inputDataDir name="hydrodynamic_input_data" type="hydrodynamic"/>
+		</inputData>
+		<simulation>
+			<resolution dp="1500" units_comment="metres (m)"/>
+			<timestep dt="900.0" units_comment="seconds (s)"/>
+			<BoundingBoxMin x="-12.56" y="34.42" z="-1" units_comment="(deg,deg,m)"/>
+			<BoundingBoxMax x="-5.14" y="44.96" z="1" units_comment="(deg,deg,m)"/>
+            <RemoveLandTracer value="1" comment="Remove tracers on land 0:No, 1:Yes. Default = 0" />
+            <DiffusionMethod value="2" comment="Diffusion method 1:random walk, 2:SullivanAllen. Default = 1" />
+		</simulation>
+		<sourceDefinitions>
+			<source>
+				<setsource id="1" name="Box1" />
+				<rate_dt value="1000" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
+				<box>
+					<point x="-12.55" y="34.43" z="0.5" units_comment="(deg,deg,m)"/>
+					<size x="900000" y="1500000" z="1.0" units_comment="metres (m)"/>
+				</box>
+			</source>			
+		</sourceDefinitions>
+		<constants>
+			<BeachingLevel value="-3.5" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />			
+			<ConstantMixingLength value="20000" comment="Constant horizontal mixing length. Default = 500" units_comment="m" />			
+			<VarVelHX value="0.2" comment="Horizontal variance of velocity. Default = 0.2" units_comment="-" />			
+			<VarVelH value="0.01" comment="Level above which beaching can occur. Default = 0.0" units_comment="m/s" />			
+		</constants>
+	</caseDefinitions>
+</case>

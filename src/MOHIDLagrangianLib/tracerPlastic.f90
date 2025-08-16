@@ -42,9 +42,6 @@
         real(prec)  :: concentration                 !< Particle concentration
         real(prec)  :: temperature                   !< temperature of the tracer
         real(prec)  :: salinity                      !< salinity of the tracer
-        !logical     :: beachPeriod                   !< consecutive period of time (in seconds) that the tracer has been beached
-        !integer     :: beachAreaId                   !< beaching area Id where the tracer last beached
-        !integer     :: beachedWaterLevel             !< Water level at the time the tracer was beachded
     end type plastic_state_class
 
     type, extends(tracer_class) :: plastic_class    !<Type - The plastic material Lagrangian tracer class
@@ -75,7 +72,7 @@
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
     class(plastic_class), intent(in) :: self
-    getNumVars = 27
+    getNumVars = 29
     end function getNumVars
 
     !---------------------------------------------------------------------------
@@ -97,23 +94,25 @@
     getStateArray(8) = self%now%diffusionVel%y
     getStateArray(9) = self%now%diffusionVel%z
     getStateArray(10) = self%now%usedMixingLenght
-    getStateArray(11) = self%now%age
-    getStateArray(12) = self%mpar%particulate
-    getStateArray(13) = self%now%bathymetry
-    getStateArray(14) = self%now%dwz
-    getStateArray(15) = self%now%dist2bottom
-    getStateArray(16) = self%now%beachPeriod
-    getStateArray(17) = self%now%beachAreaId
-    getStateArray(18) = self%now%beachedWaterLevel
-    getStateArray(19) = self%mnow%density
-    getStateArray(20) = self%mnow%radius
-    getStateArray(21) = self%mnow%volume
-    getStateArray(22) = self%mnow%area
-    getStateArray(23) = self%mnow%condition
-    getStateArray(24) = self%mnow%degradation_rate
-    getStateArray(25) = self%mnow%concentration
-    getStateArray(26) = self%mnow%temperature
-    getStateArray(27) = self%mnow%salinity
+    getStateArray(11) = self%now%VelStandardDeviation
+    getStateArray(12) = self%now%TPathHor
+    getStateArray(13) = self%now%age
+    getStateArray(14) = self%mpar%particulate
+    getStateArray(15) = self%now%bathymetry
+    getStateArray(16) = self%now%dwz
+    getStateArray(17) = self%now%dist2bottom
+    getStateArray(18) = self%now%beachPeriod
+    getStateArray(19) = self%now%beachAreaId
+    getStateArray(20) = self%now%beachedWaterLevel
+    getStateArray(21) = self%mnow%density
+    getStateArray(22) = self%mnow%radius
+    getStateArray(23) = self%mnow%volume
+    getStateArray(24) = self%mnow%area
+    getStateArray(25) = self%mnow%condition
+    getStateArray(26) = self%mnow%degradation_rate
+    getStateArray(27) = self%mnow%concentration
+    getStateArray(28) = self%mnow%temperature
+    getStateArray(29) = self%mnow%salinity
     end function getStateArray
 
     !---------------------------------------------------------------------------
@@ -135,23 +134,25 @@
     self%now%diffusionVel%z = StateArray(8)
     self%now%diffusionVel%z = StateArray(9)
     self%now%usedMixingLenght = StateArray(10)
-    self%now%age   = StateArray(11)
-    self%mpar%particulate = StateArray(12)
-    self%now%bathymetry   = StateArray(13)
-    self%now%dwz          = StateArray(14)
-    self%now%dist2bottom = StateArray(15)
-    self%now%beachPeriod = StateArray(16)
-    self%now%beachAreaId = StateArray(17)
-    self%now%beachedWaterLevel = StateArray(18)
-    self%mnow%density = StateArray(19)
-    self%mnow%radius = StateArray(20)
-    self%mnow%volume = StateArray(21)
-    self%mnow%area = StateArray(22)
-    self%mnow%condition = StateArray(23)
-    self%mnow%degradation_rate = StateArray(24)
-    self%mnow%concentration = StateArray(25)
-    self%mnow%temperature = StateArray(26)
-    self%mnow%salinity = StateArray(27)
+    self%now%VelStandardDeviation = StateArray(11)
+    self%now%TPathHor = StateArray(12)
+    self%now%age   = StateArray(13)
+    self%mpar%particulate = StateArray(14)
+    self%now%bathymetry   = StateArray(15)
+    self%now%dwz          = StateArray(16)
+    self%now%dist2bottom = StateArray(17)
+    self%now%beachPeriod = StateArray(18)
+    self%now%beachAreaId = StateArray(19)
+    self%now%beachedWaterLevel = StateArray(20)
+    self%mnow%density = StateArray(21)
+    self%mnow%radius = StateArray(22)
+    self%mnow%volume = StateArray(23)
+    self%mnow%area = StateArray(24)
+    self%mnow%condition = StateArray(25)
+    self%mnow%degradation_rate = StateArray(26)
+    self%mnow%concentration = StateArray(27)
+    self%mnow%temperature = StateArray(28)
+    self%mnow%salinity = StateArray(29)
     
     end subroutine setStateArray
 
@@ -210,16 +211,16 @@
     end if
     
     !filling the rest of the varName list
-    constructor%varName(19) = Globals%Var%density
-    constructor%varName(20) = 'radius'
-    constructor%varName(21) = 'volume'
-    constructor%varName(22) = 'area'
-    constructor%varName(23) = 'condition'
-    constructor%varName(24) = 'degradation_rate'
-    constructor%varName(25) = 'concentration'
+    constructor%varName(21) = Globals%Var%density
+    constructor%varName(22) = 'radius'
+    constructor%varName(23) = 'volume'
+    constructor%varName(24) = 'area'
+    constructor%varName(25) = 'condition'
+    constructor%varName(26) = 'degradation_rate'
+    constructor%varName(27) = 'concentration'
     !constructor%varName(19) = 'particulate'
-    constructor%varName(26) = 'temp'
-    constructor%varName(27) = 'salt'
+    constructor%varName(28) = 'temp'
+    constructor%varName(29) = 'salt'
     
     end function constructor
 

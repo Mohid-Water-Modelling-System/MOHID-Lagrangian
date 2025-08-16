@@ -146,7 +146,7 @@
     type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
-    integer :: i, j, col_age, col_bat, col_bat_sv, col_landintmask, col_res, col_ssh
+    integer :: i, j, col_age, col_bat, col_bat_sv, col_landintmask, col_res, col_ssh, col_DifVelStdr
     real(prec) :: maxLevel(2)
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
@@ -238,6 +238,14 @@
     !update resolution proxy
     col_res = Utils%find_str(var_name, Globals%Var%resolution,.true.)
     sv%resolution = var_dt(:,col_res)
+    
+    !Diffusion processes. Initialize diffusion velocity standard deviation to 0.
+    if (Globals%SimDefs%DiffusionMethod == 2) then !SullivanAllen
+        tag = 'VelStandardDeviation'
+        col_DifVelStdr = Utils%find_str(sv%varName, tag, .true.)
+        sv%state(:,col_DifVelStdr) = 0.0
+    endif
+        
     deallocate(var_name)
     deallocate(var_dt)
     !write(*,*)"Saida setCommonProcesses"
@@ -438,10 +446,10 @@
     !> @param[in] self, sv, bdata, time
     function StokesDrift(self, sv, bdata, time)
     class(kernel_class), intent(inout) :: self
-    type(stateVector_class), intent(in) :: sv
+    type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
-    integer :: col_vsdx, col_vsdy, col_hs, col_ts, col_wd, col_wl, col_bat, col_ssh
+    integer :: col_vsdx, col_vsdy, col_hs, col_ts, col_wd, col_wl, col_bat, col_ssh, col_DifVelStdr
     integer :: bkg
     real(prec) :: waveCoeff
     real(prec), dimension(:,:), allocatable :: var_dt
@@ -453,6 +461,7 @@
     real(prec), dimension(size(sv%state,1)) :: C_Term, F_Aux, G_Aux
     real(prec) :: maxLevel(2)
     real(prec) :: Pi = 4*atan(1.0)
+    type(string) :: tag
     !Begin--------------------------------------------------------------------
     allocate(requiredVars(7))
     requiredVars(1) = Globals%Var%vsdx
@@ -476,14 +485,26 @@
     col_bat = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
     col_ssh = Utils%find_str(var_name, Globals%Var%ssh, .false.)
     
+    if (Globals%SimDefs%DiffusionMethod == 2) then !SullivanAllen
+        tag = "VelStandardDeviation"
+        col_DifVelStdr = Utils%find_str(sv%varName, tag, .true.)
+    endif
+    
     if (col_vsdx /= MV_INT .and. col_vsdy /= MV_INT) then
         !computing the depth weight
         depth = sv%state(:,3)
         where (depth>=0.0) depth = 0.0
         depth = exp(depth)
         !write dx/dt
-        where(sv%landIntMask < Globals%Mask%landVal) StokesDrift(:,1) = Utils%m2geo(var_dt(:,col_vsdx), sv%state(:,2), .false.)*waveCoeff*depth
-        where(sv%landIntMask < Globals%Mask%landVal) StokesDrift(:,2) = Utils%m2geo(var_dt(:,col_vsdy), sv%state(:,2), .true.)*waveCoeff*depth
+        where(sv%landIntMask < Globals%Mask%landVal)
+            StokesDrift(:,1) = Utils%m2geo(var_dt(:,col_vsdx), sv%state(:,2), .false.)*waveCoeff*depth
+            StokesDrift(:,2) = Utils%m2geo(var_dt(:,col_vsdy), sv%state(:,2), .true.)*waveCoeff*depth
+        endwhere
+
+        if (Globals%SimDefs%DiffusionMethod == 2) then !SullivanAllen
+            sv%state(:,col_DifVelStdr) = sv%state(:,col_DifVelStdr) + SQRT(var_dt(:,col_vsdx)**2 + var_dt(:,col_vsdy)**2)
+        endif
+        
     elseif (col_hs /= MV_INT .and. col_ts /= MV_INT .and. col_wd /= MV_INT) then
         !Could not find stokes velocity (try computing from other wave parameters)
         
@@ -510,7 +531,7 @@
                                               
         !if (Depth < 0.)       Depth = 0. 
             
-        WaterDepth     = var_dt(:,col_ssh) - var_dt(:,col_bat)
+        WaterDepth     = var_dt(:,col_ssh) - sv%state(:,col_bat)
         WaveAmplitude  = var_dt(:,col_hs) / 2.
                         
         if (col_wl == MV_INT) then
@@ -555,7 +576,12 @@
         where (VelStokesDrift > 10.0) VelStokesDrift = 0.0
         
         StokesDrift(:,1) = Utils%m2geo(cos(var_dt(:,col_wd) * (Pi / 180.)) * VelStokesDrift, sv%state(:,2), .false.)
-        StokesDrift(:,2) = Utils%m2geo(sin(var_dt(:,col_wd) * (Pi / 180.)) * VelStokesDrift, sv%state(:,2), .false.)
+        StokesDrift(:,2) = Utils%m2geo(sin(var_dt(:,col_wd) * (Pi / 180.)) * VelStokesDrift, sv%state(:,2), .true.)
+        
+        if (Globals%SimDefs%DiffusionMethod == 2) then !SullivanAllen
+            sv%state(:,col_DifVelStdr) = sv%state(:,col_DifVelStdr) + VelStokesDrift
+        endif
+        
     endif
     
     deallocate(var_name)
@@ -621,10 +647,10 @@
     !---------------------------------------------------------------------------
     function Windage(self, sv, bdata, time)
     class(kernel_class), intent(inout) :: self
-    type(stateVector_class), intent(in) :: sv
+    type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
-    integer :: np, nf, bkg
+    integer :: np, nf, nf2, nf3, bkg
     real(prec) :: windCoeff
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
@@ -632,7 +658,8 @@
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Windage
     real(prec), dimension(size(sv%state,1)) :: depth
     real(prec) :: maxLevel(2)
-    integer                                 :: numVarsToAllocate, col_ssh
+    integer                                 :: numVarsToAllocate, col_ssh, col_DifVelStdr
+    type(string)                            :: tag
     !Begin-------------------------------------------------------------------
     numVarsToAllocate = 2
     if (Globals%simDefs%inputFromHDF5) numVarsToAllocate = 3
@@ -682,10 +709,22 @@
                 depth = exp(10.0*depth)
                 
                 !write dx/dt
-                nf = Utils%find_str(var_name, Globals%Var%u10, .true.)
-                where(sv%landIntMask < Globals%Mask%landVal) Windage(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)*windCoeff * depth
-                nf = Utils%find_str(var_name, Globals%Var%v10, .true.)
-                where(sv%landIntMask < Globals%Mask%landVal) Windage(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)*windCoeff * depth
+                nf2 = Utils%find_str(var_name, Globals%Var%u10, .true.)
+                nf3 = Utils%find_str(var_name, Globals%Var%v10, .true.)
+                
+                
+                where(sv%landIntMask < Globals%Mask%landVal)
+                    Windage(:,1) = Utils%m2geo(var_dt(:,nf2), sv%state(:,2), .false.)*windCoeff * depth
+                    Windage(:,2) = Utils%m2geo(var_dt(:,nf3), sv%state(:,2), .true.)*windCoeff * depth
+                endwhere
+                
+                if (Globals%SimDefs%DiffusionMethod == 2) then !SullivanAllen
+                    tag = "VelStandardDeviation"
+                    col_DifVelStdr = Utils%find_str(sv%varName, tag, .true.)
+                    sv%state(:,col_DifVelStdr) = sv%state(:,col_DifVelStdr) + SQRT(Windage(:,1)**2 + Windage(:,2)**2) * Globals%Constants%VarVelHX
+                endif
+                
+                
                 deallocate(var_name)
                 deallocate(var_dt)
             end if
@@ -816,7 +855,7 @@
             if (sv%state(np,col_beachPeriod) > 0.0 .and. sv%state(np,col_beachAreaId) == Globals%BeachingAreas%beachArea(i)%par%id) then
                 ! Already beached in this beaching area, so try and unbeach it. no need to check if it is inside the beaching area
                 WaterLevel = var_dt(np,col_ssh)
-                Bathymetry = var_dt(np,col_bat)
+                Bathymetry = sv%state(np,col_bat)
             
                 WaterColumn =  WaterLevel - Bathymetry
                 
@@ -856,7 +895,7 @@
                 !Skip all tracers outside the limits of this beaching area
                 if (Utils%isPointInsidePolygon(x, y, beachPolygonVertices)) then
                     WaterLevel = var_dt(np,col_ssh)
-                    Bathymetry = var_dt(np,col_bat)
+                    Bathymetry = sv%state(np,col_bat)
                     WaterColumn =  WaterLevel - Bathymetry
                     threshold = Globals%BeachingAreas%beachArea(i)%par%waterColumnThreshold
                     if (WaterColumn < threshold .and. WaterLevel > Bathymetry) then
@@ -937,6 +976,12 @@
     type(string) :: tag
     real(prec) :: landIntThreshold
     !Begin---------------------------------------------------------------------------
+    
+    if (Globals%SimDefs%DiffusionMethod == 2) then !SullivanAllen
+        DiffusionMixingLength = SullivanAllen(self, sv, bdata, time, dt)
+        return
+    endif
+    
     landIntThreshold = -0.98
     tag = 'particulate'
     part_idx = Utils%find_str(sv%varName, tag, .true.)
@@ -990,7 +1035,88 @@
 
     end function DiffusionMixingLength
     
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> mixing length diffusion kernel, computes random velocities at given
+    !> instants to model diffusion processes. These are valid while the tracer
+    !> travels a given mixing length, propotional to the resolution of the
+    !> background (and its ability to resove motion scales)
+    !> @param[in] self, sv, bdata, time, dt
+    !---------------------------------------------------------------------------
+    function SullivanAllen(self, sv, bdata, time, dt)
+    class(kernel_class), intent(inout) :: self
+    type(stateVector_class), intent(inout) :: sv
+    type(background_class), dimension(:), intent(in) :: bdata
+    real(prec), intent(in) :: time
+    real(prec), intent(in) :: dt
+    real(prec), dimension(size(sv%state,1)) :: VelModH, TlagrangeH, RAND, HD, UD, VD
+    real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: SullivanAllen
+    integer :: np, part_idx, col_DifVelStdr, col_TPathHor
+    real(prec) :: Pi = 4*atan(1.0)
+    type(string) :: tag
+    !Begin----------------------------------------------------------------------
+    SullivanAllen = 0.0
+    
+    VelModH  = sqrt(sv%state(:,4)**2 + sv%state(:,5)**2)
+                    
+    tag = 'VelStandardDeviation'
+    col_DifVelStdr = Utils%find_str(sv%varName, tag, .true.)
+    
+    tag = 'TPathHor'
+    col_TPathHor = Utils%find_str(sv%varName, tag, .true.)
+    
+	sv%state(:,col_DifVelStdr) = sv%state(:,col_DifVelStdr) + Globals%Constants%VarVelHX * VelModH + Globals%Constants%VarVelH               
 
+    where (sv%state(:,col_DifVelStdr) > 0.0)
+        TlagrangeH = Globals%Constants%MixingLength / sv%state(:,col_DifVelStdr)
+    elsewhere
+        TlagrangeH = 0.0     
+    endwhere
+
+    !Copied over from MOHID LagrangianGlobal module
+    
+    call random_number(RAND)
+    
+    where (sv%state(:,col_TPathHor) >= TlagrangeH)
+                        
+        ! First step - compute the modulus of turbulent vector
+                        
+        !SQRT(3.0)=1.732050808 
+        HD                       = 1.732050808 * sv%state(:,col_DifVelStdr) * RAND
+
+        ! Second step - Compute the modulus of each component of the turbulent vector
+
+        !   From 0 to Pi/2 cos and sin have positive values
+        UD                       = HD * cos(2 * Pi * RAND)
+        VD                       = HD * sin(2 * Pi * RAND)
+
+        !Third step - Compute the direction of the the turbulent vector taking in consideration the layers thickness gradients
+        ! Spagnol et al. (Mar. Ecol. Prog. Ser., 235, 299-302, 2002).
+                        
+        !if (CurrentOrigin%Movement%TurbGradK) then
+        !    ![m/s] = [m/s] + [m] * [m/s] * [1/m] 
+        !    ! K = Turbulent Diffusion Coefficent = MixingLength * Stdev of turbulent velocity / 2. 
+        !    UD = UD + MixingLength * 1.732050808 * sv%state(:,col_DifVelStdr) / 2. * GradDWx
+        !    VD = VD + MixingLength * 1.732050808 * sv%state(:,col_DifVelStdr) / 2. * GradDWy
+        !
+        !endif                                    
+                        
+        sv%state(:,col_TPathHor) = dt
+        !Set dif velocities
+        sv%state(:,7)     = UD
+        sv%state(:,8)     = VD
+        
+        SullivanAllen(:,1) = Utils%m2geo(UD, sv%state(:,2), .false.)
+        SullivanAllen(:,2) = Utils%m2geo(VD, sv%state(:,2), .true.)
+                    
+    elsewhere
+        !Change only the position. dif velocities stay the same
+        SullivanAllen(:,1) = Utils%m2geo(sv%state(:,7), sv%state(:,2), .false.)
+        SullivanAllen(:,2) = Utils%m2geo(sv%state(:,8), sv%state(:,2), .true.)
+        sv%state(:,col_TPathHor) = sv%state(:,col_TPathHor) + dt
+    end where
+    end function SullivanAllen
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC
     !> @brief

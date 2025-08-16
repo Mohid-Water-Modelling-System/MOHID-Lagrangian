@@ -87,7 +87,7 @@
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
     class(waterQuality_class), intent(in) :: self
-    getNumVars = 39
+    getNumVars = 41
     end function getNumVars
 
     !---------------------------------------------------------------------------
@@ -109,35 +109,37 @@
     getStateArray(8) = self%now%diffusionVel%y
     getStateArray(9) = self%now%diffusionVel%z
     getStateArray(10) = self%now%usedMixingLenght
-    getStateArray(11) = self%now%age
-    getStateArray(12) = self%mpar%particulate
-    getStateArray(13) = self%now%bathymetry
-    getStateArray(14) = self%now%dwz
-    getStateArray(15) = self%now%dist2bottom
-    getStateArray(16) = self%now%beachPeriod
-    getStateArray(17) = self%now%beachAreaId
-    getStateArray(18) = self%now%beachedWaterLevel
-    getStateArray(19) = self%mnow%density
-    getStateArray(20) = self%mnow%radius
-    getStateArray(21) = self%mnow%volume
-    getStateArray(22) = self%mnow%area
-    getStateArray(23) = self%mnow%condition
-    getStateArray(24) = self%mnow%concentration
-    getStateArray(25) = self%mnow%temperature
-    getStateArray(26) = self%mnow%salinity
-    getStateArray(27) = self%mnow%oxygen
-    getStateArray(28) = self%mnow%ammonia
-    getStateArray(29) = self%mnow%nitrate
-    getStateArray(30) = self%mnow%nitrite
-    getStateArray(31) = self%mnow%inorganic_phosphorus
-    getStateArray(32) = self%mnow%DON_NonRefractory
-    getStateArray(33) = self%mnow%DOP_NonRefractory
-    getStateArray(34) = self%mnow%DON_Refractory
-    getStateArray(35) = self%mnow%DOP_Refractory
-    getStateArray(36) = self%mnow%partOrgNit
-    getStateArray(37) = self%mnow%partOrgPho
-    getStateArray(38) = self%mnow%phytoplankton
-    getStateArray(39) = self%mnow%zooplankton
+    getStateArray(11) = self%now%VelStandardDeviation
+    getStateArray(12) = self%now%TPathHor
+    getStateArray(13) = self%now%age
+    getStateArray(14) = self%mpar%particulate
+    getStateArray(15) = self%now%bathymetry
+    getStateArray(16) = self%now%dwz
+    getStateArray(17) = self%now%dist2bottom
+    getStateArray(18) = self%now%beachPeriod
+    getStateArray(19) = self%now%beachAreaId
+    getStateArray(20) = self%now%beachedWaterLevel
+    getStateArray(21) = self%mnow%density
+    getStateArray(22) = self%mnow%radius
+    getStateArray(23) = self%mnow%volume
+    getStateArray(24) = self%mnow%area
+    getStateArray(25) = self%mnow%condition
+    getStateArray(26) = self%mnow%concentration
+    getStateArray(27) = self%mnow%temperature
+    getStateArray(28) = self%mnow%salinity
+    getStateArray(29) = self%mnow%oxygen
+    getStateArray(30) = self%mnow%ammonia
+    getStateArray(31) = self%mnow%nitrate
+    getStateArray(32) = self%mnow%nitrite
+    getStateArray(33) = self%mnow%inorganic_phosphorus
+    getStateArray(34) = self%mnow%DON_NonRefractory
+    getStateArray(35) = self%mnow%DOP_NonRefractory
+    getStateArray(36) = self%mnow%DON_Refractory
+    getStateArray(37) = self%mnow%DOP_Refractory
+    getStateArray(38) = self%mnow%partOrgNit
+    getStateArray(39) = self%mnow%partOrgPho
+    getStateArray(40) = self%mnow%phytoplankton
+    getStateArray(41) = self%mnow%zooplankton
     end function getStateArray
 
     !---------------------------------------------------------------------------
@@ -159,35 +161,37 @@
     self%now%diffusionVel%z = StateArray(8)
     self%now%diffusionVel%z = StateArray(9)
     self%now%usedMixingLenght = StateArray(10)
-    self%now%age   = StateArray(11)
-    self%mpar%particulate = StateArray(12)
-    self%now%bathymetry   = StateArray(13)
-    self%now%dwz          = StateArray(14)
-    self%now%dist2bottom = StateArray(15)
-    self%now%beachPeriod = StateArray(16)
-    self%now%beachAreaId = StateArray(17)
-    self%now%beachedWaterLevel = StateArray(18)
-    self%mnow%density = StateArray(19)
-    self%mnow%radius = StateArray(20)
-    self%mnow%volume = StateArray(21)
-    self%mnow%area = StateArray(22)
-    self%mnow%condition = StateArray(23)
-    self%mnow%concentration = StateArray(24)
-    self%mnow%temperature = StateArray(25)
-    self%mnow%salinity = StateArray(26)
-    self%mnow%oxygen = StateArray(27)
-    self%mnow%ammonia = StateArray(28)
-    self%mnow%nitrate = StateArray(29) 
-    self%mnow%nitrite = StateArray(30)
-    self%mnow%inorganic_phosphorus = StateArray(31)
-    self%mnow%DON_NonRefractory = StateArray(32)
-    self%mnow%DOP_NonRefractory = StateArray(33)
-    self%mnow%DON_Refractory = StateArray(34)
-    self%mnow%DOP_Refractory = StateArray(35)
-    self%mnow%partOrgNit = StateArray(36)
-    self%mnow%partOrgPho = StateArray(37)
-    self%mnow%phytoplankton = StateArray(38)
-    self%mnow%zooplankton = StateArray(39)
+    self%now%VelStandardDeviation = StateArray(11)
+    self%now%TPathHor = StateArray(12)
+    self%now%age   = StateArray(13)
+    self%mpar%particulate = StateArray(14)
+    self%now%bathymetry   = StateArray(15)
+    self%now%dwz          = StateArray(16)
+    self%now%dist2bottom = StateArray(17)
+    self%now%beachPeriod = StateArray(18)
+    self%now%beachAreaId = StateArray(19)
+    self%now%beachedWaterLevel = StateArray(20)
+    self%mnow%density = StateArray(21)
+    self%mnow%radius = StateArray(22)
+    self%mnow%volume = StateArray(23)
+    self%mnow%area = StateArray(24)
+    self%mnow%condition = StateArray(25)
+    self%mnow%concentration = StateArray(26)
+    self%mnow%temperature = StateArray(27)
+    self%mnow%salinity = StateArray(28)
+    self%mnow%oxygen = StateArray(29)
+    self%mnow%ammonia = StateArray(30)
+    self%mnow%nitrate = StateArray(31) 
+    self%mnow%nitrite = StateArray(32)
+    self%mnow%inorganic_phosphorus = StateArray(33)
+    self%mnow%DON_NonRefractory = StateArray(34)
+    self%mnow%DOP_NonRefractory = StateArray(35)
+    self%mnow%DON_Refractory = StateArray(36)
+    self%mnow%DOP_Refractory = StateArray(37)
+    self%mnow%partOrgNit = StateArray(38)
+    self%mnow%partOrgPho = StateArray(39)
+    self%mnow%phytoplankton = StateArray(40)
+    self%mnow%zooplankton = StateArray(41)
     end subroutine setStateArray
 
     !---------------------------------------------------------------------------
@@ -252,28 +256,28 @@
     end if
     
     !filling the rest of the varName list
-    constructor%varName(19) = Globals%Var%density
-    constructor%varName(20) = 'radius'
-    constructor%varName(21) = 'volume'
-    constructor%varName(22) = 'area'
-    constructor%varName(23) = 'condition'
-    constructor%varName(24) = 'concentration'
+    constructor%varName(21) = Globals%Var%density
+    constructor%varName(22) = 'radius'
+    constructor%varName(23) = 'volume'
+    constructor%varName(24) = 'area'
+    constructor%varName(25) = 'condition'
+    constructor%varName(26) = 'concentration'
     !constructor%varName(19) = 'particulate'
-    constructor%varName(25) = 'temp'
-    constructor%varName(26) = 'salt'
-    constructor%varName(27) = 'dissolved_oxygen'
-    constructor%varName(28) = 'ammonia'
-    constructor%varName(29) = 'nitrate'
-    constructor%varName(30) = 'nitrite'
-    constructor%varName(31) = 'inorganic_phosphorus'
-    constructor%varName(32) = 'DON_NonRefractory'
-    constructor%varName(33) = 'DOP_NonRefractory'
-    constructor%varName(34) = 'DON_Refractory'
-    constructor%varName(35) = 'DOP_Refractory'
-    constructor%varName(36) = 'partOrgNit'
-    constructor%varName(37) = 'partOrgPho'
-    constructor%varName(38) = 'phytoplankton'
-    constructor%varName(39) = 'zooplankton'
+    constructor%varName(27) = 'temp'
+    constructor%varName(28) = 'salt'
+    constructor%varName(29) = 'dissolved_oxygen'
+    constructor%varName(30) = 'ammonia'
+    constructor%varName(31) = 'nitrate'
+    constructor%varName(32) = 'nitrite'
+    constructor%varName(33) = 'inorganic_phosphorus'
+    constructor%varName(34) = 'DON_NonRefractory'
+    constructor%varName(35) = 'DOP_NonRefractory'
+    constructor%varName(36) = 'DON_Refractory'
+    constructor%varName(37) = 'DOP_Refractory'
+    constructor%varName(38) = 'partOrgNit'
+    constructor%varName(39) = 'partOrgPho'
+    constructor%varName(40) = 'phytoplankton'
+    constructor%varName(41) = 'zooplankton'
     end function constructor
 
     end module tracerwaterQuality_mod

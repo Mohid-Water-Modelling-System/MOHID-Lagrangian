@@ -626,12 +626,21 @@
         call XMLReader%getNodeVector(simdefs_node, pts(i), coords)
         call Globals%SimDefs%setboundingbox(pts(i), coords)
     enddo
+    
     tag="VerticalVelMethod"
     att_name="value"
     call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val, read_flag, .false.)
     if (read_flag) then
         call Globals%SimDefs%setVerticalVelMethod(att_val)
     endif
+    
+    tag="DiffusionMethod"
+    att_name="value"
+    call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val, read_flag, .false.)
+    if (read_flag) then
+        call Globals%SimDefs%setDiffusionMethod(att_val)
+    endif
+    
     tag="RemoveLandTracer"
     att_name="value"
     call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val, read_flag, .false.)
@@ -936,6 +945,24 @@
         call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
         if (readflag) then
             call Globals%Constants%setMaxDegradationRate(att_val)
+        endif
+        tag="ConstantMixingLength"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setMixingLength(att_val)
+        endif
+        tag="VarVelHX"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setVarVelHX(att_val)
+        endif
+        tag="VarVelH"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setVarVelH(att_val)
         endif
         
     endif
