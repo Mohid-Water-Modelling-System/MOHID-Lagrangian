@@ -541,7 +541,7 @@
                     call varField%initialize(dimName, varUnits, tempRealField3D)
                 end if
             else if(self%varData(i)%ndims == 4) then !4D variable
-                !write(*,*)"entrei 4D = ", varName
+               ! write(*,*)"entrei 4D = ", varName
                 
                 allocate(tempRealField4D(varShape(1)-1, varShape(2)-1, varShape(3)-1, varShape(4))) !allocating a place to read the field data to
                 allocate(tempRealField3D(varShape(1)-1, varShape(2)-1, varShape(3)-1))
@@ -678,6 +678,7 @@ do1:                do indx=1, self%nVars
     type(string), optional, intent(in) :: mapVarName, mapVarUnits
     integer, allocatable, dimension(:,:) :: tempIntegerField2D
     integer, allocatable, dimension(:,:,:) :: tempIntegerField3D
+    real(prec), allocatable, dimension(:,:) :: tempRealField2D
     integer, allocatable, dimension(:,:,:,:) :: tempIntegerField4D
     type(string) :: dimName, varUnits
     integer :: i, j, t, var
@@ -710,12 +711,28 @@ do1:                do indx=1, self%nVars
                                 tempIntegerField3D(:,:,t) = tempIntegerField2D
                             enddo
                         elseif (self%varData(var)%ndims == 3) then
-                            !write(*,*)"Getting mavarname = ", self%varData(var)%simName
-                            !map var has the same dimensions as vel U (probably openpoints) and one of the dims is time
-                            do t=1, varShape(3)
-                                call self%readHDFIntVariable(self%varData(var), array2D = tempIntegerField2D, outputNumber = t)
-                                tempIntegerField3D(:,:,t) = tempIntegerField2D
-                            enddo
+                           ! write(*,*)"Getting mavarname = ", self%varData(var)%simName
+                            
+                            if (Globals%Var%checkMappingVar(mapVarName)) then  
+                                !map var has the same dimensions as vel U (probably openpoints) and one of the dims is time
+                                do t=1, varShape(3)
+                                    call self%readHDFIntVariable(self%varData(var), array2D = tempIntegerField2D, outputNumber = t)
+                                    tempIntegerField3D(:,:,t) = tempIntegerField2D
+                                enddo
+                            else
+                                !Using a normal var to get mapping points. First get floating values, then where they are 0, set mapmatrix to 0
+                                allocate(tempRealField2D(varShape(1)-1, varShape(2)-1))
+                                do t=1, varShape(3)
+                                    call self%readHDFVariable(self%varData(var), array2D = tempRealField2D, outputNumber = t)
+                                    where (tempRealField2D == 0.0)
+                                        tempIntegerField3D(:,:,t) = 0
+                                    elsewhere
+                                        tempIntegerField3D(:,:,t) = 1
+                                    endwhere
+                                enddo
+                                
+                            endif
+                            
                         else
                             outext = '[hdf5parser::getMappingVar]: Variable '//mapVarName//' has a non-supported dimensionality. Stopping'
                             call Log%put(outext)

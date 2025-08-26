@@ -83,6 +83,7 @@
     !    write(*,*)"Tamanho background i = ", i, bdata(i)%fields%getSize()
     !enddo
     !running preparations for kernel lanch
+    
     call self%setCommonProcesses(sv, bdata, time)
     !write(*,*)"Entrada interpolate_backgrounds"
     call self%interpolate_backgrounds(sv, bdata, time)
@@ -552,10 +553,15 @@
                 endwhere
             endwhere
         else
-            WaveLength = var_dt(:,col_ts)
+            WaveLength = var_dt(:,col_wl)
         endif                      
         
-        WaveNumber = max(2.0 * Pi / WaveLength, 0.0)
+        where (WaveLength > 1e-3)
+            WaveNumber = max(2.0 * Pi / WaveLength, 0.0)
+        elsewhere
+            WaveNumber = 0.0
+        endwhere
+        
         
         where (WaveNumber == 0.0 .or. WaterDepth == 0.0)
             VelStokesDrift = 0.0
@@ -723,7 +729,6 @@
                     col_DifVelStdr = Utils%find_str(sv%varName, tag, .true.)
                     sv%state(:,col_DifVelStdr) = sv%state(:,col_DifVelStdr) + SQRT(Windage(:,1)**2 + Windage(:,2)**2) * Globals%Constants%VarVelHX
                 endif
-                
                 
                 deallocate(var_name)
                 deallocate(var_dt)
@@ -1066,7 +1071,7 @@
     tag = 'TPathHor'
     col_TPathHor = Utils%find_str(sv%varName, tag, .true.)
     
-	sv%state(:,col_DifVelStdr) = sv%state(:,col_DifVelStdr) + Globals%Constants%VarVelHX * VelModH + Globals%Constants%VarVelH               
+	sv%state(:,col_DifVelStdr) = sv%state(:,col_DifVelStdr) + Globals%Constants%VarVelHX * VelModH + Globals%Constants%VarVelH 
 
     where (sv%state(:,col_DifVelStdr) > 0.0)
         TlagrangeH = Globals%Constants%MixingLength / sv%state(:,col_DifVelStdr)
@@ -1116,6 +1121,7 @@
         SullivanAllen(:,2) = Utils%m2geo(sv%state(:,8), sv%state(:,2), .true.)
         sv%state(:,col_TPathHor) = sv%state(:,col_TPathHor) + dt
     end where
+    
     end function SullivanAllen
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC

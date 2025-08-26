@@ -570,7 +570,7 @@
     self%hs      = 'hs'
     self%ts      = 'ts'
     self%wd      = 'wd'
-    self%wd      = 'wl'
+    self%wl      = 'wl'
     self%u10     = 'u10'
     self%v10     = 'v10'
     self%rad     = 'rad'
@@ -1279,6 +1279,8 @@
     call self%setCurrVar(tag, self%Var%ts, self%Var%tsVariants, varNode)
     tag="sea_surface_wave_mean_direction"
     call self%setCurrVar(tag, self%Var%wd, self%Var%wdVariants, varNode)
+    tag="sea_surface_wave_length"
+    call self%setCurrVar(tag, self%Var%wl, self%Var%wlVariants, varNode)
     tag="eastward_wind"
     call self%setCurrVar(tag, self%Var%u10, self%Var%u10Variants, varNode)
     tag="northward_wind"

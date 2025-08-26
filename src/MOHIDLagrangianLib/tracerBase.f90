@@ -126,8 +126,8 @@
     self%now%vel%x = StateArray(4)
     self%now%vel%y = StateArray(5)
     self%now%vel%z = StateArray(6)
-    self%now%diffusionVel%z = StateArray(7)
-    self%now%diffusionVel%z = StateArray(8)
+    self%now%diffusionVel%x = StateArray(7)
+    self%now%diffusionVel%y = StateArray(8)
     self%now%diffusionVel%z = StateArray(9)
     self%now%usedMixingLenght = StateArray(10)
     self%now%VelStandardDeviation = StateArray(11)
@@ -191,7 +191,7 @@
     constructor%now%vel = 0.0
     constructor%now%diffusionVel = 0.0
     constructor%now%VelStandardDeviation = 0.0
-    constructor%now%TPathHor = 0.0
+    constructor%now%TPathHor = 86400.0
     constructor%now%bathymetry = 0.0
     constructor%now%dwz = 0.0
     constructor%now%dist2bottom = 0.0

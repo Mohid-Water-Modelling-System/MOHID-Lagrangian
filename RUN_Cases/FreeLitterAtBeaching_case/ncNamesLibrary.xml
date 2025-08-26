@@ -69,6 +69,9 @@
             <variant name="VMDR" comment="used in CMEMS"/>
             <variant name="mean wave direction" comment="used in MOHID"/>
         </sea_surface_wave_mean_direction>
+        <sea_surface_wave_length name="wl" comment="used in CMEMS">
+            <variant name="wave length" comment="used in MOHID"/>
+        </sea_surface_wave_length>
         <eastward_wind name="u10" comment="used in CMEMS">
             <variant name="wind velocity X" comment="used in MOHID"/>
         </eastward_wind>
