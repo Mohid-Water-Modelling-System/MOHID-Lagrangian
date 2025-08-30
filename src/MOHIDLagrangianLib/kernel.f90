@@ -644,11 +644,11 @@
     !end do
     !
     !end function StokesDrift
-
+    
     !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC. Revision 30-08-2025 by Joao Sobrinho
     !> @brief
-    !> Computes the influence of wind velocity in tracer kinematics
+    !> Computes the influence of wind velocity in tracer kinematicstokes
     !> @param[in] self, sv, bdata, time
     !---------------------------------------------------------------------------
     function Windage(self, sv, bdata, time)
@@ -664,78 +664,61 @@
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Windage
     real(prec), dimension(size(sv%state,1)) :: depth
     real(prec) :: maxLevel(2)
-    integer                                 :: numVarsToAllocate, col_ssh, col_DifVelStdr
+    integer                                 :: col_ssh, col_DifVelStdr, col_u10, col_v10
     type(string)                            :: tag
     !Begin-------------------------------------------------------------------
-    numVarsToAllocate = 2
-    if (Globals%simDefs%inputFromHDF5) numVarsToAllocate = 3
     
-    allocate(requiredVars(numVarsToAllocate))
+    allocate(requiredVars(3))
     requiredVars(1) = Globals%Var%u10
     requiredVars(2) = Globals%Var%v10
-    if (Globals%simDefs%inputFromHDF5) then
-        requiredVars(3) = Globals%Var%ssh
-    endif
+    requiredVars(3) = Globals%Var%ssh
+    
+    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, justRequired = .true., reqVertInt = .false.)
     
     windCoeff = Globals%Constants%WindDragCoeff
     Windage = 0.0
-    !interpolate each background
-    do bkg = 1, size(bdata)
-        if (bdata(bkg)%initialized) then
-            if(bdata(bkg)%hasVars(requiredVars)) then
-                np = size(sv%active) !number of Tracers
-                nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
-                allocate(var_dt(np,nf))
-                allocate(var_name(nf))
-                !interpolating all of the data
-                call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name)
-                !computing the depth weight
-                
-                !Ignoring log profile.. We dont seem to take it into consideration in lagrangian global
-                
-                depth = sv%state(:,3)
-
-                if (Globals%simDefs%inputFromHDF5) then
-                    col_ssh = Utils%find_str(var_name, Globals%Var%ssh, .false.)
+    
+    col_ssh = Utils%find_str(var_name, Globals%Var%ssh, .false.)
+    col_u10 = Utils%find_str(var_name, Globals%Var%u10, .false.)
+    col_v10 = Utils%find_str(var_name, Globals%Var%v10, .false.)
+    
+    if (col_u10 == MV_INT .or. col_v10 == MV_INT) then
+        !no wind available, skip windage
+        return
+    endif
+    
+    if (col_ssh /= MV_INT) then
+        !water level exists, use it to get a more accurate solution
+        depth = sv%state(:,3)
                     
-                    if (col_ssh /= MV_INT) then
-                        !if tracer is less than 5 cm below ssh, consider full wind effect
-                        where (depth >= (var_dt(:,col_ssh) - 0.05 )) depth = 0.0
-                    else
-                        !ssh not found... assume 0.0 as the limit
-                        where (depth > 0.0) depth = 0.0
-                    endif
+        !if tracer is less than 5 cm below ssh, consider full wind effect
+        where (depth >= (var_dt(:,col_ssh) - 0.05 )) depth = 0.0
+    else
+        ! use what is available (depth levels probably)
+        maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .true.)
+        if (maxLevel(2) /= MV) where (depth >= 0 .or. depth >= maxLevel(2) - 0.05) depth = 0.0
+    endif
+    
+    !This wont do much... unless we actually start considering a depth profile from water level to the input wind data's altitude
+    depth = exp(10.0*depth)
                 
-                else
-                    maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .true.)
-                    if (maxLevel(2) /= MV) where (depth >= 0 .or. depth >= maxLevel(2) - 0.05) depth = 0.0
-                endif
-                
-                !This wont do much... unless we actually start considering a depth profile from water level to the input wind data's altitude
-                depth = exp(10.0*depth)
-                
-                !write dx/dt
-                nf2 = Utils%find_str(var_name, Globals%Var%u10, .true.)
-                nf3 = Utils%find_str(var_name, Globals%Var%v10, .true.)
-                
-                
-                where(sv%landIntMask < Globals%Mask%landVal)
-                    Windage(:,1) = Utils%m2geo(var_dt(:,nf2), sv%state(:,2), .false.)*windCoeff * depth
-                    Windage(:,2) = Utils%m2geo(var_dt(:,nf3), sv%state(:,2), .true.)*windCoeff * depth
-                endwhere
-                
-                if (Globals%SimDefs%DiffusionMethod == 2) then !SullivanAllen
-                    tag = "VelStandardDeviation"
-                    col_DifVelStdr = Utils%find_str(sv%varName, tag, .true.)
-                    sv%state(:,col_DifVelStdr) = sv%state(:,col_DifVelStdr) + SQRT(Windage(:,1)**2 + Windage(:,2)**2) * Globals%Constants%VarVelHX
-                endif
-                
-                deallocate(var_name)
-                deallocate(var_dt)
-            end if
-        end if
-    end do
+    !write dx/dt 
+    where(sv%landIntMask < Globals%Mask%landVal)
+        Windage(:,1) = Utils%m2geo(var_dt(:,col_u10), sv%state(:,2), .false.)*windCoeff * depth
+        Windage(:,2) = Utils%m2geo(var_dt(:,col_v10), sv%state(:,2), .true.)*windCoeff * depth
+    endwhere
+    
+    if (Globals%SimDefs%DiffusionMethod == 2) then !SullivanAllen
+        tag = "VelStandardDeviation"
+        col_DifVelStdr = Utils%find_str(sv%varName, tag, .true.)
+        sv%state(:,col_DifVelStdr) = sv%state(:,col_DifVelStdr) + SQRT(Windage(:,1)**2 + Windage(:,2)**2) * Globals%Constants%VarVelHX
+    endif
+        
+    deallocate(var_name)
+    deallocate(var_dt)
+    
     end function Windage
+
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -808,6 +791,7 @@
     type(string) :: temp_str
     !Begin------------------------------------------------------
     
+    ! Making FreeLitterAtBeaching = svDt so it can be used to set x and y position derivatives to 0 if beached
     FreeLitterAtBeaching = svDt
     
     !bail early
@@ -889,7 +873,6 @@
 
                         if (WaterLevel > sv%state(np,col_beachedWaterLevel)) then
                             sv%state(np,col_beachPeriod) = 0.0
-                            !this is a derivative so in the end this will set beach period to 0
                         endif
                     endif
                 endif
@@ -920,7 +903,7 @@
                                 sv%state(np,col_beachedWaterLevel) = var_dt(np,col_ssh)
                             endif
                                     
-                            sv%state(np,col_beachPeriod) = sv%state(np,col_beachPeriod) + dt !this is a derivative so in the end this will mean +dt
+                            sv%state(np,col_beachPeriod) = sv%state(np,col_beachPeriod) + dt
                             
                             do j=1,3
                                 FreeLitterAtBeaching(np,j) = 0.0 !Do not change positions
