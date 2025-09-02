@@ -42,8 +42,8 @@
 		<constants>
 			<BeachingLevel value="-3.5" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />			
 			<ConstantMixingLength value="20000" comment="Constant horizontal mixing length. Default = 500" units_comment="m" />			
-			<VarVelHX value="0.2" comment="Horizontal variance of velocity. Default = 0.2" units_comment="-" />			
-			<VarVelH value="0.01" comment="Level above which beaching can occur. Default = 0.0" units_comment="m/s" />			
+			<VarVelHX value="0.1" comment="Horizontal variance of velocity. Default = 0.2" units_comment="-" />			
+			<VarVelH value="0.00" comment="Level above which beaching can occur. Default = 0.0" units_comment="m/s" />			
 		</constants>
 	</caseDefinitions>
 </case>

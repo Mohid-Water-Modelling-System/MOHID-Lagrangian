@@ -398,10 +398,12 @@
     subroutine RunSolver(self)
     implicit none
     class(block_class), intent(inout) :: self
+    integer :: i
     if (allocated(self%BlockState)) then             !There are Tracers in this Block
         if (allocated(self%Background)) then    !There are Backgrounds in this Block
             !print*, 'From Block ', self%id
             call self%Solver%runStep(self%BlockState, self%Background, Globals%SimTime%CurrTime, Globals%SimDefs%dt)
+            
         end if
     end if
     end subroutine RunSolver

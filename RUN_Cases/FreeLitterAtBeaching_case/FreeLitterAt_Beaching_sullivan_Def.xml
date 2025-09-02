@@ -4,7 +4,7 @@
 		<parameters>
 			<parameter key="Start" value="2024 01 01 01 00 00" comment="Date of initial instant" units_comment="space delimited ISO 8601 format up to seconds" />
 			<parameter key="End"   value="2024 01 05 00 00 00" comment="Date of final instant" units_comment="ISO format" />
-			<parameter key="Integrator" value="1" comment="Integration Algorithm 1:Euler, 2:Multi-Step Euler, 3:RK4 (default=1)" />			
+			<parameter key="Integrator" value="2" comment="Integration Algorithm 1:Euler, 2:Multi-Step Euler, 3:RK4 (default=1)" />			
 			<parameter key="Threads" value="1" comment="Computation threads for shared memory computation (default=auto)" />
 			<parameter key="OutputWriteTime" value="1000" comment="Time out data (1/Hz)" units_comment="seconds" />
 		</parameters>
@@ -65,8 +65,8 @@
 		<constants>
 			<BeachingLevel value="-5.0" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />
 			<ConstantMixingLength value="500" comment="Constant horizontal mixing length. Default = 500" units_comment="m" />			
-			<VarVelHX value="0.2" comment="Horizontal variance of velocity. Default = 0.2" units_comment="-" />			
-			<VarVelH value="0.01" comment="Level above which beaching can occur. Default = 0.0" units_comment="m/s" />	
+			<VarVelHX value="0.1" comment="Horizontal variance of velocity. Default = 0.2" units_comment="-" />			
+			<VarVelH value="0.0" comment="base horizontal turbulent velocity. Default = 0.0" units_comment="m/s" />	
 		</constants>
 	</caseDefinitions>
 </case>

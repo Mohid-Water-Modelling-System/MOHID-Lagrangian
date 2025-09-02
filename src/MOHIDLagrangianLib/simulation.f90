@@ -316,6 +316,8 @@
     integer :: i
     if (Globals%Sim%getnumdt() /= 1 ) then
         call self%timerSolver%Tic()
+        !write (*,*) "position x entrada = ", sBlock(1)%state(1,1)
+        !write (*,*) "position y entrada = ", sBlock(1)%state(1,2)
         !$OMP PARALLEL PRIVATE(i)
         !$OMP DO
         do i=1, size(sBlock)
@@ -324,6 +326,8 @@
         !$OMP END DO
         !$OMP END PARALLEL
         call self%timerSolver%Toc()
+        !write (*,*) "position x saida = ", sBlock(1)%state(1,1)
+        !write (*,*) "position y saida = ", sBlock(1)%state(1,2)
     end if
     end subroutine BlocksRunSolver
 

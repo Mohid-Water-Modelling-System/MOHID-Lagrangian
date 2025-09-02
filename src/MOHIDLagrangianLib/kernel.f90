@@ -563,20 +563,19 @@
         endwhere
         
         
-        where (WaveNumber == 0.0 .or. WaterDepth == 0.0)
+        where (WaveNumber == 0.0 .or. WaterDepth < 0.01)
             VelStokesDrift = 0.0
         elsewhere (WaterDepth > WaveLength / 2.0)
             !use longuetHiggins Deep
             !C_Term = - (WaveAmplitude**2 * AngFrequency * sinh(2.0 * WaveNumber * WaterDepth)) / &
             !                    ( 4 * WaterDepth * sinh(WaveNumber * WaterDepth)**2)
-                                
+            VelStokesDrift  = WaveAmplitude**2 * AngFrequency * WaveNumber * exp(-2* WaveNumber * Depth)        
+
+        elsewhere
+            
             VelStokesDrift = WaveAmplitude**2 * AngFrequency * WaveNumber * (( cosh(2 * WaveNumber * (Depth - WaterDepth)) ) /         &
                              ( 2 * (sinh(WaveNumber * WaterDepth)* sinh(WaveNumber * WaterDepth)))) - (WaveAmplitude**2 * AngFrequency * sinh(2.0 * WaveNumber * WaterDepth)) / &
                              ( 4 * WaterDepth * sinh(WaveNumber * WaterDepth)**2)
-        elsewhere
-            
-            VelStokesDrift  = WaveAmplitude**2 * AngFrequency * WaveNumber * exp(-2* WaveNumber * Depth)
-        
         endwhere
         
         where (VelStokesDrift > 10.0) VelStokesDrift = 0.0
@@ -689,10 +688,10 @@
     
     if (col_ssh /= MV_INT) then
         !water level exists, use it to get a more accurate solution
-        depth = sv%state(:,3)
+        depth = max(var_dt(:,col_ssh) - sv%state(:,3), 0.0)
                     
         !if tracer is less than 5 cm below ssh, consider full wind effect
-        where (depth >= (var_dt(:,col_ssh) - 0.05 )) depth = 0.0
+        where (depth >= 0.05) depth = 0.0
     else
         ! use what is available (depth levels probably)
         maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .true.)
@@ -848,13 +847,9 @@
             
                 WaterColumn =  WaterLevel - Bathymetry
                 
-                do j=1,3
-                    FreeLitterAtBeaching(np,j) = 0.0 !Do not change positions
-                    sv%state(np,j+3) = 0.0 !nor velocities
-                end do
-                
                 sv%state(np,col_beachPeriod) = sv%state(np,col_beachPeriod) + dt
                 threshold = Globals%BeachingAreas%beachArea(i)%par%waterColumnThreshold
+                
                 if (WaterColumn > threshold .and. WaterLevel > Bathymetry) then
                 
                     call random_number(rand1)
@@ -891,7 +886,7 @@
                         call random_number(rand1)
                 
                         Probability = 1 - exp(-dt/Tbeach)
-
+                    
                         if (Probability > rand1) then 
                             if (Globals%BeachingAreas%beachArea(i)%par%runUpEffect == 1) then
                                 Hs         = var_dt(np,col_Hs)
@@ -904,17 +899,25 @@
                             endif
                                     
                             sv%state(np,col_beachPeriod) = sv%state(np,col_beachPeriod) + dt
-                            
-                            do j=1,3
-                                FreeLitterAtBeaching(np,j) = 0.0 !Do not change positions
-                                sv%state(np,j+3) = 0.0 !nor velocities
-                            end do
                         endif
                     endif
                 endif
             endif
         enddo
     enddo
+        
+    where (sv%state(:,col_beachPeriod) > 0.0)
+        FreeLitterAtBeaching(:,1) = 0.0 !Do not change positions
+        FreeLitterAtBeaching(:,2) = 0.0 !Do not change positions
+        FreeLitterAtBeaching(:,3) = 0.0 !Do not change positions
+        sv%state(:,4) = 0.0 !nor velocities
+        sv%state(:,5) = 0.0 !nor velocities
+        sv%state(:,6) = 0.0 !nor velocities
+        sv%state(:,7) = 0.0 !nor velocities
+        sv%state(:,8) = 0.0 !nor velocities
+        sv%state(:,9) = 0.0 !nor velocities
+    endwhere
+    
     
     deallocate(var_dt)
     deallocate(var_name)
@@ -1098,11 +1101,15 @@
         SullivanAllen(:,1) = Utils%m2geo(UD, sv%state(:,2), .false.)
         SullivanAllen(:,2) = Utils%m2geo(VD, sv%state(:,2), .true.)
                     
-    elsewhere
+    elsewhere (sv%state(:,col_DifVelStdr) > 0.0)
         !Change only the position. dif velocities stay the same
         SullivanAllen(:,1) = Utils%m2geo(sv%state(:,7), sv%state(:,2), .false.)
         SullivanAllen(:,2) = Utils%m2geo(sv%state(:,8), sv%state(:,2), .true.)
         sv%state(:,col_TPathHor) = sv%state(:,col_TPathHor) + dt
+    elsewhere
+        !remove diffusion when there is no source of velocity
+        sv%state(:,7) = 0.0
+        sv%state(:,8) = 0.0
     end where
     
     end function SullivanAllen
