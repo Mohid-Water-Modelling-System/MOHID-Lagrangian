@@ -1,14 +1,49 @@
+#|==================================================================================|#
+#|						.gitignore for the branch dev_Mohsen						|#
+#|==================================================================================|#
+
+#|==================================================================================|#
+#|				Build directories, binaries	and External libraries					|#
+#|==================================================================================|#
 build/
-anim/
-Anim/
-run_local_cases/
 ExternalLibs/
+buildScripts/ExternalLibs/
+buildScripts/build/
+buildScripts/MOHID-Lagrangian/
+buildScripts/src/
+build/bin/RELEASE/MOHIDLagrangian.exe
 
+
+
+#|==================================================================================|#
+#|							Editor and IDE settings									|#
+#|==================================================================================|#
 .vscode
+.vs/VSWorkspaceState.json
+.vs/slnx.sqlite
+.vs/ProjectSettings.json
+.vs/MOHID-Lagrangian/v16/.suo
+.vs/cmake.db
+.vs/CMake Overview
 
+
+#|==================================================================================|#
+#|								Source code files									|#
+#|==================================================================================|#
+#src/MOHIDLagrangianLib/kernel.f90
+#src/MOHIDLagrangianLib/kernelColiforms.f90
+
+
+#|==================================================================================|#
+#|								System files (macOS)								|#
+#|==================================================================================|#
 .DS_Store
 **/.DS_Store
 
+
+#|==================================================================================|#
+#|							Build and compilation artifacts							|#
+#|==================================================================================|#
 *_out/
 *.out
 *.o
@@ -20,17 +55,19 @@ Makefile
 *.Po
 *.log
 CMakeSettings.json
-.vs/VSWorkspaceState.json
-.vs/slnx.sqlite
-.vs/ProjectSettings.json
-.vs/MOHID-Lagrangian/v16/.suo
-.vs/cmake.db
-.vs/CMake Overview
-build/bin/RELEASE/MOHIDLagrangian.exe
-src/MOHIDLagrangianLib/kernel.f90
-src/MOHIDLagrangianLib/kernelColiforms.f90
-build/bin/RELEASE/MOHIDLagrangian.exe
-build/bin/RELEASE/MOHIDLagrangian.exe
+
+
+#|==================================================================================|#
+#|					Animation output directories (case sensitive)					|#
+#|==================================================================================|#
+anim/
+Anim/
+
+
+#|==================================================================================|#
+#|							Run cases directories and files							|#
+#|==================================================================================|#
+run_local_cases/
 RUN_Cases/Debug_case/Command Prompt.lnk
 RUN_Cases/Debug_case/data/Batea.kmz
 RUN_Cases/Debug_case/data/Lerez.dat
@@ -50,5 +87,23 @@ RUN_Cases/Debug_case/ncNamesLibrary.xml
 RUN_Cases/Debug_case/outputFields.xml
 RUN_Cases/Debug_case/PV_state.pvsm
 RUN_Cases/Debug_case/RunCase_buoyancy.sh
-RUN_Cases/Debug_case/RunCase_test.bat
-build/bin/RELEASE/MOHIDLagrangian.exe
+
+#RUN_Cases/Mohsen_Cases/**/nc_fields/hydrodynamic/
+#RUN_Cases/Mohsen_Cases/**/nc_fields/water_properties/
+#RUN_Cases/Mohsen_Cases/**/nc_fields/waves/
+#RUN_Cases/Mohsen_Cases/**/nc_fields/meteorology/
+RUN_Cases/Mohsen_Cases/**/Arousa_3D_Def_out/
+
+
+#|==================================================================================|#
+#|==================================================================================|#
+#| Syntax      | Meaning                                                        	|#
+#| ----------- | -------------------------------------------------------------- 	|#
+#|  filename   | Ignores a file in the root or any subdirectory (e.g., `*.log`) 	|#
+#|  folder/    | Ignores an entire directory and everything inside it, recursively	|#
+#|  *.ext      | Ignores all files with the .ext extension, anywhere 		     	|#
+#|  **/file    | Ignores `file` in any subdirectory (all directories,recursive)   	|#
+#|  !filename  | **Negates** a rule: includes a file previously ignored         	|#
+#|  /filename  | Ignores a file only in the root directory of the repository    	|#
+#|==================================================================================|#
+
