@@ -124,6 +124,11 @@
         real(prec)   :: MeanKVisco          !< mean ocean water kinematic viscosity
         integer      :: AddBottomCell       !< open the first bottom cell and put the same value as the cell above
         real(prec)   :: Rugosity            !< Bottom rugosity value (for now the model assumes a constant value over the grid)
+        real(prec)   :: BedLoadThickness    !< BedLoad thickness value (for now the model assumes a constant value over the grid)
+        real(prec)   :: ResuspensionProb    !< Probablity of resuspension of a tracer (-)		
+        real(prec)   :: ResuspsionResidenceTime 	!< Resuspsion Residence Time value
+        real(prec)   :: ResuspsionCriticalShear1 	!< Bottom Resuspsion Critical Shear 1 value (for now the model assumes a constant value over the grid)	
+        real(prec)   :: ResuspsionCriticalShear2 	!< Bottom Resuspsion Critical Shear 2 value (for now the model assumes a constant value over the grid)		
         real(prec)   :: Critical_Shear_Erosion !< Bottom critical shear erosion value (for now the model assumes a constant value over the grid)
         real(prec)   :: TOptBacteriaMin          !< minimum temperature of the optimal interval for the Bacteria growth
         real(prec)   :: TOptBacteriaMax          !< maximum temperature of the optimal interval for the Bacteria growt
@@ -150,6 +155,11 @@
     procedure :: setMeanKVisco
     procedure :: setAddBottomCell
     procedure :: setRugosity
+    procedure :: setBedLoadThickness
+    procedure :: setResuspensionProb
+    procedure :: setResuspsionResidenceTime	
+    procedure :: setResuspsionCriticalShear1
+    procedure :: setResuspsionCriticalShear2
     procedure :: setCritical_Shear_Erosion
     procedure :: setTOptBacteriaMin
     procedure :: setTOptBacteriaMax
@@ -498,10 +508,15 @@
     self%Constants%smallDt = 0.0
     self%Constants%ResuspensionCoeff = 0.0
     self%Constants%MeanDensity = 1027.0
-    self%Constants%MeanKVisco = 1.09E-3
+    self%Constants%MeanKVisco = 1.09E-6
     self%Constants%AddBottomCell = 0
     self%Constants%Rugosity = 0.0025
-    self%Constants%Critical_Shear_Erosion = 0.4
+	self%Constants%BedLoadThickness = 0.04
+	self%Constants%ResuspensionProb = 0.0
+	self%Constants%ResuspsionResidenceTime = 10 * 24 * 60.0 * 60.0 	! 10 days in second
+	self%Constants%ResuspsionCriticalShear1 = 0.40
+	self%Constants%ResuspsionCriticalShear1 = 0.45
+    self%Constants%Critical_Shear_Erosion = 0.40
     self%Constants%TOptBacteriaMin = 24.8
     self%Constants%TOptBacteriaMax = 25.1
     self%Constants%TBacteriaMin = 5
@@ -1976,7 +1991,113 @@
     sizem = sizeof(self%Rugosity)
     call SimMemory%adddef(sizem)
     end subroutine setRugosity
-    
+
+	!---------------------------------------------------------------------------
+	!> @author Mohsen Shabani CRETUS - GFNL
+    !> @brief
+    !> BedLoad Thickness setting routine or not
+    !> @param[in] self, read_BedLoadThickness
+    !---------------------------------------------------------------------------
+    subroutine setBedLoadThickness(self, read_BedLoadThickness)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_BedLoadThickness
+    type(string) :: outext
+    integer :: sizem
+    if (read_BedLoadThickness%to_number(kind=1._R8P) < 0.0) then
+        outext='BedLoadThickness must be zero or positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%BedLoadThickness=read_BedLoadThickness%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%BedLoadThickness)
+    call SimMemory%adddef(sizem)
+    end subroutine setBedLoadThickness
+
+	!---------------------------------------------------------------------------
+	!> @author Mohsen Shabani CRETUS - GFNL
+    !> @brief
+    !> Resuspension probability setting routine or not
+    !> @param[in] self, read_ResuspensionProb
+    !---------------------------------------------------------------------------	
+    subroutine setResuspensionProb(self, read_ResuspensionProb)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_ResuspensionProb
+    type(string) :: outext
+    integer :: sizem
+    if (read_ResuspensionProb%to_number(kind=1._R8P) < 0.0) then
+        outext='ResuspensionProb must be zero or positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%ResuspensionProb =read_ResuspensionProb%to_number(kind=1._R8P)*0.01 !user input is in %
+    endif
+    sizem = sizeof(self%ResuspensionProb)
+    call SimMemory%adddef(sizem)
+    end subroutine setResuspensionProb
+	
+	!---------------------------------------------------------------------------
+	!> @author Mohsen Shabani CRETUS - GFNL
+    !> @brief
+    !> Resuspsion Residence Time setting routine or not
+    !> @param[in] self, read_ResuspsionResidenceTime
+    !---------------------------------------------------------------------------
+    subroutine setResuspsionResidenceTime(self, read_ResuspsionResidenceTime)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_ResuspsionResidenceTime
+    type(string) :: outext
+    integer :: sizem
+    if (read_ResuspsionResidenceTime%to_number(kind=1._R8P) < 0.0) then
+        outext='ResuspsionResidenceTime must be zero or positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%ResuspsionResidenceTime=read_ResuspsionResidenceTime%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%ResuspsionResidenceTime)
+    call SimMemory%adddef(sizem)
+    end subroutine setResuspsionResidenceTime
+
+	!---------------------------------------------------------------------------
+	!> @author Mohsen Shabani CRETUS - GFNL
+    !> @brief
+    !> Resuspsion Critical Shear 1 setting routine or not
+    !> @param[in] self, read_ResuspsionCriticalShear1
+    !---------------------------------------------------------------------------
+    subroutine setResuspsionCriticalShear1(self, read_ResuspsionCriticalShear1)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_ResuspsionCriticalShear1
+    type(string) :: outext
+    integer :: sizem
+    if (read_ResuspsionCriticalShear1%to_number(kind=1._R8P) < 0.0) then
+        outext='ResuspsionCriticalShear1 must be zero or positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%ResuspsionCriticalShear1=read_ResuspsionCriticalShear1%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%ResuspsionCriticalShear1)
+    call SimMemory%adddef(sizem)
+    end subroutine setResuspsionCriticalShear1
+
+	!---------------------------------------------------------------------------
+	!> @author Mohsen Shabani CRETUS - GFNL
+    !> @brief
+    !> Resuspsion Critical Shear 2 setting routine or not
+    !> @param[in] self, read_ResuspsionCriticalShear2
+    !---------------------------------------------------------------------------
+    subroutine setResuspsionCriticalShear2(self, read_ResuspsionCriticalShear2)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_ResuspsionCriticalShear2
+    type(string) :: outext
+    integer :: sizem
+    if (read_ResuspsionCriticalShear2%to_number(kind=1._R8P) < 0.0) then
+        outext='ResuspsionCriticalShear2 must be zero or positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%ResuspsionCriticalShear2=read_ResuspsionCriticalShear2%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%ResuspsionCriticalShear2)
+    call SimMemory%adddef(sizem)
+    end subroutine setResuspsionCriticalShear2
+	
+	!---------------------------------------------------------------------------    
     !> @author Joao Sobrinho - ColabAtlantic
     !> @brief
     !> Critical shear erosion setting routine or not
@@ -2295,9 +2416,19 @@
     temp_str(1)=self%MixingLength
     outext = outext//'       MixingLength = '//temp_str(1)//' -'//new_line('a')  
     temp_str(1)=self%WindDragCoeff
-    outext = outext//'       WindDragCoeff = '//temp_str(1)//' -'//new_line('a')  
+    outext = outext//'       WindDragCoeff = '//temp_str(1)//' -'//new_line('a') 
+    temp_str(1)=self%BedLoadThickness
+    outext = outext//'       BedLoadThickness = '//temp_str(1)//new_line('a')	
     temp_str(1)=self%ResuspensionCoeff
     outext = outext//'       ResuspensionCoeff = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%ResuspsionResidenceTime
+    outext = outext//'       ResuspsionResidenceTime = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%ResuspensionProb
+    outext = outext//'       ResuspensionProb = '//temp_str(1)//new_line('a')	
+    temp_str(1)=self%ResuspsionCriticalShear1
+    outext = outext//'       ResuspsionCriticalShear1 = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%ResuspsionCriticalShear2
+    outext = outext//'       ResuspsionCriticalShear2 = '//temp_str(1)//new_line('a')	
     temp_str(1)=self%Critical_Shear_Erosion
     outext = outext//'       CriticalShearErosion = '//temp_str(1)//new_line('a')
     temp_str(1)=self%AddBottomCell

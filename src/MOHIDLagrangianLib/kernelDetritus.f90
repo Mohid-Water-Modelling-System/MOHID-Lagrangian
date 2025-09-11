@@ -110,14 +110,18 @@
         !Kg = Kg    -  Kg  *    []     *          1/s       * s
         mass = mass - init_mass * limFactor * MaxDegradationRate * compute_rate
     
+		where(mass < 0.002 .or. mass == 0.002)
+			mass = 0.002
+		end where
+	
         !keeping density untouched, but changing volume
         volume_new = max(mass / sv%state(:,density_col), 0.0)
     
         Degradation(:,volume_col) = - (sv%state(:,volume_col) - volume_new) / dt
         
         !where(sv%state(:,volume_col) < 0.02*sv%state(:,initvol_col)) sv%active = .false.
-        where(mass < 0.002) sv%active = .false.
-        
+        !where(mass < 0.002) sv%active = .false.
+		
     end if
     
     end function Degradation

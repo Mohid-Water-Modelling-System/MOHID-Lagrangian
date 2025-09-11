@@ -890,11 +890,14 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
                 if (allocated(self%dim(dimIndx)%field1D)) then
                     dimIndx = minloc(abs(self%dim(dimIndx)%field1D - Globals%Constants%BeachingLevel),1)
                     beach4d(:,:,:dimIndx,:) = .false. !this must be above a certain level only
+					where (curr%field(:,:,:dimIndx,:) == Globals%Mask%landVal ) curr%field(:,:,:dimIndx,:) = - Globals%Mask%landVal
                     bed4d(:,:,dimIndx:,:) = .false.   !bellow a certain level
-                elseif (allocated(self%dim(dimIndx)%field4D)) then  
+               
+                elseif (allocated(self%dim(dimIndx)%field4D)) then
                     where (self%dim(dimIndx)%field4D <= Globals%Constants%BeachingLevel)
                         beach4d = .false.!Below beaching level, beach flag is false.
-                    elsewhere 
+						where (curr%field == Globals%Mask%landVal) curr%field = - Globals%Mask%landVal 
+					elsewhere 
                         bed4d = .false.   !Above beaching level, bed flag is false.
                     endwhere
                 else
@@ -909,7 +912,8 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
                     beach4d(:,:,:,1) = beach4d(:,:,:,1) .or. beach4d(:,:,:,k)
                     beach4d(:,:,:,k) = beach4d(:,:,:,1)
                 end do
-                where ((curr%field == Globals%Mask%landVal) .and. beach4d) curr%field = Globals%Mask%beachVal
+                where ((curr%field == + Globals%Mask%landVal) .and. beach4d) curr%field = Globals%Mask%beachVal
+				where ((curr%field == - Globals%Mask%landVal) .and. bed4d  ) curr%field = Globals%Mask%bedVal
             end if
             class default
             outext = '[background_class::makeLandMaskField] Unexepected type of content, not a 3D or 4D scalar Field'

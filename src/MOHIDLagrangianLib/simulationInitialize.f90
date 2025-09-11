@@ -886,6 +886,36 @@
         if (readflag) then
             call Globals%Constants%setRugosity(att_val)
         endif
+		tag="BedLoadThickness"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setBedLoadThickness(att_val)
+        endif
+		tag="ResuspensionProb"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setResuspensionProb(att_val)
+        endif
+		tag="ResuspsionResidenceTime"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setResuspsionResidenceTime(att_val)
+        endif
+		tag="ResuspsionCriticalShear1"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setResuspsionCriticalShear1(att_val)
+        endif
+		tag="ResuspsionCriticalShear2"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setResuspsionCriticalShear2(att_val)
+        endif
         tag="CriticalShearErosion"
         att_name="value"
         call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)

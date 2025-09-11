@@ -93,6 +93,7 @@
         type(interpolator_class) :: Interpolator !< The interpolator object for the kernel
     contains
     procedure :: initialize => initKernelVerticalMotion
+	procedure :: LandIntThresholdValue								   
     procedure :: Buoyancy
     procedure :: CorrectVerticalBounds
     procedure :: Reynolds
@@ -100,6 +101,8 @@
     procedure :: SphericalShapeFactor
     procedure :: Divergence
     procedure :: Resuspension
+	procedure, nopass :: seaWaterDensity
+	procedure, nopass :: absoluteSeaWaterViscosity									 
     end type kernelVerticalMotion_class
     
     type(kernelUtils_class) :: KernelUtils_VerticalMotion   !< kernel utils
@@ -107,12 +110,57 @@
     public :: kernelVerticalMotion_class
 
     contains
+	
+	!---------------------------------------------------------------------------
+	!> @author Mohsen Shabani CRETUS - GFNL
+    !> @brief
+    !> Evaluate the LandIntThresholdValue value  for a given Threshold_value (land threshold value for the dist2bottom function).
+    !> Threshold_value is the regarding the position of the particle form seabed in [meter]
+    !> @param[in] self, sv, bdata, time, Threshold_value
+    !---------------------------------------------------------------------------
+    function LandIntThresholdValue(self, sv, bdata, time, Threshold_value)
+    class(kernelVerticalMotion_class), intent(inout) :: self
+    type(stateVector_class), intent(in) :: sv
+    type(background_class), dimension(:), intent(in) :: bdata
+    real(prec), intent(in) :: time
+    integer :: part_idx, col_dist2bottom
+    !integer :: nf_w, col_dist2bottom, part_idx
+	
+    real(prec), dimension(size(sv%state,1)) :: dist2bottom
+    real(prec) :: threshold_bot_wat
+    real(prec) :: Threshold_value	!distance from the bottom (seabed) in unit [meter]. It could be a constant * Globals%Constants%Rugosity
+	real(prec), dimension(size(sv%state,1)) :: LandIntThresholdValue
+    type(string) :: tag
+	
+    integer :: i,counterr
+    !-------------------------------------------------------------------------------------
+    !write(*,*)"Entrada kinematic"
+    col_dwz = Utils%find_str(sv%varName, Globals%Var%dwz, .true.)
+	tag = 'dist2bottom'
+    col_dist2bottom = Utils%find_str(sv%varName, tag, .true.)
+    dist2bottom = sv%state(:,col_dist2bottom)
+	
+    tag = 'particulate'
+    part_idx = Utils%find_str(sv%varName, tag, .true.)
+	
+    ! threshold_bot_wat: equal to 0.0 will be correspond to the distance to the bottom equal to the last measurmet(given data).
+    ! LandIntThresholdValue: will be correspond to the distance to the bottom which the volcity could be considered zero
+	! LandIntThresholdValue gives the value the dist2bottom for this threshold.
+	! u, v and w velocities for distance to the seabed(h(i) - bathymetry) < Rugosity reach to zero.    
+
+	LandIntThresholdValue = -1 +   (Threshold_value)/(sv%state(:,col_dwz))
+		
+	end function  LandIntThresholdValue
 
     !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @author Mohsen Shabani - CRETUS -GFNL
     !> @brief
-    !> Computes the vertical velocity due to buoyancy of the tracers
+    !> Computes the vertical velocity due to buoyancy of the tracers in seawater
     !> @param[in] self, sv, bdata, time
+	!> Based on papers by: 
+	!> [1] Jalón-Rojas, I., Wang, X. H., & Fredj, E. (2019).3D numerical model to Track Marine Plastic Debris (TrackMPD)	Marine pollution bulletin, 141, 256-272.
+	!> [2] Zhiyao, S., Tingting, W., Fumin, X., & Ruijie, L. (2008). A simple formula for predicting settling velocity of sediment particles. Water Science and Engineering, 1(1), 37-43.
+	!> It should be noticed that in this paper the velocity is considered for a spherical particle with the diameter between 0.5 to 5 [millimeter]
     !---------------------------------------------------------------------------
     function Buoyancy(self, sv, bdata, time)
     class(kernelVerticalMotion_class), intent(inout) :: self
@@ -120,23 +168,28 @@
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
     integer :: rIdx, rhoIdx, areaIdx, volIdx
-    integer :: col_temp, col_sal, col_dist2bottom
+    integer :: col_temp, col_sal, col_dist2bottom, counterr
     !integer :: col_temp, col_sal, col_dwz, col_bat
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Buoyancy
     real(prec), dimension(size(sv%state,1)) :: fDensity, kVisco, dist2bottom
-    real(prec), dimension(size(sv%state,1)) :: signZ, shapeFactor, densityRelation, cd,Re
-    real(prec), dimension(size(sv%state,1)) :: ReynoldsNumber, kViscoRelation
+    real(prec), dimension(size(sv%state,1)) :: signZ, dimlessDiameter, densityRelation, cd,Re, settlingVelocity
+    real(prec), dimension(size(sv%state,1)) :: ReynoldsNumber, kViscoRelation, A
     real(prec), dimension(2) :: maxLevel
-    real(prec) :: landIntThreshold = -0.98
+    real(prec) :: landIntThreshold = -1.0
     type(string) :: tag
+	! Logical mask_time for deactive calculation at initial time
+	logical :: mask_time(size(sv%state,1))
+	real(prec) :: Threshold_value
+	real(prec), dimension(size(sv%state,1)) :: LandIntThreshold_value
+
     ! Begin -------------------------------------------------------------------------
     Buoyancy = 0.0
     tag = 'dist2bottom'
     col_dist2bottom = Utils%find_str(sv%varName, tag, .true.)
 
     !col_dwz = Utils%find_str(sv%varName, Globals%Var%dwz, .true.)
-    !col_bat = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
-                
+    !col_bat = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)   
+	
     !dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - sv%state(:,col_bat)) / (sv%state(:,col_dwz))
     dist2bottom = sv%state(:,col_dist2bottom)
     col_temp = Utils%find_str(sv%varname, Globals%Var%temp, .false.)
@@ -150,66 +203,79 @@
     tag = 'area'
     areaIdx = Utils%find_str(sv%varName, tag, .true.)
     signZ = -1.0
-    
+	tag = 'age'
+    ageIdx = Utils%find_str(sv%varName, tag, .true.)
+	
+	! Threshold_value: distance from the bottom (seabed) in unit [meter].
+	! It could be a constant * Globals%Constants%Rugosity
+	Threshold_value = Globals%Constants%Rugosity
+	LandIntThreshold_value =self%LandIntThresholdValue(sv, bdata, time, Threshold_value)
+		
+	! Initialize to .FALSE.
+	mask_time = .false.
+	! Apply condition only on the age column
+	mask_time = (sv%state(:, ageIdx) /= 0.0)
+  
     if ((col_temp /= MV_INT) .and. (col_sal /= MV_INT)) then
-        
-        fDensity = seaWaterDensity(sv%state(:,col_sal), sv%state(:,col_temp),sv%state(:,3))
-        kVisco = absoluteSeaWaterViscosity(sv%state(:,col_sal), sv%state(:,col_temp))
-        
-        kViscoRelation = abs(1.-(kvisco/Globals%Constants%MeanKvisco))
-        where(kViscoRelation >= 0.9)
-            kVisco = Globals%Constants%MeanKvisco
-            fDensity = Globals%Constants%MeanDensity
-        endwhere
-        
-        ! Get the direction of buoyancy ( + to the surface, - to the bottom)
-        signZ = -1.0
-        where(fDensity-sv%state(:,rhoIdx) >= 0)
-            signZ = 1.0
-        endwhere
-        ! Boundary density values could be 0. This avoid underdumped values on density. 
-        ! Just density relation of 90 % related to mean water density are allowed.
-        densityRelation = abs(1.- (sv%state(:,rhoIdx)/fDensity))
-        where (densityRelation >= 0.9)
-            densityRelation = abs(1.- (sv%state(:,rhoIdx)/Globals%Constants%MeanDensity))
-        endwhere
-        ! Get drag and shapefactor
-        shapeFactor = self%SphericalShapeFactor(sv%state(:,areaIdx),sv%state(:,volIdx))
-        reynoldsNumber = self%Reynolds(sv%state(:,6), kvisco, sv%state(:,rIdx)*2) 
-        cd = self%dragCoefficient(shapeFactor, sv%state(:,rIdx), reynoldsNumber)
-        ! Get buoyancy
-        where ((reynoldsNumber /=0.) .and. (dist2bottom > landIntThreshold))
-            Buoyancy(:,3) = signZ*sqrt((-2.*Globals%Constants%Gravity%z) * (shapeFactor/cd) * densityRelation)
-        endwhere
-        
+		        
+		fDensity = seaWaterDensity(sv%state(:,col_sal), sv%state(:,col_temp),sv%state(:,3))
+		kVisco = absoluteSeaWaterViscosity(sv%state(:,col_sal), sv%state(:,col_temp)) / fDensity
+		
+		kViscoRelation = abs(1.-(kvisco/Globals%Constants%MeanKvisco))
+		where(kViscoRelation >= 0.9)
+			kVisco = Globals%Constants%MeanKvisco
+			fDensity = Globals%Constants%MeanDensity
+		endwhere
+		
+		! Get the direction of buoyancy ( + to the surface, - to the bottom)
+		signZ = -1.0
+		where(fDensity-sv%state(:,rhoIdx) >= 0)
+			signZ = 1.0
+		endwhere
+		! Boundary density values could be 0. This avoid underdumped values on density. 
+		! Just density relation of 90 % related to mean water density are allowed.
+		densityRelation = abs(1.- (sv%state(:,rhoIdx)/fDensity))
+		where (densityRelation >= 0.9)
+			densityRelation = abs(1.- (sv%state(:,rhoIdx)/Globals%Constants%MeanDensity))
+		endwhere
+
+		! Get dimlessDiameter(dimensionless diameter) and settlingVelocity
+		dimlessDiameter = (2.0 * sv%state(:,rIdx))**3.0 * ( -(Globals%Constants%Gravity%z) * densityRelation / kvisco**2.0 )
+		settlingVelocity = (kvisco / (2.0 * sv%state(:,rIdx)) ) * dimlessDiameter * ( 38.1 + 0.93 * dimlessDiameter ** (4.0/7.0)) ** (-7.0/8.0)
+		! Get buoyancy
+		where ((dist2bottom > LandIntThreshold_value).and. mask_time)
+			Buoyancy(:,3) = signZ*settlingVelocity
+		endwhere
+		!print*,'function:Buoyancy WiSalt in /MOHID-Lagrangian/src/MOHIDLagrangianLib'	
     else
-        !If there is no salt and temperatue Compute buoyancy using constant density and temp
-        ! and standardad terminal velocity
-        ! Compute buoyancy using state equation for temperature and viscosity
+		!If there is no salt and temperatue Compute buoyancy using constant density and temp
+		! and standardad terminal velocity
+		! Compute buoyancy using state equation for temperature and viscosity
 
-        kVisco = Globals%Constants%MeanKvisco
-        fDensity = Globals%Constants%MeanDensity
-        
-        signZ = -1.0
-        where(fDensity-sv%state(:,rhoIdx) >= 0)
-            signZ = 1.0
-        endwhere
-       
-        ! Boundary density values could be 0. This avoid underdumped values on density. 
-        ! Just density relation of 90 % related to mean water density are allowed.
-        densityRelation = abs(1.- (sv%state(:,rhoIdx)/fDensity))          
-        ! Get drag and shapefactor
-        shapeFactor = self%SphericalShapeFactor(sv%state(:,areaIdx),sv%state(:,volIdx))
-        reynoldsNumber = self%Reynolds(sv%state(:,6), kvisco, sv%state(:,rIdx))
-        cd = self%dragCoefficient(shapeFactor, sv%state(:,rIdx), reynoldsNumber) 
-        ! Get buoyancy
-        where ((reynoldsNumber /=0.) .and. (dist2bottom > landIntThreshold))
-            Buoyancy(:,3) = signZ*sqrt((-2.*Globals%Constants%Gravity%z) * (shapeFactor/cd) * densityRelation)
-        end where
+		kVisco = Globals%Constants%MeanKvisco
+		fDensity = Globals%Constants%MeanDensity
+		
+		signZ = -1.0
+		where(fDensity-sv%state(:,rhoIdx) >= 0)
+			signZ = 1.0
+		endwhere
+	   
+		! Boundary density values could be 0. This avoid underdumped values on density. 
+		! Just density relation of 90 % related to mean water density are allowed.
+		densityRelation = abs(1.- (sv%state(:,rhoIdx)/fDensity))          
+		
+		! Get dimlessDiameter(dimensionless diameter) and settlingVelocity
+		dimlessDiameter = (2.0 * sv%state(:,rIdx))**3.0 * ( -(Globals%Constants%Gravity%z) * densityRelation / kvisco**2.0 )
+		settlingVelocity = (kvisco / (2.0 * sv%state(:,rIdx)) ) * dimlessDiameter * ( 38.1 + 0.93 * dimlessDiameter ** (4.0/7.0)) ** (-7.0/8.0)
+!        ! Get buoyancy
+		where ((dist2bottom > LandIntThreshold_value).and. mask_time)
+			Buoyancy(:,3) = signZ*settlingVelocity
+		end where
+		!print*,'function:Buoyancy NoSalt in /MOHID-Lagrangian/src/MOHIDLagrangianLib'	
     end if
+
     end function Buoyancy
-
-
+	
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC
     !> @brief
@@ -298,47 +364,99 @@
     !---------------------------------------------------------------------------
     function CorrectVerticalBounds(self, sv, svDt, bdata, dt)
     class(kernelVerticalMotion_class), intent(inout) :: self
-    type(stateVector_class), intent(in) :: sv
+    type(stateVector_class), intent(inout) :: sv
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: svDt
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: dt
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: CorrectVerticalBounds
     integer :: col_bat
-    
-    real(prec), dimension(2) :: maxLevel
-    
+	real(prec), dimension(2) :: maxLevel
+  
+	logical, dimension(:), allocatable :: mask_0, mask_1, mask_2
+	allocate(mask_0(size(sv%state, 1)))
+	allocate(mask_1(size(sv%state, 1)))
+	allocate(mask_2(size(sv%state, 1)))	
+	
     CorrectVerticalBounds = svDt
+	
     ! if vertical dvdt is 0, don't correct
     if (all(CorrectVerticalBounds(:,3) == 0.)) then
+		!print*, 'All CorrectVerticalBounds(:,3) == 0 '
         return
     end if
     
     maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .false.)
-    if (maxLevel(2) /= MV) where (sv%state(:,3) + CorrectVerticalBounds(:,3)*dt >= maxLevel(2)) CorrectVerticalBounds(:,3) =((maxLevel(2)-sv%state(:,3))/dt)*0.99
+    if (maxLevel(2) /= MV) then 
+		where (sv%state(:,3) + CorrectVerticalBounds(:,3)*dt >= maxLevel(2))
+			CorrectVerticalBounds(:,3) =((maxLevel(2)-sv%state(:,3))/dt)*0.9999
+		end where
+	end if
     
     col_bat = Utils%find_str(sv%varname, Globals%Var%bathymetry)
-    where (sv%state(:,3) + CorrectVerticalBounds(:,3)*dt < sv%state(:,col_bat)) CorrectVerticalBounds(:,3) = ((sv%state(:,col_bat)-sv%state(:,3))/dt)*0.99
+
+	mask_1 = (sv%state(:,3) + CorrectVerticalBounds(:,3)*dt < sv%state(:,col_bat) + Globals%Constants%Rugosity) .and. (sv%state(:,col_bat) <= -Globals%Constants%Rugosity)
+	mask_2 = (sv%state(:,3) + CorrectVerticalBounds(:,3)*dt < sv%state(:,col_bat) + Globals%Constants%Rugosity) .and. (sv%state(:,col_bat) > -Globals%Constants%Rugosity)
+	mask_0 = (mask_1 .or. mask_2)
+	
+	! Apply only where `mask_1` is true: when z < bathymetry and bathymetry < 0
+	where (mask_1)
+		CorrectVerticalBounds(:,3) = ((sv%state(:,col_bat) + Globals%Constants%Rugosity - sv%state(:,3)) / dt) * 1.0
+!		sv%state(:,4) = 0.0
+!		sv%state(:,5) = 0.0
+!		sv%state(:,6) = 0.0
+	end where
+
+	! Apply only where `mask_2` is true: when z < bathemetry and bathymetry is zero or less than the Rugosity!!
+	where (mask_2)
+		CorrectVerticalBounds(:,3) = (((0.0) - sv%state(:,3))/dt)*1.0
+		sv%state(:,4) = 0.0
+		sv%state(:,5) = 0.0
+		sv%state(:,6) = 0.0
+		sv%landIntMask = Globals%Mask%landVal
+	end where
+	
+!	where (mask_0 .and. svDt(:,3) /= 0.)
+!		CorrectVerticalBounds(:,1) = (CorrectVerticalBounds(:,3) / svDt(:,3)) *svDt(:,1) *0.999
+!		CorrectVerticalBounds(:,2) = (CorrectVerticalBounds(:,3) / svDt(:,3)) *svDt(:,2) *0.999
+!	end where	
+
+!	where (mask_1 .and. sv%state(:,col_bat) >= Globals%Constants%BeachingLevel)
+!	  sv%landIntMask = + Globals%Mask%landVal
+!	elsewhere (mask_1)
+!	  sv%landIntMask = - Globals%Mask%landVal
+!	end where
+
+	deallocate(mask_0)
+	deallocate(mask_1)
+	deallocate(mask_2)
 
     end function CorrectVerticalBounds
-    
-    !> @author Joao Sobrinho - Colab Atlantic
+	
+	!---------------------------------------------------------------------------
+	
+    !> @author Joao Sobrinho - Colab Atlantic 
+	!> modified by  @author Mohsen Shabani - CRETUS -GFNL
     !> @brief
     !> Resuspend particles based on shear erosion calculated from currents and waves. 
     !> @param[in] self, sv, bdata, time, dt
-    !---------------------------------------------------------------------------
+																				
     function Resuspension(self, sv, bdata, time, dt)
     class(kernelVerticalMotion_class), intent(inout) :: self
-    type(stateVector_class), intent(in) :: sv
+    type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Resuspension
-    integer :: col_temp, col_sal, col_dwz, col_bat, col_hs, col_ts, col_wd, col_dist2bottom, i
+	real(prec), dimension(size(sv%state,1)) :: ResuspensionRandmValue, ResuspensionProb_ResidenceTime
+    integer :: col_age, col_temp, col_sal, col_dwz, col_bat, col_hs, col_ts, col_wd, col_dist2bottom, i
+	integer :: col_u, col_v, col_w
     real(prec) :: landIntThreshold
-    real(prec), dimension(:,:), allocatable :: var_dt
-    real(prec), dimension(size(sv%state,1)) :: velocity_mod, water_density, tension
+	real(prec) :: tension_weight_coefficient, Shear2MShear1, Shear2PShear1
+    real(prec), dimension(:,:), allocatable :: var_hor_dt
+    real(prec), dimension(size(sv%state,1)) :: velocity_mod, velocity_mod_p2
+    real(prec), dimension(size(sv%state,1)) :: water_density, tension, tension_weight
     real(prec), dimension(size(sv%state,1)) :: dist2bottom, z0
-    type(string), dimension(:), allocatable :: var_name
-    type(string), dimension(:), allocatable :: requiredVars
+    type(string), dimension(:), allocatable :: var_hor_name
+    type(string), dimension(:), allocatable :: requiredHorVars
     real(prec) :: P = 1013.
     real(prec) :: EP = 1/3
     real(prec) :: waterKinematicVisc = 1e-6
@@ -350,11 +468,33 @@
     real(prec) :: ksc, ks, grainroughnessfactor, d50
     real(prec) :: abs_cos_angle, abs_sin_angle, ubw_aux, aux_1, aux_2, fws1, fwr1, dlog_t1, ts
     type(string) :: tag
+	real(prec) 	:: Threshold_value
+	real(prec), dimension(size(sv%state,1)) :: LandIntThreshold_value
+	real(prec), dimension(size(sv%state,1)) :: U_asterisk, V_asterisk, W_asterisk
+	real(prec) :: VonKarman = 0.4
+    real(prec) :: threshold_bot_wat	
+	real(8), dimension(size(sv%state,1)) :: aux_r8, aux_r9
+	integer			:: counterr
     !Begin-----------------------------------------------------------------------------------
+    tag = 'age'
+    col_age = Utils%find_str(sv%varName, tag, .true.)	
+	
     tag = 'dist2bottom'
     col_dist2bottom = Utils%find_str(sv%varName, tag, .true.)
+    dist2bottom = sv%state(:,col_dist2bottom)
+	col_dwz = Utils%find_str(sv%varName, Globals%Var%dwz, .true.)
+    threshold_bot_wat = (Globals%Mask%waterVal + Globals%Mask%bedVal) * 0.0
 
+	U_asterisk = 0.0
+	V_asterisk = 0.0
+	W_asterisk = 0.0
+		
     Resuspension = 0
+
+	! Threshold_value: distance from the bottom (seabed) in unit [meter]. It could be a constant * Globals%Constants%Rugosity
+	Threshold_value = Globals%Constants%BedLoadThickness
+	LandIntThreshold_value =self%LandIntThresholdValue(sv, bdata, time, Threshold_value)
+
     landIntThreshold = -0.98
     z0 = Globals%Constants%Rugosity
     dsilt = 32e-6
@@ -363,33 +503,46 @@
     d50 = 0.0005
     grainroughnessfactor = 2.5
     
-    if (Globals%Constants%ResuspensionCoeff > 0.0) then
-        allocate(requiredVars(3))
-        requiredVars(1) = Globals%Var%hs
-        requiredVars(2) = Globals%Var%ts
-        requiredVars(3) = Globals%Var%wd
+    if (Globals%Constants%ResuspensionProb > 0.0) then
+
+		! Create  random values between [0,1) to compare with Resuspension probability
+		call random_number(ResuspensionRandmValue) 
+
+        allocate(requiredHorVars(6))
+        requiredHorVars(1) = Globals%Var%hs
+        requiredHorVars(2) = Globals%Var%ts
+        requiredHorVars(3) = Globals%Var%wd
+		requiredHorVars(4) = Globals%Var%u
+        requiredHorVars(5) = Globals%Var%v
+        requiredHorVars(6) = Globals%Var%w
         
-        call KernelUtils_VerticalMotion%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, justRequired = .true., reqVertInt = .false.)
+        call KernelUtils_VerticalMotion%getInterpolatedFields(sv, bdata, time, requiredHorVars, var_hor_dt, var_hor_name, reqVertInt = .false.)
         
-        col_temp = Utils%find_str(sv%varName, Globals%Var%temp, .true.)
+		col_temp = Utils%find_str(sv%varName, Globals%Var%temp, .true.)
         col_sal = Utils%find_str(sv%varName, Globals%Var%sal, .true.)
         col_dwz = Utils%find_str(sv%varName, Globals%Var%dwz, .true.)
         col_bat = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
-        col_hs = Utils%find_str(var_name, Globals%Var%hs, .false.)
-        col_ts = Utils%find_str(var_name, Globals%Var%ts, .false.)
-        col_wd = Utils%find_str(var_name, Globals%Var%wd, .false.)
+        col_hs = Utils%find_str(var_hor_name, Globals%Var%hs, .false.)
+        col_ts = Utils%find_str(var_hor_name, Globals%Var%ts, .false.)
+        col_wd = Utils%find_str(var_hor_name, Globals%Var%wd, .false.)
+		col_u = Utils%find_str(var_hor_name, Globals%Var%u, .true.)
+		col_v = Utils%find_str(var_hor_name, Globals%Var%v, .true.)
+		col_w = Utils%find_str(var_hor_name, Globals%Var%w, .false.)
 
         !Start computations --------------------------------------------------------------------
         velocity_mod = 0
+        velocity_mod_p2 = 0		
         Tension = 0
+		tension_weight = 0
         water_density = 0
         !dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - sv%state(:,col_bat)) / (sv%state(:,col_dwz))
         dist2bottom = sv%state(:,col_dist2bottom)
-        where (dist2bottom < landIntThreshold) water_density = seaWaterDensity(sv%state(:,col_sal), sv%state(:,col_temp),sv%state(:,3))
-        if ((col_hs /= MV_INT) .and. (col_ts /= MV_INT)) then
+        !where (dist2bottom < landIntThreshold) water_density = seaWaterDensity(sv%state(:,col_sal), sv%state(:,col_temp),sv%state(:,3))
+        where (dist2bottom < threshold_bot_wat) water_density = seaWaterDensity(sv%state(:,col_sal), sv%state(:,col_temp),sv%state(:,3))        
+		if ((col_hs /= MV_INT) .and. (col_ts /= MV_INT)) then
             !Found wave fields to use
             do i=1, size(sv%state,1)
-                if (dist2bottom(i) < landIntThreshold) then
+                if (dist2bottom(i) < LandIntThreshold_value(i)) then
                     !TAUM is used for determining the friction governing the current
                     taum=0.
                     !TAUMAX is used to determine the threshold of sediment motion
@@ -398,10 +551,10 @@
                     abw = 0.0011
                     bat = -sv%state(i,col_bat)
                         
-                    if ((var_dt(i,col_hs) > 0.1) .and. (bat > 5.0) .and. (var_dt(i,col_ts) > 0.1)) then
+                    if ((var_hor_dt(i,col_hs) > 0.1) .and. (bat > 5.0) .and. (var_hor_dt(i,col_ts) > 0.1)) then
             !----------------------------Start calculation of abw and ubw-------------------------------------------
-                        ts = var_dt(i,col_ts)
-                        hs = var_dt(i,col_hs)
+                        ts = var_hor_dt(i,col_ts)
+                        hs = var_hor_dt(i,col_hs)
                         !coefA = Gravity * wavePeriod / (2.*PI). 1.5613113 = gravity/2.*PI
                         coefA = 1.5613113 * ts
                         !coefB = 2*Gravity / wavePeriod
@@ -425,9 +578,15 @@
                     end if
                         
             !---------------------------Compute rugosity----------------------------------------------------------
+					! Hint: This average velocity needs modification!!!!!!!!
                     !Average velocity
-                    U = sqrt(sv%state(i,4)**2.0 + sv%state(i,5)**2.0)/0.4* (dlog(bat/z0(i)) - 1.0 + z0(i)/bat)
-                        
+                    !U = sqrt(sv%state(i,4)**2.0 + sv%state(i,5)**2.0)/0.4* (dlog(bat/z0(i)) - 1.0 + z0(i)/bat)
+					!
+					! In the BedLoadThickness zone: Corresponds to Case 2 of the velocity profile,
+					! which uses an "average velocity" from the log-law for all particles in this layer.
+					! Hence, we already have the average velocity (u,v,w) values in this zone at sv%sate(:,4:6) 
+					U = sqrt(sv%state(i,4)**2.0 + sv%state(i,5)**2.0 + sv%state(i,6)**2.0)
+					
                     uwc2 = U**2.0 + ubw**2.0
                     !Using sand density instead of particle density,
                     !because it is assumed that the bottom is mostly filled by sand and not detritus
@@ -485,7 +644,7 @@
                         cPhi = atan2(sv%state(i,5), sv%state(i,4)) * 57.2958279
                         !(0, 360)
                         if(cPhi < 0.) cPhi = cPhi + 360.0
-                        cWphi = var_dt(i,col_wd) - cPhi !Wave - Current angle
+                        cWphi = var_hor_dt(i,col_wd) - cPhi !Wave - Current angle
                 
             !---------------------------------Compute drag coefficient ------------------------------------------------
                         rew=ubw*abw/waterKinematicVisc
@@ -548,23 +707,68 @@
             end do
         else
             !Make calculations where tracer is very close to the bathymetric value
-            !Using equations from the MOHIDWater interface_sediment_water module
-            where (dist2bottom < landIntThreshold)
-                velocity_mod = sqrt(sv%state(:,4)**2.0 + sv%state(:,5)**2.0)
-                tension = velocity_mod * water_density
+            !Using log law to calculate the (U,V,W)_asterisk, and later calculated wall tension 
+		    
+			where (dist2bottom < threshold_bot_wat) 
+				aux_r8 = max(sv%state(:,col_dwz), 0.05) / Globals%Constants%Rugosity
+				U_asterisk = var_hor_dt(:,col_u) * VonKarman /  dlog(aux_r8)
+				V_asterisk = var_hor_dt(:,col_v) * VonKarman /  dlog(aux_r8)
+				W_asterisk = var_hor_dt(:,col_w) * VonKarman /  dlog(aux_r8)
             end where
+			
+			! velocity_mod_p2 = velocity_mod ** 2.0
+			velocity_mod_p2 = (U_asterisk ** 2.0 +  V_asterisk ** 2.0  + W_asterisk ** 2.0)
+			tension =  water_density * velocity_mod_p2
+				
         end if
-        where ((dist2bottom < landIntThreshold) .and. Tension>Globals%Constants%Critical_Shear_Erosion)
-            !Tracer gets positive vertical velocity which corresponds to a percentage of the velocity modulus
-            !Resuspension(:,3) = Globals%Constants%ResuspensionCoeff * velocity_mod
-            !tracers gets brought up to 0.5m
-            Resuspension(:,3) = 0.5/dt
+		
+		ResuspensionProb_ResidenceTime = Globals%Constants%ResuspensionProb * exp(- sv%state(:,col_age) / Globals%Constants%ResuspsionResidenceTime)
+		
+		! In the BedLoadThickness zone: Corresponds to Case 2 of the velocity profile, which uses an average velocity from the log-law for all particles in this layer.
+		! It can be divided into 3 cases:
+		!   Case 1: If 								tension < ResuspensionCriticalShear1, then particles do not move.
+		!   Case 2: If ResuspensionCriticalShear1 < tension < ResuspensionCriticalShear2, then particles  move due to the drag force.
+		!           In this case, we would need to solve the momentum equation, which is not cost-effective.
+		!           Hence, we approximate the velocity with tension_weight * velocity in this zone, 
+		!           where tension_weight is in the interval [0, 1].
+		!   Case 3: If ResuspensionCriticalShear2 < tension								, then particles move according to the current velocities.
+		!
+		! To cover all cases in a single formulation, we can consider the following symmetrical sigmoidal:
+
+		tension_weight_coefficient = +10.0
+		Shear2MShear1 = Globals%Constants%ResuspsionCriticalShear2 - Globals%Constants%ResuspsionCriticalShear1
+		Shear2PShear1 = Globals%Constants%ResuspsionCriticalShear2 + Globals%Constants%ResuspsionCriticalShear1
+		where ((dist2bottom < LandIntThreshold_value) .and. (ResuspensionRandmValue < ResuspensionProb_ResidenceTime) )
+			tension_weight = 1.0 / ( 1.0 + exp( -(tension_weight_coefficient/Shear2MShear1) * (tension - 0.5 * Shear2PShear1) ) ) 
+		end where
+
+        where ((dist2bottom < LandIntThreshold_value) .and. (ResuspensionRandmValue < ResuspensionProb_ResidenceTime) )
+			
+			sv%state(:,4) = tension_weight(:) * sv%state(:,4)
+			sv%state(:,5) = tension_weight(:) * sv%state(:,5)
+			sv%state(:,6) = tension_weight(:) * sv%state(:,6)
+						
+			Resuspension(:,1) = Utils%m2geo(sv%state(:,4), sv%state(:,2), .false.)
+			Resuspension(:,2) = Utils%m2geo(sv%state(:,5), sv%state(:,2), .true.)
+			Resuspension(:,3) = sv%state(:,6) 
+
         end where
-        deallocate(var_name)
-        deallocate(var_dt)
-    end if
+	
+        deallocate(var_hor_name)
+        deallocate(var_hor_dt)
+
+	else
+	
+		where (dist2bottom < LandIntThreshold_value)
+			sv%state(:,4) = 0.0
+			sv%state(:,5) = 0.0
+			sv%state(:,6) = 0.0
+		end where
+
+	end if
+	
     end function Resuspension
-    
+	
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - GFNL
     !> @brief
