@@ -92,6 +92,12 @@
     !main time cycle
     do while (Globals%SimTime%CurrTime < Globals%Parameters%TimeMax)
         call Globals%Sim%increment_numdt()
+		!update Simulation time
+        if (dbg) print*, 'self%updateSimDateTime'
+        call self%updateSimDateTime()
+        !print*, 'Global time is ', Globals%SimTime%CurrTime
+        !print*, 'Can we continue?'
+        !read (*,*)
         call self%timerTotalRun%Tic()
         !activate suitable Sources
         if (dbg) print*, 'self%ToggleSources'
@@ -123,12 +129,6 @@
         !Clean SV
         if (dbg) print*, 'self%BlocksCleanSV'
         call self%BlocksCleanSV()
-        !update Simulation time
-        if (dbg) print*, 'self%updateSimDateTime'
-        call self%updateSimDateTime()
-        !print*, 'Global time is ', Globals%SimTime%CurrTime
-        !print*, 'Can we continue?'
-        !read (*,*)
         call self%timerTotalRun%Toc()
     enddo
 
