@@ -3,6 +3,7 @@
 	<variables>
 		<eastward_sea_water_velocity name="u">
 			<variant name="u" comment="used in MOHID" />
+            <variant name="velocity U" comment="used in MOHID" />
 			<variant name="uu" />
 			<variant name="U" />
 			<variant name="uo" comment="used in CMEMS" />
@@ -10,6 +11,7 @@
 		</eastward_sea_water_velocity>
 		<northward_sea_water_velocity name="v">
 			<variant name="v" comment="used in MOHID" />
+            <variant name="velocity V" comment="used in MOHID" />
 			<variant name="vv" />
 			<variant name="V" />
 			<variant name="vo" comment="used in CMEMS" />
@@ -34,8 +36,19 @@
 		</sea_water_salinity>
 		<bathymetry name="bathymetry">
 			<variant name="bathymetry" comment="used in MOHID and CMEMS" />
+			<variant name="Bathymetry" comment="used in MOHID and CMEMS" />
 			<variant name="bathym" />
 		</bathymetry>
+		<openpoints name="openpoints">
+			<variant name="openpoints" comment="used in MOHID" />
+			<variant name="OpenPoints" comment="used in MOHID" />
+			<variant name="OpenPoints3D" comment="used in MOHID" />
+			<variant name="MappingPoints2D" comment="used in MOHID" />
+		</openpoints>
+		<sea_surface_height name="ssh">
+			<variant name="ssh" comment="used in MOHID and CMEMS" />
+			<variant name="water level" comment="used in MOHID" />
+		</sea_surface_height>
         <sea_surface_wave_stokes_drift_x_velocity name="VSDX" comment="used in CMEMS">
                 <variant name="VSDX" comment="used in CMEMS"/>
 		<variant name="vsdx" comment="used in CMEMS"/>
@@ -45,14 +58,26 @@
             <variant name="vsdy" comment="used in CMEMS"/>
         </sea_surface_wave_stokes_drift_y_velocity>
         <sea_surface_significant_wave_height name="hs" comment="used in CMEMS">
+            <variant name="significant wave height" comment="used in MOHID"/>
             <variant name="VHM0" comment="used in CMEMS"/>
         </sea_surface_significant_wave_height>
         <sea_surface_wave_mean_period name="ts" comment="used in CMEMS">
             <variant name="VTM02" comment="used in CMEMS"/>
+            <variant name="mean wave period" comment="used in CMEMS"/>
         </sea_surface_wave_mean_period>
         <sea_surface_wave_mean_direction name="wd" comment="used in CMEMS">
             <variant name="VMDR" comment="used in CMEMS"/>
+            <variant name="mean wave direction" comment="used in MOHID"/>
         </sea_surface_wave_mean_direction>
+        <sea_surface_wave_length name="wl" comment="used in CMEMS">
+            <variant name="wave length" comment="used in MOHID"/>
+        </sea_surface_wave_length>
+        <eastward_wind name="u10" comment="used in CMEMS">
+            <variant name="wind velocity X" comment="used in MOHID"/>
+        </eastward_wind>
+        <northward_wind name="v10" comment="used in CMEMS">
+            <variant name="wind velocity Y" comment="used in MOHID"/>
+        </northward_wind>
 	</variables>
 	<dimensions>
 		<longitude name="lon">
@@ -72,11 +97,14 @@
 			<variant name="LATITUDE" />
 		</latitude>
 		<vertical name="level">
+            <variant name="zc" />
 			<variant name="depth" />
 			<variant name="Depth" />
 			<variant name="DEPTH" />
 			<variant name="level" />
 			<variant name="Level" />
+			<variant name="VerticalZ" />
+			<variant name="Vertical" />
 		</vertical>
 		<time name="time">
 			<variant name="time" />

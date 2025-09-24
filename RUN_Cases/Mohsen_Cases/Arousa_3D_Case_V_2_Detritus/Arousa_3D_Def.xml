@@ -3,13 +3,13 @@
 	<execution>
 		<parameters>
 			<parameter key="Start" value="2024 02 02 00 00 00" comment="Date of initial instant" units_comment="space delimited ISO 8601 format up to seconds" />
-			<parameter key="End"   value="2024 02 02 17 00 00" comment="Date of final instant" units_comment="ISO format" />
+			<parameter key="End"   value="2024 02 02 22 00 00" comment="Date of final instant" units_comment="ISO format" />
 			<!--<parameter key="BaseDateTime" value="1950 01 01 00 00 00" comment="Base Date for time stamping purposes. Optional, default = 1950/1/1" units_comment="ISO format" />-->
 			<parameter key="BaseDateTime" value="1950 01 01 00 00 00" comment="Base Date for time stamping purposes. Optional, default = 1950/1/1" units_comment="ISO format" />
 			<parameter key="Integrator" value="1" comment="Integration Algorithm 1:Euler, 2:Multi-Step Euler, 3:RK4 (default=1)" />			
 			<parameter key="Threads" value="24" comment="Computation threads for shared memory computation (default=auto)" />
 			<parameter key="BufferSize" value="86400" comment="Optional parameter. Controls input frequency" units_comment="seconds" />			
-			<parameter key="OutputWriteTime" value="14400" comment="Time out data (1/Hz)" units_comment="seconds" />
+			<parameter key="OutputWriteTime" value="3600" comment="Time out data (1/Hz)" units_comment="seconds" />
 			<parameter key="OutputFormat" value="2" comment="Output file format. NetCDF=1; VTK=2 (default=2)" />
 		</parameters>
 		<variableNaming>
@@ -27,7 +27,9 @@
 	<caseDefinitions>
 		<inputData>
 			<inputDataDir name="nc_fields/hydrodynamic" type="hydrodynamic"/>
-      		<inputDataDir name="nc_fields/hydrodynamic" type="waterProperties"/>
+      		<inputDataDir name="nc_fields/waterProperties" type="waterProperties"/>
+			<inputDataDir name="nc_fields/winds" type="meteorology"/>
+			<!--<inputDataDir name="nc_fields/waves" type="waves"/> -->
 			<!--<inputDataDir name="hdf5Fields/hydrodynamic" type="hydrodynamic"/>
       		<inputDataDir name="hdf5Fields/waterProperties" type="waterProperties"/>-->
 		</inputData>
@@ -39,8 +41,10 @@
             <VerticalVelMethod value="1" comment="1:From velocity fields, 2:Divergence based, 3:Disabled. Default = 1" />
             <!--<VerticalVelMethod value="3" comment="1:From velocity fields, 2:Divergence based, 3:Disabled. Default = 1" />-->
 			<BathyminNetcdf value="1" comment="bathymetry is a property in the netcdf. 1:true, 0:false (computes from layer depth and openPoints. Default = 1"/>
-            <RemoveLandTracer value="0" comment="Remove tracers on land 0:No, 1:Yes. Default = 0" />		</simulation>
-		    <!--<Beaching>
+            <RemoveLandTracer value="0" comment="Remove tracers on land 0:No, 1:Yes. Default = 0" />		
+			<!--<TracerMaxAge value="0" comment="maximum tracer age. Default = 0.0. read if > 0" />-->
+			<!-- Beaching Freelitter options -->
+			<!--<Beaching>
                 <BeachingEnabled value="1" comment="on=1, off=0"/>
                 <BeachingArea>
                     <BeachAreaID id="1" comment="Beaching area ID" />
@@ -58,26 +62,38 @@
                     <BeachSlope value="0.005" comment="parameter use to compute the wave run up effect"/>
                     <RunUpEffectUnbeach value="1" comment="Beached water level (important for the unbeach process) takes in consideration the wave run up effect"/>
                 </BeachingArea>
-            </Beaching>-->
-			<!--<DiffusionMethod value="2" comment="Diffusion method 1:random walk, 2:SullivanAllen. Default = 1" />-->
+            </Beaching> -->
+			<!--SullivanAllen diffusion method = 2 (see constants section) -->
+            <!--<DiffusionMethod value="2" comment="Diffusion method 1:random walk, 2:SullivanAllen. Default = 1" />--> 
+			
+        </simulation>	 
 		<sourceDefinitions>
 			<source>
 				<setsource id="1" name="CambadosA1" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="86400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />	
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
+				<!--<rateTimeSeries> 
+					<file name="data/Lerez.dat" comment="name of csv file with discharge information (time and rate columns)"/>
+					<scale value="0.3" comment="scales the data on the file by this factor (not time)" />
+				</rateTimeSeries>-->
 				<polygon>
 					<file name="data/CambadosA1.kmz"/>
                     <verticalBoundingBox min="-1.0" max="0.0"/>
 				</polygon>
+				<!-- Bottom emission options (see constant section) -->
+				<!--<bottom_emission_depth value="0.5" comment="set source as bottom emission type. 1:true, 0:false" />-->
+				<!-- BioFouling options -->
+				<!--<biofouling_rate value="0.05" comment="Biofouling growth rate" units_comment="1/day"/>
+                <biofouling_start_after value="0.05" comment="Biofouling only starts after x seconds" units_comment="seconds"/>-->
 			</source>
 			<source>
 				<setsource id="2" name="CambadosB" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="86400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -89,7 +105,7 @@
 				<setsource id="3" name="CambadosC1(Norte)" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="86400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />	
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -101,7 +117,7 @@
 				<setsource id="4" name="CambadosC2(Sur)" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="86400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -113,7 +129,7 @@
 				<setsource id="5" name="CambadosD" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="86400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -125,7 +141,7 @@
 				<setsource id="6" name="CambadosEmerge" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="86400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -137,7 +153,7 @@
 				<setsource id="7" name="GroveA" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="86400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -149,7 +165,7 @@
 				<setsource id="8" name="GroveB" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="86400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -161,7 +177,7 @@
 				<setsource id="9" name="GroveC1" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="86400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -173,7 +189,7 @@
 				<setsource id="10" name="GroveC2" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="86400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -185,7 +201,7 @@
 				<setsource id="11" name="GroveC3" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="86400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -197,7 +213,7 @@
 				<setsource id="12" name="GroveC4" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="86400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -209,7 +225,7 @@
 				<setsource id="13" name="PueblaA" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="86400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -221,7 +237,7 @@
 				<setsource id="14" name="PueblaB" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="86400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -233,7 +249,7 @@
 				<setsource id="15" name="PueblaC" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="86400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -245,7 +261,7 @@
 				<setsource id="16" name="PueblaD" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="86400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -257,7 +273,7 @@
 				<setsource id="17" name="PueblaE" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="86400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -269,7 +285,7 @@
 				<setsource id="18" name="PueblaG" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="86400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -281,7 +297,7 @@
 				<setsource id="19" name="PueblaH" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="86400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -293,7 +309,7 @@
 				<setsource id="20" name="RibeiraB" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="86400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -305,7 +321,7 @@
 				<setsource id="21" name="RibeiraC" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="86400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -317,7 +333,7 @@
 				<setsource id="22" name="VillagarciaA" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="86400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -329,7 +345,7 @@
 				<setsource id="23" name="VillagarciaB" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="86400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -367,17 +383,42 @@
 			<file name="materialTypes.xml"/>
 		</sourceTypes>
 		<constants>
+			<DiffusionCoeff value="0.75" comment="Horizontal diffusion coefficient. Default = 1.0" units_comment="m2/s" />	
+			<Rugosity value="0.0025" comment="Rugosity value. Default = 0.0025" units_comment="m2/s" />
 			<BeachingLevel value="-3.0" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />
 			<BeachingStopProb value="80" comment="Probablity of beaching stopping a tracer. Default = 50%" units_comment="%" />
-			<DiffusionCoeff value="0.75" comment="Horizontal diffusion coefficient. Default = 1.0" units_comment="m2/s" />	
+			<WindDragCoeff value="0.0000001" comment="Windage coefficient. Default = 0.0" units_comment="" />
+
+			<!-- Resuspension options -->
 			<BedLoadThickness value="0.05" comment="BedLoad thickness. Default = 0.04" units_comment="m" />				
-            <!--<ResuspensionCoeff value="1.0" comment="Resuspension amplitude velocity factor. Default = 0.0" units_comment="n.u" />-->
 			<ResuspensionProb value="100.0" comment="Probablity of Resuspension of a tracer. Default = 0%" units_comment="%" />
 			<ResuspsionResidenceTime value="8640000.0" comment="Resuspsion Residence Time[ResuspensionProb reduces with respect to ResuspsionResidenceTime]. Default = 10*24*60*60" units_comment="sec" />				
 			<ResuspsionCriticalShear1 value="0.00001" comment="Resuspsion Critical Shear 1. Default = 0.40" units_comment="N/m2" />	
 			<ResuspsionCriticalShear2 value="0.00003" comment="Resuspsion Critical Shear 2. Default = 0.45" units_comment="N/m2" />	
 			<CriticalShearErosion value="0.00001" comment="Resuspension amplitude velocity factor. Default = 0.40" units_comment="n.u" />			
-			<MaxDegradationRate value="0.0001" comment="MaxDegradationRate. Default = 0.03/86400" units_comment="1/day-->1/sec" />		
+			<MaxDegradationRate value="0.0001" comment="MaxDegradationRate. Default = 0.03/86400" units_comment="1/day-->1/sec" />	
+			
+			<!--SullivanAllen diffusion method = 2 options -->
+			<!--
+			<ConstantMixingLength value="500" comment="Constant horizontal mixing length. Default = 500" units_comment="m:DiffusionMethod=2 (SullivanAllen)" />			
+			<VarVelHX value="0.1" comment="Horizontal variance of velocity. Default = 0.2" units_comment="-:DiffusionMethod=2 (SullivanAllen)" />			
+			<VarVelH value="0.0" comment="base horizontal turbulent velocity. Default = 0.0" units_comment="m/s:DiffusionMethod=2 (SullivanAllen)" />	
+			-->
+			
+			<!-- Detritus options -->
+			<!--
+			<ToptBMin value="24.8" comment="minimum temperature of the optimal interval for the Bacteria growth. Default = 24.8" units_comment="degrees" />
+            <ToptBMax value="25.1" comment="maximum temperature of the optimal interval for the Bacteria growth. Default = 25.1" units_comment="degrees" />
+            <TBMin value="5" comment="minimum tolerable temperature of the interval for the Bacteria growth. Default = 5" units_comment="degrees" />
+            <TBMax value="35" comment="maximum tolerable temperature of the interval for the Bacteria growth. Default = 35" units_comment="degrees" />
+            <BK1 value="0.05" comment="constant to control temperature response curve shape. Default = 0.05" units_comment="%" />
+            <BK2 value="0.98" comment="constant to control temperature response curve shape. Default = 0.98" units_comment="%" />
+            <BK3 value="0.98" comment="constant to control temperature response curve shape. Default = 0.98" units_comment="%" />
+            <BK4 value="0.02" comment="constant to control temperature response curve shape. Default = 0.05" units_comment="%" />
+            <MaxDegradationRate value="0.03" comment="maximum Degradation rate of organic matter. Default = 0.03" units_comment="1/d" />
+			-->
+			<!--<AddBottomCell value="1" comment="add openpoint to bottom cell. Default = 0.0." />-->
+			
 		</constants>
 	</caseDefinitions>
 </case>

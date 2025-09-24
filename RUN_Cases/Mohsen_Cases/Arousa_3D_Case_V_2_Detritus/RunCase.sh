@@ -15,13 +15,13 @@ name=Arousa_3D_Def
 dirout=${name}_out
 
 # "executables" are renamed and called from their directory
-tools=/home/mohsen.mohid/lagrangian/MOHID-Lagrangian/build/bin
+tools=../../../build/bin
 mohidlagrangian=${tools}/MOHIDLagrangian
 
-preprocessorDir=/home/mohsen.mohid/lagrangian/MOHID-Lagrangian/src/MOHIDLagrangianPreProcessor
+preprocessorDir=../../../src/MOHIDLagrangianPreProcessor
 mohidPreprocessor=${preprocessorDir}/MOHIDLagrangianPreProcessor.py
 
-postProcessorDir=/home/mohsen.mohid/lagrangian/MOHID-Lagrangian/src/MOHIDLagrangianPostProcessor
+postProcessorDir=../../../src/MOHIDLagrangianPostProcessor
 mohidPostprocessor=${postProcessorDir}/MOHIDLagrangianPostProcessor.py
 
 # "dirout" is created to store results or it is cleaned if it already exists

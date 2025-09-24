@@ -14,21 +14,20 @@ export OMP_STACKSIZE=512M
 name=Arousa_3D_Def
 dirout=${name}_out
 
-
 echo "Starting compile_MOHID-Lagrangian..."
 # Run the other script
-mohidlagrangian_buildScripts=/home/mohsen.mohid/lagrangian/MOHID-Lagrangian/buildScripts
+mohidlagrangian_buildScripts=../../../buildScripts
 ${mohidlagrangian_buildScripts}/2-compile_Lagrangian.sh
 echo "Compile_MOHID-Lagrangian finished."
 
 # "executables" are renamed and called from their directory
-tools=/home/mohsen.mohid/lagrangian/MOHID-Lagrangian/build/bin
+tools=../../../build/bin
 mohidlagrangian=${tools}/MOHIDLagrangian
 
-preprocessorDir=/home/mohsen.mohid/lagrangian/MOHID-Lagrangian/src/MOHIDLagrangianPreProcessor
+preprocessorDir=../../../src/MOHIDLagrangianPreProcessor
 mohidPreprocessor=${preprocessorDir}/MOHIDLagrangianPreProcessor.py
 
-postProcessorDir=/home/mohsen.mohid/lagrangian/MOHID-Lagrangian/src/MOHIDLagrangianPostProcessor
+postProcessorDir=../../../src/MOHIDLagrangianPostProcessor
 mohidPostprocessor=${postProcessorDir}/MOHIDLagrangianPostProcessor.py
 
 # "dirout" is created to store results or it is cleaned if it already exists
