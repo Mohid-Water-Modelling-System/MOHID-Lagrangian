@@ -138,7 +138,10 @@
         real(prec)   :: BK2          !< constant to control temperature response curve shape
         real(prec)   :: BK3          !< constant to control temperature response curve shape
         real(prec)   :: BK4          !< constant to control temperature response curve shape
-        real(prec)   :: MaxDegradationRate !< maximum degradation rate from bacteria
+        real(prec)   :: Lin0_DegradationRate !< linear constant degradation rate from bacteria
+		real(prec)   :: Exp0_DegradationRate !< exponential constant 0 degradation rate from bacteria
+		real(prec)   :: Exp1_DegradationRate !< exponential constant 1 degradation rate from bacteria
+		real(prec)   :: Exp2_DegradationRate !< exponential constant 2 degradation rate from bacteria
     contains
     procedure :: setgravity
     procedure :: setz0
@@ -169,7 +172,10 @@
     procedure :: setBK2
     procedure :: setBK3
     procedure :: setBK4
-    procedure :: setMaxDegradationRate
+    procedure :: setLin0_DegradationRate
+    procedure :: setExp0_DegradationRate
+    procedure :: setExp1_DegradationRate
+    procedure :: setExp2_DegradationRate
     procedure :: print => printconstants
     end type constants_t
 
@@ -525,7 +531,10 @@
     self%Constants%BK2 = 0.98
     self%Constants%BK3 = 0.98
     self%Constants%BK4 = 0.02
-    self%Constants%MaxDegradationRate = 0.03/86400
+    self%Constants%Lin0_DegradationRate = 0.030/86400
+    self%Constants%Exp0_DegradationRate = 0.140
+    self%Constants%Exp1_DegradationRate = 0.514/86400
+    self%Constants%Exp2_DegradationRate = 0.040/86400
     !filenames
     self%Names%mainxmlfilename = notSet
     self%Names%propsxmlfilename = notSet
@@ -2291,7 +2300,7 @@
     type(string), intent(in) :: read_BK1
     type(string) :: outext
     integer :: sizem
-    if (read_BK1%to_number(kind=1._R8P) <= 0.0) then
+    if (read_BK1%to_number(kind=1._R8P) < 0.0) then
         outext='BK1 must be positive, assuming default value'
         call Log%put(outext)
     else
@@ -2312,7 +2321,7 @@
     type(string), intent(in) :: read_BK2
     type(string) :: outext
     integer :: sizem
-    if (read_BK2%to_number(kind=1._R8P) <= 0.0) then
+    if (read_BK2%to_number(kind=1._R8P) < 0.0) then
         outext='BK2 must be positive, assuming default value'
         call Log%put(outext)
     else
@@ -2333,7 +2342,7 @@
     type(string), intent(in) :: read_BK3
     type(string) :: outext
     integer :: sizem
-    if (read_BK3%to_number(kind=1._R8P) <= 0.0) then
+    if (read_BK3%to_number(kind=1._R8P) < 0.0) then
         outext='BK3 must be positive, assuming default value'
         call Log%put(outext)
     else
@@ -2354,7 +2363,7 @@
     type(string), intent(in) :: read_BK4
     type(string) :: outext
     integer :: sizem
-    if (read_BK4%to_number(kind=1._R8P) <= 0.0) then
+    if (read_BK4%to_number(kind=1._R8P) < 0.0) then
         outext='BK4 must be positive, assuming default value'
         call Log%put(outext)
     else
@@ -2365,26 +2374,87 @@
     end subroutine setBK4
     
     !---------------------------------------------------------------------------
-    !> @author Joao Sobrinho - Colab Atlantic
+	!> @author Mohsen Shabani CRETUS - GFNL
     !> @brief
     !> defines value for bacterial maximum growth rate (1/d).
-    !> @param[in] self, read_MaxDegradationRate
+    !> @param[in] self, read_Lin0_DegradationRate
     !---------------------------------------------------------------------------
-    subroutine setMaxDegradationRate(self, read_MaxDegradationRate)
+    subroutine setLin0_DegradationRate(self, read_Lin0_DegradationRate)
     class(constants_t), intent(inout) :: self
-    type(string), intent(in) :: read_MaxDegradationRate
+    type(string), intent(in) :: read_Lin0_DegradationRate
     type(string) :: outext
     integer :: sizem
-    if (read_MaxDegradationRate%to_number(kind=1._R8P) <= 0.0) then
-        outext='MaxDegradationRate must be positive, assuming default value'
+    if (read_Lin0_DegradationRate%to_number(kind=1._R8P) < 0) then
+        outext='Lin0_DegradationRate must be positive, assuming default value'
         call Log%put(outext)
     else
-        self%MaxDegradationRate =read_MaxDegradationRate%to_number(kind=1._R8P) / 86400.0
+        self%Lin0_DegradationRate =read_Lin0_DegradationRate%to_number(kind=1._R8P) / 86400.0
     endif
-    sizem = sizeof(self%MaxDegradationRate)
+    sizem = sizeof(self%Lin0_DegradationRate)
     call SimMemory%adddef(sizem)
-    end subroutine setMaxDegradationRate
+    end subroutine setLin0_DegradationRate
 
+    !---------------------------------------------------------------------------
+	!> @author Mohsen Shabani CRETUS - GFNL
+    !> @brief
+    !> defines value for bacterial maximum growth rate (1/d).
+    !> @param[in] self, read_Exp0_DegradationRate
+    !---------------------------------------------------------------------------
+    subroutine setExp0_DegradationRate(self, read_Exp0_DegradationRate)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_Exp0_DegradationRate
+    type(string) :: outext
+    integer :: sizem
+    if (read_Exp0_DegradationRate%to_number(kind=1._R8P) < 0.0) then
+        outext='Exp0_DegradationRate must be positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%Exp0_DegradationRate =read_Exp0_DegradationRate%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%Exp0_DegradationRate)
+    call SimMemory%adddef(sizem)
+    end subroutine setExp0_DegradationRate
+
+    !---------------------------------------------------------------------------
+	!> @author Mohsen Shabani CRETUS - GFNL
+    !> @brief
+    !> defines value for bacterial maximum growth rate (1/d).
+    !> @param[in] self, read_Exp1_DegradationRate
+    !---------------------------------------------------------------------------
+    subroutine setExp1_DegradationRate(self, read_Exp1_DegradationRate)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_Exp1_DegradationRate
+    type(string) :: outext
+    integer :: sizem
+    if (read_Exp1_DegradationRate%to_number(kind=1._R8P) < 0.0) then
+        outext='Exp1_DegradationRate must be positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%Exp1_DegradationRate =read_Exp1_DegradationRate%to_number(kind=1._R8P) / 86400.0
+    endif
+    sizem = sizeof(self%Exp1_DegradationRate)
+    call SimMemory%adddef(sizem)
+    end subroutine setExp1_DegradationRate
+    !---------------------------------------------------------------------------
+	!> @author Mohsen Shabani CRETUS - GFNL
+    !> @brief
+    !> defines value for bacterial maximum growth rate (1/d).
+    !> @param[in] self, read_Exp2_DegradationRate
+    !---------------------------------------------------------------------------
+    subroutine setExp2_DegradationRate(self, read_Exp2_DegradationRate)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_Exp2_DegradationRate
+    type(string) :: outext
+    integer :: sizem
+    if (read_Exp2_DegradationRate%to_number(kind=1._R8P) < 0.0) then
+        outext='Exp2_DegradationRate must be positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%Exp2_DegradationRate =read_Exp2_DegradationRate%to_number(kind=1._R8P) / 86400.0
+    endif
+    sizem = sizeof(self%Exp2_DegradationRate)
+    call SimMemory%adddef(sizem)
+    end subroutine setExp2_DegradationRate
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -2453,8 +2523,14 @@
     outext = outext//'       BK3 = '//temp_str(1)//new_line('a')
     temp_str(1)=self%BK4
     outext = outext//'       BK4 = '//temp_str(1)//new_line('a')
-    temp_str(1)=self%MaxDegradationRate
-    outext = outext//'       MaxDegradationRate = '//temp_str(1)//''
+	temp_str(1)=self%Lin0_DegradationRate
+    outext = outext//'       Lin0_DegradationRate = '//temp_str(1)//new_line('a')
+	temp_str(1)=self%Exp0_DegradationRate
+    outext = outext//'       Exp0_DegradationRate = '//temp_str(1)//new_line('a')
+	temp_str(1)=self%Exp1_DegradationRate
+    outext = outext//'       Exp1_DegradationRate = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%Exp2_DegradationRate
+    outext = outext//'       Exp2_DegradationRate = '//temp_str(1)//''
     call Log%put(outext,.false.)
     end subroutine printconstants
 

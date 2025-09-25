@@ -54,11 +54,14 @@
     type(stateVector_class), intent(inout) :: sv
     real(prec), intent(in) :: dt
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Degradation
-    real(prec) :: ToptBMin, ToptBMax, TBacteriaMin, TBacteriaMax, BK1, BK2, BK3, BK4, MaxDegradationRate
-    real(prec) :: max_age, threshold_bot_wat
+    real(prec) :: ToptBMin, ToptBMax, TBacteriaMin, TBacteriaMax, BK1, BK2, BK3, BK4
+    real(prec) :: Lin0_DegradationRate, Exp0_DegradationRate, Exp1_DegradationRate, Exp2_DegradationRate
+    real(prec), dimension(size(sv%state,1)) :: MixDegradationRate
+	real(prec) :: max_age, threshold_bot_wat
     real(prec), dimension(size(sv%state,1)) :: s1, s2, ya, yb, xa, xb, limFactor, mass, volume_new, init_mass, temperature
     integer :: volume_col, radius_col, col_temp, initvol_col, density_col, age_col
     real(prec):: compute_rate = 7200
+    real(prec), dimension(size(sv%state,1)):: time_curr_plus_dt
     type(string) :: tag
     !Begin------------------------------------------------------------------------
     Degradation = 0.0
@@ -73,56 +76,72 @@
     tag = 'age'
     age_col = Utils%find_str(sv%varName, tag, .true.)
     
-    !Compute only when time of the oldest particle is a multiple of 7200s, to reduce simulation time
-    max_age = maxval(sv%state(:,age_col))
-    if (mod(max_age,compute_rate) < 1E-3) then
-        !Method used in bacterial growth limitation by temperature in MOHIDWater
-        ToptBMin = Globals%Constants%TOptBacteriaMin
-        ToptBMax = Globals%Constants%TOptBacteriaMax
-        TBacteriaMin = Globals%Constants%TBacteriaMin
-        TBacteriaMax = Globals%Constants%TBacteriaMax
-        BK1 = Globals%Constants%BK1
-        BK2 = Globals%Constants%BK2
-        BK3 = Globals%Constants%BK3
-        BK4 = Globals%Constants%BK4
-        MaxDegradationRate = Globals%Constants%MaxDegradationRate
-        
-        col_temp = Utils%find_str(sv%varName, Globals%Var%temp, .true.)
-        threshold_bot_wat = (Globals%Mask%waterVal + Globals%Mask%bedVal) * 0.5
-        temperature = sv%state(:,col_temp)
-        
-        mass = sv%state(:,density_col) * sv%state(:,volume_col)
-        init_mass = sv%state(:,density_col) * sv%state(:,initvol_col)
-    
-        !Change radius keeping shperical form
-        sv%state(:,radius_col) = (sv%state(:,volume_col)*(0.75)*(1.0/3.14159265))**(1.0/3.0)
-        
-        s1 = (1.0 / (ToptBMin - TBacteriaMin)) * dlog((BK2 * (1.0 - BK1)) / (BK1 * (1.0 - BK2)))
-        s2 = (1.0 / (TBacteriaMax - ToptBMax)) * dlog((BK3 * (1.0 - BK4))  / (BK4 * (1.0 - BK3)))
-    
-        ya = exp(s1 * (temperature - TBacteriaMin))
-        yb = exp(s2 * (TBacteriaMax - temperature))
-    
-        xa = (BK1 * ya) / (1 + BK1 * (ya - 1))
-        xb = (BK4 * yb) / (1 + BK4 * (yb - 1))
-    
-        limFactor = xa * xb
-        !Kg = Kg    -  Kg  *    []     *          1/s       * s
-        mass = mass - init_mass * limFactor * MaxDegradationRate * compute_rate
-    
-		where(mass < 0.002 .or. mass == 0.002)
-			mass = 0.002
-		end where
+    ! Hint: I removed the following condition and replace compute_rate with dt
+	!Compute only when time of the oldest particle is a multiple of 7200s, to reduce simulation time
+    !max_age = maxval(sv%state(:,age_col))
+    !if (mod(max_age,compute_rate) < 1E-3) then
 	
-        !keeping density untouched, but changing volume
-        volume_new = max(mass / sv%state(:,density_col), 0.0)
-    
-        Degradation(:,volume_col) = - (sv%state(:,volume_col) - volume_new) / dt
-        
-        !where(sv%state(:,volume_col) < 0.02*sv%state(:,initvol_col)) sv%active = .false.
-        !where(mass < 0.002) sv%active = .false.
+	
+	!Method used in bacterial growth limitation by temperature in MOHIDWater
+	ToptBMin = Globals%Constants%TOptBacteriaMin
+	ToptBMax = Globals%Constants%TOptBacteriaMax
+	TBacteriaMin = Globals%Constants%TBacteriaMin
+	TBacteriaMax = Globals%Constants%TBacteriaMax
+	BK1 = Globals%Constants%BK1
+	BK2 = Globals%Constants%BK2
+	BK3 = Globals%Constants%BK3
+	BK4 = Globals%Constants%BK4
+	Lin0_DegradationRate = Globals%Constants%Lin0_DegradationRate
+	Exp0_DegradationRate = Globals%Constants%Exp0_DegradationRate
+	Exp1_DegradationRate = Globals%Constants%Exp1_DegradationRate
+	Exp2_DegradationRate = Globals%Constants%Exp2_DegradationRate
+	
+	col_temp = Utils%find_str(sv%varName, Globals%Var%temp, .true.)
+	threshold_bot_wat = (Globals%Mask%waterVal + Globals%Mask%bedVal) * 0.5
+	temperature = sv%state(:,col_temp)
+	
+	time_curr_plus_dt = sv%state(:,age_col) + dt
+	MixDegradationRate =+ (+ 1.0 - Lin0_DegradationRate * time_curr_plus_dt ) \
+						* (+ Exp0_DegradationRate * exp(-Exp1_DegradationRate * time_curr_plus_dt)\
+						   + (1.0 - Exp0_DegradationRate) * exp(-Exp2_DegradationRate * time_curr_plus_dt)\
+							)
+
+	
+	mass = sv%state(:,density_col) * sv%state(:,volume_col)
+	init_mass = sv%state(:,density_col) * sv%state(:,initvol_col)
+
+	!Change radius keeping shperical form
+	sv%state(:,radius_col) = (sv%state(:,volume_col)*(0.75)*(1.0/3.14159265))**(1.0/3.0)
+	
+	s1 = (1.0 / (ToptBMin - TBacteriaMin)) * dlog((BK2 * (1.0 - BK1)) / (BK1 * (1.0 - BK2)))
+	s2 = (1.0 / (TBacteriaMax - ToptBMax)) * dlog((BK3 * (1.0 - BK4))  / (BK4 * (1.0 - BK3)))
+
+	ya = exp(s1 * (temperature - TBacteriaMin))
+	yb = exp(s2 * (TBacteriaMax - temperature))
+
+	xa = (BK1 * ya) / (1 + BK1 * (ya - 1))
+	xb = (BK4 * yb) / (1 + BK4 * (yb - 1))
+
+	limFactor = xa * xb
+	!Kg = Kg    -  Kg  *    []     *          1/s       			* s
+	!mass = mass - init_mass * limFactor * MixDegradationRate * dt
+	!Kg =   Kg  *    		[1]     *          [1]  
+	mass = init_mass * limFactor * MixDegradationRate
+	
+	
+	where(mass < 0.001 .or. mass == 0.001)
+		mass = 0.001
+	end where
+
+	!keeping density untouched, but changing volume
+	volume_new = max(mass / sv%state(:,density_col), 0.0)
+
+	Degradation(:,volume_col) = - (sv%state(:,volume_col) - volume_new) / dt
+	
+	!where(sv%state(:,volume_col) < 0.02*sv%state(:,initvol_col)) sv%active = .false.
+	!where(mass < 0.002) sv%active = .false.
 		
-    end if
+    !end if
     
     end function Degradation
     

@@ -11,4 +11,6 @@
 	<field name="age" output="yes" />
 	<field name="condition" output="yes" />
 	<field name="bathymetry" output="yes" />
+	<field name="radius" output="yes" />
+	<field name="density" output="yes" />
 </output>

@@ -970,11 +970,29 @@
         if (readflag) then
             call Globals%Constants%setBK4(att_val)
         endif
-        tag="MaxDegradationRate"
+        tag="Lin0_DegradationRate"
         att_name="value"
         call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
         if (readflag) then
-            call Globals%Constants%setMaxDegradationRate(att_val)
+            call Globals%Constants%setLin0_DegradationRate(att_val)
+        endif
+        tag="Exp0_DegradationRate"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setExp0_DegradationRate(att_val)
+        endif
+        tag="Exp1_DegradationRate"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setExp1_DegradationRate(att_val)
+        endif
+        tag="Exp2_DegradationRate"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setExp2_DegradationRate(att_val)
         endif
         tag="ConstantMixingLength"
         att_name="value"
