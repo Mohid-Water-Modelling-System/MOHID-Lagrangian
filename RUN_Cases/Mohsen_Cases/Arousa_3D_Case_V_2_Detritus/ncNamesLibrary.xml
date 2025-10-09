@@ -39,6 +39,13 @@
 			<variant name="Bathymetry" comment="used in MOHID and CMEMS" />
 			<variant name="bathym" />
 		</bathymetry>
+		<rugosityVar name="rugosityVar">
+			<variant name="rugosity" comment="used in MOHID and CMEMS" />
+			<variant name="rugosityVar" comment="used in MOHID and CMEMS" />
+			<variant name="Rugosity" comment="used in MOHID and CMEMS" />
+			<variant name="roughness" comment="used in MOHID and CMEMS" />
+			<variant name="rugos" />
+		</rugosityVar>
 		<openpoints name="openpoints">
 			<variant name="openpoints" comment="used in MOHID" />
 			<variant name="OpenPoints" comment="used in MOHID" />

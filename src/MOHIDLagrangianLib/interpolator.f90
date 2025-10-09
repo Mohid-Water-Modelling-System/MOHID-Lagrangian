@@ -70,6 +70,7 @@
     type(string), dimension(:), intent(in), optional :: toInterp
     logical, intent(in), optional :: reqVertInt
     real(prec), dimension(:,:,:,:), pointer :: bathymetry
+    real(prec), dimension(:,:,:,:), pointer :: rugosityVar
     real(prec), dimension(:), allocatable :: var_dt_aux
     logical :: interp, requireVertInt
     real(prec) :: newtime

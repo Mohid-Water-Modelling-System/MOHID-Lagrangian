@@ -107,8 +107,8 @@
     type(hdf5Reader_class) :: hdf5Reader
     !write(*,*)"Entrei get currentsFile"
     if (fileName%extension() == '.nc' .or. fileName%extension() == '.nc4') then
-        allocate(varList(7))
-        allocate(syntecticVar(7))
+        allocate(varList(8))
+        allocate(syntecticVar(8))
     else
         allocate(varList(9))
         allocate(syntecticVar(9))
@@ -130,10 +130,16 @@
     !syntecticVar(7) = .false.
     if (fileName%extension() == '.nc' .or. fileName%extension() == '.nc4') then
         varList(7) = Globals%Var%bathymetry
+		varList(8) = Globals%Var%rugosityVar
         if (Globals%SimDefs%bathyminNetcdf == 1) then
             syntecticVar(7) = .false.
         else
             syntecticVar(7) = .true.
+        end if
+        if (Globals%SimDefs%RugosityinNetcdf == 1) then
+			syntecticVar(8) = .false.
+        else
+			syntecticVar(8) = .true.
         end if
     else
         varList(7) = Globals%Var%bathymetry
@@ -165,6 +171,10 @@
     if (Globals%SimDefs%bathyminNetcdf == 0) then
         call getCurrentsFile%makeBathymetryField() !computes bathymetry using the layer depth and the openpoints from velocity u
     end if
+	if (Globals%SimDefs%RugosityinNetcdf == 0) then
+		call getCurrentsFile%makeRugosityField() !Consider constat rugosity value from input case.xml file
+    end if
+	
     !computes distance between vertical cells
     call getCurrentsFile%makeDWZField()
     !Change the value of the first bottom cell to enable interpolation until the bottom and not just until the center of!the cell

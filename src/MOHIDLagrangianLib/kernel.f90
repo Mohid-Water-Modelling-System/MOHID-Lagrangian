@@ -156,6 +156,7 @@
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
     integer :: i, j, col_age, col_bat, col_bat_sv, col_landintmask, col_res, col_ssh, col_DifVelStdr
+	integer :: col_rugosityVar,col_rugosityVar_sv, counterr
     real(prec) :: maxLevel(2)
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
@@ -164,11 +165,13 @@
     logical bottom_emmission
     !-----------------------------------------------------------
     !write(*,*)"Entrada setCommonProcesses"
-    allocate(requiredVars(4))
+    allocate(requiredVars(5))
     requiredVars(1) = Globals%Var%landIntMask
     requiredVars(2) = Globals%Var%resolution
     requiredVars(3) = Globals%Var%bathymetry
     requiredVars(4) = Globals%Var%ssh
+    requiredVars(5) = Globals%Var%rugosityVar
+	
     !write(*,*)"Entrada setCommonProcesses interpolate"
     call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, justRequired = .true.)
     
@@ -176,13 +179,28 @@
     bottom_emmission = .false.
     col_bat = Utils%find_str(var_name, Globals%Var%bathymetry, .false.)
     !Set tracers bathymetry
-    col_bat_sv = Utils%find_str(sv%varName, Globals%Var%bathymetry, .false.)
+    col_bat_sv = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
     if (col_bat /= MV_INT) then
         sv%state(:,col_bat_sv) = var_dt(:,col_bat)
     else
         sv%state(:,col_bat_sv) = 0.0
     endif
-    
+
+    !set tracer bottom rugosity
+    col_rugosityVar = Utils%find_str(var_name, Globals%Var%rugosityVar, .false.)
+    col_rugosityVar_sv = Utils%find_str(sv%varName, Globals%Var%rugosityVar, .true.)
+    sv%state(:,col_rugosityVar_sv) = max(var_dt(:,col_rugosityVar), Globals%Constants%Rugosity)
+	
+!	counterr = 0
+!	do i= 1, size(sv%state,1)
+!		if (mod(counterr, 10) == 0) then
+!			write(*,'( A12, A5, A12)') ,'time ', " Id:", 'rugosityVar'
+!			write(*,*),' '
+!		end if
+!		counterr = counterr + 1
+!		write(*,'( F12.4,I5, F12.4)') ,time,  i, sv%state(i,col_rugosityVar_sv)
+!	end do	 	
+
     tag = 'age'
     col_age = Utils%find_str(sv%varName, tag, .true.)
     
@@ -352,7 +370,7 @@
     real(prec), dimension(size(sv%state,1), size(sv%state,2)) :: LagrangianKinematic
     real(prec), dimension(size(sv%state,1)) :: dist2bottom											  
     real(prec) :: threshold_bot_wat, landIntThreshold
-	real(prec) :: Threshold_value
+	real(prec), dimension(size(sv%state,1)) :: Threshold_value
 	real(prec), dimension(size(sv%state,1)) :: LandIntThreshold_value
     type(string) :: tag
     integer :: i,counterr
@@ -960,7 +978,7 @@
     real(prec), dimension(:), allocatable :: rand_vel_u, rand_vel_v, rand_vel_w
     type(string) :: tag
     real(prec) :: landIntThreshold
-	real(prec) :: Threshold_value
+	real(prec), dimension(size(sv%state,1)) :: Threshold_value
 	real(prec), dimension(size(sv%state,1)) :: LandIntThreshold_value
 	
     !Begin---------------------------------------------------------------------------
@@ -1181,7 +1199,7 @@
     real(prec), dimension(size(sv%state,1)) :: u_Reichardt, v_Reichardt, w_Reichardt, u_VonKarman, v_VonKarman, w_VonKarman	
 	real(prec), dimension(size(sv%state,1)) :: fDensity, kVisco, kViscoRelation
     real(prec) :: threshold_bot_wat, landIntThreshold
-	real(prec) :: Threshold_value
+	real(prec), dimension(size(sv%state,1)) :: Threshold_value
 	real(prec), dimension(size(sv%state,1)) :: LandIntThreshold_value
     type(string) :: tag
     integer :: i

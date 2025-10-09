@@ -41,6 +41,7 @@
             <VerticalVelMethod value="1" comment="1:From velocity fields, 2:Divergence based, 3:Disabled. Default = 1" />
             <!--<VerticalVelMethod value="3" comment="1:From velocity fields, 2:Divergence based, 3:Disabled. Default = 1" />-->
 			<BathyminNetcdf value="1" comment="bathymetry is a property in the netcdf. 1:true, 0:false (computes from layer depth and openPoints. Default = 1"/>
+			<RugosityinNetcdf value="1" comment="Rugosity of the seabed is a property in the netcdf. 1:true, 0:false (Default = 0, read from constant input value)"/>
             <RemoveLandTracer value="0" comment="Remove tracers on land 0:No, 1:Yes. Default = 0" />		
 			<!--<TracerMaxAge value="0" comment="maximum tracer age. Default = 0.0. read if > 0" />-->
 			<!-- Beaching Freelitter options -->

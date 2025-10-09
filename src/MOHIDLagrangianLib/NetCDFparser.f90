@@ -816,8 +816,8 @@
                     if(present(altUnits)) varUnits = altUnits
                     call varField%initialize(dimName, varUnits, tempRealField4D)
                 end if
-            elseif(self%varData(i)%ndims == 2) then !2D variable, for now only bathymetry
-                if (self%varData(i)%simName == Globals%Var%bathymetry) then
+            elseif(self%varData(i)%ndims == 2) then !2D variable, for now only bathymetry  !for the rugosity that has same structure like bathymetry
+                if ((self%varData(i)%simName == Globals%Var%bathymetry) .or. (self%varData(i)%simName == Globals%Var%rugosityVar) ) then
                     allocate(auxRealField2D(varShape(1),varShape(2)))
                     allocate(tempRealField2D(varShape(2),varShape(1)))
 do1:                do indx=1, self%nVars
@@ -857,7 +857,8 @@ do1:                do indx=1, self%nVars
                             !For bathymetry, converts the 2D input field into a 4D field to be consistent with velocity matrixes
                             do t=1,size(tempRealField4D,4)
                                 do k=1, size(tempRealField4D,3)
-                                    tempRealField4D(:,:,k,t) = -tempRealField2D(:,:)
+									if (self%varData(i)%simName == Globals%Var%bathymetry) tempRealField4D(:,:,k,t) = -tempRealField2D(:,:)
+									if (self%varData(i)%simName == Globals%Var%rugosityVar) tempRealField4D(:,:,k,t) = +tempRealField2D(:,:)  
                                 end do
                             end do
                             call varField%initialize(varName, self%varData(i)%units, tempRealField4D)
@@ -872,7 +873,7 @@ do1:                do indx=1, self%nVars
                         stop
                     end if
                 else
-                    outext = '[NetCDFparser::getVar]: Variable '//varName//' is 2D and not bathymetry, so it is not supported. Stopping'
+                    outext = '[NetCDFparser::getVar]: Variable '//varName//' is 2D and not bathymetry-rugosity, so it is not supported. Stopping'
                     call Log%put(outext)
                     stop
                 end if

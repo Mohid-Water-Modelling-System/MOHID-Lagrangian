@@ -84,6 +84,7 @@
         integer         ::  DiffusionMethod !< Horizontal diffusion method. 1-random walk. 2: SullivanAllen
         integer         ::  RemoveLandTracer !< Vertical velocity method
         integer         ::  bathyminNetcdf !< bathymetry is a property inside the netcdf
+        integer         ::  RugosityinNetcdf !< Rugosity of the seabed is a property inside the netcdf
         real(prec)      ::  tracerMaxAge !< removes tracers with age greater than maxTracerAge
         real(prec)      ::  Temperature_add_offset !< adds offset to temperature from netcdf
         real(prec)      ::  WqDt !< water quality process time step
@@ -99,6 +100,7 @@
     procedure :: setDiffusionMethod
     procedure :: setRemoveLandTracer
     procedure :: setbathyminNetcdf
+    procedure :: setRugosityinNetcdf
     procedure :: settracerMaxAge
     procedure :: setTemperature_add_offset  !Only here becasue some files from SINTEF were not properly converted due to
                                             ! some error in mohid's convert to hdf5 tool
@@ -254,10 +256,12 @@
         type(string) :: landIntMask
         type(string) :: resolution
         type(string) :: bathymetry
+        type(string) :: rugosityVar
         type(string) :: surface
         type(string) :: rate
         type(string) :: dwz
         type(stringList_class) :: bathymetryVariants
+        type(stringList_class) :: rugosityVarVariants
         type(stringList_class) :: uVariants !< possible names for 'u' in the input files
         type(stringList_class) :: vVariants
         type(stringList_class) :: wVariants
@@ -499,6 +503,7 @@
     self%SimDefs%DiffusionMethod = 1
     self%SimDefs%RemoveLandTracer = 0
     self%SimDefs%bathyminNetcdf = 0
+    self%SimDefs%RugosityinNetcdf = 0
     self%SimDefs%tracerMaxAge = 0
     self%SimDefs%Temperature_add_offset = 0
     !simulation constants
@@ -605,6 +610,7 @@
     self%landIntMask = 'landIntMask'
     self%resolution = 'resolution'
     self%bathymetry = 'bathymetry'
+    self%rugosityVar = 'rugosityVar'
     self%surface    = 'surface'
     self%rate = 'rate'
     !DWZ is the distance between two vertical faces of a cube (ex: thichness of the vertical layer)
@@ -618,6 +624,7 @@
     call self%addVar(self%sal)
     call self%addVar(self%density)
     call self%addVar(self%bathymetry)
+    call self%addVar(self%rugosityVar)
     !call self%addVar(self%lon)
     !call self%addVar(self%lat)
     !call self%addVar(self%level)
@@ -651,6 +658,13 @@
     value = self%bathymetryVariants%notRepeated(var)
     if (var == self%bathymetry .or. .not. value) then
         getVarSimName = self%bathymetry
+        return
+    end if
+	
+    !searching for rugosityVar
+    value = self%rugosityVarVariants%notRepeated(var)
+    if (var == self%rugosityVar .or. .not. value) then
+        getVarSimName = self%rugosityVar
         return
     end if
     
@@ -845,9 +859,17 @@
     logical value
     !Begin-------------------------------------------------------------
     checkVarSimName = .false.
+	
     !searching for bathymetry
     value = self%bathymetryVariants%notRepeated(var)
     if (var == self%bathymetry .or. .not. value) then
+        checkVarSimName = .true.
+        return
+    end if
+
+    !searching for rugosityVar
+    value = self%rugosityVarVariants%notRepeated(var)
+    if (var == self%rugosityVar .or. .not. value) then
         checkVarSimName = .true.
         return
     end if
@@ -1279,6 +1301,8 @@
 
     tag="bathymetry"
     call self%setCurrVar(tag, self%Var%bathymetry, self%Var%bathymetryVariants, varNode)
+    tag="rugosityVar"
+    call self%setCurrVar(tag, self%Var%rugosityVar, self%Var%rugosityVarVariants, varNode)
     tag="eastward_sea_water_velocity"
     call self%setCurrVar(tag, self%Var%u, self%Var%uVariants, varNode)
     tag="northward_sea_water_velocity"
@@ -2687,7 +2711,28 @@
     sizem = sizeof(self%bathyminNetcdf)
     call SimMemory%adddef(sizem)
     end subroutine setbathyminNetcdf
-    
+ 
+    !---------------------------------------------------------------------------
+	!> @author Mohsen Shabani CRETUS - GFNL
+    !> @brief
+    !> set Rugosity construct from the rugosity netcdf property
+    !> @param[in] self, read_RugosityinNetcdf
+    !---------------------------------------------------------------------------
+    subroutine setRugosityinNetcdf(self, read_RugosityinNetcdf)
+    class(simdefs_t), intent(inout) :: self
+    type(string), intent(in) :: read_RugosityinNetcdf
+    type(string) :: outext
+    integer :: sizem
+    if ((read_RugosityinNetcdf%to_number(kind=1._I8P) < 0) .OR. (read_RugosityinNetcdf%to_number(kind=1._I8P) > 1)) then
+        outext='read Rugosity from netcdf file must be 0:no or 1:yes, assuming default value 0'
+        call Log%put(outext)
+    else
+        self%RugosityinNetcdf=read_RugosityinNetcdf%to_number(kind=1._I8P)
+    end if
+    sizem = sizeof(self%RugosityinNetcdf)
+    call SimMemory%adddef(sizem)
+    end subroutine setRugosityinNetcdf
+	
     !---------------------------------------------------------------------------
     !> @author Joao Sobrinho - Colab Atlantic
     !> @brief
@@ -2924,6 +2969,8 @@
     outext = outext//'       RemoveLandTracer = '//temp_str(1)//new_line('a')
     temp_str(1)=self%bathyminNetcdf
     outext = outext//'       bathyminNetcdf = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%RugosityinNetcdf
+    outext = outext//'       RugosityinNetcdf = '//temp_str(1)//new_line('a')
     temp_str(1)=self%tracerMaxAge
     outext = outext//'       tracerMaxAge = '//temp_str(1)//new_line('a')
     temp_str(1)=self%Temperature_add_offset

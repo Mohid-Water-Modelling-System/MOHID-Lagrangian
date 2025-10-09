@@ -128,7 +128,7 @@
 	
     real(prec), dimension(size(sv%state,1)) :: dist2bottom
     real(prec) :: threshold_bot_wat
-    real(prec) :: Threshold_value	!distance from the bottom (seabed) in unit [meter]. It could be a constant * Globals%Constants%Rugosity
+	real(prec), dimension(size(sv%state,1)) :: Threshold_value	!distance from the bottom (seabed) in unit [meter]. It could be a constant * Globals%Constants%Rugosity
 	real(prec), dimension(size(sv%state,1)) :: LandIntThresholdValue
     type(string) :: tag
 	
@@ -168,7 +168,7 @@
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
     integer :: rIdx, rhoIdx, areaIdx, volIdx
-    integer :: col_temp, col_sal, col_dist2bottom, counterr
+    integer :: col_temp, col_sal, col_dist2bottom, col_rugosityVar_sv, counterr
     !integer :: col_temp, col_sal, col_dwz, col_bat
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Buoyancy
     real(prec), dimension(size(sv%state,1)) :: fDensity, kVisco, dist2bottom
@@ -179,7 +179,7 @@
     type(string) :: tag
 	! Logical mask_time for deactive calculation at initial time
 	logical :: mask_time(size(sv%state,1))
-	real(prec) :: Threshold_value
+	real(prec), dimension(size(sv%state,1)) :: Threshold_value
 	real(prec), dimension(size(sv%state,1)) :: LandIntThreshold_value
 
     ! Begin -------------------------------------------------------------------------
@@ -205,10 +205,11 @@
     signZ = -1.0
 	tag = 'age'
     ageIdx = Utils%find_str(sv%varName, tag, .true.)
+	col_rugosityVar_sv = Utils%find_str(sv%varName, Globals%Var%rugosityVar, .true.)
 	
 	! Threshold_value: distance from the bottom (seabed) in unit [meter].
 	! It could be a constant * Globals%Constants%Rugosity
-	Threshold_value = Globals%Constants%Rugosity
+	Threshold_value = sv%state(:,col_rugosityVar_sv)
 	LandIntThreshold_value =self%LandIntThresholdValue(sv, bdata, time, Threshold_value)
 		
 	! Initialize to .FALSE.
@@ -468,7 +469,7 @@
     real(prec) :: ksc, ks, grainroughnessfactor, d50
     real(prec) :: abs_cos_angle, abs_sin_angle, ubw_aux, aux_1, aux_2, fws1, fwr1, dlog_t1, ts
     type(string) :: tag
-	real(prec) 	:: Threshold_value
+	real(prec), dimension(size(sv%state,1)) :: Threshold_value
 	real(prec), dimension(size(sv%state,1)) :: LandIntThreshold_value
 	real(prec), dimension(size(sv%state,1)) :: U_asterisk, V_asterisk, W_asterisk
 	real(prec) :: VonKarman = 0.4

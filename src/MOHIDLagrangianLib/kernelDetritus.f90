@@ -60,6 +60,7 @@
 	real(prec) :: max_age, threshold_bot_wat
     real(prec), dimension(size(sv%state,1)) :: s1, s2, ya, yb, xa, xb, limFactor, mass, volume_new, init_mass, temperature
     integer :: volume_col, radius_col, col_temp, initvol_col, density_col, age_col
+    integer :: col_rugosityVar_sv, counterr, i
     real(prec):: compute_rate = 7200
     real(prec), dimension(size(sv%state,1)):: time_curr_plus_dt
     type(string) :: tag
@@ -76,6 +77,19 @@
     tag = 'age'
     age_col = Utils%find_str(sv%varName, tag, .true.)
     
+    !set tracer bottom rugosity
+    col_rugosityVar_sv = Utils%find_str(sv%varName, Globals%Var%rugosityVar, .true.)
+
+!	counterr = 0
+!	do i= 1, size(sv%state,1)
+!		if (mod(counterr, 10) == 0) then
+!			write(*,'(  A5, A12)') , " Id:", 'rugosityVar'
+!			write(*,*),' '
+!		end if
+!		counterr = counterr + 1
+!		write(*,'( I5, F12.4)') , i, sv%state(i,col_rugosityVar_sv)
+!D	end do	 	
+
     ! Hint: I removed the following condition and replace compute_rate with dt
 	!Compute only when time of the oldest particle is a multiple of 7200s, to reduce simulation time
     !max_age = maxval(sv%state(:,age_col))

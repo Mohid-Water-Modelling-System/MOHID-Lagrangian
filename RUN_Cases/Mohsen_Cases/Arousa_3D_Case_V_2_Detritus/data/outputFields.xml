@@ -13,4 +13,5 @@
 	<field name="bathymetry" output="yes" />
 	<field name="radius" output="yes" />
 	<field name="density" output="yes" />
+	<field name="rugosityVar" output="yes" />
 </output>
