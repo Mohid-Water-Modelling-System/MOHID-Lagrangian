@@ -36,17 +36,19 @@
         real(prec) :: density                       !< density of the material
         real(prec) :: radius                        !< Tracer radius (m)
         real(prec) :: volume                        !< Tracer volume (m3)
-        real(prec) :: initial_volume                !< Tracer initial volume (m3)
         real(prec) :: area                          !< Tracer area (m2)
         real(prec) :: condition                     !< Material condition (1-0)
         real(prec) :: T90                           !< T90 mortality of the coliforms (seconds)
-        real(prec) :: sw_extinction_coef            !< Short wave radiation extinction coef (1/m)
         real(prec) :: sw_percentage                 !< Short wave radiation percentage of incoming radiation (0-1)
+		real(prec) :: sw_extinction_coef            !< Short wave radiation extinction coef (1/m)
         integer    :: T90_variable                  !< Variable T90 decay 
         integer    :: T90_method                    !< Fecal decay according to 1: Canteras et al. (1995). 2: Chapra (1997)
         real(prec) :: concentration                 !< Particle concentration
+        real(prec) :: initial_volume                !< Tracer initial volume (m3)
         real(prec) :: temperature                   !< temperature of the tracer
         real(prec) :: salinity                      !< salinity of the tracer
+        real(prec) :: radius_cr_min                 !< Tracer min critical radius (m)
+        real(prec) :: radius_cr_max                 !< Tracer max critical radius (m)
     end type coliform_state_class
 
     type, extends(tracer_class) :: coliform_class    !<Type - The coliform material Lagrangian tracer class
@@ -77,7 +79,7 @@
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
     class(coliform_class), intent(in) :: self
-    getNumVars = 35
+    getNumVars = 37
     end function getNumVars
 
     !---------------------------------------------------------------------------
@@ -124,6 +126,8 @@
     getStateArray(33) = self%mnow%initial_volume
     getStateArray(34) = self%mnow%temperature
     getStateArray(35) = self%mnow%salinity
+    getStateArray(36) = self%mnow%radius_cr_min
+    getStateArray(37) = self%mnow%radius_cr_max
     end function getStateArray
 
     !---------------------------------------------------------------------------
@@ -170,6 +174,8 @@
     self%mnow%initial_volume 		= StateArray(33)
     self%mnow%temperature 			= StateArray(34)
     self%mnow%salinity 				= StateArray(35)
+    self%mnow%radius_cr_min 		= StateArray(36)
+    self%mnow%radius_cr_max 		= StateArray(37)
     end subroutine setStateArray
 
     !---------------------------------------------------------------------------
@@ -204,13 +210,19 @@
     constructor%mnow%volume = src%prop%volume
     constructor%mnow%area = src%prop%area
     !default values
+	constructor%mnow%condition = 1.0
+	
     constructor%mnow%T90 = 1/7200
-    constructor%mnow%condition = 1.0
     constructor%mnow%T90_variable = 0
-    constructor%mnow%concentration = 1000000
-    
-    constructor%mnow%temperature = 15.0
-    constructor%mnow%salinity = 36.0
+	constructor%mnow%T90_method = 1							! TODO: the value should comaptible with a correct value! now the method is not defined!
+	constructor%mnow%sw_percentage = 0.99					! TODO: the value should comaptible with a correct value!
+	constructor%mnow%sw_extinction_coef = 1.0				! TODO: the value should comaptible with a correct value!
+    constructor%mnow%concentration = 1000000				! TODO: the value should comaptible with a correct value!
+	constructor%mnow%initial_volume = src%prop%volume
+    constructor%mnow%temperature = 15.0						! TODO: the value should comaptible with a correct value!
+    constructor%mnow%salinity = 36.0						! TODO: the value should comaptible with a correct value!
+    constructor%mnow%radius_cr_min = 1.0e-4_prec * src%prop%radius	! TODO: the value should comaptible with a correct value!
+    constructor%mnow%radius_cr_max = 1.0e+4_prec * src%prop%radius	! TODO: the value should comaptible with a correct value!
     
     !try to find value from material types files
     tag = 'condition'
@@ -218,6 +230,7 @@
     if (idx /= MV_INT) then
         constructor%mnow%condition = src%prop%propValue(idx)
     end if
+	
     tag = 'T90'
     idx = Utils%find_str(src%prop%propName, tag, .false.)
     if (idx /= MV_INT) then
@@ -247,6 +260,12 @@
     if (idx /= MV_INT) then
         constructor%mnow%sw_extinction_coef = src%prop%propValue(idx)
     end if
+
+    tag = 'concentration'
+    idx = Utils%find_str(src%prop%propName, tag, .false.)
+    if (idx /= MV_INT) then
+        constructor%mnow%concentration = src%prop%propValue(idx)
+    end if
     
     tag = 'initial_volume'
     idx = Utils%find_str(src%prop%propName, tag, .false.)
@@ -254,12 +273,30 @@
         constructor%mnow%initial_volume = src%prop%propValue(idx)
     end if
     
-    tag = 'concentration'
+    tag = 'temp'
     idx = Utils%find_str(src%prop%propName, tag, .false.)
     if (idx /= MV_INT) then
-        constructor%mnow%concentration = src%prop%propValue(idx)
+        constructor%mnow%temperature = src%prop%propValue(idx)
     end if
-    
+	
+    tag = 'salt'
+    idx = Utils%find_str(src%prop%propName, tag, .false.)
+    if (idx /= MV_INT) then
+        constructor%mnow%salinity = src%prop%propValue(idx)
+    end if
+
+    tag = 'radius_cr_min'
+    idx = Utils%find_str(src%prop%propName, tag, .false.)
+    if (idx /= MV_INT) then
+        constructor%mnow%radius_cr_min = src%prop%propValue(idx)
+    end if
+	
+    tag = 'radius_cr_max'
+    idx = Utils%find_str(src%prop%propName, tag, .false.)
+    if (idx /= MV_INT) then
+        constructor%mnow%radius_cr_max = src%prop%propValue(idx)
+    end if
+    	
     if (constructor%mpar%particulate==1) then
         !constructor%mpar%size = src%prop%pt_radius !correcting size to now mean particle size, not tracer size
         !constructor%mnow%concentration = src%prop%ini_concentration
@@ -281,7 +318,9 @@
     !constructor%varName(27) = 'particulate'
     constructor%varName(34) = 'temp'
     constructor%varName(35) = 'salt'
-    
+    constructor%varName(36) = 'radius_cr_min'
+    constructor%varName(37) = 'radius_cr_max'    
+	
     end function constructor
 
     end module tracerColiform_mod

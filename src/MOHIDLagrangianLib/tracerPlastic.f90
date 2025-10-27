@@ -40,8 +40,11 @@
         real(prec)  :: condition                     !< Material condition (1-0)
         real(prec)  :: degradation_rate              !< degradation rate of the material
         real(prec)  :: concentration                 !< Particle concentration
+        real(prec) :: initial_volume                !< Tracer initial volume (m3)
         real(prec)  :: temperature                   !< temperature of the tracer
         real(prec)  :: salinity                      !< salinity of the tracer
+        real(prec) :: radius_cr_min                 !< Tracer min critical radius (m)
+        real(prec) :: radius_cr_max                 !< Tracer max critical radius (m)
     end type plastic_state_class
 
     type, extends(tracer_class) :: plastic_class    !<Type - The plastic material Lagrangian tracer class
@@ -72,7 +75,7 @@
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
     class(plastic_class), intent(in) :: self
-    getNumVars = 30
+    getNumVars = 33
     end function getNumVars
 
     !---------------------------------------------------------------------------
@@ -112,8 +115,11 @@
     getStateArray(26) = self%mnow%condition
     getStateArray(27) = self%mnow%degradation_rate
     getStateArray(28) = self%mnow%concentration
-    getStateArray(29) = self%mnow%temperature
-    getStateArray(30) = self%mnow%salinity
+    getStateArray(29) = self%mnow%initial_volume
+    getStateArray(30) = self%mnow%temperature
+    getStateArray(31) = self%mnow%salinity
+    getStateArray(32) = self%mnow%radius_cr_min
+    getStateArray(33) = self%mnow%radius_cr_max	
     end function getStateArray
 
     !---------------------------------------------------------------------------
@@ -153,9 +159,11 @@
     self%mnow%condition 			= StateArray(26)
     self%mnow%degradation_rate		= StateArray(27)
     self%mnow%concentration 		= StateArray(28)
-    self%mnow%temperature 			= StateArray(29)
-    self%mnow%salinity 				= StateArray(30)
-    
+    self%mnow%initial_volume 		= StateArray(29)
+    self%mnow%temperature 			= StateArray(30)
+    self%mnow%salinity 				= StateArray(31)
+    self%mnow%radius_cr_min 		= StateArray(32)
+    self%mnow%radius_cr_max 		= StateArray(33)
     end subroutine setStateArray
 
     !---------------------------------------------------------------------------
@@ -188,12 +196,18 @@
     constructor%mnow%radius = src%prop%radius
     constructor%mnow%volume = src%prop%volume
     constructor%mnow%area = src%prop%area
-    !default values
+    
+	!default values
     constructor%mnow%condition = 1.0
     constructor%mnow%degradation_rate = 1/(100*365*24*3600)
+    constructor%mnow%concentration = 1000000						! TODO: the value should comaptible with a correct value!  
+	constructor%mnow%initial_volume = src%prop%volume
+    constructor%mnow%temperature = 15.0								! TODO: the value should comaptible with a correct value!
+    constructor%mnow%salinity = 36.0								! TODO: the value should comaptible with a correct value!
+	
+    constructor%mnow%radius_cr_min = 1.0e-4_prec * src%prop%radius	! TODO: the value should comaptible with a correct value!
+    constructor%mnow%radius_cr_max = 1.0e+4_prec * src%prop%radius	! TODO: the value should comaptible with a correct value!
     
-    constructor%mnow%temperature = 15.0
-    constructor%mnow%salinity = 36.0
     
     !try to find value from material types files
     tag = 'condition'
@@ -205,6 +219,42 @@
     idx = Utils%find_str(src%prop%propName, tag, .false.)
     if (idx /= MV_INT) then
         constructor%mnow%degradation_rate = src%prop%propValue(idx)
+    end if
+
+    tag = 'concentration'
+    idx = Utils%find_str(src%prop%propName, tag, .false.)
+    if (idx /= MV_INT) then
+        constructor%mnow%concentration = src%prop%propValue(idx)
+    end if
+
+    tag = 'initial_volume'
+    idx = Utils%find_str(src%prop%propName, tag, .false.)
+    if (idx /= MV_INT) then
+        constructor%mnow%initial_volume = src%prop%propValue(idx)
+    end if
+    
+    tag = 'temp'
+    idx = Utils%find_str(src%prop%propName, tag, .false.)
+    if (idx /= MV_INT) then
+        constructor%mnow%temperature = src%prop%propValue(idx)
+    end if
+	
+    tag = 'salt'
+    idx = Utils%find_str(src%prop%propName, tag, .false.)
+    if (idx /= MV_INT) then
+        constructor%mnow%salinity = src%prop%propValue(idx)
+    end if
+
+    tag = 'radius_cr_min'
+    idx = Utils%find_str(src%prop%propName, tag, .false.)
+    if (idx /= MV_INT) then
+        constructor%mnow%radius_cr_min = src%prop%propValue(idx)
+    end if
+	
+    tag = 'radius_cr_max'
+    idx = Utils%find_str(src%prop%propName, tag, .false.)
+    if (idx /= MV_INT) then
+        constructor%mnow%radius_cr_max = src%prop%propValue(idx)
     end if
 
     if (constructor%mpar%particulate==1) then
@@ -220,9 +270,12 @@
     constructor%varName(26) = 'condition'
     constructor%varName(27) = 'degradation_rate'
     constructor%varName(28) = 'concentration'
+    constructor%varName(29) = 'initial_volume'
     !constructor%varName(19) = 'particulate'
-    constructor%varName(29) = 'temp'
-    constructor%varName(30) = 'salt'
+    constructor%varName(30) = 'temp'
+    constructor%varName(31) = 'salt'
+    constructor%varName(32) = 'radius_cr_min'
+    constructor%varName(33) = 'radius_cr_max'
     
     end function constructor
 

@@ -59,11 +59,13 @@
     real(prec), dimension(size(sv%state,1)) :: MixDegradationRate
 	real(prec) :: max_age, threshold_bot_wat
     real(prec), dimension(size(sv%state,1)) :: s1, s2, ya, yb, xa, xb, limFactor, mass, volume_new, init_mass, temperature
-    integer :: volume_col, radius_col, col_temp, initvol_col, density_col, age_col
+    integer :: volume_col, radius_col, col_temp, initvol_col, density_col, age_col, radius_cr_min_col, radius_cr_max_col
     integer :: col_rugosityVar_sv, counterr, i
     real(prec):: compute_rate = 7200
     real(prec), dimension(size(sv%state,1)):: time_curr_plus_dt
+    real(prec), dimension(size(sv%state,1)):: mass_cr_min, mass_cr_max
     type(string) :: tag
+    real(prec) :: Pi = 4*atan(1.0)
     !Begin------------------------------------------------------------------------
     Degradation = 0.0
     tag = 'volume'
@@ -76,7 +78,11 @@
     initvol_col = Utils%find_str(sv%varName, tag, .true.)
     tag = 'age'
     age_col = Utils%find_str(sv%varName, tag, .true.)
-    
+    tag = 'radius_cr_min'
+    radius_cr_min_col = Utils%find_str(sv%varName, tag, .true.)	
+	tag = 'radius_cr_max'
+    radius_cr_max_col = Utils%find_str(sv%varName, tag, .true.)	
+	
     !set tracer bottom rugosity
     col_rugosityVar_sv = Utils%find_str(sv%varName, Globals%Var%rugosityVar, .true.)
 
@@ -125,7 +131,7 @@
 	init_mass = sv%state(:,density_col) * sv%state(:,initvol_col)
 
 	!Change radius keeping shperical form
-	sv%state(:,radius_col) = (sv%state(:,volume_col)*(0.75)*(1.0/3.14159265))**(1.0/3.0)
+	sv%state(:,radius_col) = (sv%state(:,volume_col)*(0.75)*(1.0/Pi))**(1.0/3.0)
 	
 	s1 = (1.0 / (ToptBMin - TBacteriaMin)) * dlog((BK2 * (1.0 - BK1)) / (BK1 * (1.0 - BK2)))
 	s2 = (1.0 / (TBacteriaMax - ToptBMax)) * dlog((BK3 * (1.0 - BK4))  / (BK4 * (1.0 - BK3)))
@@ -143,8 +149,10 @@
 	mass = init_mass * limFactor * MixDegradationRate
 	
 	
-	where(mass < 0.001 .or. mass == 0.001)
-		mass = 0.001
+	mass_cr_min = sv%state(:,density_col) * (4.0/3.0) * Pi * (sv%state(:,radius_cr_min_col)) ** 3.0
+	
+	where(mass < mass_cr_min .or. mass == mass_cr_min)
+		mass = mass_cr_min
 	end where
 
 	!keeping density untouched, but changing volume

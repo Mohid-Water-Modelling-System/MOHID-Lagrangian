@@ -93,11 +93,13 @@
         </Kelp_detritus_t>
 		<Kelp_detritus>
 			<particulate value="1" />
-			<density value="1020.0" />
-            <radius value="0.028512" />
-			<volume value="0.00009709" />
-			<area value="0.010215" />
+			<density value="1050.0" />
+            <radius value="0.001" />
+			<volume value="0.0000000041888" />
+			<area value="0.00001256637" />
 			<property key="condition" value="0.95" />
+			<property key="radius_cr_min" value="0.0000007" />
+			<property key="radius_cr_max" value="0.50" />
         </Kelp_detritus>
 	</detritus>
 </materials>
