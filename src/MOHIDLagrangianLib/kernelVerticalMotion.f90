@@ -225,7 +225,6 @@
 		kViscoRelation = abs(1.-(kvisco/Globals%Constants%MeanKvisco))
 		where(kViscoRelation >= 0.9)
 			kVisco = Globals%Constants%MeanKvisco
-			fDensity = Globals%Constants%MeanDensity
 		endwhere
 		
 		! Get the direction of buoyancy ( + to the surface, - to the bottom)
@@ -449,13 +448,17 @@
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Resuspension
 	real(prec), dimension(size(sv%state,1)) :: ResuspensionRandmValue, ResuspensionProb_ResidenceTime
     integer :: col_age, col_temp, col_sal, col_dwz, col_bat, col_hs, col_ts, col_wd, col_dist2bottom, i
+	integer :: rhoIdx, rIdx
 	integer :: col_u, col_v, col_w
     real(prec) :: landIntThreshold
-	real(prec) :: tension_weight_coefficient, Shear2MShear1, Shear2PShear1
+	real(prec) :: tension_weight_coefficient
+	real(prec), dimension(size(sv%state,1)) :: Shear2MShear1, Shear2PShear1, ResuspensionCrShear1, ResuspensionCrShear2
+	real(prec), dimension(size(sv%state,1)) :: ResuspensionCrShield1, ResuspensionCrShield2
     real(prec), dimension(:,:), allocatable :: var_hor_dt
     real(prec), dimension(size(sv%state,1)) :: velocity_mod, velocity_mod_p2
-    real(prec), dimension(size(sv%state,1)) :: water_density, tension, tension_weight
+    real(prec), dimension(size(sv%state,1)) :: water_density, kVisco, tension, tension_weight
     real(prec), dimension(size(sv%state,1)) :: dist2bottom, z0
+    real(prec), dimension(size(sv%state,1)) :: dimlessDiameter, densityRelation, kViscoRelation
     type(string), dimension(:), allocatable :: var_hor_name
     type(string), dimension(:), allocatable :: requiredHorVars
     real(prec) :: P = 1013.
@@ -477,6 +480,12 @@
 	real(8), dimension(size(sv%state,1)) :: aux_r8, aux_r9
 	integer			:: counterr
     !Begin-----------------------------------------------------------------------------------
+    tag = 'density'
+    rhoIdx = Utils%find_str(sv%varName, tag, .true.)	
+
+    tag = 'radius'
+    rIdx = Utils%find_str(sv%varName, tag, .true.)
+	
     tag = 'age'
     col_age = Utils%find_str(sv%varName, tag, .true.)	
 	
@@ -536,10 +545,43 @@
         Tension = 0
 		tension_weight = 0
         water_density = 0
+		kVisco = 0
+		ResuspensionCrShear1 = 0
+		ResuspensionCrShear2 = 0
+		ResuspensionCrShield1 = 0
+		ResuspensionCrShield2 = 0
+		
         !dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - sv%state(:,col_bat)) / (sv%state(:,col_dwz))
         dist2bottom = sv%state(:,col_dist2bottom)
         !where (dist2bottom < landIntThreshold) water_density = seaWaterDensity(sv%state(:,col_sal), sv%state(:,col_temp),sv%state(:,3))
-        where (dist2bottom < threshold_bot_wat) water_density = seaWaterDensity(sv%state(:,col_sal), sv%state(:,col_temp),sv%state(:,3))        
+		if ((col_temp /= MV_INT) .and. (col_sal /= MV_INT)) then
+			where ((dist2bottom < threshold_bot_wat))
+				water_density = seaWaterDensity(sv%state(:,col_sal), sv%state(:,col_temp),sv%state(:,3))
+				kVisco = absoluteSeaWaterViscosity(sv%state(:,col_sal), sv%state(:,col_temp)) / water_density
+				
+				kViscoRelation = abs(1.-(kvisco/Globals%Constants%MeanKvisco))
+				where(kViscoRelation >= 0.9)
+					kVisco = Globals%Constants%MeanKvisco
+				endwhere
+
+				! Boundary density values could be 0. This avoid underdumped values on density. 
+				! Just density relation of 90 % related to mean water density are allowed.
+				densityRelation = abs(1.- (sv%state(:,rhoIdx)/water_density))
+				where (densityRelation >= 0.9)
+					densityRelation = abs(1.- (sv%state(:,rhoIdx)/Globals%Constants%MeanDensity))
+				endwhere
+			end where
+		else
+			!If there is no salt and temperatue Compute buoyancy using constant density and temp
+			where ((dist2bottom < threshold_bot_wat))
+				kVisco = Globals%Constants%MeanKvisco
+				water_density = Globals%Constants%MeanDensity
+				! Boundary density values could be 0. This avoid underdumped values on density. 
+				! Just density relation of 90 % related to mean water density are allowed.
+				densityRelation = abs(1.- (sv%state(:,rhoIdx)/water_density))          
+			end where
+		end if
+
 		if ((col_hs /= MV_INT) .and. (col_ts /= MV_INT)) then
             !Found wave fields to use
             do i=1, size(sv%state,1)
@@ -723,7 +765,7 @@
 				
         end if
 		
-		ResuspensionProb_ResidenceTime = Globals%Constants%ResuspensionProb * exp(- sv%state(:,col_age) / Globals%Constants%ResuspsionResidenceTime)
+		ResuspensionProb_ResidenceTime = Globals%Constants%ResuspensionProb * exp(- sv%state(:,col_age) / Globals%Constants%ResuspensionResidenceTime)
 		
 		! In the BedLoadThickness zone: Corresponds to Case 2 of the velocity profile, which uses an average velocity from the log-law for all particles in this layer.
 		! It can be divided into 3 cases:
@@ -737,11 +779,34 @@
 		! To cover all cases in a single formulation, we can consider the following symmetrical sigmoidal:
 
 		tension_weight_coefficient = +10.0
-		Shear2MShear1 = Globals%Constants%ResuspsionCriticalShear2 - Globals%Constants%ResuspsionCriticalShear1
-		Shear2PShear1 = Globals%Constants%ResuspsionCriticalShear2 + Globals%Constants%ResuspsionCriticalShear1
-		where ((dist2bottom < LandIntThreshold_value) .and. (ResuspensionRandmValue < ResuspensionProb_ResidenceTime) )
-			tension_weight = 1.0 / ( 1.0 + exp( -(tension_weight_coefficient/Shear2MShear1) * (tension - 0.5 * Shear2PShear1) ) ) 
-		end where
+
+		if (Globals%SimDefs%ResuspensionCriticalShearMethod == 1) then		
+			Shear2MShear1 = Globals%Constants%ResuspensionCriticalShear2 - Globals%Constants%ResuspensionCriticalShear1
+			Shear2PShear1 = Globals%Constants%ResuspensionCriticalShear2 + Globals%Constants%ResuspensionCriticalShear1
+			where ((dist2bottom < LandIntThreshold_value) .and. (ResuspensionRandmValue < ResuspensionProb_ResidenceTime) )
+				tension_weight = 1.0 / ( 1.0 + exp( -(tension_weight_coefficient/Shear2MShear1) * (tension - 0.5 * Shear2PShear1) ) ) 
+			end where
+		
+		else if (Globals%SimDefs%ResuspensionCriticalShearMethod == 2) then	
+
+			where (dist2bottom < LandIntThreshold_value) dimlessDiameter = (2.0 * sv%state(:,rIdx))**3.0 * ( -(Globals%Constants%Gravity%z) * densityRelation / kvisco**2.0 )			
+
+			where (dist2bottom < LandIntThreshold_value)
+				ResuspensionCrShield1 = ((0.30 / (1.0 + 1.2 * dimlessDiameter)) + 0.055 * (1.0 - exp(-0.02 * dimlessDiameter))) 
+				ResuspensionCrShield2 = ((0.30 / (1.0 + 1.0 * dimlessDiameter)) + 0.100 * (1.0 - exp(-0.05 * dimlessDiameter)))
+			end where
+
+			where (dist2bottom < LandIntThreshold_value)
+				ResuspensionCrShear1 = (ResuspensionCrShield1) * (-Globals%Constants%Gravity%z) * (sv%state(:,rhoIdx) - water_density) * (2.0 * sv%state(:,rIdx))
+				ResuspensionCrShear2 = (ResuspensionCrShield2) * (-Globals%Constants%Gravity%z) * (sv%state(:,rhoIdx) - water_density) * (2.0 * sv%state(:,rIdx))
+			end where
+
+			Shear2MShear1 = ResuspensionCrShear2 - ResuspensionCrShear1
+			Shear2PShear1 = ResuspensionCrShear2 + ResuspensionCrShear1
+			where ((dist2bottom < LandIntThreshold_value) .and. (ResuspensionRandmValue < ResuspensionProb_ResidenceTime) )
+				tension_weight = 1.0 / ( 1.0 + exp( -(tension_weight_coefficient/Shear2MShear1) * (tension - 0.5 * Shear2PShear1) ) ) 
+			end where
+		end if
 
         where ((dist2bottom < LandIntThreshold_value) .and. (ResuspensionRandmValue < ResuspensionProb_ResidenceTime) )
 			

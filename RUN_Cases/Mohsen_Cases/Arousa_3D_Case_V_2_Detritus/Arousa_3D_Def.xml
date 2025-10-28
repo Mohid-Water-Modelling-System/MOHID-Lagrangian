@@ -66,7 +66,7 @@
             </Beaching> -->
 			<!--SullivanAllen diffusion method = 2 (see constants section) -->
             <!--<DiffusionMethod value="2" comment="Diffusion method 1:random walk, 2:SullivanAllen. Default = 1" />--> 
-			
+            <ResuspensionCriticalShearMethod value="2" comment="Resuspension critical shear method 1:Constant values, 2:Soluby(1997). Default = 1" />			
         </simulation>	 
 		<sourceDefinitions>
 			<source>
@@ -393,9 +393,9 @@
 			<!-- Resuspension options -->
 			<BedLoadThickness value="0.04" comment="BedLoad thickness. Default = 0.04" units_comment="m" />				
 			<ResuspensionProb value="100.0" comment="Probablity of Resuspension of a tracer. Default = 0%" units_comment="%" />
-			<ResuspsionResidenceTime value="8640000.0" comment="Resuspsion Residence Time[ResuspensionProb reduces with respect to ResuspsionResidenceTime]. Default = 10*24*60*60" units_comment="sec" />				
-			<ResuspsionCriticalShear1 value="0.01" comment="Resuspsion Critical Shear 1. Default = 0.40" units_comment="N/m2" />	
-			<ResuspsionCriticalShear2 value="0.40" comment="Resuspsion Critical Shear 2. Default = 0.45" units_comment="N/m2" />	
+			<ResuspensionResidenceTime value="8640000.0" comment="Resuspension Residence Time[ResuspensionProb reduces with respect to ResuspensionResidenceTime]. Default = 10*24*60*60" units_comment="sec" />				
+			<ResuspensionCriticalShear1 value="0.01" comment="Resuspension Critical Shear 1. Default = 0.10" units_comment="N/m2" />	
+			<ResuspensionCriticalShear2 value="0.40" comment="Resuspension Critical Shear 2. Default = 0.45" units_comment="N/m2" />	
 			<!--<CriticalShearErosion value="0.00001" comment="Resuspension amplitude velocity factor. Default = 0.40" units_comment="n.u" /> -->			
 			
 			<!--SullivanAllen diffusion method = 2 options -->

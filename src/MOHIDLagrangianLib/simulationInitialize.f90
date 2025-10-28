@@ -640,6 +640,13 @@
     if (read_flag) then
         call Globals%SimDefs%setDiffusionMethod(att_val)
     endif
+
+    tag="ResuspensionCriticalShearMethod"
+    att_name="value"
+    call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val, read_flag, .false.)
+    if (read_flag) then
+        call Globals%SimDefs%setResuspensionCriticalShearMethod(att_val)
+    endif
     
     tag="RemoveLandTracer"
     att_name="value"
@@ -905,23 +912,23 @@
         if (readflag) then
             call Globals%Constants%setResuspensionProb(att_val)
         endif
-		tag="ResuspsionResidenceTime"
+		tag="ResuspensionResidenceTime"
         att_name="value"
         call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
         if (readflag) then
-            call Globals%Constants%setResuspsionResidenceTime(att_val)
+            call Globals%Constants%setResuspensionResidenceTime(att_val)
         endif
-		tag="ResuspsionCriticalShear1"
+		tag="ResuspensionCriticalShear1"
         att_name="value"
         call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
         if (readflag) then
-            call Globals%Constants%setResuspsionCriticalShear1(att_val)
+            call Globals%Constants%setResuspensionCriticalShear1(att_val)
         endif
-		tag="ResuspsionCriticalShear2"
+		tag="ResuspensionCriticalShear2"
         att_name="value"
         call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
         if (readflag) then
-            call Globals%Constants%setResuspsionCriticalShear2(att_val)
+            call Globals%Constants%setResuspensionCriticalShear2(att_val)
         endif
         tag="CriticalShearErosion"
         att_name="value"

@@ -82,6 +82,7 @@
         integer         ::  numblocksx, numblocksy  !<Number of blocks along x and y
         integer         ::  VerticalVelMethod !< Vertical velocity method
         integer         ::  DiffusionMethod !< Horizontal diffusion method. 1-random walk. 2: SullivanAllen
+        integer         ::  ResuspensionCriticalShearMethod !< Resuspension CriticalShear Method. 1-constant values. 2: Soulsby (1997)'s formula
         integer         ::  RemoveLandTracer !< Vertical velocity method
         integer         ::  bathyminNetcdf !< bathymetry is a property inside the netcdf
         integer         ::  RugosityinNetcdf !< Rugosity of the seabed is a property inside the netcdf
@@ -98,6 +99,7 @@
     procedure :: setblocksize
     procedure :: setVerticalVelMethod
     procedure :: setDiffusionMethod
+    procedure :: setResuspensionCriticalShearMethod
     procedure :: setRemoveLandTracer
     procedure :: setbathyminNetcdf
     procedure :: setRugosityinNetcdf
@@ -128,9 +130,9 @@
         real(prec)   :: Rugosity            !< Bottom rugosity value (for now the model assumes a constant value over the grid)
         real(prec)   :: BedLoadThickness    !< BedLoad thickness value (for now the model assumes a constant value over the grid)
         real(prec)   :: ResuspensionProb    !< Probablity of resuspension of a tracer (-)		
-        real(prec)   :: ResuspsionResidenceTime 	!< Resuspsion Residence Time value
-        real(prec)   :: ResuspsionCriticalShear1 	!< Bottom Resuspsion Critical Shear 1 value (for now the model assumes a constant value over the grid)	
-        real(prec)   :: ResuspsionCriticalShear2 	!< Bottom Resuspsion Critical Shear 2 value (for now the model assumes a constant value over the grid)		
+        real(prec)   :: ResuspensionResidenceTime 	!< Resuspension Residence Time value
+        real(prec)   :: ResuspensionCriticalShear1 	!< Bottom Resuspension Critical Shear 1 value (for now the model assumes a constant value over the grid)	
+        real(prec)   :: ResuspensionCriticalShear2 	!< Bottom Resuspension Critical Shear 2 value (for now the model assumes a constant value over the grid)		
         real(prec)   :: Critical_Shear_Erosion !< Bottom critical shear erosion value (for now the model assumes a constant value over the grid)
         real(prec)   :: TOptBacteriaMin          !< minimum temperature of the optimal interval for the Bacteria growth
         real(prec)   :: TOptBacteriaMax          !< maximum temperature of the optimal interval for the Bacteria growt
@@ -162,9 +164,9 @@
     procedure :: setRugosity
     procedure :: setBedLoadThickness
     procedure :: setResuspensionProb
-    procedure :: setResuspsionResidenceTime	
-    procedure :: setResuspsionCriticalShear1
-    procedure :: setResuspsionCriticalShear2
+    procedure :: setResuspensionResidenceTime	
+    procedure :: setResuspensionCriticalShear1
+    procedure :: setResuspensionCriticalShear2
     procedure :: setCritical_Shear_Erosion
     procedure :: setTOptBacteriaMin
     procedure :: setTOptBacteriaMax
@@ -501,6 +503,7 @@
     self%SimDefs%Center = 0.0
     self%SimDefs%VerticalVelMethod = 1
     self%SimDefs%DiffusionMethod = 1
+    self%SimDefs%ResuspensionCriticalShearMethod = 1
     self%SimDefs%RemoveLandTracer = 0
     self%SimDefs%bathyminNetcdf = 0
     self%SimDefs%RugosityinNetcdf = 0
@@ -524,9 +527,9 @@
     self%Constants%Rugosity = 0.0025
 	self%Constants%BedLoadThickness = 0.04
 	self%Constants%ResuspensionProb = 0.0
-	self%Constants%ResuspsionResidenceTime = 10 * 24 * 60.0 * 60.0 	! 10 days in second
-	self%Constants%ResuspsionCriticalShear1 = 0.40
-	self%Constants%ResuspsionCriticalShear1 = 0.45
+	self%Constants%ResuspensionResidenceTime = 10 * 24 * 60.0 * 60.0 	! 10 days in second
+	self%Constants%ResuspensionCriticalShear1 = 0.10
+	self%Constants%ResuspensionCriticalShear1 = 0.45
     self%Constants%Critical_Shear_Erosion = 0.40
     self%Constants%TOptBacteriaMin = 24.8
     self%Constants%TOptBacteriaMax = 25.1
@@ -2070,65 +2073,65 @@
 	!---------------------------------------------------------------------------
 	!> @author Mohsen Shabani CRETUS - GFNL
     !> @brief
-    !> Resuspsion Residence Time setting routine or not
-    !> @param[in] self, read_ResuspsionResidenceTime
+    !> Resuspension Residence Time setting routine or not
+    !> @param[in] self, read_ResuspensionResidenceTime
     !---------------------------------------------------------------------------
-    subroutine setResuspsionResidenceTime(self, read_ResuspsionResidenceTime)
+    subroutine setResuspensionResidenceTime(self, read_ResuspensionResidenceTime)
     class(constants_t), intent(inout) :: self
-    type(string), intent(in) :: read_ResuspsionResidenceTime
+    type(string), intent(in) :: read_ResuspensionResidenceTime
     type(string) :: outext
     integer :: sizem
-    if (read_ResuspsionResidenceTime%to_number(kind=1._R8P) < 0.0) then
-        outext='ResuspsionResidenceTime must be zero or positive, assuming default value'
+    if (read_ResuspensionResidenceTime%to_number(kind=1._R8P) < 0.0) then
+        outext='ResuspensionResidenceTime must be zero or positive, assuming default value'
         call Log%put(outext)
     else
-        self%ResuspsionResidenceTime=read_ResuspsionResidenceTime%to_number(kind=1._R8P)
+        self%ResuspensionResidenceTime=read_ResuspensionResidenceTime%to_number(kind=1._R8P)
     endif
-    sizem = sizeof(self%ResuspsionResidenceTime)
+    sizem = sizeof(self%ResuspensionResidenceTime)
     call SimMemory%adddef(sizem)
-    end subroutine setResuspsionResidenceTime
+    end subroutine setResuspensionResidenceTime
 
 	!---------------------------------------------------------------------------
 	!> @author Mohsen Shabani CRETUS - GFNL
     !> @brief
-    !> Resuspsion Critical Shear 1 setting routine or not
-    !> @param[in] self, read_ResuspsionCriticalShear1
+    !> Resuspension Critical Shear 1 setting routine or not
+    !> @param[in] self, read_ResuspensionCriticalShear1
     !---------------------------------------------------------------------------
-    subroutine setResuspsionCriticalShear1(self, read_ResuspsionCriticalShear1)
+    subroutine setResuspensionCriticalShear1(self, read_ResuspensionCriticalShear1)
     class(constants_t), intent(inout) :: self
-    type(string), intent(in) :: read_ResuspsionCriticalShear1
+    type(string), intent(in) :: read_ResuspensionCriticalShear1
     type(string) :: outext
     integer :: sizem
-    if (read_ResuspsionCriticalShear1%to_number(kind=1._R8P) < 0.0) then
-        outext='ResuspsionCriticalShear1 must be zero or positive, assuming default value'
+    if (read_ResuspensionCriticalShear1%to_number(kind=1._R8P) < 0.0) then
+        outext='ResuspensionCriticalShear1 must be zero or positive, assuming default value'
         call Log%put(outext)
     else
-        self%ResuspsionCriticalShear1=read_ResuspsionCriticalShear1%to_number(kind=1._R8P)
+        self%ResuspensionCriticalShear1=read_ResuspensionCriticalShear1%to_number(kind=1._R8P)
     endif
-    sizem = sizeof(self%ResuspsionCriticalShear1)
+    sizem = sizeof(self%ResuspensionCriticalShear1)
     call SimMemory%adddef(sizem)
-    end subroutine setResuspsionCriticalShear1
+    end subroutine setResuspensionCriticalShear1
 
 	!---------------------------------------------------------------------------
 	!> @author Mohsen Shabani CRETUS - GFNL
     !> @brief
-    !> Resuspsion Critical Shear 2 setting routine or not
-    !> @param[in] self, read_ResuspsionCriticalShear2
+    !> Resuspension Critical Shear 2 setting routine or not
+    !> @param[in] self, read_ResuspensionCriticalShear2
     !---------------------------------------------------------------------------
-    subroutine setResuspsionCriticalShear2(self, read_ResuspsionCriticalShear2)
+    subroutine setResuspensionCriticalShear2(self, read_ResuspensionCriticalShear2)
     class(constants_t), intent(inout) :: self
-    type(string), intent(in) :: read_ResuspsionCriticalShear2
+    type(string), intent(in) :: read_ResuspensionCriticalShear2
     type(string) :: outext
     integer :: sizem
-    if (read_ResuspsionCriticalShear2%to_number(kind=1._R8P) < 0.0) then
-        outext='ResuspsionCriticalShear2 must be zero or positive, assuming default value'
+    if (read_ResuspensionCriticalShear2%to_number(kind=1._R8P) < 0.0) then
+        outext='ResuspensionCriticalShear2 must be zero or positive, assuming default value'
         call Log%put(outext)
     else
-        self%ResuspsionCriticalShear2=read_ResuspsionCriticalShear2%to_number(kind=1._R8P)
+        self%ResuspensionCriticalShear2=read_ResuspensionCriticalShear2%to_number(kind=1._R8P)
     endif
-    sizem = sizeof(self%ResuspsionCriticalShear2)
+    sizem = sizeof(self%ResuspensionCriticalShear2)
     call SimMemory%adddef(sizem)
-    end subroutine setResuspsionCriticalShear2
+    end subroutine setResuspensionCriticalShear2
 	
 	!---------------------------------------------------------------------------    
     !> @author Joao Sobrinho - ColabAtlantic
@@ -2515,14 +2518,14 @@
     outext = outext//'       BedLoadThickness = '//temp_str(1)//new_line('a')	
     temp_str(1)=self%ResuspensionCoeff
     outext = outext//'       ResuspensionCoeff = '//temp_str(1)//new_line('a')
-    temp_str(1)=self%ResuspsionResidenceTime
-    outext = outext//'       ResuspsionResidenceTime = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%ResuspensionResidenceTime
+    outext = outext//'       ResuspensionResidenceTime = '//temp_str(1)//new_line('a')
     temp_str(1)=self%ResuspensionProb
     outext = outext//'       ResuspensionProb = '//temp_str(1)//new_line('a')	
-    temp_str(1)=self%ResuspsionCriticalShear1
-    outext = outext//'       ResuspsionCriticalShear1 = '//temp_str(1)//new_line('a')
-    temp_str(1)=self%ResuspsionCriticalShear2
-    outext = outext//'       ResuspsionCriticalShear2 = '//temp_str(1)//new_line('a')	
+    temp_str(1)=self%ResuspensionCriticalShear1
+    outext = outext//'       ResuspensionCriticalShear1 = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%ResuspensionCriticalShear2
+    outext = outext//'       ResuspensionCriticalShear2 = '//temp_str(1)//new_line('a')	
     temp_str(1)=self%Critical_Shear_Erosion
     outext = outext//'       CriticalShearErosion = '//temp_str(1)//new_line('a')
     temp_str(1)=self%AddBottomCell
@@ -2811,7 +2814,28 @@
     sizem = sizeof(self%DiffusionMethod)
     call SimMemory%adddef(sizem)
     end subroutine setDiffusionMethod
-    
+
+    !---------------------------------------------------------------------------
+	!> @author Mohsen Shabani CRETUS - GFNL
+    !> @brief
+    !> Resuspension setting to calculate critical shear 
+    !> @param[in] self, read_ResuspensionCriticalShearMethod
+    !---------------------------------------------------------------------------	
+	subroutine setResuspensionCriticalShearMethod(self, read_ResuspensionCriticalShearMethod)
+    class(simdefs_t), intent(inout) :: self
+    type(string), intent(in) :: read_ResuspensionCriticalShearMethod
+    type(string) :: outext
+    integer :: sizem
+    if ((read_ResuspensionCriticalShearMethod%to_number(kind=1._I8P) < 0) .OR. (read_ResuspensionCriticalShearMethod%to_number(kind=1._I8P) > 3)) then
+        outext='Resuspension Critical Shear Method must be 1: constant input values,assuming default value, 2:  Soulsby (1997)s method '
+        call Log%put(outext)
+    else
+        self%ResuspensionCriticalShearMethod=read_ResuspensionCriticalShearMethod%to_number(kind=1._I8P)
+    endif
+    sizem = sizeof(self%ResuspensionCriticalShearMethod)
+    call SimMemory%adddef(sizem)
+    end subroutine setResuspensionCriticalShearMethod
+ 
     !---------------------------------------------------------------------------
     !> @author Joao Sobrinho
     !> @brief
@@ -2965,6 +2989,8 @@
     outext = outext//'       VerticalVelMethod = '//temp_str(1)//new_line('a')
     temp_str(1)=self%DiffusionMethod
     outext = outext//'       DiffusionMethod = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%ResuspensionCriticalShearMethod
+    outext = outext//'       ResuspensionCriticalShearMethod = '//temp_str(1)//new_line('a')
     temp_str(1)=self%RemoveLandTracer
     outext = outext//'       RemoveLandTracer = '//temp_str(1)//new_line('a')
     temp_str(1)=self%bathyminNetcdf
