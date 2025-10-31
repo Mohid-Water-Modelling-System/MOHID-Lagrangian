@@ -369,7 +369,7 @@
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: dt
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: CorrectVerticalBounds
-    integer :: col_bat
+    integer :: col_bat, col_rugosityVar_sv
 	real(prec), dimension(2) :: maxLevel
   
 	logical, dimension(:), allocatable :: mask_0, mask_1, mask_2
@@ -393,14 +393,15 @@
 	end if
     
     col_bat = Utils%find_str(sv%varname, Globals%Var%bathymetry)
+	col_rugosityVar_sv = Utils%find_str(sv%varName, Globals%Var%rugosityVar, .true.)	
 
-	mask_1 = (sv%state(:,3) + CorrectVerticalBounds(:,3)*dt < sv%state(:,col_bat) + Globals%Constants%Rugosity) .and. (sv%state(:,col_bat) <= -Globals%Constants%Rugosity)
-	mask_2 = (sv%state(:,3) + CorrectVerticalBounds(:,3)*dt < sv%state(:,col_bat) + Globals%Constants%Rugosity) .and. (sv%state(:,col_bat) > -Globals%Constants%Rugosity)
+	mask_1 = (sv%state(:,3) + CorrectVerticalBounds(:,3)*dt < sv%state(:,col_bat) + sv%state(:,col_rugosityVar_sv)) .and. (sv%state(:,col_bat) <= -sv%state(:,col_rugosityVar_sv))
+	mask_2 = (sv%state(:,3) + CorrectVerticalBounds(:,3)*dt < sv%state(:,col_bat) + sv%state(:,col_rugosityVar_sv)) .and. (sv%state(:,col_bat) >  -sv%state(:,col_rugosityVar_sv))
 	mask_0 = (mask_1 .or. mask_2)
 	
 	! Apply only where `mask_1` is true: when z < bathymetry and bathymetry < 0
 	where (mask_1)
-		CorrectVerticalBounds(:,3) = ((sv%state(:,col_bat) + Globals%Constants%Rugosity - sv%state(:,3)) / dt) * 1.0
+		CorrectVerticalBounds(:,3) = ((sv%state(:,col_bat) + sv%state(:,col_rugosityVar_sv) - sv%state(:,3)) / dt) * 1.0
 !		sv%state(:,4) = 0.0
 !		sv%state(:,5) = 0.0
 !		sv%state(:,6) = 0.0
@@ -448,6 +449,7 @@
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Resuspension
 	real(prec), dimension(size(sv%state,1)) :: ResuspensionRandmValue, ResuspensionProb_ResidenceTime
     integer :: col_age, col_temp, col_sal, col_dwz, col_bat, col_hs, col_ts, col_wd, col_dist2bottom, i
+    integer :: col_rugosityVar_sv
 	integer :: rhoIdx, rIdx
 	integer :: col_u, col_v, col_w
     real(prec) :: landIntThreshold
@@ -495,6 +497,8 @@
 	col_dwz = Utils%find_str(sv%varName, Globals%Var%dwz, .true.)
     threshold_bot_wat = (Globals%Mask%waterVal + Globals%Mask%bedVal) * 0.0
 
+	col_rugosityVar_sv = Utils%find_str(sv%varName, Globals%Var%rugosityVar, .true.)	
+
 	U_asterisk = 0.0
 	V_asterisk = 0.0
 	W_asterisk = 0.0
@@ -506,7 +510,7 @@
 	LandIntThreshold_value =self%LandIntThresholdValue(sv, bdata, time, Threshold_value)
 
     landIntThreshold = -0.98
-    z0 = Globals%Constants%Rugosity
+    z0 = sv%state(:,col_rugosityVar_sv)
     dsilt = 32e-6
     dsand = 62e-6
     dgravel = 0.002
@@ -753,7 +757,7 @@
             !Using log law to calculate the (U,V,W)_asterisk, and later calculated wall tension 
 		    
 			where (dist2bottom < threshold_bot_wat) 
-				aux_r8 = max(sv%state(:,col_dwz), 0.05) / Globals%Constants%Rugosity
+				aux_r8 = max(sv%state(:,col_dwz), 0.05) / sv%state(:,col_rugosityVar_sv)
 				U_asterisk = var_hor_dt(:,col_u) * VonKarman /  dlog(aux_r8)
 				V_asterisk = var_hor_dt(:,col_v) * VonKarman /  dlog(aux_r8)
 				W_asterisk = var_hor_dt(:,col_w) * VonKarman /  dlog(aux_r8)

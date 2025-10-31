@@ -189,7 +189,7 @@
     !set tracer bottom rugosity
     col_rugosityVar = Utils%find_str(var_name, Globals%Var%rugosityVar, .false.)
     col_rugosityVar_sv = Utils%find_str(sv%varName, Globals%Var%rugosityVar, .true.)
-    sv%state(:,col_rugosityVar_sv) = max(var_dt(:,col_rugosityVar), Globals%Constants%Rugosity)
+    sv%state(:,col_rugosityVar_sv) = max(var_dt(:,col_rugosityVar), 0.00105)
 	
 !	counterr = 0
 !	do i= 1, size(sv%state,1)
@@ -1183,7 +1183,7 @@
     type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
-    integer ::  nf_w, nf_u, nf_v, col_u, col_dwz, col_v, col_w, part_idx, col_dist2bottom, col_temp, col_sal
+    integer ::  nf_w, nf_u, nf_v, col_u, col_dwz, col_v, col_w, part_idx, col_dist2bottom, col_temp, col_sal, col_rugosityVar_sv
     real(prec), dimension(:,:), allocatable :: var_dt, var_hor_dt
     type(string), dimension(:), allocatable :: var_name, var_name_hor
     type(string), dimension(:), allocatable :: requiredVars, requiredHorVars
@@ -1210,7 +1210,8 @@
 	col_bat  = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
 	col_temp = Utils%find_str(sv%varname, Globals%Var%temp, .false.)
 	col_sal  = Utils%find_str(sv%varname, Globals%Var%sal, .false.)	
-    
+ 	col_rugosityVar_sv = Utils%find_str(sv%varName, Globals%Var%rugosityVar, .true.)
+	
     allocate(requiredVars(3))
     requiredVars(1) = Globals%Var%u
     requiredVars(2) = Globals%Var%v
@@ -1326,14 +1327,14 @@
 
 	where (dist2bottom < threshold_bot_wat)
 
-		aux_r8 = max(sv%state(:,col_dwz), 0.05) / Globals%Constants%Rugosity
+		aux_r8 = max(sv%state(:,col_dwz), 0.05) / sv%state(:,col_rugosityVar_sv)
 		U_asterisk = var_hor_dt(:,col_u) * VonKarman / dlog(aux_r8)
 		V_asterisk = var_hor_dt(:,col_v) * VonKarman / dlog(aux_r8)
 		W_asterisk = var_hor_dt(:,col_w) * VonKarman / dlog(aux_r8)
 
 		where (dist2bottom > LandIntThreshold_value)    !LandIntThreshold_value corresponded to bed-load/land thickness
 			!--- Case 1: water column above bed-load/land interaction
-			aux_r9 = max(sv%state(:,3) - sv%state(:,col_bat), Globals%Constants%Rugosity) / Globals%Constants%Rugosity
+			aux_r9 = max(sv%state(:,3) - sv%state(:,col_bat), sv%state(:,col_rugosityVar_sv)) / sv%state(:,col_rugosityVar_sv)
 			sv%state(:,4) = (U_asterisk / VonKarman) * dlog(aux_r9)
 			sv%state(:,5) = (V_asterisk / VonKarman) * dlog(aux_r9)
 			sv%state(:,6) = (W_asterisk / VonKarman) * dlog(aux_r9)
@@ -1344,7 +1345,7 @@
 
 		elsewhere
 			!--- Case 2: inside bed-load/land interaction layer: use an average velocity of log-law for all particles in this layer
-			aux_r10 = Globals%Constants%BedLoadThickness / Globals%Constants%Rugosity
+			aux_r10 = Globals%Constants%BedLoadThickness / sv%state(:,col_rugosityVar_sv)
 			sv%state(:,4) = (U_asterisk / VonKarman) * (dlog(aux_r10) - 1.0 + 1.0/aux_r10)
 			sv%state(:,5) = (V_asterisk / VonKarman) * (dlog(aux_r10) - 1.0 + 1.0/aux_r10)
 			sv%state(:,6) = (W_asterisk / VonKarman) * (dlog(aux_r10) - 1.0 + 1.0/aux_r10)

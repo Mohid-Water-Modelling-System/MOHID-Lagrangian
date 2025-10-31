@@ -13,6 +13,7 @@ export OMP_STACKSIZE=512M
 # "name" and "dirout" are named according to the testcase
 name=Arousa_3D_Def
 dirout=${name}_out
+data=data
 
 # "executables" are renamed and called from their directory
 tools=../../../build/bin
@@ -31,6 +32,7 @@ fi
 mkdir $dirout
 
 cp ${name}.xml $dirout/
+cp -r $data $dirout/
 
 # CODES are executed according the selected parameters of execution in this testcase
 
