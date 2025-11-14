@@ -56,6 +56,7 @@
     procedure :: makeResolutionField
     procedure :: makeBathymetryField
     procedure :: makeRugosityField
+    procedure :: makeD50Field
     procedure :: makeBottom
     procedure :: makeDWZField
     procedure :: fillClosedPoints
@@ -1151,7 +1152,7 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
     end subroutine makeBathymetryField
 
     !---------------------------------------------------------------------------
-	!> @author Mohsen Shabani CRETUS - GFNL
+	!> @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
     !> @brief
     !> Method to use a stored binary field to make a rugosity field - depends on fill values
     !---------------------------------------------------------------------------
@@ -1188,6 +1189,45 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
     call self%fields%reset()               ! reset list iterator
 
     end subroutine makeRugosityField
+
+    !---------------------------------------------------------------------------
+	!> @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
+    !> @brief
+    !> Method to use a stored binary field to make a D50 field - depends on fill values
+    !---------------------------------------------------------------------------
+    subroutine makeD50Field(self)
+    class(background_class), intent(inout) :: self
+    class(*), pointer :: curr
+    real(prec), allocatable, dimension(:,:,:,:) :: D50Var
+    type(string) :: outext
+    call self%fields%reset()               ! reset list iterator
+    do while(self%fields%moreValues())     ! loop while there are values
+        curr => self%fields%currentValue() ! get current value
+        select type(curr)
+		class is (scalar3d_field_class)
+			! handle 3D field
+			if (curr%name == Globals%Var%D50Var) then
+				curr%field = Globals%Constants%D50
+			end if
+
+		class is (scalar4d_field_class)
+			if (curr%name == Globals%Var%D50Var) then
+				allocate(D50Var(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+				D50Var = Globals%Constants%D50
+				! handle 4D field
+				curr%field = D50Var
+			end if
+		class default
+			outext = '[background_class::makeD50Field] Unexpected type of content, not a 3D or 4D scalar field'
+			call Log%put(outext)
+			stop
+        end select
+        call self%fields%next()            ! increment the list iterator
+        nullify(curr)
+    end do
+    call self%fields%reset()               ! reset list iterator
+
+    end subroutine makeD50Field
     !---------------------------------------------------------------------------
     !> @author Joao Sobrinho - ColabAtlantic
     !> @brief

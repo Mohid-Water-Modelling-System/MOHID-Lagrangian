@@ -74,16 +74,18 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> Method that returns the number of variables used by this tracer
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
     class(coliform_class), intent(in) :: self
-    getNumVars = 37
+    getNumVars = 38
     end function getNumVars
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> Method that returns the state array of this tracer
     !---------------------------------------------------------------------------
@@ -107,31 +109,33 @@
     getStateArray(14) = self%mpar%particulate
     getStateArray(15) = self%now%bathymetry
     getStateArray(16) = self%now%rugosityVar
-    getStateArray(17) = self%now%dwz
-    getStateArray(18) = self%now%dist2bottom
-    getStateArray(19) = self%now%beachPeriod
-    getStateArray(20) = self%now%beachAreaId
-    getStateArray(21) = self%now%beachedWaterLevel
-    getStateArray(22) = self%mnow%density
-    getStateArray(23) = self%mnow%radius
-    getStateArray(24) = self%mnow%volume
-    getStateArray(25) = self%mnow%area
-    getStateArray(26) = self%mnow%condition
-    getStateArray(27) = self%mnow%T90
-    getStateArray(28) = self%mnow%T90_variable
-    getStateArray(29) = self%mnow%T90_method
-    getStateArray(30) = self%mnow%sw_percentage
-    getStateArray(31) = self%mnow%sw_extinction_coef
-    getStateArray(32) = self%mnow%concentration
-    getStateArray(33) = self%mnow%initial_volume
-    getStateArray(34) = self%mnow%temperature
-    getStateArray(35) = self%mnow%salinity
-    getStateArray(36) = self%mnow%radius_cr_min
-    getStateArray(37) = self%mnow%radius_cr_max
+    getStateArray(17) = self%now%D50Var
+    getStateArray(18) = self%now%dwz
+    getStateArray(19) = self%now%dist2bottom
+    getStateArray(20) = self%now%beachPeriod
+    getStateArray(21) = self%now%beachAreaId
+    getStateArray(22) = self%now%beachedWaterLevel
+    getStateArray(23) = self%mnow%density
+    getStateArray(24) = self%mnow%radius
+    getStateArray(25) = self%mnow%volume
+    getStateArray(26) = self%mnow%area
+    getStateArray(27) = self%mnow%condition
+    getStateArray(28) = self%mnow%T90
+    getStateArray(29) = self%mnow%T90_variable
+    getStateArray(30) = self%mnow%T90_method
+    getStateArray(31) = self%mnow%sw_percentage
+    getStateArray(32) = self%mnow%sw_extinction_coef
+    getStateArray(33) = self%mnow%concentration
+    getStateArray(34) = self%mnow%initial_volume
+    getStateArray(35) = self%mnow%temperature
+    getStateArray(36) = self%mnow%salinity
+    getStateArray(37) = self%mnow%radius_cr_min
+    getStateArray(38) = self%mnow%radius_cr_max
     end function getStateArray
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
     !> @brief
     !> Method that sets the state array of this tracer
     !---------------------------------------------------------------------------
@@ -155,31 +159,33 @@
     self%mpar%particulate 			= StateArray(14)
     self%now%bathymetry   			= StateArray(15)
     self%now%rugosityVar   			= StateArray(16)
-    self%now%dwz          			= StateArray(17)
-    self%now%dist2bottom 			= StateArray(18)
-    self%now%beachPeriod 			= StateArray(19)
-    self%now%beachAreaId 			= StateArray(20)
-    self%now%beachedWaterLevel 		= StateArray(21)
-    self%mnow%density 				= StateArray(22)
-    self%mnow%radius 				= StateArray(23)
-    self%mnow%volume 				= StateArray(24)
-    self%mnow%area 					= StateArray(25)
-    self%mnow%condition 			= StateArray(26)
-    self%mnow%T90        			= StateArray(27)
-    self%mnow%T90_variable  		= StateArray(28)
-    self%mnow%T90_method    		= StateArray(29)
-    self%mnow%sw_percentage 		= StateArray(30)
-    self%mnow%sw_extinction_coef 	= StateArray(31)
-    self%mnow%concentration 		= StateArray(32)
-    self%mnow%initial_volume 		= StateArray(33)
-    self%mnow%temperature 			= StateArray(34)
-    self%mnow%salinity 				= StateArray(35)
-    self%mnow%radius_cr_min 		= StateArray(36)
-    self%mnow%radius_cr_max 		= StateArray(37)
+    self%now%D50Var   				= StateArray(17)
+    self%now%dwz          			= StateArray(18)
+    self%now%dist2bottom 			= StateArray(19)
+    self%now%beachPeriod 			= StateArray(20)
+    self%now%beachAreaId 			= StateArray(21)
+    self%now%beachedWaterLevel 		= StateArray(22)
+    self%mnow%density 				= StateArray(23)
+    self%mnow%radius 				= StateArray(24)
+    self%mnow%volume 				= StateArray(25)
+    self%mnow%area 					= StateArray(26)
+    self%mnow%condition 			= StateArray(27)
+    self%mnow%T90        			= StateArray(28)
+    self%mnow%T90_variable  		= StateArray(29)
+    self%mnow%T90_method    		= StateArray(30)
+    self%mnow%sw_percentage 		= StateArray(31)
+    self%mnow%sw_extinction_coef 	= StateArray(32)
+    self%mnow%concentration 		= StateArray(33)
+    self%mnow%initial_volume 		= StateArray(34)
+    self%mnow%temperature 			= StateArray(35)
+    self%mnow%salinity 				= StateArray(36)
+    self%mnow%radius_cr_min 		= StateArray(37)
+    self%mnow%radius_cr_max 		= StateArray(38)
     end subroutine setStateArray
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com		
     !> @brief
     !> coliform Tracer constructor
     !> @param[in] id, src, time, p
@@ -303,23 +309,23 @@
     end if
     
     !filling the rest of the varName list
-    constructor%varName(22) = Globals%Var%density
-    constructor%varName(23) = 'radius'
-    constructor%varName(24) = 'volume'
-    constructor%varName(25) = 'area'
-    constructor%varName(26) = 'condition'
-    constructor%varName(27) = 'T90'
-    constructor%varName(28) = 'T90_variable'
-    constructor%varName(29) = 'T90_method'
-    constructor%varName(30) = 'sw_percentage'
-    constructor%varName(31) = 'sw_extinction_coef'
-    constructor%varName(32) = 'concentration'
-    constructor%varName(33) = 'initial_volume'
+    constructor%varName(23) = Globals%Var%density
+    constructor%varName(24) = 'radius'
+    constructor%varName(25) = 'volume'
+    constructor%varName(26) = 'area'
+    constructor%varName(27) = 'condition'
+    constructor%varName(28) = 'T90'
+    constructor%varName(29) = 'T90_variable'
+    constructor%varName(30) = 'T90_method'
+    constructor%varName(31) = 'sw_percentage'
+    constructor%varName(32) = 'sw_extinction_coef'
+    constructor%varName(33) = 'concentration'
+    constructor%varName(34) = 'initial_volume'
     !constructor%varName(27) = 'particulate'
-    constructor%varName(34) = 'temp'
-    constructor%varName(35) = 'salt'
-    constructor%varName(36) = 'radius_cr_min'
-    constructor%varName(37) = 'radius_cr_max'    
+    constructor%varName(35) = 'temp'
+    constructor%varName(36) = 'salt'
+    constructor%varName(37) = 'radius_cr_min'
+    constructor%varName(38) = 'radius_cr_max'    
 	
     end function constructor
 

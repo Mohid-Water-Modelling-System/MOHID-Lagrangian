@@ -144,6 +144,7 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
     !> @brief
     !> Sets the state vector land interaction mask values and corrects for
     !> maximum level of tracers.
@@ -156,7 +157,9 @@
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
     integer :: i, j, col_age, col_bat, col_bat_sv, col_landintmask, col_res, col_ssh, col_DifVelStdr
-	integer :: col_rugosityVar,col_rugosityVar_sv, counterr
+	integer :: col_rugosityVar,col_rugosityVar_sv
+	integer :: col_D50Var,col_D50Var_sv
+	integer :: counterr
     real(prec) :: maxLevel(2)
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
@@ -165,12 +168,13 @@
     logical bottom_emmission
     !-----------------------------------------------------------
     !write(*,*)"Entrada setCommonProcesses"
-    allocate(requiredVars(5))
+    allocate(requiredVars(6))
     requiredVars(1) = Globals%Var%landIntMask
     requiredVars(2) = Globals%Var%resolution
     requiredVars(3) = Globals%Var%bathymetry
     requiredVars(4) = Globals%Var%ssh
     requiredVars(5) = Globals%Var%rugosityVar
+    requiredVars(6) = Globals%Var%D50Var
 	
     !write(*,*)"Entrada setCommonProcesses interpolate"
     call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, justRequired = .true.)
@@ -189,17 +193,23 @@
     !set tracer bottom rugosity
     col_rugosityVar = Utils%find_str(var_name, Globals%Var%rugosityVar, .false.)
     col_rugosityVar_sv = Utils%find_str(sv%varName, Globals%Var%rugosityVar, .true.)
-    sv%state(:,col_rugosityVar_sv) = max(var_dt(:,col_rugosityVar), 0.00105)
+    sv%state(:,col_rugosityVar_sv) = max(var_dt(:,col_rugosityVar), 0.0001)
+
+    !set tracer bottom D50
+    col_D50Var = Utils%find_str(var_name, Globals%Var%D50Var, .false.)
+    col_D50Var_sv = Utils%find_str(sv%varName, Globals%Var%D50Var, .true.)
+    sv%state(:,col_D50Var_sv) = max(var_dt(:,col_D50Var), 0.0001)
 	
 !	counterr = 0
 !	do i= 1, size(sv%state,1)
 !		if (mod(counterr, 10) == 0) then
-!			write(*,'( A12, A5, A12)') ,'time ', " Id:", 'rugosityVar'
+!			write(*,'(  A5, A12,, A12)') , " Id:", 'rugosityVar', 'D50Var'
 !			write(*,*),' '
 !		end if
 !		counterr = counterr + 1
-!		write(*,'( F12.4,I5, F12.4)') ,time,  i, sv%state(i,col_rugosityVar_sv)
-!	end do	 	
+!		write(*,'( I5, F12.4, F12.4)') , i, sv%state(i,col_rugosityVar_sv), sv%state(i,col_D50Var_sv)
+!D	end do	 	
+
 
     tag = 'age'
     col_age = Utils%find_str(sv%varName, tag, .true.)
@@ -355,7 +365,7 @@
     
     end subroutine distance2bottom
     !---------------------------------------------------------------------------
-	!> @author Mohsen Shabani CRETUS - GFNL
+	!> @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
     !> @brief
     !> Lagrangian Kernel, evaluate the velocities at given points
     !> using the interpolants and split the evaluation part from the solver module.
@@ -715,7 +725,7 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC 
-	!> Modified by @author Mohsen Shabani - CRETUS -GFNL
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.09.12 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> Beaching Kernel, uses the already updated state vector and determines if
     !> and how beaching occurs. Affects the state vector and state vector derivative.
@@ -958,7 +968,8 @@
     end function Aging
 
     !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC  Modified by Mohsen Shabani - CRETUS -GFNL
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> mixing length diffusion kernel, computes random velocities at given
     !> instants to model diffusion processes. These are valid while the tracer
@@ -1171,7 +1182,7 @@
     end function DiffusionIsotropic
     
     !---------------------------------------------------------------------------
-	!> @author Mohsen Shabani CRETUS - GFNL
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.09.12 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> Lagrangian Kernel, evaluate the velocities at given points
     !> using the interpolants and split the evaluation part from the solver module.
@@ -1183,7 +1194,8 @@
     type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
-    integer ::  nf_w, nf_u, nf_v, col_u, col_dwz, col_v, col_w, part_idx, col_dist2bottom, col_temp, col_sal, col_rugosityVar_sv
+    integer ::  nf_w, nf_u, nf_v, col_u, col_dwz, col_v, col_w, part_idx, col_dist2bottom, col_temp, col_sal
+    integer ::  col_rugosityVar_sv, col_D50Var_sv
     real(prec), dimension(:,:), allocatable :: var_dt, var_hor_dt
     type(string), dimension(:), allocatable :: var_name, var_name_hor
     type(string), dimension(:), allocatable :: requiredVars, requiredHorVars
@@ -1211,6 +1223,7 @@
 	col_temp = Utils%find_str(sv%varname, Globals%Var%temp, .false.)
 	col_sal  = Utils%find_str(sv%varname, Globals%Var%sal, .false.)	
  	col_rugosityVar_sv = Utils%find_str(sv%varName, Globals%Var%rugosityVar, .true.)
+ 	col_D50Var_sv = Utils%find_str(sv%varName, Globals%Var%D50Var, .true.)
 	
     allocate(requiredVars(3))
     requiredVars(1) = Globals%Var%u

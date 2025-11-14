@@ -46,6 +46,14 @@
 			<variant name="roughness" comment="used in MOHID and CMEMS" />
 			<variant name="rugos" />
 		</rugosityVar>
+		<D50Var name="D50Var">
+			<variant name="D50" comment="used in MOHID and CMEMS" />
+			<variant name="d50" comment="used in MOHID and CMEMS" />
+			<variant name="D50Var" comment="used in MOHID and CMEMS" />
+			<variant name="d50Var" comment="used in MOHID and CMEMS" />
+			<variant name="diameter50" comment="used in MOHID and CMEMS" />
+			<variant name="Diameter50" />
+		</D50Var>
 		<openpoints name="openpoints">
 			<variant name="openpoints" comment="used in MOHID" />
 			<variant name="OpenPoints" comment="used in MOHID" />

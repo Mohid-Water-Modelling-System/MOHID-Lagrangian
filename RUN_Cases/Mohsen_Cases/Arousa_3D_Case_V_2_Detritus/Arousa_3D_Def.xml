@@ -42,7 +42,8 @@
             <!--<VerticalVelMethod value="3" comment="1:From velocity fields, 2:Divergence based, 3:Disabled. Default = 1" />-->
 			<BathyminNetcdf value="1" comment="bathymetry is a property in the netcdf. 1:true, 0:false (computes from layer depth and openPoints. Default = 1"/>
 			<RugosityinNetcdf value="1" comment="Rugosity of the seabed is a property in the netcdf. 1:true, 0:false (Default = 0, read from constant input value)"/>
-            <RemoveLandTracer value="0" comment="Remove tracers on land 0:No, 1:Yes. Default = 0" />		
+			<D50inNetcdf value="1" comment="D50 (median diameter) of the seabed is a property in the netcdf. 1:true, 0:false (Default = 0, read from constant input value)"/>
+			<RemoveLandTracer value="0" comment="Remove tracers on land 0:No, 1:Yes. Default = 0" />		
 			<!--<TracerMaxAge value="0" comment="maximum tracer age. Default = 0.0. read if > 0" />-->
 			<!-- Beaching Freelitter options -->
 			<!--<Beaching>
@@ -66,7 +67,7 @@
             </Beaching> -->
 			<!--SullivanAllen diffusion method = 2 (see constants section) -->
             <!--<DiffusionMethod value="2" comment="Diffusion method 1:random walk, 2:SullivanAllen. Default = 1" />--> 
-            <ResuspensionCriticalShearMethod value="2" comment="Resuspension critical shear method 1:Constant values, 2:Soluby(1997). Default = 1" />			
+            <ResuspensionCriticalShearMethod value="3" comment="Resuspension critical shear method 1:Constant values, 2:Soluby(1997) 3:  Method 2 + hiding-exposure Waldschlager and Schttrumpf (2019b). Default = 1" />			
         </simulation>	 
 		<sourceDefinitions>
 			<source>
@@ -386,6 +387,8 @@
 		<constants>
 			<DiffusionCoeff value="0.75" comment="Horizontal diffusion coefficient. Default = 1.0" units_comment="m2/s" />	
 			<Rugosity value="0.0025" comment="Rugosity value. Default = 0.0025" units_comment="m2/s" />
+			<D50 value="0.0030" comment="D50 (Median diameter of seabed) value. Default = 0.0025" units_comment="m" />
+			<D50Density value="2800.0" comment="D50 density (Median diameter of seabed density) value. Default = 2500.0" units_comment="kg/m3" />
 			<BeachingLevel value="-3.0" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />
 			<BeachingStopProb value="80" comment="Probablity of beaching stopping a tracer. Default = 50%" units_comment="%" />
 			<WindDragCoeff value="0.0000001" comment="Windage coefficient. Default = 0.0" units_comment="" />

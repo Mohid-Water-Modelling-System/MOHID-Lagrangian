@@ -112,7 +112,7 @@
     contains
 	
 	!---------------------------------------------------------------------------
-	!> @author Mohsen Shabani CRETUS - GFNL
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.09.12 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> Evaluate the LandIntThresholdValue value  for a given Threshold_value (land threshold value for the dist2bottom function).
     !> Threshold_value is the regarding the position of the particle form seabed in [meter]
@@ -153,7 +153,7 @@
 	end function  LandIntThresholdValue
 
     !---------------------------------------------------------------------------
-    !> @author Mohsen Shabani - CRETUS -GFNL
+	!> @author Mohsen Shabani CRETUS - GFNL- 2025.08.12 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> Computes the vertical velocity due to buoyancy of the tracers in seawater
     !> @param[in] self, sv, bdata, time
@@ -275,7 +275,6 @@
     end if
 
     end function Buoyancy
-	
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC
     !> @brief
@@ -357,7 +356,7 @@
     end function SphericalShapeFactor
 
     !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> Corrects vertical position of the tracers according to data limits
     !> @param[in] self, sv, bdata, time
@@ -434,13 +433,12 @@
     end function CorrectVerticalBounds
 	
 	!---------------------------------------------------------------------------
-	
     !> @author Joao Sobrinho - Colab Atlantic 
-	!> modified by  @author Mohsen Shabani - CRETUS -GFNL
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> Resuspend particles based on shear erosion calculated from currents and waves. 
     !> @param[in] self, sv, bdata, time, dt
-																				
+	!---------------------------------------------------------------------------																				
     function Resuspension(self, sv, bdata, time, dt)
     class(kernelVerticalMotion_class), intent(inout) :: self
     type(stateVector_class), intent(inout) :: sv
@@ -449,18 +447,21 @@
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Resuspension
 	real(prec), dimension(size(sv%state,1)) :: ResuspensionRandmValue, ResuspensionProb_ResidenceTime
     integer :: col_age, col_temp, col_sal, col_dwz, col_bat, col_hs, col_ts, col_wd, col_dist2bottom, i
-    integer :: col_rugosityVar_sv
+    integer :: col_rugosityVar_sv, col_D50Var_sv
 	integer :: rhoIdx, rIdx
 	integer :: col_u, col_v, col_w
     real(prec) :: landIntThreshold
 	real(prec) :: tension_weight_coefficient
 	real(prec), dimension(size(sv%state,1)) :: Shear2MShear1, Shear2PShear1, ResuspensionCrShear1, ResuspensionCrShear2
 	real(prec), dimension(size(sv%state,1)) :: ResuspensionCrShield1, ResuspensionCrShield2
+	real(prec), dimension(size(sv%state,1)) :: ResuspensionCrShieldSediment1, ResuspensionCrShieldSediment2
     real(prec), dimension(:,:), allocatable :: var_hor_dt
     real(prec), dimension(size(sv%state,1)) :: velocity_mod, velocity_mod_p2
     real(prec), dimension(size(sv%state,1)) :: water_density, kVisco, tension, tension_weight
     real(prec), dimension(size(sv%state,1)) :: dist2bottom, z0
-    real(prec), dimension(size(sv%state,1)) :: dimlessDiameter, densityRelation, kViscoRelation
+    real(prec), dimension(size(sv%state,1)) :: densityRelation, densityRelationTracer, densityRelationSediment
+    real(prec), dimension(size(sv%state,1)) :: kViscoRelation
+    real(prec), dimension(size(sv%state,1)) :: dimlessDiameter, dimlessDiameterTracer, dimlessDiameterSediment
     type(string), dimension(:), allocatable :: var_hor_name
     type(string), dimension(:), allocatable :: requiredHorVars
     real(prec) :: P = 1013.
@@ -480,8 +481,12 @@
 	real(prec) :: VonKarman = 0.4
     real(prec) :: threshold_bot_wat	
 	real(8), dimension(size(sv%state,1)) :: aux_r8, aux_r9
+    real(prec) 		:: densitySediment	
 	integer			:: counterr
     !Begin-----------------------------------------------------------------------------------
+	
+	densitySediment = Globals%Constants%D50Density
+	
     tag = 'density'
     rhoIdx = Utils%find_str(sv%varName, tag, .true.)	
 
@@ -498,7 +503,8 @@
     threshold_bot_wat = (Globals%Mask%waterVal + Globals%Mask%bedVal) * 0.0
 
 	col_rugosityVar_sv = Utils%find_str(sv%varName, Globals%Var%rugosityVar, .true.)	
-
+	col_D50Var_sv = Utils%find_str(sv%varName, Globals%Var%D50Var, .true.)
+	
 	U_asterisk = 0.0
 	V_asterisk = 0.0
 	W_asterisk = 0.0
@@ -554,6 +560,8 @@
 		ResuspensionCrShear2 = 0
 		ResuspensionCrShield1 = 0
 		ResuspensionCrShield2 = 0
+		ResuspensionCrShieldSediment1 = 0
+		ResuspensionCrShieldSediment2 = 0
 		
         !dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - sv%state(:,col_bat)) / (sv%state(:,col_dwz))
         dist2bottom = sv%state(:,col_dist2bottom)
@@ -582,7 +590,9 @@
 				water_density = Globals%Constants%MeanDensity
 				! Boundary density values could be 0. This avoid underdumped values on density. 
 				! Just density relation of 90 % related to mean water density are allowed.
-				densityRelation = abs(1.- (sv%state(:,rhoIdx)/water_density))          
+				densityRelation = abs(1.- (sv%state(:,rhoIdx)/water_density))   
+				densityRelationTracer 	= densityRelation 
+				densityRelationSediment = abs(1.- (densitySediment /water_density))       				
 			end where
 		end if
 
@@ -784,20 +794,20 @@
 
 		tension_weight_coefficient = +10.0
 
-		if (Globals%SimDefs%ResuspensionCriticalShearMethod == 1) then		
-			Shear2MShear1 = Globals%Constants%ResuspensionCriticalShear2 - Globals%Constants%ResuspensionCriticalShear1
-			Shear2PShear1 = Globals%Constants%ResuspensionCriticalShear2 + Globals%Constants%ResuspensionCriticalShear1
-			where ((dist2bottom < LandIntThreshold_value) .and. (ResuspensionRandmValue < ResuspensionProb_ResidenceTime) )
-				tension_weight = 1.0 / ( 1.0 + exp( -(tension_weight_coefficient/Shear2MShear1) * (tension - 0.5 * Shear2PShear1) ) ) 
+		if (Globals%SimDefs%ResuspensionCriticalShearMethod == 1) then
+			
+			where (dist2bottom < LandIntThreshold_value)
+				ResuspensionCrShear1 = Globals%Constants%ResuspensionCriticalShear1
+				ResuspensionCrShear2 = Globals%Constants%ResuspensionCriticalShear2
 			end where
-		
+			
 		else if (Globals%SimDefs%ResuspensionCriticalShearMethod == 2) then	
 
-			where (dist2bottom < LandIntThreshold_value) dimlessDiameter = (2.0 * sv%state(:,rIdx))**3.0 * ( -(Globals%Constants%Gravity%z) * densityRelation / kvisco**2.0 )			
+			where (dist2bottom < LandIntThreshold_value) dimlessDiameterTracer = (2.0 * sv%state(:,rIdx))**3.0 * ( -(Globals%Constants%Gravity%z) * densityRelationTracer / kvisco**2.0 )			
 
 			where (dist2bottom < LandIntThreshold_value)
-				ResuspensionCrShield1 = ((0.30 / (1.0 + 1.2 * dimlessDiameter)) + 0.055 * (1.0 - exp(-0.02 * dimlessDiameter))) 
-				ResuspensionCrShield2 = ((0.30 / (1.0 + 1.0 * dimlessDiameter)) + 0.100 * (1.0 - exp(-0.05 * dimlessDiameter)))
+				ResuspensionCrShield1 = ((0.30 / (1.0 + 1.2 * dimlessDiameterTracer)) + 0.055 * (1.0 - exp(-0.02 * dimlessDiameterTracer))) 
+				ResuspensionCrShield2 = ((0.30 / (1.0 + 1.0 * dimlessDiameterTracer)) + 0.100 * (1.0 - exp(-0.05 * dimlessDiameterTracer)))
 			end where
 
 			where (dist2bottom < LandIntThreshold_value)
@@ -805,12 +815,32 @@
 				ResuspensionCrShear2 = (ResuspensionCrShield2) * (-Globals%Constants%Gravity%z) * (sv%state(:,rhoIdx) - water_density) * (2.0 * sv%state(:,rIdx))
 			end where
 
-			Shear2MShear1 = ResuspensionCrShear2 - ResuspensionCrShear1
-			Shear2PShear1 = ResuspensionCrShear2 + ResuspensionCrShear1
-			where ((dist2bottom < LandIntThreshold_value) .and. (ResuspensionRandmValue < ResuspensionProb_ResidenceTime) )
-				tension_weight = 1.0 / ( 1.0 + exp( -(tension_weight_coefficient/Shear2MShear1) * (tension - 0.5 * Shear2PShear1) ) ) 
+		else if (Globals%SimDefs%ResuspensionCriticalShearMethod == 3) then	
+
+			where (dist2bottom < LandIntThreshold_value) dimlessDiameterSediment = (2.0 * sv%state(:,col_D50Var_sv))**3.0 * ( -(Globals%Constants%Gravity%z) * densityRelationSediment / kvisco**2.0 )			
+
+			where (dist2bottom < LandIntThreshold_value)
+				ResuspensionCrShieldSediment1 = ((0.30 / (1.0 + 1.2 * dimlessDiameterSediment)) + 0.055 * (1.0 - exp(-0.02 * dimlessDiameterSediment))) 
+				ResuspensionCrShieldSediment2 = ((0.30 / (1.0 + 1.0 * dimlessDiameterSediment)) + 0.100 * (1.0 - exp(-0.05 * dimlessDiameterSediment)))
 			end where
+
+			where (dist2bottom < LandIntThreshold_value)
+				ResuspensionCrShield1 = 0.5588D0 * ResuspensionCrShieldSediment1 * ((2.D0 * sv%state(:,rIdx)) / sv%state(:,col_D50Var_sv) ) ** (-0.503D0)
+				ResuspensionCrShield2 = 0.5588D0 * ResuspensionCrShieldSediment2 * ((2.D0 * sv%state(:,rIdx)) / sv%state(:,col_D50Var_sv) ) ** (-0.503D0)
+			end where
+
+			where (dist2bottom < LandIntThreshold_value)
+				ResuspensionCrShear1 = (ResuspensionCrShield1) * (-Globals%Constants%Gravity%z) * (sv%state(:,rhoIdx) - water_density) * (2.0 * sv%state(:,rIdx))
+				ResuspensionCrShear2 = (ResuspensionCrShield2) * (-Globals%Constants%Gravity%z) * (sv%state(:,rhoIdx) - water_density) * (2.0 * sv%state(:,rIdx))
+			end where
+
 		end if
+
+		Shear2MShear1 = ResuspensionCrShear2 - ResuspensionCrShear1
+		Shear2PShear1 = ResuspensionCrShear2 + ResuspensionCrShear1
+		where ((dist2bottom < LandIntThreshold_value) .and. (ResuspensionRandmValue < ResuspensionProb_ResidenceTime) )
+			tension_weight = 1.0 / ( 1.0 + exp( -(tension_weight_coefficient/Shear2MShear1) * (tension - 0.5 * Shear2PShear1) ) ) 
+		end where
 
         where ((dist2bottom < LandIntThreshold_value) .and. (ResuspensionRandmValue < ResuspensionProb_ResidenceTime) )
 			
@@ -823,7 +853,7 @@
 			Resuspension(:,3) = sv%state(:,6) 
 
         end where
-	
+			
         deallocate(var_hor_name)
         deallocate(var_hor_dt)
 

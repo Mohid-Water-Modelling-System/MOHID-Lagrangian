@@ -45,6 +45,7 @@
     
     !---------------------------------------------------------------------------
     !> @author Joao Sobrinho - +Atlantic
+	!> @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
     !> @brief
     !> Detritus degradation rate kernel.
     !> @param[in] self, sv, bdata, dt
@@ -60,7 +61,8 @@
 	real(prec) :: max_age, threshold_bot_wat
     real(prec), dimension(size(sv%state,1)) :: s1, s2, ya, yb, xa, xb, limFactor, mass, volume_new, init_mass, temperature
     integer :: volume_col, radius_col, col_temp, initvol_col, density_col, age_col, radius_cr_min_col, radius_cr_max_col
-    integer :: col_rugosityVar_sv, counterr, i
+    integer :: col_rugosityVar_sv, col_D50Var_sv
+    integer :: counterr, i
     real(prec):: compute_rate = 7200
     real(prec), dimension(size(sv%state,1)):: time_curr_plus_dt
     real(prec), dimension(size(sv%state,1)):: mass_cr_min, mass_cr_max
@@ -83,17 +85,18 @@
 	tag = 'radius_cr_max'
     radius_cr_max_col = Utils%find_str(sv%varName, tag, .true.)	
 	
-    !set tracer bottom rugosity
+    ! tracer bottom rugosity
     col_rugosityVar_sv = Utils%find_str(sv%varName, Globals%Var%rugosityVar, .true.)
-
+    col_D50Var_sv = Utils%find_str(sv%varName, Globals%Var%D50Var, .true.)
+	
 !	counterr = 0
 !	do i= 1, size(sv%state,1)
 !		if (mod(counterr, 10) == 0) then
-!			write(*,'(  A5, A12)') , " Id:", 'rugosityVar'
+!			write(*,'(  A5, A12,, A12)') , " Id:", 'rugosityVar', 'D50Var'
 !			write(*,*),' '
 !		end if
 !		counterr = counterr + 1
-!		write(*,'( I5, F12.4)') , i, sv%state(i,col_rugosityVar_sv)
+!		write(*,'( I5, F12.4, F12.4)') , i, sv%state(i,col_rugosityVar_sv), sv%state(i,col_D50Var_sv)
 !D	end do	 	
 
     ! Hint: I removed the following condition and replace compute_rate with dt

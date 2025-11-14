@@ -580,6 +580,7 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
     !> @brief
     !> Private simulation definitions parser routine. Builds the simulation geometric space from the input xml case file.
     !> @param[in] case_node
@@ -667,6 +668,13 @@
     call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val, read_flag, .false.)
     if (read_flag) then
         call Globals%SimDefs%setRugosityinNetcdf(att_val)
+    endif
+
+    tag="D50inNetcdf"
+    att_name="value"
+    call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val, read_flag, .false.)
+    if (read_flag) then
+        call Globals%SimDefs%setD50inNetcdf(att_val)
     endif
     
     tag="TracerMaxAge"
@@ -815,6 +823,7 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
     !> @brief
     !> Private case constant parser routine. Builds the simulation parametric space from the input xml case file.
     !> @param[in] case_node
@@ -894,12 +903,28 @@
         if (readflag) then
             call Globals%Constants%setAddBottomCell(att_val)
         endif
+		
         tag="Rugosity"
         att_name="value"
         call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
         if (readflag) then
             call Globals%Constants%setRugosity(att_val)
         endif
+
+        tag="D50"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setD50(att_val)
+        endif
+
+        tag="D50Density"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setD50Density(att_val)
+        endif
+		
 		tag="BedLoadThickness"
         att_name="value"
         call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)

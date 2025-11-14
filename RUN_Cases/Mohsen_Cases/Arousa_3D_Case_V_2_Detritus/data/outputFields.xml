@@ -14,6 +14,7 @@
 	<field name="radius" output="yes" />
 	<field name="density" output="yes" />
 	<field name="rugosityVar" output="yes" />
+	<field name="D50Var" output="yes" />
 	<field name="radius_cr_min" output="yes" />
 	<field name="radius_cr_max" output="yes" />
 	<field name="volume" output="yes" />

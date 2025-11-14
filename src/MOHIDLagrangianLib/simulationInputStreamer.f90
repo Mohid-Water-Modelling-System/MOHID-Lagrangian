@@ -93,6 +93,7 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> instantiates and returns a background object with the data from a
     !> currents input file, which includes all instants of time
@@ -107,8 +108,8 @@
     type(hdf5Reader_class) :: hdf5Reader
     !write(*,*)"Entrei get currentsFile"
     if (fileName%extension() == '.nc' .or. fileName%extension() == '.nc4') then
-        allocate(varList(8))
-        allocate(syntecticVar(8))
+        allocate(varList(9))
+        allocate(syntecticVar(9))
     else
         allocate(varList(9))
         allocate(syntecticVar(9))
@@ -131,6 +132,7 @@
     if (fileName%extension() == '.nc' .or. fileName%extension() == '.nc4') then
         varList(7) = Globals%Var%bathymetry
 		varList(8) = Globals%Var%rugosityVar
+		varList(9) = Globals%Var%D50Var
         if (Globals%SimDefs%bathyminNetcdf == 1) then
             syntecticVar(7) = .false.
         else
@@ -140,6 +142,11 @@
 			syntecticVar(8) = .false.
         else
 			syntecticVar(8) = .true.
+        end if
+        if (Globals%SimDefs%D50inNetcdf == 1) then
+			syntecticVar(9) = .false.
+        else
+			syntecticVar(9) = .true.
         end if
     else
         varList(7) = Globals%Var%bathymetry
@@ -172,9 +179,11 @@
         call getCurrentsFile%makeBathymetryField() !computes bathymetry using the layer depth and the openpoints from velocity u
     end if
 	if (Globals%SimDefs%RugosityinNetcdf == 0) then
-		call getCurrentsFile%makeRugosityField() !Consider constat rugosity value from input case.xml file
+		call getCurrentsFile%makeRugosityField() !Consider constat rugosity value from input case.xml file for all the domain
     end if
-	
+	if (Globals%SimDefs%D50inNetcdf == 0) then
+		call getCurrentsFile%makeD50Field() !Consider constat D50 value from input case.xml file for all the domain
+    end if	
     !computes distance between vertical cells
     call getCurrentsFile%makeDWZField()
     !Change the value of the first bottom cell to enable interpolation until the bottom and not just until the center of!the cell

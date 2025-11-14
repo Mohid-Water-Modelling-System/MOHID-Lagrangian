@@ -55,6 +55,7 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
     !> @brief
     !> V2 in Dec 2022 by Joao Sobrinho - Colab Atlantic
     !> Method that runs the chosen interpolator method on the given data.
@@ -71,6 +72,7 @@
     logical, intent(in), optional :: reqVertInt
     real(prec), dimension(:,:,:,:), pointer :: bathymetry
     real(prec), dimension(:,:,:,:), pointer :: rugosityVar
+    real(prec), dimension(:,:,:,:), pointer :: D50Var
     real(prec), dimension(:), allocatable :: var_dt_aux
     logical :: interp, requireVertInt
     real(prec) :: newtime
