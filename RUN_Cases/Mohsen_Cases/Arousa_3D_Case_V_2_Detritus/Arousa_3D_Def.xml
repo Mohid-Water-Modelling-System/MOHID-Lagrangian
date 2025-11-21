@@ -74,7 +74,7 @@
 				<setsource id="1" name="CambadosA1" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour. it should be bigger than dt_simulation" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />	
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<!--<rateTimeSeries> 
@@ -95,7 +95,7 @@
 				<setsource id="2" name="CambadosB" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour. it should be bigger than dt_simulation" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -107,7 +107,7 @@
 				<setsource id="3" name="CambadosC1(Norte)" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour. it should be bigger than dt_simulation" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />	
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -119,7 +119,7 @@
 				<setsource id="4" name="CambadosC2(Sur)" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour. it should be bigger than dt_simulation" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -131,7 +131,7 @@
 				<setsource id="5" name="CambadosD" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour. it should be bigger than dt_simulation" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -143,7 +143,7 @@
 				<setsource id="6" name="CambadosEmerge" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour. it should be bigger than dt_simulation" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -155,7 +155,7 @@
 				<setsource id="7" name="GroveA" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour. it should be bigger than dt_simulation" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -167,7 +167,7 @@
 				<setsource id="8" name="GroveB" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour. it should be bigger than dt_simulation" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -179,7 +179,7 @@
 				<setsource id="9" name="GroveC1" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour. it should be bigger than dt_simulation" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -191,7 +191,7 @@
 				<setsource id="10" name="GroveC2" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour. it should be bigger than dt_simulation" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -203,7 +203,7 @@
 				<setsource id="11" name="GroveC3" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour. it should be bigger than dt_simulation" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -215,7 +215,7 @@
 				<setsource id="12" name="GroveC4" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour. it should be bigger than dt_simulation" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -227,7 +227,7 @@
 				<setsource id="13" name="PueblaA" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour. it should be bigger than dt_simulation" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -239,7 +239,7 @@
 				<setsource id="14" name="PueblaB" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour. it should be bigger than dt_simulation" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -251,7 +251,7 @@
 				<setsource id="15" name="PueblaC" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour. it should be bigger than dt_simulation" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -263,7 +263,7 @@
 				<setsource id="16" name="PueblaD" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour. it should be bigger than dt_simulation" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -275,7 +275,7 @@
 				<setsource id="17" name="PueblaE" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour. it should be bigger than dt_simulation" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -287,7 +287,7 @@
 				<setsource id="18" name="PueblaG" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour. it should be bigger than dt_simulation" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -299,7 +299,7 @@
 				<setsource id="19" name="PueblaH" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour. it should be bigger than dt_simulation" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -311,7 +311,7 @@
 				<setsource id="20" name="RibeiraB" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour. it should be bigger than dt_simulation" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -323,7 +323,7 @@
 				<setsource id="21" name="RibeiraC" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour. it should be bigger than dt_simulation" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -335,7 +335,7 @@
 				<setsource id="22" name="VillagarciaA" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour. it should be bigger than dt_simulation" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
@@ -347,7 +347,7 @@
 				<setsource id="23" name="VillagarciaB" />
 				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
 				<!--<rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />-->
-				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour" />
+				<rate_seconds value="14400" comment="emission step in seconds. 3600 is a tracer per hour. it should be bigger than dt_simulation" />
                 <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>

@@ -811,8 +811,8 @@
 			end where
 
 			where (dist2bottom < LandIntThreshold_value)
-				ResuspensionCrShear1 = (ResuspensionCrShield1) * (-Globals%Constants%Gravity%z) * (sv%state(:,rhoIdx) - water_density) * (2.0 * sv%state(:,rIdx))
-				ResuspensionCrShear2 = (ResuspensionCrShield2) * (-Globals%Constants%Gravity%z) * (sv%state(:,rhoIdx) - water_density) * (2.0 * sv%state(:,rIdx))
+				ResuspensionCrShear1 = max((ResuspensionCrShield1) * (-Globals%Constants%Gravity%z) * (sv%state(:,rhoIdx) - water_density) * (2.0 * sv%state(:,rIdx)), 0.0000010)
+				ResuspensionCrShear2 = max((ResuspensionCrShield2) * (-Globals%Constants%Gravity%z) * (sv%state(:,rhoIdx) - water_density) * (2.0 * sv%state(:,rIdx)), 0.0000011)
 			end where
 
 		else if (Globals%SimDefs%ResuspensionCriticalShearMethod == 3) then	
@@ -830,8 +830,8 @@
 			end where
 
 			where (dist2bottom < LandIntThreshold_value)
-				ResuspensionCrShear1 = (ResuspensionCrShield1) * (-Globals%Constants%Gravity%z) * (sv%state(:,rhoIdx) - water_density) * (2.0 * sv%state(:,rIdx))
-				ResuspensionCrShear2 = (ResuspensionCrShield2) * (-Globals%Constants%Gravity%z) * (sv%state(:,rhoIdx) - water_density) * (2.0 * sv%state(:,rIdx))
+				ResuspensionCrShear1 = max((ResuspensionCrShield1) * (-Globals%Constants%Gravity%z) * (sv%state(:,rhoIdx) - water_density) * (2.0 * sv%state(:,rIdx)), 0.0000010)
+				ResuspensionCrShear2 = max((ResuspensionCrShield2) * (-Globals%Constants%Gravity%z) * (sv%state(:,rhoIdx) - water_density) * (2.0 * sv%state(:,rIdx)), 0.0000011)
 			end where
 
 		end if
