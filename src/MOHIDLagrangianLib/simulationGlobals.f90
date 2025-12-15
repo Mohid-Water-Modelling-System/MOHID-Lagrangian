@@ -82,8 +82,11 @@
         integer         ::  numblocksx, numblocksy  !<Number of blocks along x and y
         integer         ::  VerticalVelMethod !< Vertical velocity method
         integer         ::  DiffusionMethod !< Horizontal diffusion method. 1-random walk. 2: SullivanAllen
+        integer         ::  ResuspensionCriticalShearMethod !< Resuspension CriticalShear Method. 1-constant values. 2: Soulsby (1997)'s formula
         integer         ::  RemoveLandTracer !< Vertical velocity method
         integer         ::  bathyminNetcdf !< bathymetry is a property inside the netcdf
+        integer         ::  RugosityinNetcdf !< Rugosity of the seabed is a property inside the netcdf
+        integer         ::  D50inNetcdf 	!< D50 of the seabed is a property inside the netcdf
         real(prec)      ::  tracerMaxAge !< removes tracers with age greater than maxTracerAge
         real(prec)      ::  Temperature_add_offset !< adds offset to temperature from netcdf
         real(prec)      ::  WqDt !< water quality process time step
@@ -97,8 +100,11 @@
     procedure :: setblocksize
     procedure :: setVerticalVelMethod
     procedure :: setDiffusionMethod
+    procedure :: setResuspensionCriticalShearMethod
     procedure :: setRemoveLandTracer
     procedure :: setbathyminNetcdf
+    procedure :: setRugosityinNetcdf
+    procedure :: setD50inNetcdf
     procedure :: settracerMaxAge
     procedure :: setTemperature_add_offset  !Only here becasue some files from SINTEF were not properly converted due to
                                             ! some error in mohid's convert to hdf5 tool
@@ -123,7 +129,14 @@
         real(prec)   :: MeanDensity         !< mean ocean water density.
         real(prec)   :: MeanKVisco          !< mean ocean water kinematic viscosity
         integer      :: AddBottomCell       !< open the first bottom cell and put the same value as the cell above
-        real(prec)   :: Rugosity            !< Bottom rugosity value (for now the model assumes a constant value over the grid)
+        real(prec)   :: Rugosity            !< Bottom rugosity value (with this model assumes a constant value over the grid)
+        real(prec)   :: D50            		!< Bottom D50 value (with this the model assumes a constant value over the grid)
+        real(prec)   :: D50Density          !< Bottom D50 density value (with this the model assumes a constant value over the grid)
+        real(prec)   :: BedLoadThickness    !< BedLoad thickness value (for now the model assumes a constant value over the grid)
+        real(prec)   :: ResuspensionProb    !< Probablity of resuspension of a tracer (-)		
+        real(prec)   :: ResuspensionResidenceTime 	!< Resuspension Residence Time value
+        real(prec)   :: ResuspensionCriticalShear1 	!< Bottom Resuspension Critical Shear 1 value (for now the model assumes a constant value over the grid)	
+        real(prec)   :: ResuspensionCriticalShear2 	!< Bottom Resuspension Critical Shear 2 value (for now the model assumes a constant value over the grid)		
         real(prec)   :: Critical_Shear_Erosion !< Bottom critical shear erosion value (for now the model assumes a constant value over the grid)
         real(prec)   :: TOptBacteriaMin          !< minimum temperature of the optimal interval for the Bacteria growth
         real(prec)   :: TOptBacteriaMax          !< maximum temperature of the optimal interval for the Bacteria growt
@@ -133,7 +146,10 @@
         real(prec)   :: BK2          !< constant to control temperature response curve shape
         real(prec)   :: BK3          !< constant to control temperature response curve shape
         real(prec)   :: BK4          !< constant to control temperature response curve shape
-        real(prec)   :: MaxDegradationRate !< maximum degradation rate from bacteria
+        real(prec)   :: Lin0_DegradationRate !< linear constant degradation rate from bacteria
+		real(prec)   :: Exp0_DegradationRate !< exponential constant 0 degradation rate from bacteria
+		real(prec)   :: Exp1_DegradationRate !< exponential constant 1 degradation rate from bacteria
+		real(prec)   :: Exp2_DegradationRate !< exponential constant 2 degradation rate from bacteria
     contains
     procedure :: setgravity
     procedure :: setz0
@@ -150,6 +166,13 @@
     procedure :: setMeanKVisco
     procedure :: setAddBottomCell
     procedure :: setRugosity
+    procedure :: setD50
+    procedure :: setD50Density
+    procedure :: setBedLoadThickness
+    procedure :: setResuspensionProb
+    procedure :: setResuspensionResidenceTime	
+    procedure :: setResuspensionCriticalShear1
+    procedure :: setResuspensionCriticalShear2
     procedure :: setCritical_Shear_Erosion
     procedure :: setTOptBacteriaMin
     procedure :: setTOptBacteriaMax
@@ -159,7 +182,10 @@
     procedure :: setBK2
     procedure :: setBK3
     procedure :: setBK4
-    procedure :: setMaxDegradationRate
+    procedure :: setLin0_DegradationRate
+    procedure :: setExp0_DegradationRate
+    procedure :: setExp1_DegradationRate
+    procedure :: setExp2_DegradationRate
     procedure :: print => printconstants
     end type constants_t
 
@@ -238,10 +264,14 @@
         type(string) :: landIntMask
         type(string) :: resolution
         type(string) :: bathymetry
+        type(string) :: rugosityVar
+        type(string) :: D50Var
         type(string) :: surface
         type(string) :: rate
         type(string) :: dwz
         type(stringList_class) :: bathymetryVariants
+        type(stringList_class) :: rugosityVarVariants
+        type(stringList_class) :: D50VarVariants
         type(stringList_class) :: uVariants !< possible names for 'u' in the input files
         type(stringList_class) :: vVariants
         type(stringList_class) :: wVariants
@@ -433,6 +463,7 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
     !> @brief
     !> Globals default setting routine.
     !> @param[in] self, outpath
@@ -481,8 +512,11 @@
     self%SimDefs%Center = 0.0
     self%SimDefs%VerticalVelMethod = 1
     self%SimDefs%DiffusionMethod = 1
+    self%SimDefs%ResuspensionCriticalShearMethod = 1
     self%SimDefs%RemoveLandTracer = 0
     self%SimDefs%bathyminNetcdf = 0
+    self%SimDefs%RugosityinNetcdf = 0
+    self%SimDefs%D50inNetcdf = 0
     self%SimDefs%tracerMaxAge = 0
     self%SimDefs%Temperature_add_offset = 0
     !simulation constants
@@ -498,10 +532,17 @@
     self%Constants%smallDt = 0.0
     self%Constants%ResuspensionCoeff = 0.0
     self%Constants%MeanDensity = 1027.0
-    self%Constants%MeanKVisco = 1.09E-3
+    self%Constants%MeanKVisco = 1.09E-6
     self%Constants%AddBottomCell = 0
     self%Constants%Rugosity = 0.0025
-    self%Constants%Critical_Shear_Erosion = 0.4
+    self%Constants%D50 = 0.0025
+    self%Constants%D50Density = 2500.0
+	self%Constants%BedLoadThickness = 0.04
+	self%Constants%ResuspensionProb = 0.0
+	self%Constants%ResuspensionResidenceTime = 10 * 24 * 60.0 * 60.0 	! 10 days in second
+	self%Constants%ResuspensionCriticalShear1 = 0.10
+	self%Constants%ResuspensionCriticalShear1 = 0.45
+    self%Constants%Critical_Shear_Erosion = 0.40
     self%Constants%TOptBacteriaMin = 24.8
     self%Constants%TOptBacteriaMax = 25.1
     self%Constants%TBacteriaMin = 5
@@ -510,7 +551,10 @@
     self%Constants%BK2 = 0.98
     self%Constants%BK3 = 0.98
     self%Constants%BK4 = 0.02
-    self%Constants%MaxDegradationRate = 0.03/86400
+    self%Constants%Lin0_DegradationRate = 0.030/86400
+    self%Constants%Exp0_DegradationRate = 0.140
+    self%Constants%Exp1_DegradationRate = 0.514/86400
+    self%Constants%Exp2_DegradationRate = 0.040/86400
     !filenames
     self%Names%mainxmlfilename = notSet
     self%Names%propsxmlfilename = notSet
@@ -553,38 +597,41 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
     !> @brief
     !> Builds variable list names.
     !---------------------------------------------------------------------------
     subroutine buildvars(self)
     class(var_names_t), intent(inout) :: self
-    self%u       = 'u'
-    self%v       = 'v'
-    self%w       = 'w'
-    self%ssh     = 'ssh'
-    self%temp    = 'temp'
-    self%sal     = 'sal'
-    self%density = 'density'
-    self%vsdx    = 'vsdx'
-    self%vsdy    = 'vsdy'
-    self%hs      = 'hs'
-    self%ts      = 'ts'
-    self%wd      = 'wd'
-    self%wl      = 'wl'
-    self%u10     = 'u10'
-    self%v10     = 'v10'
-    self%rad     = 'rad'
-    self%lon     = 'lon'
-    self%lat     = 'lat'
-    self%level   = 'level'
-    self%time    = 'time'
-    self%landIntMask = 'landIntMask'
-    self%resolution = 'resolution'
-    self%bathymetry = 'bathymetry'
-    self%surface    = 'surface'
-    self%rate = 'rate'
+    self%u       		= 'u'
+    self%v       		= 'v'
+    self%w       		= 'w'
+    self%ssh     		= 'ssh'
+    self%temp    		= 'temp'
+    self%sal     		= 'sal'
+    self%density 		= 'density'
+    self%vsdx    		= 'vsdx'
+    self%vsdy    		= 'vsdy'
+    self%hs      		= 'hs'
+    self%ts      		= 'ts'
+    self%wd      		= 'wd'
+    self%wl      		= 'wl'
+    self%u10     		= 'u10'
+    self%v10     		= 'v10'
+    self%rad    		= 'rad'
+    self%lon     		= 'lon'
+    self%lat     		= 'lat'
+    self%level   		= 'level'
+    self%time    		= 'time'
+    self%landIntMask	= 'landIntMask'
+    self%resolution		= 'resolution'
+    self%bathymetry 	= 'bathymetry'
+    self%rugosityVar 	= 'rugosityVar'
+    self%D50Var 		= 'D50Var'
+    self%surface    	= 'surface'
+    self%rate 			= 'rate'
     !DWZ is the distance between two vertical faces of a cube (ex: thichness of the vertical layer)
-    self%dwz = 'dwz'
+    self%dwz 			= 'dwz'
     !adding variables to variable pool - PLACEHOLDER, this should come from tracer constructors
     call self%addVar(self%u)
     call self%addVar(self%v)
@@ -594,6 +641,8 @@
     call self%addVar(self%sal)
     call self%addVar(self%density)
     call self%addVar(self%bathymetry)
+    call self%addVar(self%rugosityVar)
+    call self%addVar(self%D50Var)
     !call self%addVar(self%lon)
     !call self%addVar(self%lat)
     !call self%addVar(self%level)
@@ -602,6 +651,7 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
     !> @brief
     !> adding variables to variable pool of a simulation
     !---------------------------------------------------------------------------
@@ -613,6 +663,7 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
     !> @brief
     !> returns the simulation name of a given variabe name, by brute force searching
     !> trough the naming variable lists...
@@ -627,6 +678,20 @@
     value = self%bathymetryVariants%notRepeated(var)
     if (var == self%bathymetry .or. .not. value) then
         getVarSimName = self%bathymetry
+        return
+    end if
+	
+    !searching for rugosityVar
+    value = self%rugosityVarVariants%notRepeated(var)
+    if (var == self%rugosityVar .or. .not. value) then
+        getVarSimName = self%rugosityVar
+        return
+    end if
+	
+    !searching for D50Var
+    value = self%D50VarVariants%notRepeated(var)
+    if (var == self%D50Var .or. .not. value) then
+        getVarSimName = self%D50Var
         return
     end if
     
@@ -811,6 +876,7 @@
     
     !---------------------------------------------------------------------------
     !> @author Joao Sobrinho - Colab Atlantic
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
     !> @brief
     !> returns true is the input variable name is defined in the model
     !> @param[in] var
@@ -821,9 +887,24 @@
     logical value
     !Begin-------------------------------------------------------------
     checkVarSimName = .false.
+	
     !searching for bathymetry
     value = self%bathymetryVariants%notRepeated(var)
     if (var == self%bathymetry .or. .not. value) then
+        checkVarSimName = .true.
+        return
+    end if
+
+    !searching for rugosityVar
+    value = self%rugosityVarVariants%notRepeated(var)
+    if (var == self%rugosityVar .or. .not. value) then
+        checkVarSimName = .true.
+        return
+    end if
+
+    !searching for D50Var
+    value = self%D50VarVariants%notRepeated(var)
+    if (var == self%D50Var .or. .not. value) then
         checkVarSimName = .true.
         return
     end if
@@ -1245,6 +1326,7 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
     !> @brief
     !> set the variables naming conventions.
     !---------------------------------------------------------------------------
@@ -1255,6 +1337,10 @@
 
     tag="bathymetry"
     call self%setCurrVar(tag, self%Var%bathymetry, self%Var%bathymetryVariants, varNode)
+    tag="rugosityVar"
+    call self%setCurrVar(tag, self%Var%rugosityVar, self%Var%rugosityVarVariants, varNode)
+    tag="D50Var"
+    call self%setCurrVar(tag, self%Var%D50Var, self%Var%D50VarVariants, varNode)
     tag="eastward_sea_water_velocity"
     call self%setCurrVar(tag, self%Var%u, self%Var%uVariants, varNode)
     tag="northward_sea_water_velocity"
@@ -1956,7 +2042,8 @@
     sizem = sizeof(self%ResuspensionCoeff)
     call SimMemory%adddef(sizem)
     end subroutine setResuspensionCoeff
-    
+	
+	!---------------------------------------------------------------------------   
     !> @author Joao Sobrinho - ColabAtlantic
     !> @brief
     !> Rugosity setting routine or not
@@ -1976,7 +2063,154 @@
     sizem = sizeof(self%Rugosity)
     call SimMemory%adddef(sizem)
     end subroutine setRugosity
-    
+
+	!---------------------------------------------------------------------------   
+	!> @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
+    !> @brief
+    !> D50 setting routine or not
+    !> @param[in] self, read_D50
+    !---------------------------------------------------------------------------
+    subroutine setD50(self, read_D50)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_D50
+    type(string) :: outext
+    integer :: sizem
+    if (read_D50%to_number(kind=1._R8P) < 0.0) then
+        outext='D50 must be zero or positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%D50=read_D50%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%D50)
+    call SimMemory%adddef(sizem)
+    end subroutine setD50
+	
+	!---------------------------------------------------------------------------   
+	!> @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
+    !> @brief
+    !> D50Density setting routine or not
+    !> @param[in] self, read_D50Density
+    !---------------------------------------------------------------------------
+    subroutine setD50Density(self, read_D50Density)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_D50Density
+    type(string) :: outext
+    integer :: sizem
+    if (read_D50Density%to_number(kind=1._R8P) < 0.0) then
+        outext='D50Density must be zero or positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%D50Density=read_D50Density%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%D50Density)
+    call SimMemory%adddef(sizem)
+    end subroutine setD50Density
+	!---------------------------------------------------------------------------
+	!> @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
+    !> @brief
+    !> BedLoad Thickness setting routine or not
+    !> @param[in] self, read_BedLoadThickness
+    !---------------------------------------------------------------------------
+    subroutine setBedLoadThickness(self, read_BedLoadThickness)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_BedLoadThickness
+    type(string) :: outext
+    integer :: sizem
+    if (read_BedLoadThickness%to_number(kind=1._R8P) < 0.0) then
+        outext='BedLoadThickness must be zero or positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%BedLoadThickness=read_BedLoadThickness%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%BedLoadThickness)
+    call SimMemory%adddef(sizem)
+    end subroutine setBedLoadThickness
+
+	!---------------------------------------------------------------------------
+	!> @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
+    !> @brief
+    !> Resuspension probability setting routine or not
+    !> @param[in] self, read_ResuspensionProb
+    !---------------------------------------------------------------------------	
+    subroutine setResuspensionProb(self, read_ResuspensionProb)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_ResuspensionProb
+    type(string) :: outext
+    integer :: sizem
+    if (read_ResuspensionProb%to_number(kind=1._R8P) < 0.0) then
+        outext='ResuspensionProb must be zero or positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%ResuspensionProb =read_ResuspensionProb%to_number(kind=1._R8P)*0.01 !user input is in %
+    endif
+    sizem = sizeof(self%ResuspensionProb)
+    call SimMemory%adddef(sizem)
+    end subroutine setResuspensionProb
+	
+	!---------------------------------------------------------------------------
+	!> @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
+    !> @brief
+    !> Resuspension Residence Time setting routine or not
+    !> @param[in] self, read_ResuspensionResidenceTime
+    !---------------------------------------------------------------------------
+    subroutine setResuspensionResidenceTime(self, read_ResuspensionResidenceTime)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_ResuspensionResidenceTime
+    type(string) :: outext
+    integer :: sizem
+    if (read_ResuspensionResidenceTime%to_number(kind=1._R8P) < 0.0) then
+        outext='ResuspensionResidenceTime must be zero or positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%ResuspensionResidenceTime=read_ResuspensionResidenceTime%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%ResuspensionResidenceTime)
+    call SimMemory%adddef(sizem)
+    end subroutine setResuspensionResidenceTime
+
+	!---------------------------------------------------------------------------
+	!> @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
+    !> @brief
+    !> Resuspension Critical Shear 1 setting routine or not
+    !> @param[in] self, read_ResuspensionCriticalShear1
+    !---------------------------------------------------------------------------
+    subroutine setResuspensionCriticalShear1(self, read_ResuspensionCriticalShear1)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_ResuspensionCriticalShear1
+    type(string) :: outext
+    integer :: sizem
+    if (read_ResuspensionCriticalShear1%to_number(kind=1._R8P) < 0.0) then
+        outext='ResuspensionCriticalShear1 must be zero or positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%ResuspensionCriticalShear1=read_ResuspensionCriticalShear1%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%ResuspensionCriticalShear1)
+    call SimMemory%adddef(sizem)
+    end subroutine setResuspensionCriticalShear1
+
+	!---------------------------------------------------------------------------
+	!> @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
+    !> @brief
+    !> Resuspension Critical Shear 2 setting routine or not
+    !> @param[in] self, read_ResuspensionCriticalShear2
+    !---------------------------------------------------------------------------
+    subroutine setResuspensionCriticalShear2(self, read_ResuspensionCriticalShear2)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_ResuspensionCriticalShear2
+    type(string) :: outext
+    integer :: sizem
+    if (read_ResuspensionCriticalShear2%to_number(kind=1._R8P) < 0.0) then
+        outext='ResuspensionCriticalShear2 must be zero or positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%ResuspensionCriticalShear2=read_ResuspensionCriticalShear2%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%ResuspensionCriticalShear2)
+    call SimMemory%adddef(sizem)
+    end subroutine setResuspensionCriticalShear2
+	
+	!---------------------------------------------------------------------------    
     !> @author Joao Sobrinho - ColabAtlantic
     !> @brief
     !> Critical shear erosion setting routine or not
@@ -2170,7 +2404,7 @@
     type(string), intent(in) :: read_BK1
     type(string) :: outext
     integer :: sizem
-    if (read_BK1%to_number(kind=1._R8P) <= 0.0) then
+    if (read_BK1%to_number(kind=1._R8P) < 0.0) then
         outext='BK1 must be positive, assuming default value'
         call Log%put(outext)
     else
@@ -2191,7 +2425,7 @@
     type(string), intent(in) :: read_BK2
     type(string) :: outext
     integer :: sizem
-    if (read_BK2%to_number(kind=1._R8P) <= 0.0) then
+    if (read_BK2%to_number(kind=1._R8P) < 0.0) then
         outext='BK2 must be positive, assuming default value'
         call Log%put(outext)
     else
@@ -2212,7 +2446,7 @@
     type(string), intent(in) :: read_BK3
     type(string) :: outext
     integer :: sizem
-    if (read_BK3%to_number(kind=1._R8P) <= 0.0) then
+    if (read_BK3%to_number(kind=1._R8P) < 0.0) then
         outext='BK3 must be positive, assuming default value'
         call Log%put(outext)
     else
@@ -2233,7 +2467,7 @@
     type(string), intent(in) :: read_BK4
     type(string) :: outext
     integer :: sizem
-    if (read_BK4%to_number(kind=1._R8P) <= 0.0) then
+    if (read_BK4%to_number(kind=1._R8P) < 0.0) then
         outext='BK4 must be positive, assuming default value'
         call Log%put(outext)
     else
@@ -2244,26 +2478,87 @@
     end subroutine setBK4
     
     !---------------------------------------------------------------------------
-    !> @author Joao Sobrinho - Colab Atlantic
+	!> @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
     !> @brief
     !> defines value for bacterial maximum growth rate (1/d).
-    !> @param[in] self, read_MaxDegradationRate
+    !> @param[in] self, read_Lin0_DegradationRate
     !---------------------------------------------------------------------------
-    subroutine setMaxDegradationRate(self, read_MaxDegradationRate)
+    subroutine setLin0_DegradationRate(self, read_Lin0_DegradationRate)
     class(constants_t), intent(inout) :: self
-    type(string), intent(in) :: read_MaxDegradationRate
+    type(string), intent(in) :: read_Lin0_DegradationRate
     type(string) :: outext
     integer :: sizem
-    if (read_MaxDegradationRate%to_number(kind=1._R8P) <= 0.0) then
-        outext='MaxDegradationRate must be positive, assuming default value'
+    if (read_Lin0_DegradationRate%to_number(kind=1._R8P) < 0) then
+        outext='Lin0_DegradationRate must be positive, assuming default value'
         call Log%put(outext)
     else
-        self%MaxDegradationRate =read_MaxDegradationRate%to_number(kind=1._R8P) / 86400.0
+        self%Lin0_DegradationRate =read_Lin0_DegradationRate%to_number(kind=1._R8P) / 86400.0
     endif
-    sizem = sizeof(self%MaxDegradationRate)
+    sizem = sizeof(self%Lin0_DegradationRate)
     call SimMemory%adddef(sizem)
-    end subroutine setMaxDegradationRate
+    end subroutine setLin0_DegradationRate
 
+    !---------------------------------------------------------------------------
+	!> @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
+    !> @brief
+    !> defines value for bacterial maximum growth rate (1/d).
+    !> @param[in] self, read_Exp0_DegradationRate
+    !---------------------------------------------------------------------------
+    subroutine setExp0_DegradationRate(self, read_Exp0_DegradationRate)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_Exp0_DegradationRate
+    type(string) :: outext
+    integer :: sizem
+    if (read_Exp0_DegradationRate%to_number(kind=1._R8P) < 0.0) then
+        outext='Exp0_DegradationRate must be positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%Exp0_DegradationRate =read_Exp0_DegradationRate%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%Exp0_DegradationRate)
+    call SimMemory%adddef(sizem)
+    end subroutine setExp0_DegradationRate
+
+    !---------------------------------------------------------------------------
+	!> @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
+    !> @brief
+    !> defines value for bacterial maximum growth rate (1/d).
+    !> @param[in] self, read_Exp1_DegradationRate
+    !---------------------------------------------------------------------------
+    subroutine setExp1_DegradationRate(self, read_Exp1_DegradationRate)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_Exp1_DegradationRate
+    type(string) :: outext
+    integer :: sizem
+    if (read_Exp1_DegradationRate%to_number(kind=1._R8P) < 0.0) then
+        outext='Exp1_DegradationRate must be positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%Exp1_DegradationRate =read_Exp1_DegradationRate%to_number(kind=1._R8P) / 86400.0
+    endif
+    sizem = sizeof(self%Exp1_DegradationRate)
+    call SimMemory%adddef(sizem)
+    end subroutine setExp1_DegradationRate
+    !---------------------------------------------------------------------------
+	!> @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
+    !> @brief
+    !> defines value for bacterial maximum growth rate (1/d).
+    !> @param[in] self, read_Exp2_DegradationRate
+    !---------------------------------------------------------------------------
+    subroutine setExp2_DegradationRate(self, read_Exp2_DegradationRate)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_Exp2_DegradationRate
+    type(string) :: outext
+    integer :: sizem
+    if (read_Exp2_DegradationRate%to_number(kind=1._R8P) < 0.0) then
+        outext='Exp2_DegradationRate must be positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%Exp2_DegradationRate =read_Exp2_DegradationRate%to_number(kind=1._R8P) / 86400.0
+    endif
+    sizem = sizeof(self%Exp2_DegradationRate)
+    call SimMemory%adddef(sizem)
+    end subroutine setExp2_DegradationRate
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -2295,9 +2590,21 @@
     temp_str(1)=self%MixingLength
     outext = outext//'       MixingLength = '//temp_str(1)//' -'//new_line('a')  
     temp_str(1)=self%WindDragCoeff
-    outext = outext//'       WindDragCoeff = '//temp_str(1)//' -'//new_line('a')  
+    outext = outext//'       WindDragCoeff = '//temp_str(1)//' -'//new_line('a') 
+    temp_str(1)=self%BedLoadThickness
+    outext = outext//'       BedLoadThickness = '//temp_str(1)//new_line('a')	
     temp_str(1)=self%ResuspensionCoeff
     outext = outext//'       ResuspensionCoeff = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%ResuspensionResidenceTime
+    outext = outext//'       ResuspensionResidenceTime = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%ResuspensionProb
+    outext = outext//'       ResuspensionProb = '//temp_str(1)//new_line('a')	
+    temp_str(1)=self%ResuspensionCriticalShear1
+    outext = outext//'       ResuspensionCriticalShear1 = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%ResuspensionCriticalShear2
+    outext = outext//'       ResuspensionCriticalShear2 = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%D50Density
+    outext = outext//'       D50Density = '//temp_str(1)//new_line('a')	
     temp_str(1)=self%Critical_Shear_Erosion
     outext = outext//'       CriticalShearErosion = '//temp_str(1)//new_line('a')
     temp_str(1)=self%AddBottomCell
@@ -2322,8 +2629,14 @@
     outext = outext//'       BK3 = '//temp_str(1)//new_line('a')
     temp_str(1)=self%BK4
     outext = outext//'       BK4 = '//temp_str(1)//new_line('a')
-    temp_str(1)=self%MaxDegradationRate
-    outext = outext//'       MaxDegradationRate = '//temp_str(1)//''
+	temp_str(1)=self%Lin0_DegradationRate
+    outext = outext//'       Lin0_DegradationRate = '//temp_str(1)//new_line('a')
+	temp_str(1)=self%Exp0_DegradationRate
+    outext = outext//'       Exp0_DegradationRate = '//temp_str(1)//new_line('a')
+	temp_str(1)=self%Exp1_DegradationRate
+    outext = outext//'       Exp1_DegradationRate = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%Exp2_DegradationRate
+    outext = outext//'       Exp2_DegradationRate = '//temp_str(1)//''
     call Log%put(outext,.false.)
     end subroutine printconstants
 
@@ -2480,7 +2793,49 @@
     sizem = sizeof(self%bathyminNetcdf)
     call SimMemory%adddef(sizem)
     end subroutine setbathyminNetcdf
-    
+ 
+    !---------------------------------------------------------------------------
+	!> @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
+    !> @brief
+    !> set Rugosity construct from the rugosity netcdf property
+    !> @param[in] self, read_RugosityinNetcdf
+    !---------------------------------------------------------------------------
+    subroutine setRugosityinNetcdf(self, read_RugosityinNetcdf)
+    class(simdefs_t), intent(inout) :: self
+    type(string), intent(in) :: read_RugosityinNetcdf
+    type(string) :: outext
+    integer :: sizem
+    if ((read_RugosityinNetcdf%to_number(kind=1._I8P) < 0) .OR. (read_RugosityinNetcdf%to_number(kind=1._I8P) > 1)) then
+        outext='read Rugosity from netcdf file must be 0:no or 1:yes, assuming default value 0'
+        call Log%put(outext)
+    else
+        self%RugosityinNetcdf=read_RugosityinNetcdf%to_number(kind=1._I8P)
+    end if
+    sizem = sizeof(self%RugosityinNetcdf)
+    call SimMemory%adddef(sizem)
+    end subroutine setRugosityinNetcdf
+
+    !---------------------------------------------------------------------------
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
+    !> @brief
+    !> set D50 construct from the D50 netcdf property
+    !> @param[in] self, read_D50inNetcdf
+    !---------------------------------------------------------------------------
+    subroutine setD50inNetcdf(self, read_D50inNetcdf)
+    class(simdefs_t), intent(inout) :: self
+    type(string), intent(in) :: read_D50inNetcdf
+    type(string) :: outext
+    integer :: sizem
+    if ((read_D50inNetcdf%to_number(kind=1._I8P) < 0) .OR. (read_D50inNetcdf%to_number(kind=1._I8P) > 1)) then
+        outext='read D50 from netcdf file must be 0:no or 1:yes, assuming default value 0'
+        call Log%put(outext)
+    else
+        self%D50inNetcdf=read_D50inNetcdf%to_number(kind=1._I8P)
+    end if
+    sizem = sizeof(self%D50inNetcdf)
+    call SimMemory%adddef(sizem)
+    end subroutine setD50inNetcdf
+	
     !---------------------------------------------------------------------------
     !> @author Joao Sobrinho - Colab Atlantic
     !> @brief
@@ -2559,7 +2914,31 @@
     sizem = sizeof(self%DiffusionMethod)
     call SimMemory%adddef(sizem)
     end subroutine setDiffusionMethod
-    
+
+    !---------------------------------------------------------------------------
+	!> @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
+    !> @brief
+    !> Resuspension setting to calculate critical shear 
+    !> @param[in] self, read_ResuspensionCriticalShearMethod
+    !---------------------------------------------------------------------------	
+	subroutine setResuspensionCriticalShearMethod(self, read_ResuspensionCriticalShearMethod)
+    class(simdefs_t), intent(inout) :: self
+    type(string), intent(in) :: read_ResuspensionCriticalShearMethod
+    type(string) :: outext
+    integer :: sizem
+    if ((read_ResuspensionCriticalShearMethod%to_number(kind=1._I8P) < 0) .OR. (read_ResuspensionCriticalShearMethod%to_number(kind=1._I8P) > 4)) then
+        outext='Resuspension Critical Shear Method must be , ' // & 
+			'1: constant input values,assuming default value, ' // &
+			'2:  Modified Shield method by Soulsby (1997), ' // &
+			'3:  Method 2 + hiding-exposure effect of sediments by Waldschlager and Schttrumpf (2019b)'
+        call Log%put(outext)
+    else
+        self%ResuspensionCriticalShearMethod=read_ResuspensionCriticalShearMethod%to_number(kind=1._I8P)
+    endif
+    sizem = sizeof(self%ResuspensionCriticalShearMethod)
+    call SimMemory%adddef(sizem)
+    end subroutine setResuspensionCriticalShearMethod
+ 
     !---------------------------------------------------------------------------
     !> @author Joao Sobrinho
     !> @brief
@@ -2661,6 +3040,7 @@
 
     !---------------------------------------------------------------------------
     !> @author Sobrinho
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
     !> @brief
     !> source group destructor - deallocates beach areas objects
     !---------------------------------------------------------------------------
@@ -2679,6 +3059,7 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
     !> @brief
     !> Public simulation definitions printing routine.
     !---------------------------------------------------------------------------
@@ -2713,10 +3094,16 @@
     outext = outext//'       VerticalVelMethod = '//temp_str(1)//new_line('a')
     temp_str(1)=self%DiffusionMethod
     outext = outext//'       DiffusionMethod = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%ResuspensionCriticalShearMethod
+    outext = outext//'       ResuspensionCriticalShearMethod = '//temp_str(1)//new_line('a')
     temp_str(1)=self%RemoveLandTracer
     outext = outext//'       RemoveLandTracer = '//temp_str(1)//new_line('a')
     temp_str(1)=self%bathyminNetcdf
     outext = outext//'       bathyminNetcdf = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%RugosityinNetcdf
+    outext = outext//'       RugosityinNetcdf = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%D50inNetcdf
+    outext = outext//'       D50inNetcdf = '//temp_str(1)//new_line('a')
     temp_str(1)=self%tracerMaxAge
     outext = outext//'       tracerMaxAge = '//temp_str(1)//new_line('a')
     temp_str(1)=self%Temperature_add_offset

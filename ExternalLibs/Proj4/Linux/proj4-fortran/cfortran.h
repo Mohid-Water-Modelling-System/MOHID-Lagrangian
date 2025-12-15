@@ -19,7 +19,7 @@
 
 /* First prepare for the C compiler. */
 
-#define f2cFortran
+#define IFORT
 #ifndef ANSI_C_preprocessor /* i.e. user can override. */
 #ifdef __CF__KnR
 #define ANSI_C_preprocessor 0
@@ -127,7 +127,7 @@ only C calling FORTRAN subroutines will work using K&R style.*/
 #if   defined(VISUAL_CPLUSPLUS)
 #define     PowerStationFortran
 #endif
-#if      defined(__IFORT)
+/*#if      defined(__IFORT)*/
 #define            IFORT
 #endif
 #endif /* ...Fortran */
@@ -135,7 +135,7 @@ only C calling FORTRAN subroutines will work using K&R style.*/
 #endif /* ...Fortran */
 #endif /* ...Fortran */
 #endif /* ...Fortran */
-#endif /* ...Fortran */
+/*#endif  ...Fortran */
 
 /* Split #if into 2 because some HP-UX can't handle long #if */
 #if !(defined(NAGf90Fortran)||defined(f2cFortran)||defined(hpuxFortran))

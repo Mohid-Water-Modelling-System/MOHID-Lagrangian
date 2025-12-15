@@ -55,6 +55,7 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
     !> @brief
     !> V2 in Dec 2022 by Joao Sobrinho - Colab Atlantic
     !> Method that runs the chosen interpolator method on the given data.
@@ -70,6 +71,8 @@
     type(string), dimension(:), intent(in), optional :: toInterp
     logical, intent(in), optional :: reqVertInt
     real(prec), dimension(:,:,:,:), pointer :: bathymetry
+    real(prec), dimension(:,:,:,:), pointer :: rugosityVar
+    real(prec), dimension(:,:,:,:), pointer :: D50Var
     real(prec), dimension(:), allocatable :: var_dt_aux
     logical :: interp, requireVertInt
     real(prec) :: newtime
@@ -178,7 +181,7 @@
     end subroutine run
 
     !---------------------------------------------------------------------------
-    !> @author Daniel Garaboa Paz - USC
+    !> @author Daniel Garaboa Paz - USC  Modifed by Mohsen Shabani CRETUS - GFNL
     !> @brief
     !> method to interpolate a particle position in a given data box based
     !> on array coordinates. 4d interpolation is a weighted average of 16
@@ -261,7 +264,7 @@
             c001(i) = field(y0(i),x0(i),z0(i),t1)*(1.-xd(i)) + field(y0(i),x1(i),z0(i),t1)*xd(i) !y0x0z0t0!  y0x1z0t0
             c101(i) = field(y1(i),x0(i),z0(i),t1)*(1.-xd(i)) + field(y1(i),x1(i),z0(i),t1)*xd(i)
             c011(i) = field(y0(i),x0(i),z1(i),t1)*(1.-xd(i)) + field(y0(i),x1(i),z1(i),t1)*xd(i)
-            c111(i) = field(y0(i),x1(i),z1(i),t1)*(1.-xd(i)) + field(y1(i),x1(i),z1(i),t1)*xd(i)
+            c111(i) = field(y1(i),x0(i),z1(i),t1)*(1.-xd(i)) + field(y1(i),x1(i),z1(i),t1)*xd(i)
             !write(*,*)"c001 = ", c001(i)
             !write(*,*)"c101 = ", c101(i)
             !write(*,*)"c011 = ", c011(i)

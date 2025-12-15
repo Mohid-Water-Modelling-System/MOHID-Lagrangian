@@ -41,9 +41,8 @@
         real(prec) :: initial_volume                !< initial volume of tracer
         real(prec) :: temperature                   !< temperature of the tracer
         real(prec) :: salinity                      !< salinity of the tracer
-        !logical    :: beachPeriod                   !< consecutive period of time (in seconds) that the tracer has been beached
-        !integer    :: beachAreaId                   !< beaching area Id where the tracer last beached
-        !integer    :: beachedWaterLevel             !< Water level at the time the tracer was beachded
+        real(prec) :: radius_cr_min                 !< Tracer min critical radius (m)
+        real(prec) :: radius_cr_max                 !< Tracer max critical radius (m)
     end type detritus_state_class
 
     type, extends(tracer_class) :: detritus_class    !<Type - The detritus material Lagrangian tracer class
@@ -69,16 +68,18 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com		
     !> @brief
     !> Method that returns the number of variables used by this tracer
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
     class(detritus_class), intent(in) :: self
-    getNumVars = 28
+    getNumVars = 32
     end function getNumVars
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> Method that returns the state array of this tracer
     !---------------------------------------------------------------------------
@@ -101,23 +102,28 @@
     getStateArray(13) = self%now%age
     getStateArray(14) = self%mpar%particulate
     getStateArray(15) = self%now%bathymetry
-    getStateArray(16) = self%now%dwz
-    getStateArray(17) = self%now%dist2bottom
-    getStateArray(18) = self%now%beachPeriod
-    getStateArray(19) = self%now%beachAreaId
-    getStateArray(20) = self%now%beachedWaterLevel
-    getStateArray(21) = self%mnow%density
-    getStateArray(22) = self%mnow%radius
-    getStateArray(23) = self%mnow%volume
-    getStateArray(24) = self%mnow%area
-    getStateArray(25) = self%mnow%condition
-    getStateArray(26) = self%mnow%initial_volume
-    getStateArray(27) = self%mnow%temperature
-    getStateArray(28) = self%mnow%salinity
+    getStateArray(16) = self%now%rugosityVar
+    getStateArray(17) = self%now%D50Var
+    getStateArray(18) = self%now%dwz
+    getStateArray(19) = self%now%dist2bottom
+    getStateArray(20) = self%now%beachPeriod
+    getStateArray(21) = self%now%beachAreaId
+    getStateArray(22) = self%now%beachedWaterLevel
+    getStateArray(23) = self%mnow%density
+    getStateArray(24) = self%mnow%radius
+    getStateArray(25) = self%mnow%volume
+    getStateArray(26) = self%mnow%area
+    getStateArray(27) = self%mnow%condition
+    getStateArray(28) = self%mnow%initial_volume
+    getStateArray(29) = self%mnow%temperature
+    getStateArray(30) = self%mnow%salinity
+    getStateArray(31) = self%mnow%radius_cr_min
+    getStateArray(32) = self%mnow%radius_cr_max		
     end function getStateArray
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> Method that sets the state array of this tracer
     !---------------------------------------------------------------------------
@@ -125,38 +131,43 @@
     class(detritus_class), intent(inout) :: self
     real(prec), dimension(:), intent(in) :: stateArray
     !if(size(stateArray)<self%getNumVars())
-    self%now%pos%x = StateArray(1)
-    self%now%pos%y = StateArray(2)
-    self%now%pos%z = StateArray(3)
-    self%now%vel%x = StateArray(4)
-    self%now%vel%y = StateArray(5)
-    self%now%vel%z = StateArray(6)
-    self%now%diffusionVel%x = StateArray(7)
-    self%now%diffusionVel%y = StateArray(8)
-    self%now%diffusionVel%z = StateArray(9)
-    self%now%usedMixingLenght = StateArray(10)
-    self%now%VelStandardDeviation = StateArray(11)
-    self%now%TPathHor = StateArray(12)
-    self%now%age          = StateArray(13)
-    self%mpar%particulate = StateArray(14)
-    self%now%bathymetry   = StateArray(15)
-    self%now%dwz          = StateArray(16)
-    self%now%dist2bottom = StateArray(17)
-    self%now%beachPeriod = StateArray(18)
-    self%now%beachAreaId = StateArray(19)
-    self%now%beachedWaterLevel = StateArray(20)
-    self%mnow%density = StateArray(21)
-    self%mnow%radius = StateArray(22)
-    self%mnow%volume = StateArray(23)
-    self%mnow%area = StateArray(24)
-    self%mnow%condition = StateArray(25)
-    self%mnow%initial_volume = StateArray(26)
-    self%mnow%temperature = StateArray(27)
-    self%mnow%salinity = StateArray(28)
+    self%now%pos%x 					= StateArray(1)
+    self%now%pos%y 					= StateArray(2)
+    self%now%pos%z 					= StateArray(3)
+    self%now%vel%x 					= StateArray(4)
+    self%now%vel%y 					= StateArray(5)
+    self%now%vel%z 					= StateArray(6)
+    self%now%diffusionVel%x 		= StateArray(7)
+    self%now%diffusionVel%y 		= StateArray(8)
+    self%now%diffusionVel%z 		= StateArray(9)
+    self%now%usedMixingLenght 		= StateArray(10)
+    self%now%VelStandardDeviation	= StateArray(11)
+    self%now%TPathHor 				= StateArray(12)
+    self%now%age          			= StateArray(13)
+    self%mpar%particulate 			= StateArray(14)
+    self%now%bathymetry   			= StateArray(15)
+    self%now%rugosityVar			= StateArray(16)
+    self%now%D50Var					= StateArray(17)
+    self%now%dwz          			= StateArray(18)
+    self%now%dist2bottom 			= StateArray(19)
+    self%now%beachPeriod 			= StateArray(20)
+    self%now%beachAreaId 			= StateArray(21)
+    self%now%beachedWaterLevel 		= StateArray(22)
+    self%mnow%density 				= StateArray(23)
+    self%mnow%radius 				= StateArray(24)
+    self%mnow%volume 				= StateArray(25)
+    self%mnow%area 					= StateArray(26)
+    self%mnow%condition 			= StateArray(27)
+    self%mnow%initial_volume 		= StateArray(28)
+    self%mnow%temperature 			= StateArray(29)
+    self%mnow%salinity 				= StateArray(30)
+	self%mnow%radius_cr_min 		= StateArray(31)
+    self%mnow%radius_cr_max 		= StateArray(32)	
     end subroutine setStateArray
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com		
     !> @brief
     !> detritus Tracer constructor
     !> @param[in] id, src, time, p
@@ -185,18 +196,52 @@
     constructor%mnow%radius = src%prop%radius
     constructor%mnow%volume = src%prop%volume
     constructor%mnow%area = src%prop%area
-    constructor%mnow%initial_volume = src%prop%volume
+
     !default values
     constructor%mnow%condition = 1.0
-    !constructor%mnow%degradation_rate = 1/(100*365*24*3600)
+    constructor%mnow%initial_volume = src%prop%volume
     constructor%mnow%temperature = 15.0
     constructor%mnow%salinity = 36.0
+
+    constructor%mnow%radius_cr_min = 1.0e-4_prec * src%prop%radius	! TODO: the value should comaptible with a correct value!
+    constructor%mnow%radius_cr_max = 1.0e+4_prec * src%prop%radius	! TODO: the value should comaptible with a correct value!
     
+   
     !try to find value from material types files
     tag = 'condition'
     idx = Utils%find_str(src%prop%propName, tag, .false.)
     if (idx /= MV_INT) then
         constructor%mnow%condition = src%prop%propValue(idx)
+    end if
+
+    tag = 'initial_volume'
+    idx = Utils%find_str(src%prop%propName, tag, .false.)
+    if (idx /= MV_INT) then
+        constructor%mnow%initial_volume = src%prop%propValue(idx)
+    end if
+    
+    tag = 'temp'
+    idx = Utils%find_str(src%prop%propName, tag, .false.)
+    if (idx /= MV_INT) then
+        constructor%mnow%temperature = src%prop%propValue(idx)
+    end if
+	
+    tag = 'salt'
+    idx = Utils%find_str(src%prop%propName, tag, .false.)
+    if (idx /= MV_INT) then
+        constructor%mnow%salinity = src%prop%propValue(idx)
+    end if
+
+    tag = 'radius_cr_min'
+    idx = Utils%find_str(src%prop%propName, tag, .false.)
+    if (idx /= MV_INT) then
+        constructor%mnow%radius_cr_min = src%prop%propValue(idx)
+    end if
+	
+    tag = 'radius_cr_max'
+    idx = Utils%find_str(src%prop%propName, tag, .false.)
+    if (idx /= MV_INT) then
+        constructor%mnow%radius_cr_max = src%prop%propValue(idx)
     end if
 
     if (constructor%mpar%particulate==1) then
@@ -205,15 +250,17 @@
     end if
     
     !filling the rest of the varName list
-    constructor%varName(21) = Globals%Var%density
-    constructor%varName(22) = 'radius'
-    constructor%varName(23) = 'volume'
-    constructor%varName(24) = 'area'
-    constructor%varName(25) = 'condition'
+    constructor%varName(23) = Globals%Var%density
+    constructor%varName(24) = 'radius'
+    constructor%varName(25) = 'volume'
+    constructor%varName(26) = 'area'
+    constructor%varName(27) = 'condition'
     !constructor%varName(20) = 'particulate'
-    constructor%varName(26) = 'initial_volume'
-    constructor%varName(27) = 'temp'
-    constructor%varName(28) = 'salt'
+    constructor%varName(28) = 'initial_volume'
+    constructor%varName(29) = 'temp'
+    constructor%varName(30) = 'salt'
+    constructor%varName(31) = 'radius_cr_min'
+    constructor%varName(32) = 'radius_cr_max'
     end function constructor
 
     end module tracerdetritus_mod

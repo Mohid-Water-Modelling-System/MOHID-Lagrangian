@@ -167,8 +167,34 @@
             read_flag = .true.
             !Beaching level is a negative value so this following check would never allow for a level other than the default
             if (tag /= "BeachingLevel" .and. tag /= "Temperature_add_offset") then
-                if (att_value%to_number(kind=1._R8P) <= 1.0/10000000000000.0) read_flag = .false.
-            end if
+				if (tag == "Lin0_DegradationRate") then
+					if (att_value%to_number(kind=1._R8P) <= -1.0e-13) read_flag = .false. 
+				elseif (tag == "Exp0_DegradationRate") then
+					if (att_value%to_number(kind=1._R8P) <= -1.0e-13) read_flag = .false. 
+				elseif (tag == "Exp1_DegradationRate") then
+					if (att_value%to_number(kind=1._R8P) <= -1.0e-13) read_flag = .false. 
+				elseif (tag == "Exp2_DegradationRate") then
+					if (att_value%to_number(kind=1._R8P) <= -1.0e-13) read_flag = .false.
+				elseif (tag == "ConstantMixingLength") then
+					if (att_value%to_number(kind=1._R8P) <= -1.0e-13) read_flag = .false.					
+				elseif (tag == "VarVelHX") then
+					if (att_value%to_number(kind=1._R8P) <= -1.0e-13) read_flag = .false.
+				elseif (tag == "VarVelH") then
+					if (att_value%to_number(kind=1._R8P) <= -1.0e-13) read_flag = .false.
+				elseif (tag == "DiffusionCoeff") then
+					if (att_value%to_number(kind=1._R8P) <= -1.0e-13) read_flag = .false.
+				elseif (tag == "BeachingStopProb") then
+					if (att_value%to_number(kind=1._R8P) <= -1.0e-13) read_flag = .false.
+				elseif (tag == "ResuspensionProb") then
+					if (att_value%to_number(kind=1._R8P) <= -1.0e-13) read_flag = .false.
+				elseif (tag == "WindDragCoeff") then
+					if (att_value%to_number(kind=1._R8P) <= -1.0e-13) read_flag = .false.					
+				else
+					if (att_value%to_number(kind=1._R8P) <= +1.0e-13)read_flag = .false.  
+				end if
+			end if
+			
+
         end if
     else
         if(.not.mand) then

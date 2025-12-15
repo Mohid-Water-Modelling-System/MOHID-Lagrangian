@@ -41,6 +41,8 @@
         real(prec) :: VelStandardDeviation      !< Velocity standard deviation used in SullivanAllen diffusion method
         real(prec) :: TPathHor                  !< path covered by particle (for diffusion calculation using sullivanAllen)
         real(prec) :: bathymetry = MV           !< bathymetry value interpolated to the tracers location
+        real(prec) :: rugosityVar = MV          !< rugosity value interpolated to the tracers location
+        real(prec) :: D50Var = MV          		!< D50 (diameter50 of the seabed) value interpolated to the tracers location
         real(prec) :: dwz = MV                  !< thickness of the vertical cell
         real(prec) :: dist2bottom               !< tracer's distance to bottom
         real(prec) :: beachPeriod               !< consecutive period of time (in seconds) that the tracer has been beached
@@ -73,16 +75,18 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> Method that returns the number of variables used by this tracer
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
     class(tracer_class), intent(in) :: self
-    getNumVars = 20
+    getNumVars = 22
     end function getNumVars
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> Method that returns the state array of this tracer
     !---------------------------------------------------------------------------
@@ -105,41 +109,46 @@
     getStateArray(13) = self%now%age
     getStateArray(14) = self%par%particulate
     getStateArray(15) = self%now%bathymetry
-    getStateArray(16) = self%now%dwz
-    getStateArray(17) = self%now%dist2bottom
-    getStateArray(18) = self%now%beachPeriod
-    getStateArray(19) = self%now%beachAreaId
-    getStateArray(20) = self%now%beachedWaterLevel
+    getStateArray(16) = self%now%rugosityVar
+    getStateArray(17) = self%now%D50Var
+    getStateArray(18) = self%now%dwz
+    getStateArray(19) = self%now%dist2bottom
+    getStateArray(20) = self%now%beachPeriod
+    getStateArray(21) = self%now%beachAreaId
+    getStateArray(22) = self%now%beachedWaterLevel
     end function getStateArray
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> Method that sets the state array of this tracer
     !---------------------------------------------------------------------------
     subroutine setStateArray(self, stateArray)
     class(tracer_class), intent(inout) :: self
     real(prec), dimension(:), intent(in) :: stateArray
-    self%now%pos%x = StateArray(1)
-    self%now%pos%y = StateArray(2)
-    self%now%pos%z = StateArray(3)
-    self%now%vel%x = StateArray(4)
-    self%now%vel%y = StateArray(5)
-    self%now%vel%z = StateArray(6)
-    self%now%diffusionVel%x = StateArray(7)
-    self%now%diffusionVel%y = StateArray(8)
-    self%now%diffusionVel%z = StateArray(9)
-    self%now%usedMixingLenght = StateArray(10)
-    self%now%VelStandardDeviation = StateArray(11)
-    self%now%TPathHor = StateArray(12)
-    self%now%age   = StateArray(13)
-    self%par%particulate = StateArray(14)
-    self%now%bathymetry   = StateArray(15)
-    self%now%dwz   = StateArray(16)
-    self%now%dist2bottom = StateArray(17)
-    self%now%beachPeriod = StateArray(18)
-    self%now%beachAreaId = StateArray(19)
-    self%now%beachedWaterLevel = StateArray(20)
+    self%now%pos%x 					= StateArray(1)
+    self%now%pos%y 					= StateArray(2)
+    self%now%pos%z 					= StateArray(3)
+    self%now%vel%x 					= StateArray(4)
+    self%now%vel%y 					= StateArray(5)
+    self%now%vel%z 					= StateArray(6)
+    self%now%diffusionVel%x 		= StateArray(7)
+    self%now%diffusionVel%y 		= StateArray(8)
+    self%now%diffusionVel%z 		= StateArray(9)
+    self%now%usedMixingLenght 		= StateArray(10)
+    self%now%VelStandardDeviation	= StateArray(11)
+    self%now%TPathHor 				= StateArray(12)
+    self%now%age   					= StateArray(13)
+    self%par%particulate			= StateArray(14)
+    self%now%bathymetry				= StateArray(15)
+    self%now%rugosityVar   			= StateArray(16)
+    self%now%D50Var   				= StateArray(17)
+    self%now%dwz   					= StateArray(18)
+    self%now%dist2bottom 			= StateArray(19)
+    self%now%beachPeriod 			= StateArray(20)
+    self%now%beachAreaId 			= StateArray(21)
+    self%now%beachedWaterLevel		= StateArray(22)
     end subroutine setStateArray
 
     !---------------------------------------------------------------------------
@@ -165,6 +174,7 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> Base Tracer constructor
     !> @param[in] id, src, time, p, varNum
@@ -193,6 +203,8 @@
     constructor%now%VelStandardDeviation = 0.0
     constructor%now%TPathHor = 86400.0
     constructor%now%bathymetry = 0.0
+    constructor%now%rugosityVar = Globals%Constants%Rugosity
+    constructor%now%D50Var 		= Globals%Constants%D50
     constructor%now%dwz = 0.0
     constructor%now%dist2bottom = 0.0
     constructor%now%beachPeriod = 0.0
@@ -215,11 +227,13 @@
     constructor%varName(13) = 'age'
     constructor%varName(14) = 'particulate'
     constructor%varName(15) = Globals%Var%bathymetry
-    constructor%varName(16) = Globals%Var%dwz
-    constructor%varName(17) = 'dist2bottom'
-    constructor%varName(18) = 'beachPeriod'
-    constructor%varName(19) = 'beachAreaId'
-    constructor%varName(20) = 'beachedWaterLevel'
+    constructor%varName(16) = Globals%Var%rugosityVar
+    constructor%varName(17) = Globals%Var%D50Var
+    constructor%varName(18) = Globals%Var%dwz
+    constructor%varName(19) = 'dist2bottom'
+    constructor%varName(20) = 'beachPeriod'
+    constructor%varName(21) = 'beachAreaId'
+    constructor%varName(22) = 'beachedWaterLevel'
     end function constructor
 
     end module tracerBase_mod

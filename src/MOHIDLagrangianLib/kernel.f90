@@ -24,7 +24,8 @@
     !> derivative of the state vector of a given tracer. n columns - n variables.
     !> This is the step were interpolation and physics actually happen.
     !------------------------------------------------------------------------------
-    use common_modules
+	use, intrinsic :: ieee_arithmetic
+	use common_modules
     use stateVector_mod
     use background_mod
     use interpolator_mod
@@ -52,6 +53,7 @@
     procedure, private :: Beaching
     procedure, private :: FreeLitterAtBeaching
     procedure, private :: Aging
+	procedure		   :: LagrangianVelModification																
     end type kernel_class
 
     type(kernelLitter_class) :: Litter       !< litter kernels
@@ -78,6 +80,7 @@
     real(prec), intent(in) :: time, dt
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: runKernel
     integer :: i
+	logical, save :: printed = .false.
     !write(*,*)"Entrada Run Kernel tamanho bdata =", size(bdata)
     !do i = 1, size(bdata)
     !    write(*,*)"Tamanho background i = ", i, bdata(i)%fields%getSize()
@@ -92,6 +95,10 @@
     call self%distance2bottom(sv)
     !running kernels for each type of tracer
     !write(*,*)"Entrada kernels"
+	
+	! Modify velocities based on Reichardt and log law for the inner turbulent layer near to the seabed.
+	call self%LagrangianVelModification(sv, bdata, time)
+	
     if (sv%ttype == Globals%Types%base) then
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
                     self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + &
@@ -131,11 +138,13 @@
     endif
     
     runKernel = VerticalMotion%CorrectVerticalBounds(sv, runKernel, bdata, dt)
-    
+    	
+	
     end function runKernel
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
     !> @brief
     !> Sets the state vector land interaction mask values and corrects for
     !> maximum level of tracers.
@@ -148,6 +157,9 @@
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
     integer :: i, j, col_age, col_bat, col_bat_sv, col_landintmask, col_res, col_ssh, col_DifVelStdr
+	integer :: col_rugosityVar,col_rugosityVar_sv
+	integer :: col_D50Var,col_D50Var_sv
+	integer :: counterr
     real(prec) :: maxLevel(2)
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
@@ -156,11 +168,14 @@
     logical bottom_emmission
     !-----------------------------------------------------------
     !write(*,*)"Entrada setCommonProcesses"
-    allocate(requiredVars(4))
+    allocate(requiredVars(6))
     requiredVars(1) = Globals%Var%landIntMask
     requiredVars(2) = Globals%Var%resolution
     requiredVars(3) = Globals%Var%bathymetry
     requiredVars(4) = Globals%Var%ssh
+    requiredVars(5) = Globals%Var%rugosityVar
+    requiredVars(6) = Globals%Var%D50Var
+	
     !write(*,*)"Entrada setCommonProcesses interpolate"
     call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, justRequired = .true.)
     
@@ -168,20 +183,41 @@
     bottom_emmission = .false.
     col_bat = Utils%find_str(var_name, Globals%Var%bathymetry, .false.)
     !Set tracers bathymetry
-    col_bat_sv = Utils%find_str(sv%varName, Globals%Var%bathymetry, .false.)
+    col_bat_sv = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
     if (col_bat /= MV_INT) then
         sv%state(:,col_bat_sv) = var_dt(:,col_bat)
     else
         sv%state(:,col_bat_sv) = 0.0
     endif
-    
+
+    !set tracer bottom rugosity
+    col_rugosityVar = Utils%find_str(var_name, Globals%Var%rugosityVar, .false.)
+    col_rugosityVar_sv = Utils%find_str(sv%varName, Globals%Var%rugosityVar, .true.)
+    sv%state(:,col_rugosityVar_sv) = max(var_dt(:,col_rugosityVar), 0.0001)
+
+    !set tracer bottom D50
+    col_D50Var = Utils%find_str(var_name, Globals%Var%D50Var, .false.)
+    col_D50Var_sv = Utils%find_str(sv%varName, Globals%Var%D50Var, .true.)
+    sv%state(:,col_D50Var_sv) = max(var_dt(:,col_D50Var), 0.0001)
+	
+!	counterr = 0
+!	do i= 1, size(sv%state,1)
+!		if (mod(counterr, 10) == 0) then
+!			write(*,'(  A5, A12,, A12)') , " Id:", 'rugosityVar', 'D50Var'
+!			write(*,*),' '
+!		end if
+!		counterr = counterr + 1
+!		write(*,'( I5, F12.4, F12.4)') , i, sv%state(i,col_rugosityVar_sv), sv%state(i,col_D50Var_sv)
+!D	end do	 	
+
+
     tag = 'age'
     col_age = Utils%find_str(sv%varName, tag, .true.)
     
     !Check for particles below sea bottom
-    if (col_bat /= MV_INT) then
-        where (sv%state(:,3) < var_dt(:,col_bat)) sv%state(:,3) = var_dt(:,col_bat)
-    endif
+!    if (col_bat /= MV_INT) then
+!        where (sv%state(:,3) < var_dt(:,col_bat)) sv%state(:,3) = var_dt(:,col_bat)
+!    endif
     
     if (size(sv%source) > 0) then
         !if any of the sources defined by the user has the option bottom_emission then the model must check
@@ -228,7 +264,7 @@
 
     !marking tracers for deletion because they are in land
     if (Globals%simdefs%removelandtracer == 1) then
-        where(int(sv%landintmask + Globals%mask%landval*0.05) == Globals%mask%landval) sv%active = .false.
+        where(int(abs(sv%landintmask) + Globals%mask%landval*0.05) == Globals%mask%landval) sv%active = .false.
     end if
                 
     !marking tracers for deletion because they are old
@@ -302,7 +338,6 @@
             sv%state(:,col_sal_sv) = var_dt(:,col_sal)
         endif
     endif
-
     
     deallocate(var_name)
     deallocate(var_dt)
@@ -329,9 +364,8 @@
     sv%state(:,col_dist2bottom) = Globals%Mask%bedVal + (sv%state(:,3) - sv%state(:,col_bat)) / (sv%state(:,col_dwz))
     
     end subroutine distance2bottom
-
     !---------------------------------------------------------------------------
-    !> @author Daniel Garaboa Paz - USC
+	!> @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
     !> @brief
     !> Lagrangian Kernel, evaluate the velocities at given points
     !> using the interpolants and split the evaluation part from the solver module.
@@ -342,102 +376,72 @@
     type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
-    integer :: nf, nf_u, nf_v, col_u, col_dwz, col_v, col_w, part_idx, col_dist2bottom
-    real(prec), dimension(:,:), allocatable :: var_dt, var_hor_dt
-    type(string), dimension(:), allocatable :: var_name, var_name_hor
-    type(string), dimension(:), allocatable :: requiredVars, requiredHorVars
+    integer :: nf_w, part_idx, col_dist2bottom																												
     real(prec), dimension(size(sv%state,1), size(sv%state,2)) :: LagrangianKinematic
-    real(prec) :: VonKarman = 0.4
-    real(prec) :: Hmin_Chezy = 0.1
-    real(prec), dimension(size(sv%state,1)) :: chezyZ, dist2bottom
-    real(8), dimension(size(sv%state,1)) :: aux_r8
+    real(prec), dimension(size(sv%state,1)) :: dist2bottom											  
     real(prec) :: threshold_bot_wat, landIntThreshold
+	real(prec), dimension(size(sv%state,1)) :: Threshold_value
+	real(prec), dimension(size(sv%state,1)) :: LandIntThreshold_value
     type(string) :: tag
-    integer :: i
+    integer :: i,counterr
     !-------------------------------------------------------------------------------------
     !write(*,*)"Entrada kinematic"
-    tag = 'dist2bottom'
-    col_dist2bottom = Utils%find_str(sv%varName, tag, .true.)
-    
-    allocate(requiredVars(3))
-    requiredVars(1) = Globals%Var%u
-    requiredVars(2) = Globals%Var%v
-    requiredVars(3) = Globals%Var%w
-    
-    allocate(requiredHorVars(3))
-    requiredHorVars(1) = Globals%Var%u
-    requiredHorVars(2) = Globals%Var%v
-    requiredHorVars(3) = Globals%Var%w
-    
-    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, justRequired = .true.)
-
-    LagrangianKinematic = 0.0
-    !Correct bottom values
-    
-    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredHorVars, var_hor_dt, var_name_hor, justRequired = .true., reqVertInt = .false.)
-    
-    col_u = Utils%find_str(var_name_hor, Globals%Var%u, .true.)
-    col_v = Utils%find_str(var_name_hor, Globals%Var%v, .true.)
-    col_w = Utils%find_str(var_name_hor, Globals%Var%w, .false.)
     col_dwz = Utils%find_str(sv%varName, Globals%Var%dwz, .true.)
-    nf_u = Utils%find_str(var_name, Globals%Var%u, .true.)
-    nf_v = Utils%find_str(var_name, Globals%Var%v, .true.)
-    
-    threshold_bot_wat = ABS((Globals%Mask%waterVal + Globals%Mask%bedVal) * 0.5)
-    landIntThreshold = -0.98
-    
-    dist2bottom = ABS(sv%state(:,col_dist2bottom))
-    
-    where (dist2bottom < threshold_bot_wat)
-        aux_r8 = max((sv%state(:,col_dwz)/2),Hmin_Chezy) / Globals%Constants%Rugosity
-        chezyZ = (VonKarman / dlog(aux_r8))**2
-        sv%state(:,4) = var_hor_dt(:,col_u) * chezyZ
-        sv%state(:,5) = var_hor_dt(:,col_v) * chezyZ
-    end where
-    
+	tag = 'dist2bottom'
+    col_dist2bottom = Utils%find_str(sv%varName, tag, .true.)
+    dist2bottom = sv%state(:,col_dist2bottom)
+	
     tag = 'particulate'
     part_idx = Utils%find_str(sv%varName, tag, .true.)
-    
-    where ((dist2bottom < landIntThreshold) .and. (sv%state(:,part_idx) == 1))
-        !At the bottom and tracer is particulate
-        LagrangianKinematic(:,1) = 0
-        LagrangianKinematic(:,2) = 0
-    elsewhere (dist2bottom < threshold_bot_wat)
-        LagrangianKinematic(:,1) = Utils%m2geo(sv%state(:,4), sv%state(:,2), .false.)
-        LagrangianKinematic(:,2) = Utils%m2geo(sv%state(:,5), sv%state(:,2), .true.)
-    elsewhere
-        LagrangianKinematic(:,1) = Utils%m2geo(var_dt(:, nf_u), sv%state(:,2), .false.)
-        LagrangianKinematic(:,2) = Utils%m2geo(var_dt(:, nf_v), sv%state(:,2), .true.)
-        sv%state(:,4) = var_dt(:,nf_u)
-        sv%state(:,5) = var_dt(:,nf_v)
-    end where
-    
-    nf = Utils%find_str(var_name, Globals%Var%w, .false.)
-    if ((nf /= MV_INT) .and. (Globals%SimDefs%VerticalVelMethod == 1)) then
-        !Make the vertical velocity 0 at the bottom.
-        where ((dist2bottom < landIntThreshold) .and. (sv%state(:,part_idx) == 1))
-            LagrangianKinematic(:,3) = 0
-            sv%state(:,6) = 0
-        elsewhere (dist2bottom < threshold_bot_wat)
-            !Reduce velocity towards the bottom following a vertical logaritmic profile
-            LagrangianKinematic(:,3) = var_hor_dt(:,col_w) * chezyZ
-            sv%state(:,6) = LagrangianKinematic(:,3)
-        elsewhere
-            LagrangianKinematic(:,3) = var_dt(:, nf)
-            sv%state(:,6) = var_dt(:, nf)
-        end where
-    else if ((nf /= MV_INT) .and. (Globals%SimDefs%VerticalVelMethod == 2)) then
+
+    ! threshold_bot_wat: equal to 0.0 will be correspond to the distance to the bottom equal to the last measurmet(given data).
+    ! LandIntThresholdValue: will be correspond to the distance to the bottom which the volcity could be considered zero
+	! LandIntThresholdValue gives the value the dist2bottom for this threshold.
+	! u, v and w velocities for distance to the seabed(h(i) - bathymetry) < Rugosity reach to zero.    
+		
+	threshold_bot_wat = 0.0	
+	! Threshold_value: distance from the bottom (seabed) in unit [meter].
+	! It could be a constant * Globals%Constants%Rugosity
+	Threshold_value = Globals%Constants%BedLoadThickness
+	LandIntThreshold_value = VerticalMotion%LandIntThresholdValue(sv, bdata, time, Threshold_value)	
+	
+	LagrangianKinematic = 0.0
+ 
+	where (dist2bottom < LandIntThreshold_value .and. (sv%state(:,part_idx) == 1))
+		LagrangianKinematic(:,1) = 0.0
+		LagrangianKinematic(:,2) = 0.0
+		
+	else where
+		LagrangianKinematic(:,1) = Utils%m2geo(sv%state(:,4), sv%state(:,2), .false.)
+		LagrangianKinematic(:,2) = Utils%m2geo(sv%state(:,5), sv%state(:,2), .true.)
+	end where
+
+	nf_w = Utils%find_str(sv%varName, Globals%Var%w, .false.)
+
+!	New version: log law
+    if ((nf_w /= MV_INT) .and. (Globals%SimDefs%VerticalVelMethod == 1)) then
+        !Lagrangian dispacementin vertical direction
+		where (dist2bottom < LandIntThreshold_value .and. (sv%state(:,part_idx) == 1))
+			! It is assumed that there is not vertical Lagrangian dispacement for the particles lower than LandIntThreshold_value near to the seabed,
+			LagrangianKinematic(:,3) = 0.0
+	
+		else where
+		! Otherwise, it is assumed that the vertical Lagrangian dispacement for the particel is according to the velocity profile.
+		! We should take into account based on LagrangianVelModification function, some partilces follows log-law.
+			LagrangianKinematic(:,3) = sv%state(:,6)
+
+		end where
+		
+    else if ((nf_w /= MV_INT) .and. (Globals%SimDefs%VerticalVelMethod == 2)) then
         LagrangianKinematic(:,3) = VerticalMotion%Divergence(sv, bdata, time)
         sv%state(:,6) = LagrangianKinematic(:,3)
-    else if ((nf == MV_INT) .or. (Globals%SimDefs%VerticalVelMethod == 3)) then
+    else if ((nf_w == MV_INT) .or. (Globals%SimDefs%VerticalVelMethod == 3)) then
         LagrangianKinematic(:,3) = 0.0
         sv%state(:,6) = 0.0
     end if
     
-    deallocate(var_dt)
-    deallocate(var_hor_dt)
-    deallocate(var_name_hor)
-    deallocate(var_name)
+    !write(*,*)"Saida kinematic"
+
     end function LagrangianKinematic
 
     !---------------------------------------------------------------------------
@@ -497,7 +501,7 @@
         where (depth>=0.0) depth = 0.0
         depth = exp(depth)
         !write dx/dt
-        where(sv%landIntMask < Globals%Mask%landVal)
+        where(abs(sv%landIntMask) < Globals%Mask%landVal)
             StokesDrift(:,1) = Utils%m2geo(var_dt(:,col_vsdx), sv%state(:,2), .false.)*waveCoeff*depth
             StokesDrift(:,2) = Utils%m2geo(var_dt(:,col_vsdy), sv%state(:,2), .true.)*waveCoeff*depth
         endwhere
@@ -702,7 +706,7 @@
     depth = exp(10.0*depth)
                 
     !write dx/dt 
-    where(sv%landIntMask < Globals%Mask%landVal)
+    where(abs(sv%landIntMask) < Globals%Mask%landVal)
         Windage(:,1) = Utils%m2geo(var_dt(:,col_u10), sv%state(:,2), .false.)*windCoeff * depth
         Windage(:,2) = Utils%m2geo(var_dt(:,col_v10), sv%state(:,2), .true.)*windCoeff * depth
     endwhere
@@ -720,7 +724,8 @@
 
 
     !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC 
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.09.12 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> Beaching Kernel, uses the already updated state vector and determines if
     !> and how beaching occurs. Affects the state vector and state vector derivative.
@@ -732,29 +737,46 @@
     real(prec), dimension(size(sv%state,1),size(sv%state,2)), intent(in) :: svDt
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Beaching
     real(prec), dimension(size(sv%state,1)) :: beachCoeff
-    real(prec), dimension(size(sv%state,1)) :: beachCoeffRand
+    real(prec), dimension(size(sv%state,1)) :: beachCoeffRand, beachCoeffRandC
     real(prec), dimension(size(sv%state,1)) :: beachWeight
     real(prec) :: lbound, ubound
     integer :: i
+	
     beachCoeff = 1.0
-    call random_number(beachCoeffRand) !this is a uniform distribution generator
-    beachCoeffRand = max(0.0, beachCoeffRand - Globals%Constants%BeachingStopProb)  !clipping the last % to zero
-    where (beachCoeffRand /= 0.0 ) beachCoeffRand = beachCoeffRand*(1.0/maxval(beachCoeffRand))
+	
+	! Create  random values between [0,1) to compare with Beaching probability
+    !call random_number(beachCoeffRand) !this is a uniform distribution generator
+    !beachCoeffRand = max(0.0, beachCoeffRand - Globals%Constants%BeachingStopProb)  !clipping the last % to zero
+    !where (beachCoeffRand /= 0.0 ) beachCoeffRand = beachCoeffRand*(1.0/maxval(beachCoeffRand))
 
+	! Create  random values between [0,1) to compare with Beaching probability
+    call random_number(beachCoeffRand) !this is a uniform distribution generator 
+	beachCoeffRandC = max(0.0, Globals%Constants%BeachingStopProb - beachCoeffRand)  !Set random numbers greater than the probability to zero.(beaching will not happen)
+    !where (beachCoeffRandC /= 0.0 ) beachCoeffRandC = beachCoeffRandC*(1.0/maxval(beachCoeffRandC))	!Normalize the values between [0,1]
+    where (beachCoeffRandC /= 0.0 ) beachCoeffRandC = max(1.0,	beachCoeffRandC)!Normalize the values between [0,1]
+	!beachCoeffRandC = 1.0
     Beaching = svDt
 
     if (Globals%Constants%BeachingStopProb /= 0.0) then !beaching is completely turned off if the stopping propability is zero
 
         !getting the bounds for the interpolation of the land interaction field that correspond to beaching
-        lbound = (Globals%Mask%beachVal + Globals%Mask%waterVal)*0.5
-        ubound = (Globals%Mask%beachVal + Globals%Mask%landVal)*0.5
-
+        !lbound = (Globals%Mask%beachVal + Globals%Mask%waterVal)*0.5
+        !ubound = (Globals%Mask%beachVal + Globals%Mask%landVal)*0.5
+        lbound =  Globals%Mask%landVal * (-1.0)
+		ubound =  Globals%Mask%landVal * (+1.0)
         !beachWeight = 1 - 0.5*(sv%landIntMask - lbound)/(ubound-lbound) !linear distance weight for beaching
-        beachWeight = 1 - 0.9*(sv%landIntMask - lbound)/(ubound-lbound)*(sv%landIntMask - lbound)/(ubound-lbound) !quadratic weight
-
+        !beachWeight = 1 - 0.9*(sv%landIntMask - lbound)/(ubound-lbound)*(sv%landIntMask - lbound)/(ubound-lbound) !quadratic weight
+        ! 2nd order weight
+		!beachWeight = 1 - 1.0 *(sv%landIntMask - lbound)/(ubound-lbound)*(sv%landIntMask - lbound)/(ubound-lbound) !quadratic weight
+        ! 4th order weight [0.5, 2]
+		!beachWeight = 1 - 1.0 *(sv%landIntMask - lbound)/(ubound-lbound)*(sv%landIntMask - lbound)/(ubound-lbound)*(sv%landIntMask - lbound)/(ubound-lbound)*(sv%landIntMask - lbound)/(ubound-lbound) !4th order weight
+		! 6th order weight axisymmetric respect to 0 in domain of [-2,2]
+		beachWeight = 1 - 1.0 *(sv%landIntMask - lbound)/(ubound-lbound)*(sv%landIntMask - lbound)/(ubound-lbound)*(sv%landIntMask - lbound)/(ubound-lbound)*(sv%landIntMask - lbound)/(ubound-lbound) *(sv%landIntMask - lbound)/(ubound-lbound)*(sv%landIntMask - lbound)/(ubound-lbound)!6th order weight
+		
         !replacing 1.0 with a coefficient from beaching where needed
-        where(sv%landIntMask <= ubound .and. sv%landIntMask >= lbound) beachCoeff = beachCoeffRand*beachWeight
-        do i=1,3
+        where((sv%landIntMask <= ubound) .and. (sv%landIntMask >= lbound)) beachCoeff = (beachCoeffRandC) * beachWeight
+		!where((sv%landIntMask > ubound)) beachCoeff= 0.0
+		do i=1,3
             Beaching(:,i) = svDt(:,i)*beachCoeff !position derivative is affected
             sv%state(:,i+3) = sv%state(:,i+3)*beachCoeff !so are the velocities
         end do
@@ -947,6 +969,7 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> mixing length diffusion kernel, computes random velocities at given
     !> instants to model diffusion processes. These are valid while the tracer
@@ -966,6 +989,9 @@
     real(prec), dimension(:), allocatable :: rand_vel_u, rand_vel_v, rand_vel_w
     type(string) :: tag
     real(prec) :: landIntThreshold
+	real(prec), dimension(size(sv%state,1)) :: Threshold_value
+	real(prec), dimension(size(sv%state,1)) :: LandIntThreshold_value
+	
     !Begin---------------------------------------------------------------------------
     
     if (Globals%SimDefs%DiffusionMethod == 2) then !SullivanAllen
@@ -983,6 +1009,13 @@
     if (Globals%Constants%DiffusionCoeff == 0.0) return
     !interpolate each background
 
+
+	! Threshold_value: distance from the bottom (seabed) in unit [meter].
+	! It could be a constant * Globals%Constants%Rugosity
+	Threshold_value = Globals%Constants%BedLoadThickness 
+	LandIntThreshold_value = VerticalMotion%LandIntThresholdValue(sv, bdata, time, Threshold_value)
+	
+
     np = size(sv%active) !number of Tracers
     allocate(rand_vel_u(np), rand_vel_v(np), rand_vel_w(np))
     call random_number(rand_vel_u)
@@ -991,10 +1024,13 @@
     
     !if we are still in the same path, use the same random velocity, do nothing
     !if we ran the path, new random velocities are generated and placed
-    where ((sv%state(:,10) > 2.0*sv%resolution) .and. (sv%landIntMask < Globals%Mask%landVal))
-        DiffusionMixingLength(:,7) = (2.*rand_vel_u-1.)*sqrt(Globals%Constants%DiffusionCoeff*abs(sv%state(:,4))/dt)/dt
-        DiffusionMixingLength(:,8) = (2.*rand_vel_v-1.)*sqrt(Globals%Constants%DiffusionCoeff*abs(sv%state(:,5))/dt)/dt
-        DiffusionMixingLength(:,9) = (2.*rand_vel_w-1.)*sqrt(0.000001*Globals%Constants%DiffusionCoeff*abs(sv%state(:,6))/dt)/dt
+    where ((sv%state(:,10) > 2.0*sv%resolution) .and. (abs(sv%landIntMask) < Globals%Mask%landVal))
+        !DiffusionMixingLength(:,7) = (2.*rand_vel_u-1.)*sqrt(Globals%Constants%DiffusionCoeff*abs(sv%state(:,4))/dt)/dt
+        !DiffusionMixingLength(:,8) = (2.*rand_vel_v-1.)*sqrt(Globals%Constants%DiffusionCoeff*abs(sv%state(:,5))/dt)/dt
+        !DiffusionMixingLength(:,9) = (2.*rand_vel_w-1.)*sqrt(0.000001*Globals%Constants%DiffusionCoeff*abs(sv%state(:,6))/dt)/dt
+        DiffusionMixingLength(:,7) = (2.*rand_vel_u-1.)*sqrt(Globals%Constants%DiffusionCoeff/dt)/dt
+        DiffusionMixingLength(:,8) = (2.*rand_vel_v-1.)*sqrt(Globals%Constants%DiffusionCoeff/dt)/dt
+        DiffusionMixingLength(:,9) = (2.*rand_vel_w-1.)*sqrt(0.000001*Globals%Constants%DiffusionCoeff/dt)/dt
         sv%state(:,10) = 0.0
         !update system positions
         DiffusionMixingLength(:,1) = Utils%m2geo(DiffusionMixingLength(:,7), sv%state(:,2), .false.)*dt
@@ -1014,7 +1050,7 @@
     if (any(sv%state(:,part_idx) == 1)) then
         dist2bottom = sv%state(:,col_dist2bottom)
         !if a single particle is particulate, check if they are at the bottom and don't move them if true.
-        where ((dist2bottom < landIntThreshold) .and. (sv%state(:,part_idx) == 1))
+        where ((dist2bottom < LandIntThreshold_value) .and. (sv%state(:,part_idx) == 1))
             !update system positions
             DiffusionMixingLength(:,1) = 0
             DiffusionMixingLength(:,2) = 0
@@ -1146,6 +1182,203 @@
     end function DiffusionIsotropic
     
     !---------------------------------------------------------------------------
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.09.12 | Email:shabani.mohsen@outlook.com	
+    !> @brief
+    !> Lagrangian Kernel, evaluate the velocities at given points
+    !> using the interpolants and split the evaluation part from the solver module.
+	!> Also, for the particles near to the seabed uses log-law.
+    !> @param[in] self, sv, bdata, time
+    !---------------------------------------------------------------------------
+    subroutine LagrangianVelModification(self, sv, bdata, time)
+    class(kernel_class), intent(inout) :: self
+    type(stateVector_class), intent(inout) :: sv
+    type(background_class), dimension(:), intent(in) :: bdata
+    real(prec), intent(in) :: time
+    integer ::  nf_w, nf_u, nf_v, col_u, col_dwz, col_v, col_w, part_idx, col_dist2bottom, col_temp, col_sal
+    integer ::  col_rugosityVar_sv, col_D50Var_sv
+    real(prec), dimension(:,:), allocatable :: var_dt, var_hor_dt
+    type(string), dimension(:), allocatable :: var_name, var_name_hor
+    type(string), dimension(:), allocatable :: requiredVars, requiredHorVars
+    real(prec) :: VonKarman = 0.4
+    real(prec) :: Hmin_Chezy = 0.1
+    real(prec) :: A_Reichardt =	11.0
+	real(prec) :: B_Reichardt =	0.33
+    real(prec) :: C_Reichardt =	7.8
+    real(prec), dimension(size(sv%state,1)) :: chezyZ, dist2bottom
+    real(8), dimension(size(sv%state,1)) :: aux_r8, aux_r9, aux_r10
+	real(prec), dimension(size(sv%state,1)) :: Temperatur_list, Salinity_list, depth_list
+    real(prec), dimension(size(sv%state,1)) :: U_asterisk, V_asterisk, W_asterisk, z_plus_U_astr, z_plus_V_astr, z_plus_W_astr
+    real(prec), dimension(size(sv%state,1)) :: u_Reichardt, v_Reichardt, w_Reichardt, u_VonKarman, v_VonKarman, w_VonKarman	
+	real(prec), dimension(size(sv%state,1)) :: fDensity, kVisco, kViscoRelation
+    real(prec) :: threshold_bot_wat, landIntThreshold
+	real(prec), dimension(size(sv%state,1)) :: Threshold_value
+	real(prec), dimension(size(sv%state,1)) :: LandIntThreshold_value
+    type(string) :: tag
+    integer :: i
+    !-------------------------------------------------------------------------------------
+    !write(*,*)"Entrada kinematic"
+    tag = 'dist2bottom'
+    col_dist2bottom = Utils%find_str(sv%varName, tag, .true.)
+	col_bat  = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
+	col_temp = Utils%find_str(sv%varname, Globals%Var%temp, .false.)
+	col_sal  = Utils%find_str(sv%varname, Globals%Var%sal, .false.)	
+ 	col_rugosityVar_sv = Utils%find_str(sv%varName, Globals%Var%rugosityVar, .true.)
+ 	col_D50Var_sv = Utils%find_str(sv%varName, Globals%Var%D50Var, .true.)
+	
+    allocate(requiredVars(3))
+    requiredVars(1) = Globals%Var%u
+    requiredVars(2) = Globals%Var%v
+    requiredVars(3) = Globals%Var%w
+    
+    allocate(requiredHorVars(3))
+    requiredHorVars(1) = Globals%Var%u
+    requiredHorVars(2) = Globals%Var%v
+    requiredHorVars(3) = Globals%Var%w
+    !write(*,*)"Entrada interpolacao kinematic 1"
+    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
+    !write(*,*)"Saida interpolacao kinematic 1"
+
+    !Correct bottom values
+    !write(*,*)"Entrada interpolacao kinematic 2"
+    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredHorVars, var_hor_dt, var_name_hor, reqVertInt = .false.)
+    !write(*,*)"Entrada interpolacao kinematic 2"
+    
+    col_u = Utils%find_str(var_name_hor, Globals%Var%u, .true.)
+    col_v = Utils%find_str(var_name_hor, Globals%Var%v, .true.)
+    col_w = Utils%find_str(var_name_hor, Globals%Var%w, .false.)
+    col_dwz = Utils%find_str(sv%varName, Globals%Var%dwz, .true.)
+    nf_u = Utils%find_str(var_name, Globals%Var%u, .true.)
+    nf_v = Utils%find_str(var_name, Globals%Var%v, .true.)
+    nf_w = Utils%find_str(var_name, Globals%Var%w, .false.)
+	
+! New version by Mohsen	
+    ! threshold_bot_wat: equal to 0.0 will be correspond to the distance to the bottom equal to the last measurmet(given data).
+    ! LandIntThresholdValue: will be correspond to the distance to the bottom which the volcity could be considered zero
+	! LandIntThresholdValue gives the value the dist2bottom for this threshold.
+	! u, v and w velocities for distance to the seabed(h(i) - bathymetry) < Rugosity reach to zero.    
+ 
+    threshold_bot_wat = 0.0
+
+	! Threshold_value: distance from the bottom (seabed) in unit [meter].
+	! It could be a constant * Globals%Constants%Rugosity
+	Threshold_value = Globals%Constants%BedLoadThickness 
+	LandIntThreshold_value = VerticalMotion%LandIntThresholdValue(sv, bdata, time, Threshold_value)
+	
+    dist2bottom = sv%state(:,col_dist2bottom)
+
+!	Calculate the kinematic Visco and density of seawater
+    if ((col_temp /= MV_INT) .and. (col_sal /= MV_INT)) then
+	! If there are salt and temperature data along the time:
+	!	Calculate the kinematic Visco and density of seawater according to 
+	!	the given temperature and salinity of seawater during the time. 
+		        
+		Temperatur_list = sv%state(:,col_temp)
+		Salinity_list	= sv%state(:,col_sal)
+		depth_list		= sv%state(:,3)
+		fDensity = VerticalMotion%seaWaterDensity(Salinity_list, Temperatur_list, depth_list)
+		kVisco = VerticalMotion%absoluteSeaWaterViscosity(Salinity_list, Temperatur_list) / fDensity
+
+		kViscoRelation = abs(1.-(kvisco/Globals%Constants%MeanKvisco))
+		where(kViscoRelation >= 0.9)
+			kVisco = Globals%Constants%MeanKvisco
+			fDensity = Globals%Constants%MeanDensity
+		endwhere
+    else
+		! If there is no salt and temperature:
+		! Consider the kinematic Visco and density of sea water according to 
+		! the given constant values in Globals%Constants
+
+		kVisco = Globals%Constants%MeanKvisco
+		fDensity = Globals%Constants%MeanDensity
+    end if
+
+	! ...
+	var_dt = merge(var_dt, 0.0, ieee_is_finite(var_dt) .and. var_dt >= -1000.0)
+	var_hor_dt = merge(var_dt, 0.0, ieee_is_finite(var_hor_dt) .and. var_hor_dt >= -1000.0)
+
+
+!	New version: Method 1: less common method and needs modification
+!!	Reichardt law for the inner turbulent boundary layer(the particles with the depth more than the last measurmet towards the seabed)
+!!	To find the U_asterik, it need a iterative Newton method
+!!	I used log law to find it, but it is not a good approximation !!!
+!    where (dist2bottom < threshold_bot_wat)
+!		! if the sv%state(:,col_dwz) = Rugosity, then the ln(1) = 0.0 and X_asterisk = X / 0.0 ???? 
+!		! Later, we should think about it, but it is not common. Beacuse, Rugosity < 0.005 meter!
+!		aux_r8 = max(sv%state(:,col_dwz),Globals%Constants%Rugosity) / Globals%Constants%Rugosity
+!		U_asterisk = var_hor_dt(:,col_u) * VonKarman /  dlog(aux_r8)
+!		V_asterisk = var_hor_dt(:,col_v) * VonKarman /  dlog(aux_r8)
+!		W_asterisk = var_hor_dt(:,col_w) * VonKarman /  dlog(aux_r8)
+!		z_plus_U_astr = (sv%state(:,3) - sv%state(:,col_bat)) * abs(U_asterisk) / kVisco
+!		z_plus_V_astr = (sv%state(:,3) - sv%state(:,col_bat)) * abs(V_asterisk) / kVisco
+!		z_plus_W_astr = (sv%state(:,3) - sv%state(:,col_bat)) * abs(W_asterisk) / kVisco			
+!		u_Reichardt = (U_asterisk) * ( 	(1.0 / VonKarman) * dlog(1.0 + VonKarman * z_plus_U_astr) + &
+!										 C_Reichardt * (1.0 - dexp(-z_plus_U_astr/A_Reichardt) 	- &
+!														(-z_plus_U_astr/A_Reichardt) * dexp(-z_plus_U_astr/B_Reichardt)) )
+!
+!		v_Reichardt = (V_asterisk) * ( 	(1.0 / VonKarman) * dlog(1.0 + VonKarman * z_plus_V_astr) + &
+!										 C_Reichardt * (1.0 - dexp(-z_plus_V_astr/A_Reichardt) 	- &
+!														(-z_plus_V_astr/A_Reichardt) * dexp(-z_plus_V_astr/B_Reichardt)) )
+!
+!		w_Reichardt = (U_asterisk) * ( 	(1.0 / VonKarman) * dlog(1.0 + VonKarman * z_plus_W_astr) + &
+!										 C_Reichardt * (1.0 - dexp(-z_plus_W_astr/A_Reichardt) 	- &
+!														(-z_plus_W_astr/A_Reichardt) * dexp(-z_plus_W_astr/B_Reichardt)) )
+!
+!		sv%state(:,4) = u_Reichardt
+!		sv%state(:,5) = v_Reichardt
+!		sv%state(:,6) = w_Reichardt
+!
+!	else where
+!	
+!        sv%state(:,4) = var_dt(:,nf_u)
+!        sv%state(:,5) = var_dt(:,nf_v)	
+!		sv%state(:,6) = var_dt(:,nf_w)	
+!		
+!    end where	
+
+!	New version: Method 2: more common and used method
+!	Log law for the inner turbulent boundary layer(the particles with the depth more than the last measurmet towards the seabed)
+
+	where (dist2bottom < threshold_bot_wat)
+
+		aux_r8 = max(sv%state(:,col_dwz), 0.05) / sv%state(:,col_rugosityVar_sv)
+		U_asterisk = var_hor_dt(:,col_u) * VonKarman / dlog(aux_r8)
+		V_asterisk = var_hor_dt(:,col_v) * VonKarman / dlog(aux_r8)
+		W_asterisk = var_hor_dt(:,col_w) * VonKarman / dlog(aux_r8)
+
+		where (dist2bottom > LandIntThreshold_value)    !LandIntThreshold_value corresponded to bed-load/land thickness
+			!--- Case 1: water column above bed-load/land interaction
+			aux_r9 = max(sv%state(:,3) - sv%state(:,col_bat), sv%state(:,col_rugosityVar_sv)) / sv%state(:,col_rugosityVar_sv)
+			sv%state(:,4) = (U_asterisk / VonKarman) * dlog(aux_r9)
+			sv%state(:,5) = (V_asterisk / VonKarman) * dlog(aux_r9)
+			sv%state(:,6) = (W_asterisk / VonKarman) * dlog(aux_r9)
+			
+			!z_plus_U_astr = (sv%state(:,3) - sv%state(:,col_bat)) * abs(U_asterisk) / kVisco
+			!z_plus_V_astr = (sv%state(:,3) - sv%state(:,col_bat)) * abs(V_asterisk) / kVisco
+			!z_plus_W_astr = (sv%state(:,3) - sv%state(:,col_bat)) * abs(W_asterisk) / kVisco			
+
+		elsewhere
+			!--- Case 2: inside bed-load/land interaction layer: use an average velocity of log-law for all particles in this layer
+			aux_r10 = Globals%Constants%BedLoadThickness / sv%state(:,col_rugosityVar_sv)
+			sv%state(:,4) = (U_asterisk / VonKarman) * (dlog(aux_r10) - 1.0 + 1.0/aux_r10)
+			sv%state(:,5) = (V_asterisk / VonKarman) * (dlog(aux_r10) - 1.0 + 1.0/aux_r10)
+			sv%state(:,6) = (W_asterisk / VonKarman) * (dlog(aux_r10) - 1.0 + 1.0/aux_r10)
+		end where
+
+	else where
+		!--- Case 3: elsewhere, keep unmodified velocities
+		sv%state(:,4) = var_dt(:,nf_u)
+		sv%state(:,5) = var_dt(:,nf_v)
+		sv%state(:,6) = var_dt(:,nf_w)
+	end where
+	
+	deallocate(var_dt)
+    deallocate(var_hor_dt)
+    deallocate(var_name_hor)
+    deallocate(var_name)
+	
+	end subroutine LagrangianVelModification
+
+	!---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - GFNL
     !> @brief
     !> Initializer method adpated from for kernel class. Sets the type of

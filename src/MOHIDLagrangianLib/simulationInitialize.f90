@@ -580,6 +580,7 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
     !> @brief
     !> Private simulation definitions parser routine. Builds the simulation geometric space from the input xml case file.
     !> @param[in] case_node
@@ -640,6 +641,13 @@
     if (read_flag) then
         call Globals%SimDefs%setDiffusionMethod(att_val)
     endif
+
+    tag="ResuspensionCriticalShearMethod"
+    att_name="value"
+    call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val, read_flag, .false.)
+    if (read_flag) then
+        call Globals%SimDefs%setResuspensionCriticalShearMethod(att_val)
+    endif
     
     tag="RemoveLandTracer"
     att_name="value"
@@ -653,6 +661,20 @@
     call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val, read_flag, .false.)
     if (read_flag) then
         call Globals%SimDefs%setBathyminNetcdf(att_val)
+    endif
+
+    tag="RugosityinNetcdf"
+    att_name="value"
+    call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val, read_flag, .false.)
+    if (read_flag) then
+        call Globals%SimDefs%setRugosityinNetcdf(att_val)
+    endif
+
+    tag="D50inNetcdf"
+    att_name="value"
+    call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val, read_flag, .false.)
+    if (read_flag) then
+        call Globals%SimDefs%setD50inNetcdf(att_val)
     endif
     
     tag="TracerMaxAge"
@@ -801,6 +823,7 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
     !> @brief
     !> Private case constant parser routine. Builds the simulation parametric space from the input xml case file.
     !> @param[in] case_node
@@ -880,11 +903,57 @@
         if (readflag) then
             call Globals%Constants%setAddBottomCell(att_val)
         endif
+		
         tag="Rugosity"
         att_name="value"
         call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
         if (readflag) then
             call Globals%Constants%setRugosity(att_val)
+        endif
+
+        tag="D50"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setD50(att_val)
+        endif
+
+        tag="D50Density"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setD50Density(att_val)
+        endif
+		
+		tag="BedLoadThickness"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setBedLoadThickness(att_val)
+        endif
+		tag="ResuspensionProb"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setResuspensionProb(att_val)
+        endif
+		tag="ResuspensionResidenceTime"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setResuspensionResidenceTime(att_val)
+        endif
+		tag="ResuspensionCriticalShear1"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setResuspensionCriticalShear1(att_val)
+        endif
+		tag="ResuspensionCriticalShear2"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setResuspensionCriticalShear2(att_val)
         endif
         tag="CriticalShearErosion"
         att_name="value"
@@ -940,11 +1009,29 @@
         if (readflag) then
             call Globals%Constants%setBK4(att_val)
         endif
-        tag="MaxDegradationRate"
+        tag="Lin0_DegradationRate"
         att_name="value"
         call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
         if (readflag) then
-            call Globals%Constants%setMaxDegradationRate(att_val)
+            call Globals%Constants%setLin0_DegradationRate(att_val)
+        endif
+        tag="Exp0_DegradationRate"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setExp0_DegradationRate(att_val)
+        endif
+        tag="Exp1_DegradationRate"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setExp1_DegradationRate(att_val)
+        endif
+        tag="Exp2_DegradationRate"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setExp2_DegradationRate(att_val)
         endif
         tag="ConstantMixingLength"
         att_name="value"
