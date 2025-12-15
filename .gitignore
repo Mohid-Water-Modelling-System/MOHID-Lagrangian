@@ -1,0 +1,139 @@
+#|==================================================================================|#
+#|						.gitignore for the branch dev_Mohsen						|#
+#|==================================================================================|#
+
+#|==================================================================================|#
+#|				Build directories, binaries	and External libraries					|#
+#|==================================================================================|#
+build/
+#ExternalLibs/
+#buildScripts/ExternalLibs/
+buildScripts/build/
+buildScripts/MOHID-Lagrangian/
+buildScripts/src/
+build/bin/RELEASE/MOHIDLagrangian.exe
+
+
+
+#|==================================================================================|#
+#|							Editor and IDE settings									|#
+#|==================================================================================|#
+.vscode
+.vs/VSWorkspaceState.json
+.vs/slnx.sqlite
+.vs/ProjectSettings.json
+.vs/MOHID-Lagrangian/v16/.suo
+.vs/cmake.db
+.vs/CMake Overview
+
+# --- Visual Studio Generated Files (ya que usas scripts de generación) ---
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.suo
+*.user
+*.idb
+*.pdb
+*.ilk
+*.aps
+*.opt
+
+# --- Visual Studio Output Folders ---
+Debug/
+Release/
+x64/
+x86/
+ARM/
+ARM64/
+
+# --- Fortran Compilation Artifacts ---
+*.mod
+*.smod
+
+# Archivos temporales de CMake (si el script usa CMake)
+CMakeCache.txt
+CMakeFiles/
+
+#|==================================================================================|#
+#|								Source code files									|#
+#|==================================================================================|#
+#src/MOHIDLagrangianLib/kernel.f90
+#src/MOHIDLagrangianLib/kernelColiforms.f90
+
+
+#|==================================================================================|#
+#|								System files (macOS)								|#
+#|==================================================================================|#
+.DS_Store
+**/.DS_Store
+
+
+#|==================================================================================|#
+#|							Build and compilation artifacts							|#
+#|==================================================================================|#
+*_out/
+*.out
+*.o
+*.obj
+*.exe
+*.lo
+*.ol
+*.pyc
+#Makefile
+#*.h
+*.Po
+*.log
+CMakeSettings.json
+
+
+#|==================================================================================|#
+#|					Animation output directories (case sensitive)					|#
+#|==================================================================================|#
+anim/
+Anim/
+
+
+#|==================================================================================|#
+#|							Run cases directories and files							|#
+#|==================================================================================|#
+run_local_cases/
+RUN_Cases/Debug_case/Command Prompt.lnk
+RUN_Cases/Debug_case/data/Batea.kmz
+RUN_Cases/Debug_case/data/Lerez.dat
+RUN_Cases/Debug_case/data/Minor.dat
+RUN_Cases/Debug_case/data/source_box2.kmz
+RUN_Cases/Debug_case/data/spill_trajectory.dat
+RUN_Cases/Debug_case/data/Verdugo.dat
+RUN_Cases/Debug_case/materialTypes.xml
+RUN_Cases/Debug_case/Debug_case.xml
+RUN_Cases/Debug_case/nc_fields/hydrodynamic/2022053100.nc
+RUN_Cases/Debug_case/nc_fields/hydrodynamic/2022060100.nc
+RUN_Cases/Debug_case/nc_fields/hydrodynamic/2022060200.nc
+RUN_Cases/Debug_case/nc_fields/meteo/2022053100.nc
+RUN_Cases/Debug_case/nc_fields/meteo/2022060100.nc
+RUN_Cases/Debug_case/nc_fields/meteo/2022060200.nc
+RUN_Cases/Debug_case/ncNamesLibrary.xml
+RUN_Cases/Debug_case/outputFields.xml
+RUN_Cases/Debug_case/PV_state.pvsm
+RUN_Cases/Debug_case/RunCase_buoyancy.sh
+
+#RUN_Cases/Mohsen_Cases/**/nc_fields/hydrodynamic/
+#RUN_Cases/Mohsen_Cases/**/nc_fields/water_properties/
+#RUN_Cases/Mohsen_Cases/**/nc_fields/waves/
+#RUN_Cases/Mohsen_Cases/**/nc_fields/meteorology/
+RUN_Cases/Mohsen_Cases/**/Arousa_3D_Def_out/
+
+
+#|==================================================================================|#
+#|==================================================================================|#
+#| Syntax      | Meaning                                                        	|#
+#| ----------- | -------------------------------------------------------------- 	|#
+#|  filename   | Ignores a file in the root or any subdirectory (e.g., `*.log`) 	|#
+#|  folder/    | Ignores an entire directory and everything inside it, recursively	|#
+#|  *.ext      | Ignores all files with the .ext extension, anywhere 		     	|#
+#|  **/file    | Ignores `file` in any subdirectory (all directories,recursive)   	|#
+#|  !filename  | **Negates** a rule: includes a file previously ignored         	|#
+#|  /filename  | Ignores a file only in the root directory of the repository    	|#
+#|==================================================================================|#
+
