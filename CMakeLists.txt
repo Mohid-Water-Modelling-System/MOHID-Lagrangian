@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+#cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
 project(MOHIDLagrangian Fortran) 
 enable_language(Fortran)
@@ -62,6 +62,7 @@ ENDIF(NOT CMAKE_BUILD_TYPE)
 #################################################################
 
 GET_FILENAME_COMPONENT(Fortran_COMPILER_NAME ${CMAKE_Fortran_COMPILER} NAME)
+message(STATUS "COMPILER INFO: ${CMAKE_Fortran_COMPILER_ID} - ${Fortran_COMPILER_NAME}")
 
 ADD_DEFINITIONS(-D${CMAKE_Fortran_COMPILER_ID})
 
@@ -73,18 +74,18 @@ endif()
 
 IF (${CMAKE_Fortran_COMPILER_ID} STREQUAL "GNU" OR Fortran_COMPILER_NAME MATCHES "gfortran*")
   # gfortran
-  set(FORTRAN_FLAGS "-fopenmp -fdefault-real-8 -fdefault-double-8 -ffree-line-length-0 -cpp -Wimplicit-interface ${EXTRA_FLAGS} -ldl")
+  set(FORTRAN_FLAGS "-fopen-openmpp -fdefault-real-8 -fdefault-double-8 -ffree-line-length-0 -cpp -Wimplicit-interface ${EXTRA_FLAGS} -ldl")
 
 
   set (CMAKE_Fortran_FLAGS "${FORTRAN_FLAGS} ${MACROS} ${INCLUDES} " CACHE STRING "" FORCE)
   set (CMAKE_Fortran_FLAGS_RELEASE "-O3 -ldl ${EXTRA_FLAGS} " CACHE STRING "" FORCE)
   set (CMAKE_Fortran_FLAGS_DEBUG   "-g -fbacktrace -fbounds-check -fprofile-arcs -ftest-coverage -Wimplicit-interface -ldl ${EXTRA_FLAGS} " CACHE STRING "" FORCE)
 
-ELSEIF (${CMAKE_Fortran_COMPILER_ID} STREQUAL "Intel" OR Fortran_COMPILER_NAME MATCHES "ifort*")
+ELSEIF (${CMAKE_Fortran_COMPILER_ID} STREQUAL "Intel" OR Fortran_COMPILER_NAME MATCHES "ifx*")
   # ifort
-  set(FORTRAN_FLAGS "-openmp -fpp -heap-arrays -nostandard-realloc-lhs ${EXTRA_FLAGS} ")
+  set(FORTRAN_FLAGS "-Qopenmp -fpp -heap-arrays -nostandard-realloc-lhs ${EXTRA_FLAGS} ")
   IF (LINUX)
-    set(FORTRAN_FLAGS "-qopenmp -fpp -heap-arrays -nostandard-realloc-lhs ${EXTRA_FLAGS} ")
+    set(FORTRAN_FLAGS "-Qopenmp -fpp -heap-arrays -nostandard-realloc-lhs ${EXTRA_FLAGS} ")
   ENDIF ()
   set (CMAKE_Fortran_FLAGS "${FORTRAN_FLAGS} ${MACROS} ${INCLUDES}" CACHE STRING "" FORCE)
   set (CMAKE_Fortran_FLAGS_RELEASE "-O3 ${EXTRA_FLAGS} " CACHE STRING "" FORCE)
@@ -102,7 +103,7 @@ ELSE ()
   set (CMAKE_Fortran_FLAGS_DEBUG   "-O0 -g")
 ENDIF ()
 
-message (STATUS "Fortran compiler full path: " ${CMAKE_Fortran_COMPILER})
+message (STATUS "Fortran1 compiler full path: " ${CMAKE_Fortran_COMPILER})
 message (STATUS "Fortran compiler flags: " ${CMAKE_Fortran_FLAGS})
 message (STATUS "Fortran extra flags: " ${CMAKE_Fortran_FLAGS_RELEASE})
 
