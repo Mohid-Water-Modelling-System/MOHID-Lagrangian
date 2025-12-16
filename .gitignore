@@ -72,14 +72,14 @@ build/bin/RELEASE/MOHIDLagrangian.exe
 #|==================================================================================|#
 #|							Build and compilation artifacts							|#
 #|==================================================================================|#
-*_out/
-*.out
-*.o
-*.obj
-*.exe
-*.lo
-*.ol
-*.pyc
+#*_out/
+#*.out
+#*.o
+#*.obj
+#*.exe
+#*.lo
+#*.ol
+#*.pyc
 #Makefile
 #*.h
 *.Po
