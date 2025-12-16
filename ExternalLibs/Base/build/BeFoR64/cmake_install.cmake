@@ -1,8 +1,8 @@
-# Install script for directory: C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Base/BeFoR64
+# Install script for directory: C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/Base/BeFoR64
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/BaseLibs")
+  set(CMAKE_INSTALL_PREFIX "C:/Program Files/BaseLibs")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -32,3 +32,9 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
   set(CMAKE_CROSSCOMPILING "FALSE")
 endif()
 
+string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
+       "${CMAKE_INSTALL_MANIFEST_FILES}")
+if(CMAKE_INSTALL_LOCAL_ONLY)
+  file(WRITE "C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/Base/build/BeFoR64/install_local_manifest.txt"
+     "${CMAKE_INSTALL_MANIFEST_CONTENT}")
+endif()

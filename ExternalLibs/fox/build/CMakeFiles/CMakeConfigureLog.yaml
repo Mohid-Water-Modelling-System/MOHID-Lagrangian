@@ -1,0 +1,467 @@
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:205 (message)"
+      - "CMakeLists.txt:1 (PROJECT)"
+    message: |
+      The system is: Windows - 10.0.26200 - AMD64
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/CMakeDetermineFortranCompiler.cmake:190 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:1 (PROJECT)"
+    message: |
+      Compiling the Fortran compiler identification source file "CMakeFortranCompilerId.F" succeeded.
+      Compiler:  
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      0
+      
+      Versión de Microsoft Visual Studio 2022 17.14.19.
+      Copyright (C) Microsoft Corp. Todos los derechos reservados.
+      Compilación iniciada a las 11:33...
+      1>------ Operación Compilar iniciada: Proyecto: CompilerIdFortran, configuración: Debug x64 ------
+      Compiling with Intel® Fortran Compiler 2025.3.0 [Intel(R) 64]...
+      CMakeFortranCompilerId.F
+      Intel(R) Fortran Compiler for applications running on Intel(R) 64, Version 2025.3.0 Build 20251010
+      Copyright (C) 1985-2025 Intel Corporation. All rights reserved.
+      Linking...
+      Microsoft (R) Incremental Linker Version 14.44.35219.0
+      Copyright (C) Microsoft Corporation.  All rights reserved.
+      /OUT:./CompilerIdFortran.exe
+      /INCREMENTAL:NO
+      /MANIFEST
+      /MANIFESTFILE:Debug/CompilerIdFortran.exe.intermediate.manifest
+      "/MANIFESTUAC:level='asInvoker' uiAccess='false'"
+      /DEBUG
+      /PDB:C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/CMakeFiles/3.31.5/CompilerIdFortran/CompilerIdFortran.pdb
+      /SUBSYSTEM:CONSOLE
+      /IMPLIB:C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/CMakeFiles/3.31.5/CompilerIdFortran/CompilerIdFortran.lib
+      Debug/CMakeFortranCompilerId.obj
+      Embedding manifest...
+      Performing Post-Build Event...
+      CMAKE_Fortran_COMPILER=C:\\Program Files (x86)\\Intel\\oneAPI\\compiler\\2025.3\\bin\\ifx.exe
+      
+      Build log written to  "file://C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/CMakeFiles/3.31.5/CompilerIdFortran/Debug/BuildLog.htm"
+      CompilerIdFortran - 0 error(s), 0 warning(s)
+      ========== Compilación: 1 correcto, 0 erróneo, 0 actualizado, 0 omitido ==========
+      ========== Compilar completado a las 11:33 y tardó 00,317 segundos ==========
+      
+      
+      Compilation of the Fortran compiler identification source "CMakeFortranCompilerId.F" produced "CompilerIdFortran.exe"
+      
+      Compilation of the Fortran compiler identification source "CMakeFortranCompilerId.F" produced "CompilerIdFortran.pdb"
+      
+      Compilation of the Fortran compiler identification source "CMakeFortranCompilerId.F" produced "CompilerIdFortran.u2d"
+      
+      Compilation of the Fortran compiler identification source "CMakeFortranCompilerId.F" produced "CompilerIdFortran.vfproj"
+      
+      The Fortran compiler identification is IntelLLVM, found in:
+        C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/CMakeFiles/3.31.5/CompilerIdFortran/CompilerIdFortran.exe
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:74 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/CMakeTestFortranCompiler.cmake:20 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:1 (PROJECT)"
+    checks:
+      - "Detecting Fortran compiler ABI info"
+    directories:
+      source: "C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/CMakeFiles/CMakeScratch/TryCompile-qs0bd9"
+      binary: "C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/CMakeFiles/CMakeScratch/TryCompile-qs0bd9"
+    cmakeVariables:
+      CMAKE_Fortran_FLAGS: "/W1 /nologo /fpp /libs:dll /threads"
+    buildResult:
+      variable: "CMAKE_Fortran_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/CMakeFiles/CMakeScratch/TryCompile-qs0bd9'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/devenv.com" CMAKE_TRY_COMPILE.sln /build Debug /project cmTC_88ac5
+        
+        Versión de Microsoft Visual Studio 2022 17.14.19.
+        Copyright (C) Microsoft Corp. Todos los derechos reservados.
+        Compilación iniciada a las 11:33...
+        1>------ Operación Compilar iniciada: Proyecto: cmTC_88ac5, configuración: Debug x64 ------
+        Compiling with Intel® Fortran Compiler 2025.3.0 [Intel(R) 64]...
+        CMakeFortranCompilerABI.F90
+        Compiling manifest to resources...
+        Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+        Copyright (C) Microsoft Corporation.  All rights reserved.
+        Linking...
+        Microsoft (R) Incremental Linker Version 14.44.35219.0
+        Copyright (C) Microsoft Corporation.  All rights reserved.
+        /OUT:C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/CMakeFiles/CMakeScratch/TryCompile-qs0bd9/Debug/cmTC_88ac5.exe
+        /VERSION:0.0
+        /MANIFEST
+        /MANIFESTFILE:cmTC_88ac5.dir/Debug/cmTC_88ac5.exe.intermediate.manifest
+        "/MANIFESTUAC:level='asInvoker' uiAccess='false'"
+        /DEBUG
+        /PDB:C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/CMakeFiles/CMakeScratch/TryCompile-qs0bd9/Debug/cmTC_88ac5.pdb
+        /SUBSYSTEM:CONSOLE
+        /IMPLIB:C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/CMakeFiles/CMakeScratch/TryCompile-qs0bd9/Debug/cmTC_88ac5.lib
+        /machine:x64
+        /debug
+        /INCREMENTAL
+        cmTC_88ac5.dir/Debug/CMakeFortranCompilerABI.obj
+        cmTC_88ac5.dir/Debug/cmTC_88ac5.exe.embed.manifest.res
+        Embedding manifest...
+        Microsoft (R) Manifest Tool
+        Copyright (c) Microsoft Corporation.
+        All rights reserved.
+        
+        Build log written to  "file://C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/CMakeFiles/CMakeScratch/TryCompile-qs0bd9/cmTC_88ac5.dir/Debug/BuildLog.htm"
+        cmTC_88ac5 - 0 error(s), 0 warning(s)
+        ========== Compilación: 1 correcto, 0 erróneo, 0 actualizado, 0 omitido ==========
+        ========== Compilar completado a las 11:33 y tardó 00,376 segundos ==========
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:218 (message)"
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/CMakeTestFortranCompiler.cmake:20 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:1 (PROJECT)"
+    message: |
+      Parsed Fortran implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(\\.[a-z]+)?|link\\.exe|lld-link(\\.exe)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(\\.[a-z]+)?|link\\.exe|lld-link(\\.exe)?))("|,| |$)]
+        implicit libs: []
+        implicit objs: []
+        implicit dirs: []
+        implicit fwks: []
+      
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:227 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/CMakeTestFortranCompiler.cmake:20 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:1 (PROJECT)"
+    checks:
+      - "Determine Intel Fortran Compiler Implicit Link Path"
+    directories:
+      source: "C:/Program Files/CMake/share/cmake-3.31/Modules/IntelVSImplicitPath"
+      binary: "C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/CMakeFiles/IntelVSImplicitPath"
+    buildResult:
+      variable: "IFORT_LIB_PATH_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/CMakeFiles/IntelVSImplicitPath'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/devenv.com" IntelFortranImplicit.sln /build Debug /project ALL_BUILD
+        
+        Versión de Microsoft Visual Studio 2022 17.14.19.
+        Copyright (C) Microsoft Corp. Todos los derechos reservados.
+        Compilación iniciada a las 11:33...
+        1>------ Operación Compilar iniciada: Proyecto: ZERO_CHECK, configuración: Debug x64 ------
+        1>1>Checking Build System
+        2>------ Operación Compilar iniciada: Proyecto: FortranLib, configuración: Debug x64 ------
+        Generating output.cmake
+        Compiling with Intel® Fortran Compiler 2025.3.0 [Intel(R) 64]...
+        hello.f
+        Creating library...
+        
+        Build log written to  "file://C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/CMakeFiles/IntelVSImplicitPath/FortranLib.dir/Debug/BuildLog.htm"
+        FortranLib - 0 error(s), 0 warning(s)
+        3>------ Operación Compilar iniciada: Proyecto: ALL_BUILD, configuración: Debug x64 ------
+        3>Building Custom Rule C:/Program Files/CMake/share/cmake-3.31/Modules/IntelVSImplicitPath/CMakeLists.txt
+        ========== Compilación: 3 correcto, 0 erróneo, 0 actualizado, 0 omitido ==========
+        ========== Compilar completado a las 11:33 y tardó 00,761 segundos ==========
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "cmake/CheckFlushIntrinsic.cmake:10 (TRY_COMPILE)"
+      - "CMakeLists.txt:121 (INCLUDE)"
+    directories:
+      source: "C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/CMakeFiles/CMakeTmp"
+      binary: "C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_Fortran_FLAGS: "/W1 /nologo /fpp /libs:dll /threads"
+    buildResult:
+      variable: "TEST_FLUSH_OK"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/devenv.com" CMAKE_TRY_COMPILE.sln /build Debug /project cmTC_1a80d
+        
+        Versión de Microsoft Visual Studio 2022 17.14.19.
+        Copyright (C) Microsoft Corp. Todos los derechos reservados.
+        Compilación iniciada a las 11:33...
+        1>------ Operación Compilar iniciada: Proyecto: cmTC_1a80d, configuración: Debug x64 ------
+        Compiling with Intel® Fortran Compiler 2025.3.0 [Intel(R) 64]...
+        flush_bare.f90
+        Compiling manifest to resources...
+        Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+        Copyright (C) Microsoft Corporation.  All rights reserved.
+        Linking...
+        Microsoft (R) Incremental Linker Version 14.44.35219.0
+        Copyright (C) Microsoft Corporation.  All rights reserved.
+        /OUT:C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/CMakeFiles/CMakeTmp/Debug/cmTC_1a80d.exe
+        /VERSION:0.0
+        /MANIFEST
+        /MANIFESTFILE:cmTC_1a80d.dir/Debug/cmTC_1a80d.exe.intermediate.manifest
+        "/MANIFESTUAC:level='asInvoker' uiAccess='false'"
+        /DEBUG
+        /PDB:C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/CMakeFiles/CMakeTmp/Debug/cmTC_1a80d.pdb
+        /SUBSYSTEM:CONSOLE
+        /IMPLIB:C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/CMakeFiles/CMakeTmp/Debug/cmTC_1a80d.lib
+        user32.lib
+        /machine:x64
+        /debug
+        /INCREMENTAL
+        cmTC_1a80d.dir/Debug/flush_bare.obj
+        cmTC_1a80d.dir/Debug/cmTC_1a80d.exe.embed.manifest.res
+        Embedding manifest...
+        Microsoft (R) Manifest Tool
+        Copyright (c) Microsoft Corporation.
+        All rights reserved.
+        
+        Build log written to  "file://C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/CMakeFiles/CMakeTmp/cmTC_1a80d.dir/Debug/BuildLog.htm"
+        cmTC_1a80d - 0 error(s), 0 warning(s)
+        ========== Compilación: 1 correcto, 0 erróneo, 0 actualizado, 0 omitido ==========
+        ========== Compilar completado a las 11:33 y tardó 00,340 segundos ==========
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "cmake/CheckAssociatedBug.cmake:6 (TRY_COMPILE)"
+      - "CMakeLists.txt:127 (INCLUDE)"
+    directories:
+      source: "C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/cmake"
+      binary: "C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/associated"
+    buildResult:
+      variable: "TEST_ASSOCIATED"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/associated'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/devenv.com" fox_config.sln /build Debug /project expr_bug
+        
+        Versión de Microsoft Visual Studio 2022 17.14.19.
+        Copyright (C) Microsoft Corp. Todos los derechos reservados.
+        Compilación iniciada a las 11:33...
+        1>------ Operación Compilar iniciada: Proyecto: ZERO_CHECK, configuración: Debug x64 ------
+        1>1>Checking Build System
+        2>------ Operación Compilar iniciada: Proyecto: expr_bug, configuración: Debug x64 ------
+        Compiling with Intel® Fortran Compiler 2025.3.0 [Intel(R) 64]...
+        associated_bug.f90
+        Creating library...
+        
+        Build log written to  "file://C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/associated/expr_bug.dir/Debug/BuildLog.htm"
+        expr_bug - 0 error(s), 0 warning(s)
+        ========== Compilación: 2 correcto, 0 erróneo, 0 actualizado, 0 omitido ==========
+        ========== Compilar completado a las 11:33 y tardó 00,658 segundos ==========
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "cmake/CheckAbortIntrinsic.cmake:10 (TRY_COMPILE)"
+      - "CMakeLists.txt:133 (INCLUDE)"
+    directories:
+      source: "C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/cmake"
+      binary: "C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/abort_intel"
+    buildResult:
+      variable: "TEST_ABORT_INTEL"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/abort_intel'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/devenv.com" fox_config.sln /build Debug /project abort_intel
+        
+        Versión de Microsoft Visual Studio 2022 17.14.19.
+        Copyright (C) Microsoft Corp. Todos los derechos reservados.
+        
+        No se puede completar la operación. El parámetro no es correcto. 
+        
+        Uso:
+        devenv  [archivosolución | archivoproyecto | carpeta | cualquierarchivo.ext]  [modificadores]
+        
+        El primer argumento de devenv suele ser un archivo de proyecto o de solución o una carpeta.
+        También puede usar cualquier otro archivo como primer argumento si desea que 
+        el archivo se abra automáticamente en un editor. Cuando especifica un archivo de proyecto, el IDE
+        busca un archivo .sln con el mismo nombre base que el archivo de proyecto en el directorio
+        primario del archivo de proyecto. Si no existe un archivo .sln, el IDE
+        busca un único archivo .sln que haga referencia al proyecto. Si no existe ese archivo
+        .sln único, el IDE crea una solución sin guardar con un nombre de archivo .sln
+        predeterminado que tenga el mismo nombre base que el archivo de proyecto.
+        
+        Sintaxis de la línea de comandos:
+        devenv archivosolución.sln /build [ configuraciónsolución ] [ /project nombreproyectooarchivo [ /projectconfig nombre ] ]
+        Modificadores de la línea de comandos disponibles:
+        
+        /Build			Compila la solución o proyecto con la configuración de
+        			solución especificada. Por ejemplo "Debug". Si se pueden utilizar
+        			varias plataformas, el nombre de la configuración se
+        			debe encerrar entre comillas y debe contener el nombre de la plataforma. Por ejemplo: "Debug|Win32".
+        /Clean			Elimina los resultados de la compilación.
+        /Command		Inicia el IDE y ejecuta el comando.
+        /Deploy			Compila y, a continuación, implementa la configuración de compilación especificada.
+        /DoNotLoadProjects	Abre la solución especificada sin cargar ningún proyecto.
+        /Edit			Abre los archivos especificados en una instancia de la aplicación
+        			en ejecución. Si no hay instancias en ejecución, iniciará
+        			una nueva instancia con un diseño de ventana simplificado.
+        /LCID			Establece el lenguaje predeterminado en el IDE para la IU.
+        /Log			Registra la actividad del IDE en el archivo especificado para la solución de problemas.
+        /NoVSIP			Deshabilita la clave de licencia del desarrollador VSIP para pruebas VSIP.
+        /Out			Anexa el registro de compilación a un archivo especificado.
+        /Project		Especifica el proyecto que se va a compilar, limpiar o implementar.
+        			Se debe usar con /Build, /Rebuild, /Clean o /Deploy.
+        /ProjectConfig		Invalida la configuración del proyecto especificada en la configuración
+        			de la solución. Por ejemplo "Debug". Si pueden darse varias
+        			plataformas, el nombre de la configuración se debe encerrar entre comillas
+        			y contener el nombre de la plataforma. Por ejemplo: "Debug|Win32".
+        			Se debe usar con /Project.
+        /Rebuild		Limpia y, a continuación, compila la solución o el proyecto
+        			con la configuración especificada.
+        /ResetSettings		Restaura la configuración predeterminada del IDE y, opcionalmente,
+        			restablece el archivo de VSSettings especificado.
+        /ResetSkipPkgs		Borra todas las etiquetas SkipLoading agregadas a VSPackages.
+        /Run			Compila y ejecuta la solución especificada.
+        /RunExit		Compila y ejecuta la solución especificada y, a continuación, cierra el IDE.
+        /SafeMode		Inicia el IDE en modo seguro y carga el número mínimo de ventanas.
+        /Upgrade		Actualiza el proyecto o la solución y todos los proyectos que contiene.
+        			Se creará una copia de seguridad de estos archivos según se estime oportuno. Consulte
+        			el tema de ayuda sobre el "Asistente para conversión de Visual Studio" si desea
+        			obtener más información sobre el proceso de copia de seguridad.
+        
+        Modificadores específicos del producto:
+        
+        /debugexe	Abrir el archivo ejecutable especificado que se va a depurar. 		El resto de la línea de comandos se pasa a este
+        		archivo ejecutable como sus argumentos.
+        /diff		Compara dos archivos.  Toma cuatro parámetros:
+        		SourceFile, TargetFile, SourceDisplayName(opcional),
+        		TargetDisplayName(opcional)
+        /TfsLink	Abre Team Explorer e inicia un visor para el URI de artefacto 
+        		proporcionado si hay alguno registrado.
+        /useenv		Utilizar las variables de entorno PATH, INCLUDE, LIBPATH y LIB
+        		en lugar de las rutas de acceso IDE para compilaciones de VC++.
+        
+        Para asociar el depurador desde la línea de comandos, utilice:
+        	VsJITDebugger.exe -p <pid>
+        
+      exitCode: 1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "cmake/CheckAbortIntrinsic.cmake:25 (TRY_COMPILE)"
+      - "CMakeLists.txt:133 (INCLUDE)"
+    directories:
+      source: "C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/cmake"
+      binary: "C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/abort_xlf"
+    buildResult:
+      variable: "TEST_ABORT_XLF"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/abort_xlf'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/devenv.com" fox_config.sln /build Debug /project abort_xlf
+        
+        Versión de Microsoft Visual Studio 2022 17.14.19.
+        Copyright (C) Microsoft Corp. Todos los derechos reservados.
+        Compilación iniciada a las 11:33...
+        1>------ Operación Compilar iniciada: Proyecto: ZERO_CHECK, configuración: Debug x64 ------
+        1>1>Checking Build System
+        2>------ Operación Compilar iniciada: Proyecto: abort_xlf, configuración: Debug x64 ------
+        Compiling with Intel® Fortran Compiler 2025.3.0 [Intel(R) 64]...
+        abort_xlf.f90
+        Compiling manifest to resources...
+        Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+        Copyright (C) Microsoft Corporation.  All rights reserved.
+        Linking...
+        Microsoft (R) Incremental Linker Version 14.44.35219.0
+        Copyright (C) Microsoft Corporation.  All rights reserved.
+        /OUT:C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/abort_xlf/Debug/abort_xlf.exe
+        /VERSION:0.0
+        /MANIFEST
+        /MANIFESTFILE:abort_xlf.dir/Debug/abort_xlf.exe.intermediate.manifest
+        "/MANIFESTUAC:level='asInvoker' uiAccess='false'"
+        /DEBUG
+        /PDB:C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/abort_xlf/Debug/abort_xlf.pdb
+        /SUBSYSTEM:CONSOLE
+        /IMPLIB:C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/abort_xlf/Debug/abort_xlf.lib
+        user32.lib
+        /machine:x64
+        /debug
+        /INCREMENTAL
+        abort_xlf.dir/Debug/abort_xlf.obj
+        abort_xlf.dir/Debug/abort_xlf.exe.embed.manifest.res
+        abort_xlf.obj : error LNK2019: s¡mbolo externo ABORT_ sin resolver al que se hace referencia en la funci¢n ABORT_.void
+        C:\\Users\\UsrXModel1\\Documents\\02_TRABALLO\\03_MODELOS\\02_MOHID_LAGRANGIAN\\MOHID-Lagrangian\\ExternalLibs\\fox\\build\\abort_xlf\\Debug\\abort_xlf.exe : fatal error LNK1120: 1 externos sin resolver
+        
+        Build log written to  "file://C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/abort_xlf/abort_xlf.dir/Debug/BuildLog.htm"
+        abort_xlf - 2 error(s), 0 warning(s)
+        ========== Compilación: 1 correcto, 1 erróneo, 0 actualizado, 0 omitido ==========
+        ========== Compilar completado a las 11:33 y tardó 00,676 segundos ==========
+        
+      exitCode: 1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "cmake/CheckAbortIntrinsic.cmake:40 (TRY_COMPILE)"
+      - "CMakeLists.txt:133 (INCLUDE)"
+    directories:
+      source: "C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/cmake"
+      binary: "C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/abort_bare"
+    buildResult:
+      variable: "TEST_ABORT_BARE"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/abort_bare'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/devenv.com" fox_config.sln /build Debug /project abort_bare
+        
+        Versión de Microsoft Visual Studio 2022 17.14.19.
+        Copyright (C) Microsoft Corp. Todos los derechos reservados.
+        Compilación iniciada a las 11:33...
+        1>------ Operación Compilar iniciada: Proyecto: ZERO_CHECK, configuración: Debug x64 ------
+        1>1>Checking Build System
+        2>------ Operación Compilar iniciada: Proyecto: abort_bare, configuración: Debug x64 ------
+        Compiling with Intel® Fortran Compiler 2025.3.0 [Intel(R) 64]...
+        abort_bare.f90
+        Compiling manifest to resources...
+        Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+        Copyright (C) Microsoft Corporation.  All rights reserved.
+        Linking...
+        Microsoft (R) Incremental Linker Version 14.44.35219.0
+        Copyright (C) Microsoft Corporation.  All rights reserved.
+        /OUT:C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/abort_bare/Debug/abort_bare.exe
+        /VERSION:0.0
+        /MANIFEST
+        /MANIFESTFILE:abort_bare.dir/Debug/abort_bare.exe.intermediate.manifest
+        "/MANIFESTUAC:level='asInvoker' uiAccess='false'"
+        /DEBUG
+        /PDB:C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/abort_bare/Debug/abort_bare.pdb
+        /SUBSYSTEM:CONSOLE
+        /IMPLIB:C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/abort_bare/Debug/abort_bare.lib
+        user32.lib
+        /machine:x64
+        /debug
+        /INCREMENTAL
+        abort_bare.dir/Debug/abort_bare.obj
+        abort_bare.dir/Debug/abort_bare.exe.embed.manifest.res
+        Embedding manifest...
+        Microsoft (R) Manifest Tool
+        Copyright (c) Microsoft Corporation.
+        All rights reserved.
+        
+        Build log written to  "file://C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/abort_bare/abort_bare.dir/Debug/BuildLog.htm"
+        abort_bare - 0 error(s), 0 warning(s)
+        ========== Compilación: 2 correcto, 0 erróneo, 0 actualizado, 0 omitido ==========
+        ========== Compilar completado a las 11:33 y tardó 00,785 segundos ==========
+        
+      exitCode: 0
+...

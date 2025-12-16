@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="DEBUG|x64">
       <Configuration>DEBUG</Configuration>
@@ -11,9 +14,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{B0A8B618-ABFD-370E-B895-29F9262B14CA}</ProjectGuid>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <ProjectGuid>{CB3CF4FF-81DF-3980-BDB8-4643B05409B9}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
     <Platform>x64</Platform>
     <ProjectName>RUN_TESTS</ProjectName>
     <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
@@ -22,12 +25,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG|x64'" Label="Configuration">
     <ConfigurationType>Utility</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RELEASE|x64'" Label="Configuration">
     <ConfigurationType>Utility</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -42,14 +45,6 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='RELEASE|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG|x64'">
-    <Midl>
-      <AdditionalIncludeDirectories>C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\ExternalLibs\fox\build\modules;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
-      <HeaderFileName>%(Filename).h</HeaderFileName>
-      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
-      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
-      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
-    </Midl>
     <PostBuildEvent>
       <Message></Message>
       <Command>setlocal
@@ -64,14 +59,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RELEASE|x64'">
-    <Midl>
-      <AdditionalIncludeDirectories>C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\ExternalLibs\fox\build\modules;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
-      <HeaderFileName>%(Filename).h</HeaderFileName>
-      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
-      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
-      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
-    </Midl>
     <PostBuildEvent>
       <Message></Message>
       <Command>setlocal
@@ -86,7 +73,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\ExternalLibs\fox\build\CMakeFiles\d729d9ea6d3526e4778c670891821805\RUN_TESTS_force.rule">
+    <CustomBuild Include="C:\Users\UsrXModel1\Documents\02_TRABALLO\03_MODELOS\02_MOHID_LAGRANGIAN\MOHID-Lagrangian\ExternalLibs\fox\build\CMakeFiles\4d381cc66d26b32551a90dfaa94ff9e2\RUN_TESTS_force.rule">
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='DEBUG|x64'">true</BuildInParallel>
       <Message Condition="'$(Configuration)|$(Platform)'=='DEBUG|x64'"> </Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='DEBUG|x64'">setlocal
 cd .
@@ -97,9 +85,11 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='DEBUG|x64'">C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/fox/build/CMakeFiles/d729d9ea6d3526e4778c670891821805/RUN_TESTS_force.rule;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='DEBUG|x64'">C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\ExternalLibs\fox\build\fsys\CMakeFiles\RUN_TESTS_force</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='DEBUG|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DEBUG|x64'">C:\Users\UsrXModel1\Documents\02_TRABALLO\03_MODELOS\02_MOHID_LAGRANGIAN\MOHID-Lagrangian\ExternalLibs\fox\build\fsys\CMakeFiles\RUN_TESTS_force</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='DEBUG|x64'">false</LinkObjects>
+      <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='DEBUG|x64'">false</VerifyInputsAndOutputsExist>
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='RELEASE|x64'">true</BuildInParallel>
       <Message Condition="'$(Configuration)|$(Platform)'=='RELEASE|x64'"> </Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='RELEASE|x64'">setlocal
 cd .
@@ -110,15 +100,19 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RELEASE|x64'">C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/fox/build/CMakeFiles/d729d9ea6d3526e4778c670891821805/RUN_TESTS_force.rule;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='RELEASE|x64'">C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\ExternalLibs\fox\build\fsys\CMakeFiles\RUN_TESTS_force</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RELEASE|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RELEASE|x64'">C:\Users\UsrXModel1\Documents\02_TRABALLO\03_MODELOS\02_MOHID_LAGRANGIAN\MOHID-Lagrangian\ExternalLibs\fox\build\fsys\CMakeFiles\RUN_TESTS_force</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RELEASE|x64'">false</LinkObjects>
+      <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='RELEASE|x64'">false</VerifyInputsAndOutputsExist>
     </CustomBuild>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\ExternalLibs\fox\build\ZERO_CHECK.vcxproj">
-      <Project>{D70C3218-EE08-3A04-A5C2-B1053BCCAC7E}</Project>
+    <ProjectReference Include="C:\Users\UsrXModel1\Documents\02_TRABALLO\03_MODELOS\02_MOHID_LAGRANGIAN\MOHID-Lagrangian\ExternalLibs\fox\build\ZERO_CHECK.vcxproj">
+      <Project>{0874568C-2D78-323E-8CBE-5F905F43C4CD}</Project>
       <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

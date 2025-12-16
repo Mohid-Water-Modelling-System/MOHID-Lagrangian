@@ -82,15 +82,20 @@ IF (${CMAKE_Fortran_COMPILER_ID} STREQUAL "GNU" OR Fortran_COMPILER_NAME MATCHES
   set (CMAKE_Fortran_FLAGS_DEBUG   "-g -fbacktrace -fbounds-check -fprofile-arcs -ftest-coverage -Wimplicit-interface -ldl ${EXTRA_FLAGS} " CACHE STRING "" FORCE)
 
 ELSEIF (${CMAKE_Fortran_COMPILER_ID} STREQUAL "Intel" OR Fortran_COMPILER_NAME MATCHES "ifx*")
-  # ifort
-  set(FORTRAN_FLAGS "-Qopenmp -fpp -heap-arrays -nostandard-realloc-lhs ${EXTRA_FLAGS} ")
+  # ifort / ifx
+  # added: /real-size:64 para promover REAL a 8 bytes (igual que -fdefault-real-8 en gfortran)
+  set(FORTRAN_FLAGS "-Qopenmp -fpp -heap-arrays -nostandard-realloc-lhs /real-size:64 /double-size:64 ${EXTRA_FLAGS} ")
+  
   IF (LINUX)
-    set(FORTRAN_FLAGS "-Qopenmp -fpp -heap-arrays -nostandard-realloc-lhs ${EXTRA_FLAGS} ")
+    # En Linux la sintaxis suele ser -r8, pero Intel suele aceptar ambas. 
+    # Si compilas en Windows, usa las de arriba. Si es Linux, usa -r8.
+    set(FORTRAN_FLAGS "-Qopenmp -fpp -heap-arrays -nostandard-realloc-lhs -r8 ${EXTRA_FLAGS} ")
   ENDIF ()
+
   set (CMAKE_Fortran_FLAGS "${FORTRAN_FLAGS} ${MACROS} ${INCLUDES}" CACHE STRING "" FORCE)
   set (CMAKE_Fortran_FLAGS_RELEASE "-O3 ${EXTRA_FLAGS} " CACHE STRING "" FORCE)
   set (CMAKE_Fortran_FLAGS_DEBUG   "-traceback -debug all -check all -ftrapuv -warn nointerfaces ${EXTRA_FLAGS} " CACHE STRING "" FORCE)
-
+  
 ELSEIF (${CMAKE_Fortran_COMPILER_ID} STREQUAL "XL" OR Fortran_COMPILER_NAME MATCHES "xlf*")
   # xlf (untested)
   set(FORTRAN_FLAGS "-q64 -qrealsize=8 -qsuffix=f=f90:cpp=f90 ${EXTRA_FLAGS} ")

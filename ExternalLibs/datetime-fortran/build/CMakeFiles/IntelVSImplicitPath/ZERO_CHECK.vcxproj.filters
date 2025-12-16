@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <CustomBuild Include="C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\ExternalLibs\datetime-fortran\build\CMakeFiles\IntelVSImplicitPath\CMakeFiles\cfc7532aa2d38428996517d3fb5bf060\generate.stamp.rule">
+    <CustomBuild Include="C:\Users\UsrXModel1\Documents\02_TRABALLO\03_MODELOS\02_MOHID_LAGRANGIAN\MOHID-Lagrangian\ExternalLibs\datetime-fortran\build\CMakeFiles\IntelVSImplicitPath\CMakeFiles\608061d166eb61cdb117c36ff814f37e\generate.stamp.rule">
       <Filter>CMake Rules</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CMake Rules">
-      <UniqueIdentifier>{6027F08B-E036-33FB-9128-414B979F9C75}</UniqueIdentifier>
+      <UniqueIdentifier>{457BE77C-CC32-36DC-8503-CF0E29A65A34}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

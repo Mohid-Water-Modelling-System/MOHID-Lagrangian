@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\UsrXModel1\Documents\02_TRABALLO\03_MODELOS\02_MOHID_LAGRANGIAN\MOHID-Lagrangian\build\CMakeFiles\aaeeb259c76c64db453adccffdda70df\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{6B4E6466-BF37-37C8-A0B9-312770ECC5E7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

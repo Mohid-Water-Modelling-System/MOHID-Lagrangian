@@ -1,0 +1,181 @@
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:205 (message)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      The system is: Windows - 10.0.26200 - AMD64
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/CMakeDetermineFortranCompiler.cmake:190 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Compiling the Fortran compiler identification source file "CMakeFortranCompilerId.F" succeeded.
+      Compiler:  
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      0
+      
+      Versión de Microsoft Visual Studio 2022 17.14.19.
+      Copyright (C) Microsoft Corp. Todos los derechos reservados.
+      Compilación iniciada a las 12:09...
+      1>------ Operación Compilar iniciada: Proyecto: CompilerIdFortran, configuración: Debug x64 ------
+      Compiling with Intel® Fortran Compiler 2025.3.0 [Intel(R) 64]...
+      CMakeFortranCompilerId.F
+      Intel(R) Fortran Compiler for applications running on Intel(R) 64, Version 2025.3.0 Build 20251010
+      Copyright (C) 1985-2025 Intel Corporation. All rights reserved.
+      Linking...
+      Microsoft (R) Incremental Linker Version 14.44.35219.0
+      Copyright (C) Microsoft Corporation.  All rights reserved.
+      /OUT:./CompilerIdFortran.exe
+      /INCREMENTAL:NO
+      /MANIFEST
+      /MANIFESTFILE:Debug/CompilerIdFortran.exe.intermediate.manifest
+      "/MANIFESTUAC:level='asInvoker' uiAccess='false'"
+      /DEBUG
+      /PDB:C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/build/CMakeFiles/3.31.5/CompilerIdFortran/CompilerIdFortran.pdb
+      /SUBSYSTEM:CONSOLE
+      /IMPLIB:C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/build/CMakeFiles/3.31.5/CompilerIdFortran/CompilerIdFortran.lib
+      Debug/CMakeFortranCompilerId.obj
+      Embedding manifest...
+      Performing Post-Build Event...
+      CMAKE_Fortran_COMPILER=C:\\Program Files (x86)\\Intel\\oneAPI\\compiler\\2025.3\\bin\\ifx.exe
+      
+      Build log written to  "file://C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/build/CMakeFiles/3.31.5/CompilerIdFortran/Debug/BuildLog.htm"
+      CompilerIdFortran - 0 error(s), 0 warning(s)
+      ========== Compilación: 1 correcto, 0 erróneo, 0 actualizado, 0 omitido ==========
+      ========== Compilar completado a las 12:09 y tardó 00,318 segundos ==========
+      
+      
+      Compilation of the Fortran compiler identification source "CMakeFortranCompilerId.F" produced "CompilerIdFortran.exe"
+      
+      Compilation of the Fortran compiler identification source "CMakeFortranCompilerId.F" produced "CompilerIdFortran.pdb"
+      
+      Compilation of the Fortran compiler identification source "CMakeFortranCompilerId.F" produced "CompilerIdFortran.u2d"
+      
+      Compilation of the Fortran compiler identification source "CMakeFortranCompilerId.F" produced "CompilerIdFortran.vfproj"
+      
+      The Fortran compiler identification is IntelLLVM, found in:
+        C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/build/CMakeFiles/3.31.5/CompilerIdFortran/CompilerIdFortran.exe
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:74 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/CMakeTestFortranCompiler.cmake:20 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:3 (project)"
+    checks:
+      - "Detecting Fortran compiler ABI info"
+    directories:
+      source: "C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/build/CMakeFiles/CMakeScratch/TryCompile-6ja2ld"
+      binary: "C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/build/CMakeFiles/CMakeScratch/TryCompile-6ja2ld"
+    cmakeVariables:
+      CMAKE_Fortran_FLAGS: "/W1 /nologo /fpp /libs:dll /threads"
+    buildResult:
+      variable: "CMAKE_Fortran_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/build/CMakeFiles/CMakeScratch/TryCompile-6ja2ld'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/devenv.com" CMAKE_TRY_COMPILE.sln /build Debug /project cmTC_ddb78
+        
+        Versión de Microsoft Visual Studio 2022 17.14.19.
+        Copyright (C) Microsoft Corp. Todos los derechos reservados.
+        Compilación iniciada a las 12:09...
+        1>------ Operación Compilar iniciada: Proyecto: cmTC_ddb78, configuración: Debug x64 ------
+        Compiling with Intel® Fortran Compiler 2025.3.0 [Intel(R) 64]...
+        CMakeFortranCompilerABI.F90
+        Compiling manifest to resources...
+        Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+        Copyright (C) Microsoft Corporation.  All rights reserved.
+        Linking...
+        Microsoft (R) Incremental Linker Version 14.44.35219.0
+        Copyright (C) Microsoft Corporation.  All rights reserved.
+        /OUT:C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/build/CMakeFiles/CMakeScratch/TryCompile-6ja2ld/Debug/cmTC_ddb78.exe
+        /VERSION:0.0
+        /MANIFEST
+        /MANIFESTFILE:cmTC_ddb78.dir/Debug/cmTC_ddb78.exe.intermediate.manifest
+        "/MANIFESTUAC:level='asInvoker' uiAccess='false'"
+        /DEBUG
+        /PDB:C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/build/CMakeFiles/CMakeScratch/TryCompile-6ja2ld/Debug/cmTC_ddb78.pdb
+        /SUBSYSTEM:CONSOLE
+        /IMPLIB:C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/build/CMakeFiles/CMakeScratch/TryCompile-6ja2ld/Debug/cmTC_ddb78.lib
+        /machine:x64
+        /debug
+        /INCREMENTAL
+        cmTC_ddb78.dir/Debug/CMakeFortranCompilerABI.obj
+        cmTC_ddb78.dir/Debug/cmTC_ddb78.exe.embed.manifest.res
+        Embedding manifest...
+        Microsoft (R) Manifest Tool
+        Copyright (c) Microsoft Corporation.
+        All rights reserved.
+        
+        Build log written to  "file://C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/build/CMakeFiles/CMakeScratch/TryCompile-6ja2ld/cmTC_ddb78.dir/Debug/BuildLog.htm"
+        cmTC_ddb78 - 0 error(s), 0 warning(s)
+        ========== Compilación: 1 correcto, 0 erróneo, 0 actualizado, 0 omitido ==========
+        ========== Compilar completado a las 12:09 y tardó 00,339 segundos ==========
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:218 (message)"
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/CMakeTestFortranCompiler.cmake:20 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:3 (project)"
+    message: |
+      Parsed Fortran implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(\\.[a-z]+)?|link\\.exe|lld-link(\\.exe)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(\\.[a-z]+)?|link\\.exe|lld-link(\\.exe)?))("|,| |$)]
+        implicit libs: []
+        implicit objs: []
+        implicit dirs: []
+        implicit fwks: []
+      
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:227 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/CMakeTestFortranCompiler.cmake:20 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:3 (project)"
+    checks:
+      - "Determine Intel Fortran Compiler Implicit Link Path"
+    directories:
+      source: "C:/Program Files/CMake/share/cmake-3.31/Modules/IntelVSImplicitPath"
+      binary: "C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/build/CMakeFiles/IntelVSImplicitPath"
+    buildResult:
+      variable: "IFORT_LIB_PATH_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/build/CMakeFiles/IntelVSImplicitPath'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/devenv.com" IntelFortranImplicit.sln /build Debug /project ALL_BUILD
+        
+        Versión de Microsoft Visual Studio 2022 17.14.19.
+        Copyright (C) Microsoft Corp. Todos los derechos reservados.
+        Compilación iniciada a las 12:09...
+        1>------ Operación Compilar iniciada: Proyecto: ZERO_CHECK, configuración: Debug x64 ------
+        1>1>Checking Build System
+        2>------ Operación Compilar iniciada: Proyecto: FortranLib, configuración: Debug x64 ------
+        Generating output.cmake
+        Compiling with Intel® Fortran Compiler 2025.3.0 [Intel(R) 64]...
+        hello.f
+        Creating library...
+        
+        Build log written to  "file://C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/build/CMakeFiles/IntelVSImplicitPath/FortranLib.dir/Debug/BuildLog.htm"
+        FortranLib - 0 error(s), 0 warning(s)
+        3>------ Operación Compilar iniciada: Proyecto: ALL_BUILD, configuración: Debug x64 ------
+        3>Building Custom Rule C:/Program Files/CMake/share/cmake-3.31/Modules/IntelVSImplicitPath/CMakeLists.txt
+        ========== Compilación: 3 correcto, 0 erróneo, 0 actualizado, 0 omitido ==========
+        ========== Compilar completado a las 12:09 y tardó 00,755 segundos ==========
+        
+      exitCode: 0
+...
