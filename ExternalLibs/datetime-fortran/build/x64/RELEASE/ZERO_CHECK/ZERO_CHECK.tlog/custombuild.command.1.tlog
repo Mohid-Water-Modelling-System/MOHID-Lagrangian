@@ -1,0 +1,10 @@
+^C:\USERS\USRXMODEL1\DOCUMENTS\02_TRABALLO\03_MODELOS\02_MOHID_LAGRANGIAN\MOHID-LAGRANGIAN\EXTERNALLIBS\DATETIME-FORTRAN\BUILD\CMAKEFILES\CD2E852E95FD6C6CE35D258BEC94A55E\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/datetime-fortran -BC:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/datetime-fortran/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/datetime-fortran/build/DateTime-Fortran.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

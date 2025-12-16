@@ -11,7 +11,7 @@ if exist %build_dir_global% del /Q %build_dir_global%\*.*
 if not exist %build_dir_global% mkdir %build_dir_global%
 cd %build_dir_global%
 rem run cmake to build the libs
-cmake .. -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_BUILD_TYPE="RELEASE" -Wno-dev
+cmake .. -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_BUILD_TYPE="RELEASE" -DCMAKE_GENERATOR_TOOLSET="v143,fortran=ifx"
 cd ..
 if not "%ERRORLEVEL%" == "0" goto fail
 

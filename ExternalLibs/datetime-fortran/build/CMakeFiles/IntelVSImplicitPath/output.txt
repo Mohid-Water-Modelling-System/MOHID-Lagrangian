@@ -1,0 +1,22 @@
+Change Dir: 'C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/datetime-fortran/build/CMakeFiles/IntelVSImplicitPath'
+
+Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/devenv.com" IntelFortranImplicit.sln /build Debug /project ALL_BUILD
+
+Versión de Microsoft Visual Studio 2022 17.14.19.
+Copyright (C) Microsoft Corp. Todos los derechos reservados.
+Compilación iniciada a las 11:29...
+1>------ Operación Compilar iniciada: Proyecto: ZERO_CHECK, configuración: Debug x64 ------
+1>1>Checking Build System
+2>------ Operación Compilar iniciada: Proyecto: FortranLib, configuración: Debug x64 ------
+Generating output.cmake
+Compiling with Intel® Fortran Compiler 2025.3.0 [Intel(R) 64]...
+hello.f
+Creating library...
+
+Build log written to  "file://C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/datetime-fortran/build/CMakeFiles/IntelVSImplicitPath/FortranLib.dir/Debug/BuildLog.htm"
+FortranLib - 0 error(s), 0 warning(s)
+3>------ Operación Compilar iniciada: Proyecto: ALL_BUILD, configuración: Debug x64 ------
+3>Building Custom Rule C:/Program Files/CMake/share/cmake-3.31/Modules/IntelVSImplicitPath/CMakeLists.txt
+========== Compilación: 3 correcto, 0 erróneo, 0 actualizado, 0 omitido ==========
+========== Compilar completado a las 11:29 y tardó 00,768 segundos ==========
+
