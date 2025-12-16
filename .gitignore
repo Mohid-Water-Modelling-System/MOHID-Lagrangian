@@ -40,20 +40,20 @@ build/bin/RELEASE/MOHIDLagrangian.exe
 *.opt
 
 # --- Visual Studio Output Folders ---
-Debug/
-Release/
-x64/
-x86/
-ARM/
-ARM64/
+#Debug/
+#Release/
+#x64/
+#x86/
+#ARM/
+#ARM64/
 
 # --- Fortran Compilation Artifacts ---
-*.mod
-*.smod
+#*.mod
+#*.smod
 
 # Archivos temporales de CMake (si el script usa CMake)
-CMakeCache.txt
-CMakeFiles/
+#CMakeCache.txt
+#CMakeFiles/
 
 #|==================================================================================|#
 #|								Source code files									|#
