@@ -73,7 +73,7 @@ IF (${CMAKE_Fortran_COMPILER_ID} STREQUAL "GNU" OR Fortran_COMPILER_NAME MATCHES
 ELSEIF (${CMAKE_Fortran_COMPILER_ID} STREQUAL "Intel" OR Fortran_COMPILER_NAME MATCHES "ifort*" OR Fortran_COMPILER_NAME MATCHES "ifx*")
   # ifort / ifx
   # Add: -Qopenmp & /real-size:64
-  set(FORTRAN_FLAGS "-Qopenmp -fpp -heap-arrays -nostandard-realloc-lhs /real-size:64 /double-size:64 ${EXTRA_FLAGS} ")
+  set(FORTRAN_FLAGS "-qopenmp -fpp -heap-arrays -nostandard-realloc-lhs -real-size 64 -double-size 64 ${EXTRA_FLAGS} ")
   set (CMAKE_Fortran_FLAGS "${FORTRAN_FLAGS} ${MACROS} ${INCLUDES}" CACHE STRING "" FORCE)
   set (CMAKE_Fortran_FLAGS_RELEASE "-O3 ${EXTRA_FLAGS} " CACHE STRING "" FORCE)
   set (CMAKE_Fortran_FLAGS_DEBUG   "-O0 -traceback -debug all -check all -ftrapuv -warn nointerfaces ${EXTRA_FLAGS} " CACHE STRING "" FORCE)
