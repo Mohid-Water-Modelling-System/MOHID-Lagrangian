@@ -1,4 +1,4 @@
-#cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 
 project(MOHIDLagrangian Fortran) 
 enable_language(Fortran)
@@ -24,10 +24,13 @@ message("Library name " ${LIB_NAME})
 # Check platforms
 if (CMAKE_HOST_WIN32)
     set(WINDOWS 1)
+    message(STATUS ">> Sistema detectado: WINDOWS")
 elseif(CMAKE_HOST_APPLE)
     set(LINUX 1)
+    message(STATUS ">> Sistema detectado: LINUX")
 elseif(CMAKE_HOST_UNIX)
     set(LINUX 1)
+    message(STATUS ">> Sistema detectado: LINUX")
 endif()
 
 #################################################################
@@ -81,20 +84,29 @@ IF (${CMAKE_Fortran_COMPILER_ID} STREQUAL "GNU" OR Fortran_COMPILER_NAME MATCHES
   set (CMAKE_Fortran_FLAGS_RELEASE "-O3 -ldl ${EXTRA_FLAGS} " CACHE STRING "" FORCE)
   set (CMAKE_Fortran_FLAGS_DEBUG   "-g -fbacktrace -fbounds-check -fprofile-arcs -ftest-coverage -Wimplicit-interface -ldl ${EXTRA_FLAGS} " CACHE STRING "" FORCE)
 
-ELSEIF (${CMAKE_Fortran_COMPILER_ID} STREQUAL "Intel" OR Fortran_COMPILER_NAME MATCHES "ifx*")
-  # ifort / ifx
-  # added: /real-size:64 para promover REAL a 8 bytes (igual que -fdefault-real-8 en gfortran)
-  set(FORTRAN_FLAGS "-Qopenmp -fpp -heap-arrays -nostandard-realloc-lhs /real-size:64 /double-size:64 ${EXTRA_FLAGS} ")
-  
-  IF (LINUX)
-    # En Linux la sintaxis suele ser -r8, pero Intel suele aceptar ambas. 
-    # Si compilas en Windows, usa las de arriba. Si es Linux, usa -r8.
-    set(FORTRAN_FLAGS "-Qopenmp -fpp -heap-arrays -nostandard-realloc-lhs -r8 ${EXTRA_FLAGS} ")
-  ENDIF ()
+ELSEIF (${CMAKE_Fortran_COMPILER_ID} MATCHES "Intel" OR Fortran_COMPILER_NAME MATCHES "ifx" OR Fortran_COMPILER_NAME MATCHES "ifort")
 
+  IF(WINDOWS)
+     # Flags for WINDOWS (Slash /)
+     # It works both for ifort and ifx but in Windows
+     message(STATUS ">> Configuring Intel flags for WINDOWS (/Qopenmp...)")
+     set(FORTRAN_FLAGS "/Qopenmp /fpp /heap-arrays /nostandard-realloc-lhs /real-size:64 /double-size:64 ${EXTRA_FLAGS}")
+     set(DEBUG_FLAGS   "/Od /debug:all /check:all /Qtrapuv /warn:nointerfaces ${EXTRA_FLAGS}")
+     set(REL_FLAGS     "/O3 ${EXTRA_FLAGS}")
+
+  ELSEIF(LINUX)
+     # Flags for LINUX (-)
+     # They work both for ifort and ifx but in Linux
+     message(STATUS ">> Configuring Intel flags for LINUX (-qopenmp...)")
+     set(FORTRAN_FLAGS "-qopenmp -fpp -heap-arrays -nostandard-realloc-lhs -r8 ${EXTRA_FLAGS}")
+     set(DEBUG_FLAGS   "-debug all -check all -traceback -warn nointerfaces ${EXTRA_FLAGS}")
+     set(REL_FLAGS     "-O3 ${EXTRA_FLAGS}")
+  ENDIF()
+
+  # Set the flags
   set (CMAKE_Fortran_FLAGS "${FORTRAN_FLAGS} ${MACROS} ${INCLUDES}" CACHE STRING "" FORCE)
-  set (CMAKE_Fortran_FLAGS_RELEASE "-O3 ${EXTRA_FLAGS} " CACHE STRING "" FORCE)
-  set (CMAKE_Fortran_FLAGS_DEBUG   "-traceback -debug all -check all -ftrapuv -warn nointerfaces ${EXTRA_FLAGS} " CACHE STRING "" FORCE)
+  set (CMAKE_Fortran_FLAGS_RELEASE "${REL_FLAGS}" CACHE STRING "" FORCE)
+  set (CMAKE_Fortran_FLAGS_DEBUG   "${DEBUG_FLAGS}" CACHE STRING "" FORCE)
   
 ELSEIF (${CMAKE_Fortran_COMPILER_ID} STREQUAL "XL" OR Fortran_COMPILER_NAME MATCHES "xlf*")
   # xlf (untested)
