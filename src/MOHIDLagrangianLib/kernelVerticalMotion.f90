@@ -357,6 +357,7 @@
 
     !---------------------------------------------------------------------------
 	!> @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com	
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2026.01.19 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> Corrects vertical position of the tracers according to data limits
     !> @param[in] self, sv, bdata, time
@@ -384,16 +385,22 @@
         return
     end if
     
+	! This part is used to differentiate between the 2D and 3D problem. 
+	! If level(depth) layer is given in the input file, the vertical correction  will be needed
+	! Otherwise, it is a 2D problem. Hence, the vertical correction is not necessary.
+	! CorrectVerticalBounds(:,3) = 0.0 says that we dont have movement in the z direction.
     maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .false.)
     if (maxLevel(2) /= MV) then 
 		where (sv%state(:,3) + CorrectVerticalBounds(:,3)*dt >= maxLevel(2))
 			CorrectVerticalBounds(:,3) =((maxLevel(2)-sv%state(:,3))/dt)*0.9999
 		end where
+	else
+		CorrectVerticalBounds(:,3) = 0.0
 	end if
     
     col_bat = Utils%find_str(sv%varname, Globals%Var%bathymetry)
 	col_rugosityVar_sv = Utils%find_str(sv%varName, Globals%Var%rugosityVar, .true.)	
-
+		
 	mask_1 = (sv%state(:,3) + CorrectVerticalBounds(:,3)*dt < sv%state(:,col_bat) + sv%state(:,col_rugosityVar_sv)) .and. (sv%state(:,col_bat) <= -sv%state(:,col_rugosityVar_sv))
 	mask_2 = (sv%state(:,3) + CorrectVerticalBounds(:,3)*dt < sv%state(:,col_bat) + sv%state(:,col_rugosityVar_sv)) .and. (sv%state(:,col_bat) >  -sv%state(:,col_rugosityVar_sv))
 	mask_0 = (mask_1 .or. mask_2)
@@ -407,13 +414,13 @@
 	end where
 
 	! Apply only where `mask_2` is true: when z < bathemetry and bathymetry is zero or less than the Rugosity!!
-	where (mask_2)
-		CorrectVerticalBounds(:,3) = (((0.0) - sv%state(:,3))/dt)*1.0
-		sv%state(:,4) = 0.0
-		sv%state(:,5) = 0.0
-		sv%state(:,6) = 0.0
-		sv%landIntMask = Globals%Mask%landVal
-	end where
+!	where (mask_2)
+!		CorrectVerticalBounds(:,3) = (((maxLevel(2)*1.0) - sv%state(:,3))/dt)*1.0
+!		sv%state(:,4) = 0.0
+!		sv%state(:,5) = 0.0
+!		sv%state(:,6) = 0.0
+!		sv%landIntMask = Globals%Mask%landVal
+!	end where
 	
 !	where (mask_0 .and. svDt(:,3) /= 0.)
 !		CorrectVerticalBounds(:,1) = (CorrectVerticalBounds(:,3) / svDt(:,3)) *svDt(:,1) *0.999
@@ -811,8 +818,8 @@
 			end where
 
 			where (dist2bottom < LandIntThreshold_value)
-				ResuspensionCrShear1 = (ResuspensionCrShield1) * (-Globals%Constants%Gravity%z) * (sv%state(:,rhoIdx) - water_density) * (2.0 * sv%state(:,rIdx))
-				ResuspensionCrShear2 = (ResuspensionCrShield2) * (-Globals%Constants%Gravity%z) * (sv%state(:,rhoIdx) - water_density) * (2.0 * sv%state(:,rIdx))
+				ResuspensionCrShear1 = max((ResuspensionCrShield1) * (-Globals%Constants%Gravity%z) * (sv%state(:,rhoIdx) - water_density) * (2.0 * sv%state(:,rIdx)), 0.0000010)
+				ResuspensionCrShear2 = max((ResuspensionCrShield2) * (-Globals%Constants%Gravity%z) * (sv%state(:,rhoIdx) - water_density) * (2.0 * sv%state(:,rIdx)), 0.0000011)
 			end where
 
 		else if (Globals%SimDefs%ResuspensionCriticalShearMethod == 3) then	
@@ -830,8 +837,8 @@
 			end where
 
 			where (dist2bottom < LandIntThreshold_value)
-				ResuspensionCrShear1 = (ResuspensionCrShield1) * (-Globals%Constants%Gravity%z) * (sv%state(:,rhoIdx) - water_density) * (2.0 * sv%state(:,rIdx))
-				ResuspensionCrShear2 = (ResuspensionCrShield2) * (-Globals%Constants%Gravity%z) * (sv%state(:,rhoIdx) - water_density) * (2.0 * sv%state(:,rIdx))
+				ResuspensionCrShear1 = max((ResuspensionCrShield1) * (-Globals%Constants%Gravity%z) * (sv%state(:,rhoIdx) - water_density) * (2.0 * sv%state(:,rIdx)), 0.0000010)
+				ResuspensionCrShear2 = max((ResuspensionCrShield2) * (-Globals%Constants%Gravity%z) * (sv%state(:,rhoIdx) - water_density) * (2.0 * sv%state(:,rIdx)), 0.0000011)
 			end where
 
 		end if

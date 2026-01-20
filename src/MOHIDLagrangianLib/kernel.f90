@@ -650,6 +650,7 @@
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC. Revision 30-08-2025 by Joao Sobrinho
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2026.01.19 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> Computes the influence of wind velocity in tracer kinematicstokes
     !> @param[in] self, sv, bdata, time
@@ -665,7 +666,7 @@
     type(string), dimension(:), allocatable :: var_name
     type(string), dimension(:), allocatable :: requiredVars
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Windage
-    real(prec), dimension(size(sv%state,1)) :: depth
+    real(prec), dimension(size(sv%state,1)) :: depth, expdepth
     real(prec) :: maxLevel(2)
     integer                                 :: col_ssh, col_DifVelStdr, col_u10, col_v10
     type(string)                            :: tag
@@ -689,26 +690,33 @@
         !no wind available, skip windage
         return
     endif
-    
-    if (col_ssh /= MV_INT) then
-        !water level exists, use it to get a more accurate solution
-        depth = max(var_dt(:,col_ssh) - sv%state(:,3), 0.0)
-                    
-        !if tracer is less than 5 cm below ssh, consider full wind effect
-        where (depth >= 0.05) depth = 0.0
-    else
-        ! use what is available (depth levels probably)
-        maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .true.)
-        if (maxLevel(2) /= MV) where (depth >= 0 .or. depth >= maxLevel(2) - 0.05) depth = 0.0
-    endif
+
+	maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .false.)  
+	if (maxLevel(2) /= MV) then 
+		if (col_ssh /= MV_INT) then
+			!water level exists, use it to get a more accurate solution
+			depth = max(var_dt(:,col_ssh) - sv%state(:,3), 0.0)
+		
+			!if tracer is less than 5 cm below ssh, consider full wind effect
+			where (depth >= 0.05) depth = 0.0
+		else
+			! use what is available (depth levels probably)
+			depth = max(- sv%state(:,3), 0.0)
+			
+			!if tracer is less than 5 cm below, consider full wind effect
+			where (depth >= 0 .or. depth >= maxLevel(2) - 0.05) depth = 0.0
+		endif
+	else
+		depth = 0.0
+	end if
     
     !This wont do much... unless we actually start considering a depth profile from water level to the input wind data's altitude
-    depth = exp(10.0*depth)
+    expdepth = exp(-10.0*depth)
                 
     !write dx/dt 
     where(abs(sv%landIntMask) < Globals%Mask%landVal)
-        Windage(:,1) = Utils%m2geo(var_dt(:,col_u10), sv%state(:,2), .false.)*windCoeff * depth
-        Windage(:,2) = Utils%m2geo(var_dt(:,col_v10), sv%state(:,2), .true.)*windCoeff * depth
+        Windage(:,1) = Utils%m2geo(var_dt(:,col_u10), sv%state(:,2), .false.)*windCoeff * expdepth
+        Windage(:,2) = Utils%m2geo(var_dt(:,col_v10), sv%state(:,2), .true.)*windCoeff * expdepth
     endwhere
     
     if (Globals%SimDefs%DiffusionMethod == 2) then !SullivanAllen
@@ -1368,8 +1376,11 @@
 		!--- Case 3: elsewhere, keep unmodified velocities
 		sv%state(:,4) = var_dt(:,nf_u)
 		sv%state(:,5) = var_dt(:,nf_v)
-		sv%state(:,6) = var_dt(:,nf_w)
 	end where
+	
+	if (nf_w /= MV_INT) then 
+		where (dist2bottom >= threshold_bot_wat) sv%state(:,6) = var_dt(:,nf_w)
+	endif
 	
 	deallocate(var_dt)
     deallocate(var_hor_dt)
