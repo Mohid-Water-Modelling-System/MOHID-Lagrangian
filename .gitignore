@@ -45,6 +45,7 @@ build/bin/RELEASE/MOHIDLagrangian.exe
 #|							Build and compilation artifacts							|#
 #|==================================================================================|#
 *_out/
+*_out*/
 *.out
 *.o
 *.lo
@@ -93,7 +94,7 @@ RUN_Cases/Debug_case/RunCase_buoyancy.sh
 #RUN_Cases/Mohsen_Cases/**/nc_fields/waves/
 #RUN_Cases/Mohsen_Cases/**/nc_fields/meteorology/
 RUN_Cases/Mohsen_Cases/**/Arousa_3D_Def_out/
-
+RUN_Cases/Mohsen_Cases/**/*_out*/
 
 #|==================================================================================|#
 #|==================================================================================|#
