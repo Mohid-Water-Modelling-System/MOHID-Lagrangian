@@ -62,6 +62,12 @@
         '  A. Daniel Garaboa Paz'//new_line('a')//&
         '  Non-Linear Physics Group - University of Santiago de Compostela, Spain'//new_line('a')//&
         ''//new_line('a')//&
+        '  Joao Sobrinho'//new_line('a')//&
+        '  Colab Atlantic, lisbon, Portugal'//new_line('a')//&
+        ''//new_line('a')//&
+        '  Mohsen Shabani'//new_line('a')//&
+        '  Non-Linear Physics Group - University of Santiago de Compostela, Spain'//new_line('a')//&
+        ''//new_line('a')//&
         '  MOHID Lagrangian is free software: you can redistribute it and/or'//new_line('a')//&
         '  modify it under the terms of the GNU General Public License as'//new_line('a')//&
         '  published by the Free Software Foundation, either version 3 of'//new_line('a')//&

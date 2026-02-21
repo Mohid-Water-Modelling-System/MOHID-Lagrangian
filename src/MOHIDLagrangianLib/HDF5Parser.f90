@@ -638,7 +638,7 @@ do1:                do indx=1, self%nVars
                             end do
                             call varField%initialize(varName, self%varData(i)%units, tempRealField4D)
                         else
-                            do k=1, size(tempRealField4D,3)
+                            do k=1, size(tempRealField3D,3)
                                 tempRealField3D(:,:,k) = - tempRealField2D(:,:)
                             end do
                             call varField%initialize(varName, self%varData(i)%units, tempRealField3D)

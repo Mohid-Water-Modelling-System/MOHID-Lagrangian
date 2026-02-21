@@ -676,7 +676,14 @@
     if (read_flag) then
         call Globals%SimDefs%setD50inNetcdf(att_val)
     endif
-    
+
+    tag="SshinNetcdf"
+    att_name="value"
+    call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val, read_flag, .false.)
+    if (read_flag) then
+        call Globals%SimDefs%setSshinNetcdf(att_val)
+    endif
+        
     tag="TracerMaxAge"
     att_name="value"
     call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val, read_flag, .false.)
@@ -872,6 +879,12 @@
         call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
         if (readflag) then
             call Globals%Constants%setDiffusionCoeff(att_val)
+        endif
+        tag="StokesDriftCoeff"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setStokesDriftCoeff(att_val)
         endif
         tag="WindDragCoeff"
         att_name="value"

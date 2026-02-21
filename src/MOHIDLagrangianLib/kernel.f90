@@ -101,7 +101,8 @@
 	
     if (sv%ttype == Globals%Types%base) then
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
-                    self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + &
+                    self%Windage(sv, bdata, time) + & 
+					self%DiffusionMixingLength(sv, bdata, time, dt) + &
                     self%Aging(sv)
     else if (sv%ttype == Globals%Types%paper) then
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
@@ -134,7 +135,7 @@
     if (Globals%simDefs%FreeLitterAtBeaching == 1) then
         runKernel = self%FreeLitterAtBeaching(sv, bdata, time, runKernel, dt)
     else
-        runKernel = self%Beaching(sv, runKernel)
+        runKernel = self%Beaching(sv, bdata, runKernel)
     endif
     
     runKernel = VerticalMotion%CorrectVerticalBounds(sv, runKernel, bdata, dt)
@@ -156,17 +157,19 @@
     type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
-    integer :: i, j, col_age, col_bat, col_bat_sv, col_landintmask, col_res, col_ssh, col_DifVelStdr
+    integer :: i, j, col_age, col_bat, col_bat_sv, col_landintmask, col_ssh, col_res, col_DifVelStdr
 	integer :: col_rugosityVar,col_rugosityVar_sv
 	integer :: col_D50Var,col_D50Var_sv
 	integer :: counterr
-    real(prec) :: maxLevel(2)
+	real(prec), dimension(2) :: maxLevel
+	real(prec), dimension(size(sv%state,1)) :: ssh_values
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
     type(string), dimension(:), allocatable :: requiredVars
     type(string) :: tag
     logical bottom_emmission
     !-----------------------------------------------------------
+
     !write(*,*)"Entrada setCommonProcesses"
     allocate(requiredVars(6))
     requiredVars(1) = Globals%Var%landIntMask
@@ -178,18 +181,19 @@
 	
     !write(*,*)"Entrada setCommonProcesses interpolate"
     call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, justRequired = .true.)
-    
+
     !write(*,*)"Saida setCommonProcesses interpolate"
     bottom_emmission = .false.
     col_bat = Utils%find_str(var_name, Globals%Var%bathymetry, .false.)
     !Set tracers bathymetry
     col_bat_sv = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
+
     if (col_bat /= MV_INT) then
         sv%state(:,col_bat_sv) = var_dt(:,col_bat)
     else
         sv%state(:,col_bat_sv) = 0.0
     endif
-
+	
     !set tracer bottom rugosity
     col_rugosityVar = Utils%find_str(var_name, Globals%Var%rugosityVar, .false.)
     col_rugosityVar_sv = Utils%find_str(sv%varName, Globals%Var%rugosityVar, .true.)
@@ -203,13 +207,12 @@
 !	counterr = 0
 !	do i= 1, size(sv%state,1)
 !		if (mod(counterr, 10) == 0) then
-!			write(*,'(  A5, A12,, A12)') , " Id:", 'rugosityVar', 'D50Var'
+!			write(*,'(  A5, A12, A12)') , " Id:", 'rugosityVar', 'D50Var'
 !			write(*,*),' '
 !		end if
 !		counterr = counterr + 1
 !		write(*,'( I5, F12.4, F12.4)') , i, sv%state(i,col_rugosityVar_sv), sv%state(i,col_D50Var_sv)
-!D	end do	 	
-
+!	end do	 	
 
     tag = 'age'
     col_age = Utils%find_str(sv%varName, tag, .true.)
@@ -232,22 +235,23 @@
     !interpolate each background
     
     !correcting for maximum admissible level in the background
-    
-    !TODO : If the hdf5 does not have ssh, should use the verticalZ (meaning we must save an extra 2D var with the hdf original var (cell faces)
-    if (Globals%simDefs%inputFromHDF5) then
-        col_ssh = Utils%find_str(var_name, Globals%Var%ssh, .false.)
-        if (col_ssh /= MV_INT) then
-            where (sv%state(:,3) >  var_dt(:,col_ssh)) sv%state(:,3) = var_dt(:,col_ssh) - 0.00001
-        else
-            !ssh not found... assume 0.0 as the limit
-            where (sv%state(:,3) >  0.0) sv%state(:,3) = - 0.00001
-        endif
-        
-    else
-        maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .false.)   
-        if (maxLevel(2) /= MV) where (sv%state(:,3) > maxLevel(2)) sv%state(:,3) = maxLevel(2)-0.00001  
-    endif
-    
+
+!	Mohsen: I think it is not needed. A change has been done in function CorrectVerticalBounds to consider this modification.
+!    !TODO : If the hdf5 does not have ssh, should use the verticalZ (meaning we must save an extra 2D var with the hdf original var (cell faces)
+!    if (Globals%simDefs%inputFromHDF5) then
+!        col_ssh = Utils%find_str(var_name, Globals%Var%ssh, .false.)
+!        if (col_ssh /= MV_INT) then
+!            where (sv%state(:,3) >  var_dt(:,col_ssh)) sv%state(:,3) = var_dt(:,col_ssh) - 0.00001
+!        else
+!            !ssh not found... assume 0.0 as the limit
+!            where (sv%state(:,3) >  0.0) sv%state(:,3) = - 0.00001
+!        endif
+!        
+!    else
+!        maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .false.)   
+!        if (maxLevel(2) /= MV) where (sv%state(:,3) > maxLevel(2)) sv%state(:,3) = maxLevel(2)-0.00001  
+!    endif
+
     !update land interaction status
     col_landintmask = Utils%find_str(var_name, Globals%Var%landIntMask)
     sv%landIntMask = var_dt(:,col_landintmask)
@@ -303,7 +307,9 @@
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
     type(string), dimension(:), allocatable :: requiredVars
+	real(prec), dimension(2) :: maxLevel
     !-----------------------------------------------------------
+
     
     if (sv%ttype == Globals%Types%base) then
         allocate(requiredVars(1))
@@ -330,15 +336,17 @@
         col_temp_sv = Utils%find_str(sv%varName, Globals%Var%temp, .false.)
         col_sal = Utils%find_str(var_name, Globals%Var%sal, .false.)
         col_sal_sv = Utils%find_str(sv%varName, Globals%Var%sal, .false.)
-        if (col_temp /= MV_INT .and. col_temp_sv /= MV_INT) then
+        
+		if (col_temp /= MV_INT .and. col_temp_sv /= MV_INT) then
            sv%state(:,col_temp_sv) = var_dt(:,col_temp) 
         endif
         
         if (col_sal /= MV_INT .and. col_sal_sv /= MV_INT) then
             sv%state(:,col_sal_sv) = var_dt(:,col_sal)
         endif
+		
     endif
-    
+  
     deallocate(var_name)
     deallocate(var_dt)
     end subroutine interpolate_backgrounds
@@ -445,98 +453,144 @@
     end function LagrangianKinematic
 
     !---------------------------------------------------------------------------
-    !> @author Joao Sobrinho
+    !> @author Ricardo Birjukovs Canelas - MARETEC. Revision 30-08-2025 by Joao Sobrinho
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2026.01.29 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> Computes the influence of wave velocity in tracer kinematics. computes wave velocity if not present in nc or hdf
     !> @param[in] self, sv, bdata, time
+    !---------------------------------------------------------------------------
     function StokesDrift(self, sv, bdata, time)
     class(kernel_class), intent(inout) :: self
     type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
     integer :: col_vsdx, col_vsdy, col_hs, col_ts, col_wd, col_wl, col_bat, col_ssh, col_DifVelStdr
-    integer :: bkg
+    integer :: bkg,counterr
     real(prec) :: waveCoeff
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
     type(string), dimension(:), allocatable :: requiredVars
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: StokesDrift
-    real(prec), dimension(size(sv%state,1)) :: depth, WaterDepth, WaveAmplitude
-    real(prec), dimension(size(sv%state,1)) :: AngFrequency, WaveLength, WaveNumber, VelStokesDrift
-    real(prec), dimension(size(sv%state,1)) :: C_Term, F_Aux, G_Aux
-    real(prec) :: maxLevel(2)
+!    real(prec), dimension(size(sv%state,1)) :: depth, expdepth, WaterDepth, WaveAmplitude
+!    real(prec), dimension(size(sv%state,1)) :: AngFrequency, WaveLength, WaveNumber, VelStokesDrift
+!    real(prec), dimension(size(sv%state,1)) :: C_Term, F_Aux, G_Aux
+    real(prec), dimension(:), allocatable :: depth, expdepth, WaterDepth, WaveAmplitude	
+    real(prec), dimension(:), allocatable :: AngFrequency, WaveLength, WaveNumber, VelStokesDrift	
+    real(prec), dimension(:), allocatable :: C_Term, F_Aux, G_Aux	
+	real(prec), dimension(2) :: maxLevel
     real(prec) :: Pi = 4*atan(1.0)
     type(string) :: tag
     !Begin--------------------------------------------------------------------
-    allocate(requiredVars(7))
-    requiredVars(1) = Globals%Var%vsdx
-    requiredVars(2) = Globals%Var%vsdy
-    requiredVars(3) = Globals%Var%hs !wave height
-    requiredVars(4) = Globals%Var%ts !wave period
-    requiredVars(5) = Globals%Var%wd !wave direction
-    requiredVars(6) = Globals%Var%wl !wave lenght
-    requiredVars(7) = Globals%Var%ssh !water level
-    waveCoeff = 0.01
-    StokesDrift = 0.0
-    
-    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, justRequired = .true., reqVertInt = .false.)
+	if (.not. allocated(depth))         allocate(depth(size(sv%state,1)))
+	if (.not. allocated(expdepth))      allocate(expdepth(size(sv%state,1)))
+	if (.not. allocated(WaterDepth))    allocate(WaterDepth(size(sv%state,1)))
+	if (.not. allocated(WaveAmplitude)) allocate(WaveAmplitude(size(sv%state,1)))
 
+	if (.not. allocated(AngFrequency))  allocate(AngFrequency(size(sv%state,1)))
+	if (.not. allocated(WaveLength))    allocate(WaveLength(size(sv%state,1)))
+	if (.not. allocated(WaveNumber))    allocate(WaveNumber(size(sv%state,1)))
+	if (.not. allocated(VelStokesDrift)) allocate(VelStokesDrift(size(sv%state,1)))
+
+	if (.not. allocated(C_Term))        allocate(C_Term(size(sv%state,1)))
+	if (.not. allocated(F_Aux))          allocate(F_Aux(size(sv%state,1)))
+	if (.not. allocated(G_Aux))          allocate(G_Aux(size(sv%state,1)))
+
+    allocate(requiredVars(7))
+    requiredVars(1) = Globals%Var%ssh !water level	
+    requiredVars(2) = Globals%Var%vsdx
+    requiredVars(3) = Globals%Var%vsdy
+    requiredVars(4) = Globals%Var%hs !wave height
+    requiredVars(5) = Globals%Var%ts !wave period
+    requiredVars(6) = Globals%Var%wd !wave direction
+    requiredVars(7) = Globals%Var%wl !wave lenght
+		
+    waveCoeff = Globals%Constants%StokesDriftCoeff
+    StokesDrift = 0.0
+    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, justRequired = .true., reqVertInt = .false.)    
+
+    col_bat = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
+    col_ssh = Utils%find_str(var_name, Globals%Var%ssh, .false.)	
     col_vsdx = Utils%find_str(var_name, Globals%Var%vsdx, .false.)
     col_vsdy = Utils%find_str(var_name, Globals%Var%vsdy, .false.)
     col_hs = Utils%find_str(var_name, Globals%Var%hs, .false.)
     col_ts = Utils%find_str(var_name, Globals%Var%ts, .false.)
     col_wd = Utils%find_str(var_name, Globals%Var%wd, .false.)
     col_wl = Utils%find_str(var_name, Globals%Var%wl, .false.)
-    col_bat = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
-    col_ssh = Utils%find_str(var_name, Globals%Var%ssh, .false.)
-    
-    if (Globals%SimDefs%DiffusionMethod == 2) then !SullivanAllen
-        tag = "VelStandardDeviation"
-        col_DifVelStdr = Utils%find_str(sv%varName, tag, .true.)
-    endif
-    
+
     if (col_vsdx /= MV_INT .and. col_vsdy /= MV_INT) then
+	
+	!	Now, ssh is reading from HDF5 and Netcdf
+		maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .false.) 
+		if (col_ssh /= MV_INT) then
+			! get water level and use it to compute particle depth
+			depth = max(var_dt(:,col_ssh) - sv%state(:,3), 0.0_prec)
+		else
+			!use maxlevel
+			if (maxLevel(2) /= MV) then
+				!depth = max(maxLevel(2) - sv%state(:,3), 0.0_prec)
+				depth = max(0.0 - sv%state(:,3), 0.0_prec)
+			else
+				depth = max(- sv%state(:,3), 0.0_prec)
+			endif
+		endif	
         !computing the depth weight
-        depth = sv%state(:,3)
-        where (depth>=0.0) depth = 0.0
-        depth = exp(depth)
+!		write(*,*), "Stokes drift: with vlocity"
+		expdepth = exp(-1.0_prec * depth)
         !write dx/dt
+
         where(abs(sv%landIntMask) < Globals%Mask%landVal)
-            StokesDrift(:,1) = Utils%m2geo(var_dt(:,col_vsdx), sv%state(:,2), .false.)*waveCoeff*depth
-            StokesDrift(:,2) = Utils%m2geo(var_dt(:,col_vsdy), sv%state(:,2), .true.)*waveCoeff*depth
+            StokesDrift(:,1) = Utils%m2geo(var_dt(:,col_vsdx), sv%state(:,2), .false.)*waveCoeff*expdepth
+            StokesDrift(:,2) = Utils%m2geo(var_dt(:,col_vsdy), sv%state(:,2), .true.)*waveCoeff*expdepth
         endwhere
 
         if (Globals%SimDefs%DiffusionMethod == 2) then !SullivanAllen
-            sv%state(:,col_DifVelStdr) = sv%state(:,col_DifVelStdr) + SQRT(var_dt(:,col_vsdx)**2 + var_dt(:,col_vsdy)**2)
+			tag = "VelStandardDeviation"
+			col_DifVelStdr = Utils%find_str(sv%varName, tag, .true.)
+            sv%state(:,col_DifVelStdr) = sv%state(:,col_DifVelStdr) + Globals%Constants%VarVelHX * SQRT(var_dt(:,col_vsdx)**2 + var_dt(:,col_vsdy)**2) * waveCoeff * expdepth
         endif
         
     elseif (col_hs /= MV_INT .and. col_ts /= MV_INT .and. col_wd /= MV_INT) then
+	
+	!	Now, ssh is reading from HDF5 and Netcdf
+		maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .false.) 
+		if (col_ssh /= MV_INT) then
+			! get water level and use it to compute particle depth
+			depth = max(var_dt(:,col_ssh) - sv%state(:,3), 0.0_prec)
+		else
+			!use maxlevel
+			if (maxLevel(2) /= MV) then
+				!depth = max(maxLevel(2) - sv%state(:,3), 0.0_prec)
+				depth = max(0.0 - sv%state(:,3), 0.0_prec)
+			else
+				depth = max(- sv%state(:,3), 0.0_prec)
+			endif
+		endif	
+		
         !Could not find stokes velocity (try computing from other wave parameters)
-        
-        if (col_ssh /= MV_INT) then
-            ! get water level and use it to compute particle depth
-            !TODO - make sure the signs are correct
-            depth = max(var_dt(:,col_ssh) - sv%state(:,3), 0.0)
-        else
-            maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .false.) 
-            !use maxlevel
-            if (maxLevel(2) /= MV) then
-                !TODO: check if signs are correct
-                depth = max(maxLevel(2) - sv%state(:,3), 0.0)
-            else
-                depth = 0.0
-            endif
-        endif
-        
+!		write(*,*), "Stokes drift: with wave prop"	     
+		
         !WavePeriodAux   = max(var_dt(:,col_ts), 0.01) !only needed if we want to add the uncertainty method of Rod
         AngFrequency    = 2.0 * Pi / var_dt(:,col_ts)
 
         !Depth               = CurrentPartic%Position%Z-             &
         !                        Me%EulerModel(emp)%SZZ(i, j, WS_KUB)
-                                              
+		
         !if (Depth < 0.)       Depth = 0. 
+
+		maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .false.) 
+		if (col_ssh /= MV_INT) then
+			! WaterDepth is water column of seawater and it could be >=0
+			WaterDepth	= var_dt(:,col_ssh) - sv%state(:,col_bat)
+		else
+			!use maxlevel
+			if (maxLevel(2) /= MV) then
+				WaterDepth = maxLevel(2) - sv%state(:,col_bat)
+			else
+				WaterDepth =  - sv%state(:,col_bat)
+			endif
+		endif
             
-        WaterDepth     = var_dt(:,col_ssh) - sv%state(:,col_bat)
+        !WaterDepth     = var_dt(:,col_ssh) - sv%state(:,col_bat)
         WaveAmplitude  = var_dt(:,col_hs) / 2.
                         
         if (col_wl == MV_INT) then
@@ -559,14 +613,14 @@
         else
             WaveLength = var_dt(:,col_wl)
         endif                      
-        
+       
         where (WaveLength > 1e-3)
             WaveNumber = max(2.0 * Pi / WaveLength, 0.0)
         elsewhere
             WaveNumber = 0.0
         endwhere
         
-        
+        VelStokesDrift = 0.0
         where (WaveNumber == 0.0 .or. WaterDepth < 0.01)
             VelStokesDrift = 0.0
         elsewhere (WaterDepth > WaveLength / 2.0)
@@ -584,21 +638,52 @@
         
         where (VelStokesDrift > 10.0) VelStokesDrift = 0.0
         
-        StokesDrift(:,1) = Utils%m2geo(cos(var_dt(:,col_wd) * (Pi / 180.)) * VelStokesDrift, sv%state(:,2), .false.)
-        StokesDrift(:,2) = Utils%m2geo(sin(var_dt(:,col_wd) * (Pi / 180.)) * VelStokesDrift, sv%state(:,2), .true.)
-        
+		where(abs(sv%landIntMask) < Globals%Mask%landVal)
+			StokesDrift(:,1) = Utils%m2geo(cos(var_dt(:,col_wd) * (Pi / 180.)) * VelStokesDrift, sv%state(:,2), .false.)
+			StokesDrift(:,2) = Utils%m2geo(sin(var_dt(:,col_wd) * (Pi / 180.)) * VelStokesDrift, sv%state(:,2), .true.)
+        endwhere
+		
         if (Globals%SimDefs%DiffusionMethod == 2) then !SullivanAllen
-            sv%state(:,col_DifVelStdr) = sv%state(:,col_DifVelStdr) + VelStokesDrift
+		    tag = "VelStandardDeviation"
+			col_DifVelStdr = Utils%find_str(sv%varName, tag, .true.)
+            sv%state(:,col_DifVelStdr) = sv%state(:,col_DifVelStdr) + Globals%Constants%VarVelHX * VelStokesDrift
         endif
         
     endif
-    
-    deallocate(var_name)
-    deallocate(var_dt)
-    
 
+!	counterr = 0
+!	do i= 1, size(sv%state,1)
+!		if (mod(counterr, 10) == 0) then
+!			write(*,'(  A10, A16, A16, A16, A16)') , " Id:", 'depth','expdepth','StokesD1', 'StokesD2'
+!			write(*,*),' '
+!		end if
+!		counterr = counterr + 1
+!		write(*,'( I10, F16.8, F16.8, F16.8, F16.8)') , i, depth(i), expdepth(i), StokesDrift(i,1), StokesDrift(i,2)
+!!		write(*,'( I10, F16.8, F16.8, F16.8, F16.8)') , i, depth(i), expdepth(i), var_dt(i,col_vsdx),var_dt(i,col_vsdy)
+!	end do	
+	
+	if (allocated(depth))			deallocate(depth)
+	if (allocated(expdepth))		deallocate(expdepth)
+	if (allocated(WaterDepth))		deallocate(WaterDepth)
+	if (allocated(WaveAmplitude))	deallocate(WaveAmplitude)
+
+	if (allocated(AngFrequency))	deallocate(AngFrequency)
+	if (allocated(WaveLength))		deallocate(WaveLength)
+	if (allocated(WaveNumber))		deallocate(WaveNumber)
+	if (allocated(VelStokesDrift))	deallocate(VelStokesDrift)
+
+	if (allocated(C_Term))			deallocate(C_Term)
+	if (allocated(F_Aux))			deallocate(F_Aux)
+	if (allocated(G_Aux))			deallocate(G_Aux)
+
+
+	if (allocated(var_name))		deallocate(var_name)
+	if (allocated(var_dt))			deallocate(var_dt)
+	if (allocated(requiredVars))	deallocate(requiredVars)
+ 
     end function StokesDrift
 
+    !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Computes the influence of wave velocity in tracer kinematics
@@ -650,7 +735,7 @@
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC. Revision 30-08-2025 by Joao Sobrinho
-	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2026.01.19 | Email:shabani.mohsen@outlook.com	
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2026.01.29 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> Computes the influence of wind velocity in tracer kinematicstokes
     !> @param[in] self, sv, bdata, time
@@ -666,12 +751,15 @@
     type(string), dimension(:), allocatable :: var_name
     type(string), dimension(:), allocatable :: requiredVars
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Windage
-    real(prec), dimension(size(sv%state,1)) :: depth, expdepth
+    real(prec), dimension(:), allocatable :: depth, expdepth
     real(prec) :: maxLevel(2)
     integer                                 :: col_ssh, col_DifVelStdr, col_u10, col_v10
     type(string)                            :: tag
     !Begin-------------------------------------------------------------------
-    
+
+	if (.not. allocated(depth))         allocate(depth(size(sv%state,1)))
+	if (.not. allocated(expdepth))      allocate(expdepth(size(sv%state,1)))
+ 
     allocate(requiredVars(3))
     requiredVars(1) = Globals%Var%u10
     requiredVars(2) = Globals%Var%v10
@@ -685,31 +773,29 @@
     col_ssh = Utils%find_str(var_name, Globals%Var%ssh, .false.)
     col_u10 = Utils%find_str(var_name, Globals%Var%u10, .false.)
     col_v10 = Utils%find_str(var_name, Globals%Var%v10, .false.)
-    
+   
+
     if (col_u10 == MV_INT .or. col_v10 == MV_INT) then
         !no wind available, skip windage
         return
     endif
-
-	maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .false.)  
-	if (maxLevel(2) /= MV) then 
-		if (col_ssh /= MV_INT) then
-			!water level exists, use it to get a more accurate solution
-			depth = max(var_dt(:,col_ssh) - sv%state(:,3), 0.0)
-		
-			!if tracer is less than 5 cm below ssh, consider full wind effect
-			where (depth >= 0.05) depth = 0.0
-		else
-			! use what is available (depth levels probably)
-			depth = max(- sv%state(:,3), 0.0)
-			
-			!if tracer is less than 5 cm below, consider full wind effect
-			where (depth >= 0 .or. depth >= maxLevel(2) - 0.05) depth = 0.0
-		endif
+	
+!	Now, ssh is reading from HDF5 and Netcdf
+	maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .false.) 
+	if (col_ssh /= MV_INT) then
+		! get water level and use it to compute particle depth
+		depth = max(var_dt(:,col_ssh) - sv%state(:,3), 0.0)
 	else
-		depth = 0.0
-	end if
-    
+		!use maxlevel
+		if (maxLevel(2) /= MV) then
+			depth = max(maxLevel(2) - sv%state(:,3), 0.0)
+		else
+			depth = max(- sv%state(:,3), 0.0)
+		endif
+	endif
+	!if tracer is less than 5 cm below ssh, consider full wind effect
+	where (depth <= 0.05) depth = 0.0
+
     !This wont do much... unless we actually start considering a depth profile from water level to the input wind data's altitude
     expdepth = exp(-10.0*depth)
                 
@@ -722,14 +808,17 @@
     if (Globals%SimDefs%DiffusionMethod == 2) then !SullivanAllen
         tag = "VelStandardDeviation"
         col_DifVelStdr = Utils%find_str(sv%varName, tag, .true.)
-        sv%state(:,col_DifVelStdr) = sv%state(:,col_DifVelStdr) + SQRT(Windage(:,1)**2 + Windage(:,2)**2) * Globals%Constants%VarVelHX
+        sv%state(:,col_DifVelStdr) = sv%state(:,col_DifVelStdr) + Globals%Constants%VarVelHX * SQRT(var_dt(:,col_u10)**2 + var_dt(:,col_u10)**2) * windCoeff * expdepth
     endif
-        
-    deallocate(var_name)
-    deallocate(var_dt)
+
+	if (allocated(depth))			deallocate(depth)
+	if (allocated(expdepth))		deallocate(expdepth)
+	
+	if (allocated(var_name))		deallocate(var_name)
+	if (allocated(var_dt))			deallocate(var_dt)
+	if (allocated(requiredVars))	deallocate(requiredVars)
     
     end function Windage
-
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC 
@@ -739,17 +828,32 @@
     !> and how beaching occurs. Affects the state vector and state vector derivative.
     !> @param[in] self, sv, svDt
     !---------------------------------------------------------------------------
-    function Beaching(self, sv, svDt)
+    function Beaching(self, sv, bdata, svDt)
     class(kernel_class), intent(inout) :: self
     type(stateVector_class), intent(inout) :: sv
+    type(background_class), dimension(:), intent(in) :: bdata
     real(prec), dimension(size(sv%state,1),size(sv%state,2)), intent(in) :: svDt
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Beaching
     real(prec), dimension(size(sv%state,1)) :: beachCoeff
     real(prec), dimension(size(sv%state,1)) :: beachCoeffRand, beachCoeffRandC
     real(prec), dimension(size(sv%state,1)) :: beachWeight
+	real(prec), dimension(size(sv%state,1)) :: Threshold_value
+	real(prec), dimension(size(sv%state,1)) :: LandIntThreshold_value
+    real(prec), dimension(size(sv%state,1)) :: dist2bottom
     real(prec) :: lbound, ubound
-    integer :: i
+    integer :: i, col_dist2bottom
+	type(string) :: tag
 	
+	! Threshold_value: distance from the bottom (seabed) in unit [meter].
+	! It could be a constant * Globals%Constants%Rugosity
+	Threshold_value = Globals%Constants%BedLoadThickness 
+	LandIntThreshold_value = VerticalMotion%LandIntThresholdValue(sv, bdata, time, Threshold_value)
+
+
+    tag = 'dist2bottom'
+	col_dist2bottom = Utils%find_str(sv%varName, tag, .true.)
+	dist2bottom = sv%state(:,col_dist2bottom)
+		
     beachCoeff = 1.0
 	
 	! Create  random values between [0,1) to compare with Beaching probability
@@ -782,7 +886,8 @@
 		beachWeight = 1 - 1.0 *(sv%landIntMask - lbound)/(ubound-lbound)*(sv%landIntMask - lbound)/(ubound-lbound)*(sv%landIntMask - lbound)/(ubound-lbound)*(sv%landIntMask - lbound)/(ubound-lbound) *(sv%landIntMask - lbound)/(ubound-lbound)*(sv%landIntMask - lbound)/(ubound-lbound)!6th order weight
 		
         !replacing 1.0 with a coefficient from beaching where needed
-        where((sv%landIntMask <= ubound) .and. (sv%landIntMask >= lbound)) beachCoeff = (beachCoeffRandC) * beachWeight
+        where((sv%landIntMask <= ubound) .and. (sv%landIntMask >= lbound) .and. (dist2bottom > LandIntThreshold_value)) beachCoeff = (beachCoeffRandC) * beachWeight
+!        where((sv%landIntMask <= ubound) .and. (sv%landIntMask >= lbound)) beachCoeff = (beachCoeffRandC) * beachWeight
 		!where((sv%landIntMask > ubound)) beachCoeff= 0.0
 		do i=1,3
             Beaching(:,i) = svDt(:,i)*beachCoeff !position derivative is affected
@@ -992,9 +1097,11 @@
     real(prec), intent(in) :: time
     real(prec), intent(in) :: dt
     integer :: np, part_idx, col_dist2bottom
-    real(prec), dimension(size(sv%state,1)) :: dist2bottom
+    real(prec), dimension(size(sv%state,1)) :: dist2bottom,methoddd
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: DiffusionMixingLength
     real(prec), dimension(:), allocatable :: rand_vel_u, rand_vel_v, rand_vel_w
+    real(prec), dimension(:), allocatable :: aux_u, aux_v, aux_w
+    real(prec), dimension(:), allocatable :: aux_Dx, aux_Dy, aux_Dz
     type(string) :: tag
     real(prec) :: landIntThreshold
 	real(prec), dimension(size(sv%state,1)) :: Threshold_value
@@ -1023,7 +1130,13 @@
 	Threshold_value = Globals%Constants%BedLoadThickness 
 	LandIntThreshold_value = VerticalMotion%LandIntThresholdValue(sv, bdata, time, Threshold_value)
 	
-
+	allocate(aux_u(size(sv%state, 1)))
+	allocate(aux_v(size(sv%state, 1)))	
+	allocate(aux_w(size(sv%state, 1)))		
+	allocate(aux_Dx(size(sv%state, 1)))	
+	allocate(aux_Dy(size(sv%state, 1)))	
+	allocate(aux_Dz(size(sv%state, 1)))		
+	
     np = size(sv%active) !number of Tracers
     allocate(rand_vel_u(np), rand_vel_v(np), rand_vel_w(np))
     call random_number(rand_vel_u)
@@ -1032,28 +1145,46 @@
     
     !if we are still in the same path, use the same random velocity, do nothing
     !if we ran the path, new random velocities are generated and placed
-    where ((sv%state(:,10) > 2.0*sv%resolution) .and. (abs(sv%landIntMask) < Globals%Mask%landVal))
+!    where ((sv%state(:,10) > 2.0*sv%resolution) .and. (abs(sv%landIntMask) < Globals%Mask%landVal))
+    where ((abs(sv%landIntMask) < Globals%Mask%landVal))
         !DiffusionMixingLength(:,7) = (2.*rand_vel_u-1.)*sqrt(Globals%Constants%DiffusionCoeff*abs(sv%state(:,4))/dt)/dt
         !DiffusionMixingLength(:,8) = (2.*rand_vel_v-1.)*sqrt(Globals%Constants%DiffusionCoeff*abs(sv%state(:,5))/dt)/dt
         !DiffusionMixingLength(:,9) = (2.*rand_vel_w-1.)*sqrt(0.000001*Globals%Constants%DiffusionCoeff*abs(sv%state(:,6))/dt)/dt
-        DiffusionMixingLength(:,7) = (2.*rand_vel_u-1.)*sqrt(Globals%Constants%DiffusionCoeff/dt)/dt
-        DiffusionMixingLength(:,8) = (2.*rand_vel_v-1.)*sqrt(Globals%Constants%DiffusionCoeff/dt)/dt
-        DiffusionMixingLength(:,9) = (2.*rand_vel_w-1.)*sqrt(0.000001*Globals%Constants%DiffusionCoeff/dt)/dt
+        
+		aux_u = 0.1 * abs(sv%state(:,4))
+		aux_v = 0.1 * abs(sv%state(:,5))
+		aux_w = 0.1 * abs(sv%state(:,6))
+		aux_Dx = min(Globals%Constants%DiffusionCoeff, sv%resolution * aux_u)
+		aux_Dy = min(Globals%Constants%DiffusionCoeff, sv%resolution * aux_v)		
+		aux_Dz = 1e-6 * min(Globals%Constants%DiffusionCoeff, sv%resolution * aux_w)			
+			
+		DiffusionMixingLength(:,7) = sqrt(3.0)*(2.0*rand_vel_u-1.0)* min(sqrt(aux_Dx/dt), aux_u)/dt
+        DiffusionMixingLength(:,8) = sqrt(3.0)*(2.0*rand_vel_v-1.0)* min(sqrt(aux_Dy/dt), aux_v)/dt
+        DiffusionMixingLength(:,9) = sqrt(3.0)*(2.0*rand_vel_w-1.0)* min(sqrt(aux_Dz/dt), aux_w)/dt
         sv%state(:,10) = 0.0
         !update system positions
         DiffusionMixingLength(:,1) = Utils%m2geo(DiffusionMixingLength(:,7), sv%state(:,2), .false.)*dt
         DiffusionMixingLength(:,2) = Utils%m2geo(DiffusionMixingLength(:,8), sv%state(:,2), .true.)*dt
         DiffusionMixingLength(:,3) = DiffusionMixingLength(:,9)*dt
     elsewhere
+!!        !update system positions
+!        DiffusionMixingLength(:,1) = Utils%m2geo(sv%state(:,7), sv%state(:,2), .false.)
+!        DiffusionMixingLength(:,2) = Utils%m2geo(sv%state(:,8), sv%state(:,2), .true.)
+!        DiffusionMixingLength(:,3) = sv%state(:,9)
+        DiffusionMixingLength(:,7) = 0.0
+        DiffusionMixingLength(:,8) = 0.0
+        DiffusionMixingLength(:,9) = 0.0
+        sv%state(:,10) = 0.0
         !update system positions
-        DiffusionMixingLength(:,1) = Utils%m2geo(sv%state(:,7), sv%state(:,2), .false.)
-        DiffusionMixingLength(:,2) = Utils%m2geo(sv%state(:,8), sv%state(:,2), .true.)
-        DiffusionMixingLength(:,3) = sv%state(:,9)
+        DiffusionMixingLength(:,1) = Utils%m2geo(DiffusionMixingLength(:,7), sv%state(:,2), .false.)*dt
+        DiffusionMixingLength(:,2) = Utils%m2geo(DiffusionMixingLength(:,8), sv%state(:,2), .true.)*dt
+        DiffusionMixingLength(:,3) = DiffusionMixingLength(:,9)*dt
     end where
 
-    !update used mixing length
-    DiffusionMixingLength(:,10) = sqrt(sv%state(:,4)*sv%state(:,4) + sv%state(:,5)*sv%state(:,5) + sv%state(:,6)*sv%state(:,6))
-                
+!    !update used mixing length
+!	!DiffusionMixingLength(:,10) = Globals%Constants%MixingLength / dt
+!    DiffusionMixingLength(:,10) = sqrt(sv%state(:,4)*sv%state(:,4) + sv%state(:,5)*sv%state(:,5) + sv%state(:,6)*sv%state(:,6))
+
     !Deposited particles should not move
     if (any(sv%state(:,part_idx) == 1)) then
         dist2bottom = sv%state(:,col_dist2bottom)
@@ -1066,7 +1197,15 @@
             DiffusionMixingLength(:,10) = 0
         end where
     end if
-    deallocate(rand_vel_u, rand_vel_v, rand_vel_w)
+	deallocate(rand_vel_u)
+	deallocate(rand_vel_v)	
+	deallocate(rand_vel_w)	
+	deallocate(aux_u)
+	deallocate(aux_v)	
+	deallocate(aux_w)		
+	deallocate(aux_Dx)
+	deallocate(aux_Dy)	
+	deallocate(aux_Dz)	
 
     end function DiffusionMixingLength
     
@@ -1085,7 +1224,8 @@
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
     real(prec), intent(in) :: dt
-    real(prec), dimension(size(sv%state,1)) :: VelModH, TlagrangeH, RAND, HD, UD, VD
+    real(prec), dimension(size(sv%state,1)) :: VelModH, TlagrangeH, HD, UD, VD
+    real(prec), dimension(:), allocatable :: randm_val
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: SullivanAllen
     integer :: np, part_idx, col_DifVelStdr, col_TPathHor
     real(prec) :: Pi = 4*atan(1.0)
@@ -1111,20 +1251,22 @@
 
     !Copied over from MOHID LagrangianGlobal module
     
-    call random_number(RAND)
+    np = size(sv%active) !number of Tracers
+    allocate(randm_val(np))
+    call random_number(randm_val)
     
     where (sv%state(:,col_TPathHor) >= TlagrangeH)
                         
         ! First step - compute the modulus of turbulent vector
                         
         !SQRT(3.0)=1.732050808 
-        HD                       = 1.732050808 * sv%state(:,col_DifVelStdr) * RAND
+        HD                       = sqrt(3.0)*(2.0*randm_val-1.0) * sv%state(:,col_DifVelStdr)
 
         ! Second step - Compute the modulus of each component of the turbulent vector
 
         !   From 0 to Pi/2 cos and sin have positive values
-        UD                       = HD * cos(2 * Pi * RAND)
-        VD                       = HD * sin(2 * Pi * RAND)
+        UD                       = HD * cos(2 * Pi * (randm_val))
+        VD                       = HD * sin(2 * Pi * (randm_val))
 
         !Third step - Compute the direction of the the turbulent vector taking in consideration the layers thickness gradients
         ! Spagnol et al. (Mar. Ecol. Prog. Ser., 235, 299-302, 2002).
@@ -1136,7 +1278,7 @@
         !    VD = VD + MixingLength * 1.732050808 * sv%state(:,col_DifVelStdr) / 2. * GradDWy
         !
         !endif                                    
-                        
+
         sv%state(:,col_TPathHor) = dt
         !Set dif velocities
         sv%state(:,7)     = UD
@@ -1155,6 +1297,8 @@
         sv%state(:,7) = 0.0
         sv%state(:,8) = 0.0
     end where
+	
+	deallocate(randm_val)
     
     end function SullivanAllen
     !---------------------------------------------------------------------------
@@ -1199,10 +1343,11 @@
     !---------------------------------------------------------------------------
     subroutine LagrangianVelModification(self, sv, bdata, time)
     class(kernel_class), intent(inout) :: self
-    type(stateVector_class), intent(inout) :: sv
+    type(stateVector_class), intent(inout) 	:: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
     integer ::  nf_w, nf_u, nf_v, col_u, col_dwz, col_v, col_w, part_idx, col_dist2bottom, col_temp, col_sal
+    integer ::  nf_w_aux, nf_u_aux, nf_v_aux
     integer ::  col_rugosityVar_sv, col_D50Var_sv
     real(prec), dimension(:,:), allocatable :: var_dt, var_hor_dt
     type(string), dimension(:), allocatable :: var_name, var_name_hor
@@ -1221,6 +1366,9 @@
     real(prec) :: threshold_bot_wat, landIntThreshold
 	real(prec), dimension(size(sv%state,1)) :: Threshold_value
 	real(prec), dimension(size(sv%state,1)) :: LandIntThreshold_value
+	real(prec), dimension(2) :: maxLevel
+    real(prec), dimension(size(sv%state,1)) :: sv_state_3
+!	real(prec), dimension((size(sv%state,1), size(sv%state,2)))	:: sv_aux%state
     type(string) :: tag
     integer :: i
     !-------------------------------------------------------------------------------------
@@ -1232,7 +1380,7 @@
 	col_sal  = Utils%find_str(sv%varname, Globals%Var%sal, .false.)	
  	col_rugosityVar_sv = Utils%find_str(sv%varName, Globals%Var%rugosityVar, .true.)
  	col_D50Var_sv = Utils%find_str(sv%varName, Globals%Var%D50Var, .true.)
-	
+
     allocate(requiredVars(3))
     requiredVars(1) = Globals%Var%u
     requiredVars(2) = Globals%Var%v
@@ -1242,6 +1390,7 @@
     requiredHorVars(1) = Globals%Var%u
     requiredHorVars(2) = Globals%Var%v
     requiredHorVars(3) = Globals%Var%w
+	
     !write(*,*)"Entrada interpolacao kinematic 1"
     call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
     !write(*,*)"Saida interpolacao kinematic 1"
@@ -1250,7 +1399,7 @@
     !write(*,*)"Entrada interpolacao kinematic 2"
     call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredHorVars, var_hor_dt, var_name_hor, reqVertInt = .false.)
     !write(*,*)"Entrada interpolacao kinematic 2"
-    
+
     col_u = Utils%find_str(var_name_hor, Globals%Var%u, .true.)
     col_v = Utils%find_str(var_name_hor, Globals%Var%v, .true.)
     col_w = Utils%find_str(var_name_hor, Globals%Var%w, .false.)
@@ -1377,6 +1526,12 @@
 		sv%state(:,4) = var_dt(:,nf_u)
 		sv%state(:,5) = var_dt(:,nf_v)
 	end where
+
+!	! Substitute the outgrid velocities 
+!	where (sv%state(:,3) > maxLevel(2)-0.00001) 
+!		sv%state(:,4) = var_dt_aux(:,nf_u_aux)
+!		sv%state(:,5) = var_dt_aux(:,nf_v_aux)
+!	end where	
 	
 	if (nf_w /= MV_INT) then 
 		where (dist2bottom >= threshold_bot_wat) sv%state(:,6) = var_dt(:,nf_w)
