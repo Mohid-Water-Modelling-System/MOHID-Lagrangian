@@ -63,6 +63,7 @@
 		<sea_surface_height name="ssh">
 			<variant name="ssh" comment="used in MOHID and CMEMS" />
 			<variant name="water level" comment="used in MOHID" />
+			<variant name="water_level" comment="used in MOHID" />
 		</sea_surface_height>
         <sea_surface_wave_stokes_drift_x_velocity name="VSDX" comment="used in CMEMS">
                 <variant name="VSDX" comment="used in CMEMS"/>

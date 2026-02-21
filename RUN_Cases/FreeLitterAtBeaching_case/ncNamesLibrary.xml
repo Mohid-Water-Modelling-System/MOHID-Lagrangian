@@ -42,6 +42,7 @@
 		<openpoints name="openpoints">
 			<variant name="openpoints" comment="used in MOHID" />
 			<variant name="OpenPoints" comment="used in MOHID" />
+			<!-- <variant name="WaterPoints3D" comment="used in MOHID" /> -->
 			<variant name="OpenPoints3D" comment="used in MOHID" />
 			<variant name="MappingPoints2D" comment="used in MOHID" />
 		</openpoints>

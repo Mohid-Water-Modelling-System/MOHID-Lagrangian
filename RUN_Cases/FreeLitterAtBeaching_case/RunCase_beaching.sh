@@ -11,7 +11,7 @@ ulimit -s hard
 export OMP_STACKSIZE=512M
 
 # "name" and "dirout" are named according to the testcase
-name=FreeLitterAt_Beaching_Def
+name=FreeLitterAt_Beaching_sullivan_Def
 dirout=${name}_out
 
 # "executables" are renamed and called from their directory
