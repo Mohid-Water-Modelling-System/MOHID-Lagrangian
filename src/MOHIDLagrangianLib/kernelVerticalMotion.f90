@@ -362,12 +362,12 @@
     !> Corrects vertical position of the tracers according to data limits
     !> @param[in] self, sv, bdata, time
     !---------------------------------------------------------------------------
-    function CorrectVerticalBounds(self, sv, svDt, bdata, dt)
+    function CorrectVerticalBounds(self, sv, svDt, bdata, time, dt)
     class(kernelVerticalMotion_class), intent(inout) :: self
     type(stateVector_class), intent(inout) :: sv
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: svDt
     type(background_class), dimension(:), intent(in) :: bdata
-    real(prec), intent(in) :: dt
+    real(prec), intent(in) :: time, dt
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: CorrectVerticalBounds
     integer :: col_bat, col_rugosityVar_sv
 	real(prec), dimension(2) :: maxLevel

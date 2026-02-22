@@ -135,10 +135,10 @@
     if (Globals%simDefs%FreeLitterAtBeaching == 1) then
         runKernel = self%FreeLitterAtBeaching(sv, bdata, time, runKernel, dt)
     else
-        runKernel = self%Beaching(sv, bdata, runKernel)
+        runKernel = self%Beaching(sv, bdata, time, runKernel)
     endif
     
-    runKernel = VerticalMotion%CorrectVerticalBounds(sv, runKernel, bdata, dt)
+    runKernel = VerticalMotion%CorrectVerticalBounds(sv, runKernel, bdata, time, dt)
     	
 	
     end function runKernel
@@ -828,10 +828,11 @@
     !> and how beaching occurs. Affects the state vector and state vector derivative.
     !> @param[in] self, sv, svDt
     !---------------------------------------------------------------------------
-    function Beaching(self, sv, bdata, svDt)
+    function Beaching(self, sv, bdata, time, svDt)
     class(kernel_class), intent(inout) :: self
     type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
+    real(prec), intent(in) :: time
     real(prec), dimension(size(sv%state,1),size(sv%state,2)), intent(in) :: svDt
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Beaching
     real(prec), dimension(size(sv%state,1)) :: beachCoeff
