@@ -26,33 +26,33 @@ events:
       
       Versión de Microsoft Visual Studio 2022 17.14.19.
       Copyright (C) Microsoft Corp. Todos los derechos reservados.
-      Compilación iniciada a las 11:29...
+      Compilación iniciada a las 8:00...
       1>------ Operación Compilar iniciada: Proyecto: CompilerIdFortran, configuración: Debug x64 ------
-      Compiling with Intel® Fortran Compiler 2025.3.0 [Intel(R) 64]...
+      Compiling with Intel® Fortran Compiler Classic 2021.10.0 [Intel(R) 64]...
       CMakeFortranCompilerId.F
-      Intel(R) Fortran Compiler for applications running on Intel(R) 64, Version 2025.3.0 Build 20251010
-      Copyright (C) 1985-2025 Intel Corporation. All rights reserved.
+      Intel(R) Fortran Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.10.0 Build 20230609_000000
+      Copyright (C) 1985-2023 Intel Corporation.  All rights reserved.
       Linking...
       Microsoft (R) Incremental Linker Version 14.44.35219.0
       Copyright (C) Microsoft Corporation.  All rights reserved.
-      /OUT:./CompilerIdFortran.exe
+      /OUT:.\\CompilerIdFortran.exe
       /INCREMENTAL:NO
       /MANIFEST
-      /MANIFESTFILE:Debug/CompilerIdFortran.exe.intermediate.manifest
+      /MANIFESTFILE:Debug\\CompilerIdFortran.exe.intermediate.manifest
       "/MANIFESTUAC:level='asInvoker' uiAccess='false'"
       /DEBUG
-      /PDB:C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/datetime-fortran/build/CMakeFiles/3.31.5/CompilerIdFortran/CompilerIdFortran.pdb
+      /PDB:C:\\Users\\UsrXModel1\\Documents\\02_TRABALLO\\03_MODELOS\\02_MOHID_LAGRANGIAN\\MOHID-Lagrangian\\MOHID-Lagrangian\\ExternalLibs\\datetime-fortran\\build\\CMakeFiles\\3.31.5\\CompilerIdFortran\\CompilerIdFortran.pdb
       /SUBSYSTEM:CONSOLE
-      /IMPLIB:C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/datetime-fortran/build/CMakeFiles/3.31.5/CompilerIdFortran/CompilerIdFortran.lib
-      Debug/CMakeFortranCompilerId.obj
+      /IMPLIB:C:\\Users\\UsrXModel1\\Documents\\02_TRABALLO\\03_MODELOS\\02_MOHID_LAGRANGIAN\\MOHID-Lagrangian\\MOHID-Lagrangian\\ExternalLibs\\datetime-fortran\\build\\CMakeFiles\\3.31.5\\CompilerIdFortran\\CompilerIdFortran.lib
+      Debug\\CMakeFortranCompilerId.obj
       Embedding manifest...
       Performing Post-Build Event...
-      CMAKE_Fortran_COMPILER=C:\\Program Files (x86)\\Intel\\oneAPI\\compiler\\2025.3\\bin\\ifx.exe
+      CMAKE_Fortran_COMPILER=C:\\Program Files (x86)\\Intel\\oneAPI\\compiler\\2023.2.0\\windows\\bin\\intel64\\ifort.exe
       
-      Build log written to  "file://C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/datetime-fortran/build/CMakeFiles/3.31.5/CompilerIdFortran/Debug/BuildLog.htm"
+      Build log written to  "file://C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/MOHID-Lagrangian/ExternalLibs/datetime-fortran/build/CMakeFiles/3.31.5/CompilerIdFortran/Debug/BuildLog.htm"
       CompilerIdFortran - 0 error(s), 0 warning(s)
       ========== Compilación: 1 correcto, 0 erróneo, 0 actualizado, 0 omitido ==========
-      ========== Compilar completado a las 11:29 y tardó 00,314 segundos ==========
+      ========== Compilar completado a las 8:00 y tardó 00,272 segundos ==========
       
       
       Compilation of the Fortran compiler identification source "CMakeFortranCompilerId.F" produced "CompilerIdFortran.exe"
@@ -63,8 +63,8 @@ events:
       
       Compilation of the Fortran compiler identification source "CMakeFortranCompilerId.F" produced "CompilerIdFortran.vfproj"
       
-      The Fortran compiler identification is IntelLLVM, found in:
-        C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/datetime-fortran/build/CMakeFiles/3.31.5/CompilerIdFortran/CompilerIdFortran.exe
+      The Fortran compiler identification is Intel, found in:
+        C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/MOHID-Lagrangian/ExternalLibs/datetime-fortran/build/CMakeFiles/3.31.5/CompilerIdFortran/CompilerIdFortran.exe
       
   -
     kind: "try_compile-v1"
@@ -75,23 +75,23 @@ events:
     checks:
       - "Detecting Fortran compiler ABI info"
     directories:
-      source: "C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/datetime-fortran/build/CMakeFiles/CMakeScratch/TryCompile-853gft"
-      binary: "C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/datetime-fortran/build/CMakeFiles/CMakeScratch/TryCompile-853gft"
+      source: "C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/MOHID-Lagrangian/ExternalLibs/datetime-fortran/build/CMakeFiles/CMakeScratch/TryCompile-yoqzxk"
+      binary: "C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/MOHID-Lagrangian/ExternalLibs/datetime-fortran/build/CMakeFiles/CMakeScratch/TryCompile-yoqzxk"
     cmakeVariables:
       CMAKE_Fortran_FLAGS: "/W1 /nologo /fpp /libs:dll /threads"
     buildResult:
       variable: "CMAKE_Fortran_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/datetime-fortran/build/CMakeFiles/CMakeScratch/TryCompile-853gft'
+        Change Dir: 'C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/MOHID-Lagrangian/ExternalLibs/datetime-fortran/build/CMakeFiles/CMakeScratch/TryCompile-yoqzxk'
         
-        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/devenv.com" CMAKE_TRY_COMPILE.sln /build Debug /project cmTC_a0f32
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/devenv.com" CMAKE_TRY_COMPILE.sln /build Debug /project cmTC_7f15b
         
         Versión de Microsoft Visual Studio 2022 17.14.19.
         Copyright (C) Microsoft Corp. Todos los derechos reservados.
-        Compilación iniciada a las 11:29...
-        1>------ Operación Compilar iniciada: Proyecto: cmTC_a0f32, configuración: Debug x64 ------
-        Compiling with Intel® Fortran Compiler 2025.3.0 [Intel(R) 64]...
+        Compilación iniciada a las 8:00...
+        1>------ Operación Compilar iniciada: Proyecto: cmTC_7f15b, configuración: Debug x64 ------
+        Compiling with Intel® Fortran Compiler Classic 2021.10.0 [Intel(R) 64]...
         CMakeFortranCompilerABI.F90
         Compiling manifest to resources...
         Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
@@ -99,29 +99,29 @@ events:
         Linking...
         Microsoft (R) Incremental Linker Version 14.44.35219.0
         Copyright (C) Microsoft Corporation.  All rights reserved.
-        /OUT:C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/datetime-fortran/build/CMakeFiles/CMakeScratch/TryCompile-853gft/Debug/cmTC_a0f32.exe
+        /OUT:C:\\Users\\UsrXModel1\\Documents\\02_TRABALLO\\03_MODELOS\\02_MOHID_LAGRANGIAN\\MOHID-Lagrangian\\MOHID-Lagrangian\\ExternalLibs\\datetime-fortran\\build\\CMakeFiles\\CMakeScratch\\TryCompile-yoqzxk\\Debug\\cmTC_7f15b.exe
         /VERSION:0.0
         /MANIFEST
-        /MANIFESTFILE:cmTC_a0f32.dir/Debug/cmTC_a0f32.exe.intermediate.manifest
+        /MANIFESTFILE:cmTC_7f15b.dir\\Debug\\cmTC_7f15b.exe.intermediate.manifest
         "/MANIFESTUAC:level='asInvoker' uiAccess='false'"
         /DEBUG
-        /PDB:C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/datetime-fortran/build/CMakeFiles/CMakeScratch/TryCompile-853gft/Debug/cmTC_a0f32.pdb
+        /PDB:C:\\Users\\UsrXModel1\\Documents\\02_TRABALLO\\03_MODELOS\\02_MOHID_LAGRANGIAN\\MOHID-Lagrangian\\MOHID-Lagrangian\\ExternalLibs\\datetime-fortran\\build\\CMakeFiles\\CMakeScratch\\TryCompile-yoqzxk\\Debug/cmTC_7f15b.pdb
         /SUBSYSTEM:CONSOLE
-        /IMPLIB:C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/datetime-fortran/build/CMakeFiles/CMakeScratch/TryCompile-853gft/Debug/cmTC_a0f32.lib
+        /IMPLIB:C:\\Users\\UsrXModel1\\Documents\\02_TRABALLO\\03_MODELOS\\02_MOHID_LAGRANGIAN\\MOHID-Lagrangian\\MOHID-Lagrangian\\ExternalLibs\\datetime-fortran\\build\\CMakeFiles\\CMakeScratch\\TryCompile-yoqzxk\\Debug\\cmTC_7f15b.lib
         /machine:x64
         /debug
         /INCREMENTAL
-        cmTC_a0f32.dir/Debug/CMakeFortranCompilerABI.obj
-        cmTC_a0f32.dir/Debug/cmTC_a0f32.exe.embed.manifest.res
+        cmTC_7f15b.dir\\Debug\\CMakeFortranCompilerABI.obj
+        cmTC_7f15b.dir\\Debug\\cmTC_7f15b.exe.embed.manifest.res
         Embedding manifest...
         Microsoft (R) Manifest Tool
         Copyright (c) Microsoft Corporation.
         All rights reserved.
         
-        Build log written to  "file://C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/datetime-fortran/build/CMakeFiles/CMakeScratch/TryCompile-853gft/cmTC_a0f32.dir/Debug/BuildLog.htm"
-        cmTC_a0f32 - 0 error(s), 0 warning(s)
+        Build log written to  "file://C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/MOHID-Lagrangian/ExternalLibs/datetime-fortran/build/CMakeFiles/CMakeScratch/TryCompile-yoqzxk/cmTC_7f15b.dir/Debug/BuildLog.htm"
+        cmTC_7f15b - 0 error(s), 0 warning(s)
         ========== Compilación: 1 correcto, 0 erróneo, 0 actualizado, 0 omitido ==========
-        ========== Compilar completado a las 11:29 y tardó 00,330 segundos ==========
+        ========== Compilar completado a las 8:00 y tardó 00,291 segundos ==========
         
       exitCode: 0
   -
@@ -150,32 +150,32 @@ events:
       - "Determine Intel Fortran Compiler Implicit Link Path"
     directories:
       source: "C:/Program Files/CMake/share/cmake-3.31/Modules/IntelVSImplicitPath"
-      binary: "C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/datetime-fortran/build/CMakeFiles/IntelVSImplicitPath"
+      binary: "C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/MOHID-Lagrangian/ExternalLibs/datetime-fortran/build/CMakeFiles/IntelVSImplicitPath"
     buildResult:
       variable: "IFORT_LIB_PATH_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/datetime-fortran/build/CMakeFiles/IntelVSImplicitPath'
+        Change Dir: 'C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/MOHID-Lagrangian/ExternalLibs/datetime-fortran/build/CMakeFiles/IntelVSImplicitPath'
         
         Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/devenv.com" IntelFortranImplicit.sln /build Debug /project ALL_BUILD
         
         Versión de Microsoft Visual Studio 2022 17.14.19.
         Copyright (C) Microsoft Corp. Todos los derechos reservados.
-        Compilación iniciada a las 11:29...
+        Compilación iniciada a las 8:01...
         1>------ Operación Compilar iniciada: Proyecto: ZERO_CHECK, configuración: Debug x64 ------
         1>1>Checking Build System
         2>------ Operación Compilar iniciada: Proyecto: FortranLib, configuración: Debug x64 ------
         Generating output.cmake
-        Compiling with Intel® Fortran Compiler 2025.3.0 [Intel(R) 64]...
+        Compiling with Intel® Fortran Compiler Classic 2021.10.0 [Intel(R) 64]...
         hello.f
         Creating library...
         
-        Build log written to  "file://C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/datetime-fortran/build/CMakeFiles/IntelVSImplicitPath/FortranLib.dir/Debug/BuildLog.htm"
+        Build log written to  "file://C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/MOHID-Lagrangian/ExternalLibs/datetime-fortran/build/CMakeFiles/IntelVSImplicitPath/FortranLib.dir/Debug/BuildLog.htm"
         FortranLib - 0 error(s), 0 warning(s)
         3>------ Operación Compilar iniciada: Proyecto: ALL_BUILD, configuración: Debug x64 ------
         3>Building Custom Rule C:/Program Files/CMake/share/cmake-3.31/Modules/IntelVSImplicitPath/CMakeLists.txt
         ========== Compilación: 3 correcto, 0 erróneo, 0 actualizado, 0 omitido ==========
-        ========== Compilar completado a las 11:29 y tardó 00,768 segundos ==========
+        ========== Compilar completado a las 8:01 y tardó 00,646 segundos ==========
         
       exitCode: 0
 ...
