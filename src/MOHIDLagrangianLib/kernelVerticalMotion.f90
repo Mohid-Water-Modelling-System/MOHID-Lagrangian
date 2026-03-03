@@ -357,78 +357,89 @@
 
     !---------------------------------------------------------------------------
 	!> @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com	
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2026.01.29 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> Corrects vertical position of the tracers according to data limits
     !> @param[in] self, sv, bdata, time
     !---------------------------------------------------------------------------
-    function CorrectVerticalBounds(self, sv, svDt, bdata, dt)
+    function CorrectVerticalBounds(self, sv, svDt, bdata, time, dt)
     class(kernelVerticalMotion_class), intent(inout) :: self
     type(stateVector_class), intent(inout) :: sv
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: svDt
     type(background_class), dimension(:), intent(in) :: bdata
-    real(prec), intent(in) :: dt
+    real(prec), intent(in) :: time, dt
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: CorrectVerticalBounds
     integer :: col_bat, col_rugosityVar_sv
 	real(prec), dimension(2) :: maxLevel
-  
-	logical, dimension(:), allocatable :: mask_0, mask_1, mask_2
-	allocate(mask_0(size(sv%state, 1)))
+    integer 	:: col_ssh 
+    real(prec), dimension(:,:), allocatable :: var_dt
+    type(string), dimension(:), allocatable :: var_name
+    type(string), dimension(:), allocatable :: requiredVars
+	real(prec), dimension(size(sv%state,1)) :: ssh_values
+	logical, dimension(:), allocatable :: mask_1
+	
 	allocate(mask_1(size(sv%state, 1)))
-	allocate(mask_2(size(sv%state, 1)))	
-	
+
     CorrectVerticalBounds = svDt
-	
+
     ! if vertical dvdt is 0, don't correct
     if (all(CorrectVerticalBounds(:,3) == 0.)) then
 		!print*, 'All CorrectVerticalBounds(:,3) == 0 '
         return
     end if
     
-    maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .false.)
-    if (maxLevel(2) /= MV) then 
-		where (sv%state(:,3) + CorrectVerticalBounds(:,3)*dt >= maxLevel(2))
-			CorrectVerticalBounds(:,3) =((maxLevel(2)-sv%state(:,3))/dt)*0.9999
-		end where
-	end if
+	! This part is used to differentiate between the 2D and 3D problem. 
+	! If level(depth) layer is given in the input file, the vertical correction  will be needed
+	! Otherwise, it is a 2D problem. Hence, the vertical correction is not necessary.
+	! CorrectVerticalBounds(:,3) = 0.0 says that we dont have movement in the z direction.
     
-    col_bat = Utils%find_str(sv%varname, Globals%Var%bathymetry)
-	col_rugosityVar_sv = Utils%find_str(sv%varName, Globals%Var%rugosityVar, .true.)	
+	allocate(requiredVars(1))
+    requiredVars(1) = Globals%Var%ssh
+    !write(*,*)"Entrada setCommonProcesses interpolate"
+    call KernelUtils_VerticalMotion%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, justRequired = .true., reqVertInt = .false.)
+	
+    col_ssh = Utils%find_str(var_name, Globals%Var%ssh, .false.)	
+!	ssh_values = merge(var_dt(:,col_ssh) ,  0.0 , maxLevel(2) /= MV_INT) 
+!	print*,"ssh", ssh_values
+    maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .false.)
+	if (maxLevel(2) /= MV) then 
+		if (col_ssh /= MV_INT) then
+			!print*,"verticalcorrection: correct sv%state(:,3): ssh"	
+			where (sv%state(:,3) + CorrectVerticalBounds(:,3)*dt >= var_dt(:,col_ssh))
+				CorrectVerticalBounds(:,3) =((var_dt(:,col_ssh) - sv%state(:,3))/dt)*0.9999
+			endwhere
+		else
+			!print*,"verticalcorrection: correct sv%state(:,3): maxlevel"	
+			!where (sv%state(:,3) + CorrectVerticalBounds(:,3)*dt >= maxLevel(2))
+			!	CorrectVerticalBounds(:,3) =((maxLevel(2)-sv%state(:,3))/dt)*0.9999
+			where (sv%state(:,3) + CorrectVerticalBounds(:,3)*dt >= 0)
+				CorrectVerticalBounds(:,3) =((0.0 - sv%state(:,3))/dt)*0.9999
+			endwhere
+		endif
+	else
+		!print*,"verticalcorrection: correct sv%state(:,3): level0"	
+		CorrectVerticalBounds(:,3) = 0.0
+	endif
 
-	mask_1 = (sv%state(:,3) + CorrectVerticalBounds(:,3)*dt < sv%state(:,col_bat) + sv%state(:,col_rugosityVar_sv)) .and. (sv%state(:,col_bat) <= -sv%state(:,col_rugosityVar_sv))
-	mask_2 = (sv%state(:,3) + CorrectVerticalBounds(:,3)*dt < sv%state(:,col_bat) + sv%state(:,col_rugosityVar_sv)) .and. (sv%state(:,col_bat) >  -sv%state(:,col_rugosityVar_sv))
-	mask_0 = (mask_1 .or. mask_2)
+    col_bat = Utils%find_str(sv%varname, Globals%Var%bathymetry)
+	col_rugosityVar_sv = Utils%find_str(sv%varName, Globals%Var%rugosityVar, .true.)
+
+	mask_1 = (sv%state(:,3) + 0.9999 *CorrectVerticalBounds(:,3)*dt < sv%state(:,col_bat) + sv%state(:,col_rugosityVar_sv)) &
+			.and. &
+			(sv%state(:,col_bat) <= -sv%state(:,col_rugosityVar_sv))
 	
 	! Apply only where `mask_1` is true: when z < bathymetry and bathymetry < 0
 	where (mask_1)
-		CorrectVerticalBounds(:,3) = ((sv%state(:,col_bat) + sv%state(:,col_rugosityVar_sv) - sv%state(:,3)) / dt) * 1.0
+		CorrectVerticalBounds(:,3) = ((sv%state(:,col_bat) + sv%state(:,col_rugosityVar_sv) - sv%state(:,3)) / dt) * 0.9999
 !		sv%state(:,4) = 0.0
 !		sv%state(:,5) = 0.0
 !		sv%state(:,6) = 0.0
 	end where
 
-	! Apply only where `mask_2` is true: when z < bathemetry and bathymetry is zero or less than the Rugosity!!
-	where (mask_2)
-		CorrectVerticalBounds(:,3) = (((0.0) - sv%state(:,3))/dt)*1.0
-		sv%state(:,4) = 0.0
-		sv%state(:,5) = 0.0
-		sv%state(:,6) = 0.0
-		sv%landIntMask = Globals%Mask%landVal
-	end where
-	
-!	where (mask_0 .and. svDt(:,3) /= 0.)
-!		CorrectVerticalBounds(:,1) = (CorrectVerticalBounds(:,3) / svDt(:,3)) *svDt(:,1) *0.999
-!		CorrectVerticalBounds(:,2) = (CorrectVerticalBounds(:,3) / svDt(:,3)) *svDt(:,2) *0.999
-!	end where	
 
-!	where (mask_1 .and. sv%state(:,col_bat) >= Globals%Constants%BeachingLevel)
-!	  sv%landIntMask = + Globals%Mask%landVal
-!	elsewhere (mask_1)
-!	  sv%landIntMask = - Globals%Mask%landVal
-!	end where
-
-	deallocate(mask_0)
+	deallocate(var_name)
+	deallocate(var_dt)
 	deallocate(mask_1)
-	deallocate(mask_2)
 
     end function CorrectVerticalBounds
 	
@@ -642,7 +653,8 @@
 					! In the BedLoadThickness zone: Corresponds to Case 2 of the velocity profile,
 					! which uses an "average velocity" from the log-law for all particles in this layer.
 					! Hence, we already have the average velocity (u,v,w) values in this zone at sv%sate(:,4:6) 
-					U = sqrt(sv%state(i,4)**2.0 + sv%state(i,5)**2.0 + sv%state(i,6)**2.0)
+					!U = sqrt(sv%state(i,4)**2.0 + sv%state(i,5)**2.0 + sv%state(i,6)**2.0)
+					U = sqrt(sv%state(i,4)**2.0 + sv%state(i,5)**2.0)
 					
                     uwc2 = U**2.0 + ubw**2.0
                     !Using sand density instead of particle density,

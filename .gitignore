@@ -5,7 +5,9 @@
 #|==================================================================================|#
 #|				Build directories, binaries	and External libraries					|#
 #|==================================================================================|#
-#build/
+**/build/*
+!**/build/lib/
+!**/build/lib/**
 #ExternalLibs/
 #buildScripts/ExternalLibs/
 buildScripts/build/
@@ -27,17 +29,17 @@ build/bin/RELEASE/MOHIDLagrangian.exe
 .vs/CMake Overview
 
 # --- Visual Studio Generated Files (ya que usas scripts de generación) ---
-#*.sln
-#*.vcxproj
-#*.vcxproj.filters
-#*.vcxproj.user
-#*.suo
-#*.user
-#*.idb
-#*.pdb
-#*.ilk
-#*.aps
-#*.opt
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.suo
+*.user
+*.idb
+*.pdb
+*.ilk
+*.aps
+*.opt
 
 # --- Visual Studio Output Folders ---
 #Debug/
@@ -48,12 +50,12 @@ build/bin/RELEASE/MOHIDLagrangian.exe
 #ARM64/
 
 # --- Fortran Compilation Artifacts ---
-#*.mod
-#*.smod
+*.mod
+*.smod
 
 # Archivos temporales de CMake (si el script usa CMake)
-#CMakeCache.txt
-#CMakeFiles/
+CMakeCache.txt
+CMakeFiles/
 
 #|==================================================================================|#
 #|								Source code files									|#

@@ -58,7 +58,7 @@
 		</sourceDefinitions>
 		<sourceTypes>
 			<types>
-				<type source="1" type="plastic" property="mussel_peg" comment="" />
+				<type source="1" type="plastic" property="bag_1" comment="" />
 			</types>
 			<file name="materialTypes.xml"/>
 		</sourceTypes>		

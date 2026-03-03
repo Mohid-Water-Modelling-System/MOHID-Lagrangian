@@ -71,14 +71,28 @@ IF (${CMAKE_Fortran_COMPILER_ID} STREQUAL "GNU" OR Fortran_COMPILER_NAME MATCHES
   set (CMAKE_Fortran_FLAGS_DEBUG   "-g -fbacktrace -fbounds-check -fprofile-arcs -ftest-coverage -Wimplicit-interface ${EXTRA_FLAGS} " CACHE STRING "" FORCE)
   
 ELSEIF (${CMAKE_Fortran_COMPILER_ID} STREQUAL "Intel" OR Fortran_COMPILER_NAME MATCHES "ifort*" OR Fortran_COMPILER_NAME MATCHES "ifx*")
-  # ifort / ifx
-  # Add: -Qopenmp & /real-size:64
-  set(FORTRAN_FLAGS "-qopenmp -fpp -heap-arrays -nostandard-realloc-lhs -real-size 64 -double-size 64 ${EXTRA_FLAGS} ")
+  
+  IF(WIN32)
+     # Flags for WINDOWS (Slash /)
+     # It works both for ifort and ifx but in Windows
+     message(STATUS ">> Configuring Intel flags for WINDOWS (/Qopenmp...)")
+     set(FORTRAN_FLAGS "/Qopenmp /fpp /heap-arrays /nostandard-realloc-lhs /real-size:64 /double-size:64 ${EXTRA_FLAGS}")
+     set(DEBUG_FLAGS   "/Od /debug:all /check:all /Qtrapuv /warn:nointerfaces ${EXTRA_FLAGS}")
+     set(REL_FLAGS     "/O3 ${EXTRA_FLAGS}")
+
+  ELSE ()
+     # Flags for LINUX (-)
+     # They work both for ifort and ifx but in Linux
+     message(STATUS ">> Configuring Intel flags for LINUX (-qopenmp...)")
+     set(FORTRAN_FLAGS "-qopenmp -fpp -heap-arrays -nostandard-realloc-lhs -r8 ${EXTRA_FLAGS}")
+     set(DEBUG_FLAGS   "-debug all -check all -traceback -warn nointerfaces ${EXTRA_FLAGS}")
+     set(REL_FLAGS     "-O3 ${EXTRA_FLAGS}")
+  ENDIF ()
+
+  # Set the flags
   set (CMAKE_Fortran_FLAGS "${FORTRAN_FLAGS} ${MACROS} ${INCLUDES}" CACHE STRING "" FORCE)
-  set (CMAKE_Fortran_FLAGS_RELEASE "-O3 ${EXTRA_FLAGS} " CACHE STRING "" FORCE)
-  set (CMAKE_Fortran_FLAGS_DEBUG   "-O0 -traceback -debug all -check all -ftrapuv -warn nointerfaces ${EXTRA_FLAGS} " CACHE STRING "" FORCE)
-# A partir de CMake 3.1
-# -prof-gen:srcpos -prof-dir${PROJECT_BINARY_DIR}
+  set (CMAKE_Fortran_FLAGS_RELEASE "${REL_FLAGS}" CACHE STRING "" FORCE)
+  set (CMAKE_Fortran_FLAGS_DEBUG   "${DEBUG_FLAGS}" CACHE STRING "" FORCE)
 
 ELSEIF (${CMAKE_Fortran_COMPILER_ID} STREQUAL "XL" OR Fortran_COMPILER_NAME MATCHES "xlf*")
   # xlf (untested)

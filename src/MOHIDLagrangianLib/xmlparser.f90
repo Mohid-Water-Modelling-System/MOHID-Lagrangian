@@ -187,6 +187,8 @@
 					if (att_value%to_number(kind=1._R8P) <= -1.0e-13) read_flag = .false.
 				elseif (tag == "ResuspensionProb") then
 					if (att_value%to_number(kind=1._R8P) <= -1.0e-13) read_flag = .false.
+				elseif (tag == "StokesDriftCoeff") then
+					if (att_value%to_number(kind=1._R8P) <= -1.0e-13) read_flag = .false.
 				elseif (tag == "WindDragCoeff") then
 					if (att_value%to_number(kind=1._R8P) <= -1.0e-13) read_flag = .false.					
 				else

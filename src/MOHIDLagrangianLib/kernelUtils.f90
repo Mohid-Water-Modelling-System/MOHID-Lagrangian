@@ -43,7 +43,7 @@
     !---------------------------------------------------------------------------
     subroutine runInterpolatorOnVars(self, sv, bdata, time, requiredVars, var_dt, var_name, justRequired, reqVertInt)
     class(kernelUtils_class), intent(inout) :: self
-    type(stateVector_class), intent(in) :: sv
+    type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), dimension(:,:), allocatable, intent(inout) :: var_dt
     type(string), dimension(:), allocatable, intent(inout) :: var_name
@@ -52,6 +52,8 @@
     logical :: localjustRequired, localreqVertInt
     real(prec), intent(in) :: time
     integer :: np, nf, bkg, i, j, aux
+	real(prec), dimension(2) :: maxLevel	
+	real(prec), dimension(size(sv%state,1)) :: sv_state_3
     type(varBackground_t), dimension(:), allocatable :: bkgToInterpolate
     type(string), allocatable, dimension(:) :: currList
     !begin--------------------------------------------------------------------------
@@ -74,6 +76,22 @@
     end if
     
     np = size(sv%active) !number of Tracers
+
+	!Save actual z position of the tracers at sv_state_3 to replace at the end of interpolation
+	sv_state_3(:) = sv%state(:,3)
+
+	!Substitut z postion of the tracers which are grater that maxLevel(2) with maxlevel(2)(it is last level of the grid data)
+	!In this situation, the data can interpolate inside the grid domain (at the maxlevel(2):top of the grid).
+	!At the end of this function, the correct z postions will be replaced.
+	maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .false.)
+	if (maxLevel(2) /= MV) then 
+		!print*,"kernelUtils: correct sv%state(:,3): maxlevel"	
+		where (sv%state(:,3) > maxLevel(2)) sv%state(:,3) = maxLevel(2) - 0.0001  
+	else
+		!print*,"kernelUtils: correct sv%state(:,3): level0"	
+		where (sv%state(:,3) >  0.0) sv%state(:,3) = - 0.0001
+	endif
+	
     
     if (localjustRequired) then
         !write(*,*)"localjustRequired = true"
@@ -117,6 +135,8 @@
             j = j + bdata(bkgToInterpolate(i)%bkgIndex)%fields%getSize()
         end do
     end if
+	
+	sv%state(:,3) = sv_state_3(:)
     
     end subroutine runInterpolatorOnVars
 

@@ -668,6 +668,7 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
 	!> @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
+	!> @author Mohsen Shabani CRETUS - GFNL- 2026.01.29 | Email:shabani.mohsen@outlook.com
     !> @brief
     !> Reads the fields from the nc file for a given variable.
     !> returns a generic field, with a name, units and data
@@ -742,19 +743,73 @@
                         end if
                     end if
                 end do
-                
+
+                if ((self%varData(i)%simName == Globals%Var%ssh) ) then
+do3:                do indx=1, self%nVars
+                        !Find velocity u matrix to get its dimensions
+                        if (self%varData(indx)%simName == Globals%Var%u) then
+                            allocate(u_Shape(self%varData(indx)%ndims))
+                            do j2=1, self%varData(indx)%ndims   !going trough all of the variable dimensions
+                                uDim = self%getDimByDimID(self%varData(indx)%dimids(j2))
+                                u_Shape(j2) = uDim%length
+                            end do
+                            if (self%varData(indx)%ndims == 4) then
+                                variable_u_is4D = .true.
+                                allocate(tempRealField4D(varShape(2),varShape(1), u_Shape(3), u_Shape(4)))
+                                exit do3
+                            end if
+                            
+                        end if
+                    end do do3 
+                    call self%check()
+                    if (.not.bVar) then
+                        if (variable_u_is4D) then
+                            !For ssh(sea surface height), converts the 3D input field into a 4D field to be consistent with velocity matrixes
+							do t = 1, size(tempRealField4D,4)  ! 4th dim (time)
+								do k = 1, size(tempRealField4D,3)  ! 3rd dim (vertical/level)
+									tempRealField4D(:,:,k,t) = tempRealField3D(:,:,t)
+								end do
+							end do
+                            call varField%initialize(varName, self%varData(i)%units, tempRealField4D)
+							!write(*,*) varName, " Filled 3-4D  shape = ", size(tempRealField4D,1), size(tempRealField4D,2), &
+							!	size(tempRealField4D,3), size(tempRealField4D,4)  
+                        else
+                            !This needs to be completed .... will give errors
+                            call varField%initialize(varName, self%varData(i)%units, tempRealField3D)
+							!write(*,*) varName, " Filled 3-3D  shape = ", size(tempRealField3D,1), size(tempRealField3D,2), &
+							!	size(tempRealField3D,3)  
+                        end if
+                        
+                    else
+                        outext = '[NetCDFparser::getVar]: Variable '//varName//' is synthetic and cannot have 2D dimensionality. Stopping'
+                        call Log%put(outext)
+                        stop
+                    end if
+                else
+					if (.not.bVar) then
+						call varField%initialize(varName, self%varData(i)%units, tempRealField3D)
+						!write(*,*) varName, " Filled 3D  shape = ", size(tempRealField3D,1), size(tempRealField3D,2), &
+						!	size(tempRealField3D,3)
+					else
+						dimName = varName
+						if(present(altName)) dimName = altName
+						varUnits = self%varData(i)%units
+						if(present(altUnits)) varUnits = altUnits
+						call varField%initialize(dimName, varUnits, tempRealField3D)
+					end if
+                end if
+				
+				if (allocated(auxRealField2D)) deallocate(auxRealField2D)
+				if (allocated(tempRealField2D)) deallocate(tempRealField2D)
+				if (allocated(auxRealField3D)) deallocate(auxRealField3D)
+				if (allocated(tempRealField3D)) deallocate(tempRealField3D)
+				if (allocated(auxRealField4D)) deallocate(auxRealField4D)
+				if (allocated(tempRealField4D)) deallocate(tempRealField4D)
+				if (allocated(u_Shape)) deallocate(u_Shape)				
+					
                 !write(*,*)"Size temReakField3D = ", size(tempRealField3D,1), size(tempRealField3D,2), size(tempRealField3D,3)
                 !write(*,*)"Value in temReakField4D(10,10,1) = ", tempRealField3D(10,10,1) 
 
-                if (.not.bVar) then
-                    call varField%initialize(varName, self%varData(i)%units, tempRealField3D)
-                else
-                    dimName = varName
-                    if(present(altName)) dimName = altName
-                    varUnits = self%varData(i)%units
-                    if(present(altUnits)) varUnits = altUnits
-                    call varField%initialize(dimName, varUnits, tempRealField3D)
-                end if
             else if(self%varData(i)%ndims == 4) then !4D variable                
                 allocate(auxRealField4D(varShape(1),varShape(2),varShape(3),varShape(4)))
                 allocate(tempRealField4D(varShape(2),varShape(1),varShape(3),varShape(4)))
@@ -810,6 +865,8 @@
                 
                 if (.not.bVar) then
                     call varField%initialize(varName, self%varData(i)%units, tempRealField4D)
+					!write(*,*) varName, " Filled 4D shape = ", size(tempRealField4D,1), size(tempRealField4D,2), &
+					!	size(tempRealField4D,3), size(tempRealField4D,4)
                 else
                     dimName = varName
                     if(present(altName)) dimName = altName
@@ -817,11 +874,20 @@
                     if(present(altUnits)) varUnits = altUnits
                     call varField%initialize(dimName, varUnits, tempRealField4D)
                 end if
-            elseif(self%varData(i)%ndims == 2) then !2D variable, for now only bathymetry  !for the rugosity and D50 that has same structure like bathymetry
+				
+				if (allocated(auxRealField2D)) deallocate(auxRealField2D)
+				if (allocated(tempRealField2D)) deallocate(tempRealField2D)
+				if (allocated(auxRealField3D)) deallocate(auxRealField3D)
+				if (allocated(tempRealField3D)) deallocate(tempRealField3D)
+				if (allocated(auxRealField4D)) deallocate(auxRealField4D)
+				if (allocated(tempRealField4D)) deallocate(tempRealField4D)
+				if (allocated(u_Shape)) deallocate(u_Shape)				
+
+            elseif(self%varData(i)%ndims == 2) then !2D variable, for now only bathymetry (rugosity, and D50 that has same structure like bathymetry)
                 if ((self%varData(i)%simName == Globals%Var%bathymetry) .or. (self%varData(i)%simName == Globals%Var%rugosityVar) .or. (self%varData(i)%simName == Globals%Var%D50Var) ) then
                     allocate(auxRealField2D(varShape(1),varShape(2)))
                     allocate(tempRealField2D(varShape(2),varShape(1)))
-do1:                do indx=1, self%nVars
+do2:                do indx=1, self%nVars
                         !Find velocity u matrix to get its dimensions
                         if (self%varData(indx)%simName == Globals%Var%u) then
                             allocate(u_Shape(self%varData(indx)%ndims))
@@ -832,14 +898,14 @@ do1:                do indx=1, self%nVars
                             if (self%varData(indx)%ndims == 4) then
                                 variable_u_is4D = .true.
                                 allocate(tempRealField4D(varShape(2),varShape(1), u_Shape(3), u_Shape(4)))
-                                exit do1
+                                exit do2
                             else
                                 allocate(tempRealField3D(varShape(2),varShape(1), u_Shape(3)))
-                                exit do1
+                                exit do2
                             end if
                             
                         end if
-                    end do do1
+                    end do do2
                     
                     self%status = nf90_get_var(self%ncID, self%varData(i)%varid, auxRealField2D)
                     do i1=1,varShape(1)
@@ -864,7 +930,12 @@ do1:                do indx=1, self%nVars
                                 end do
                             end do
                             call varField%initialize(varName, self%varData(i)%units, tempRealField4D)
+							!write(*,*) varName, " Filled 2-4D shape = ", size(tempRealField4D,1), size(tempRealField4D,2), &
+							!	size(tempRealField4D,3), size(tempRealField4D,4)
                         else
+							do t=1,size(tempRealField3D,3)
+								if (self%varData(i)%simName == Globals%Var%bathymetry) tempRealField3D(:,:,t) = -tempRealField2D(:,:)
+							end do
                             !This needs to be completed .... will give errors
                             call varField%initialize(varName, self%varData(i)%units, tempRealField3D)
                         end if
@@ -879,13 +950,23 @@ do1:                do indx=1, self%nVars
                     call Log%put(outext)
                     stop
                 end if
+
+				if (allocated(auxRealField2D)) deallocate(auxRealField2D)
+				if (allocated(tempRealField2D)) deallocate(tempRealField2D)
+				if (allocated(auxRealField3D)) deallocate(auxRealField3D)
+				if (allocated(tempRealField3D)) deallocate(tempRealField3D)
+				if (allocated(auxRealField4D)) deallocate(auxRealField4D)
+				if (allocated(tempRealField4D)) deallocate(tempRealField4D)
+				if (allocated(u_Shape)) deallocate(u_Shape)
             else
                 outext = '[NetCDFparser::getVar]: Variable '//varName//' has a non-supported dimensionality. Stopping'
                 call Log%put(outext)
                 stop
             end if
+			if (allocated(varShape)) deallocate(varShape)
         end if
     end do
+
 
     end subroutine getVar
 

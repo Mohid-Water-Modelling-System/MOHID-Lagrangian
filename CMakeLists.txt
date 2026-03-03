@@ -86,7 +86,7 @@ IF (${CMAKE_Fortran_COMPILER_ID} STREQUAL "GNU" OR Fortran_COMPILER_NAME MATCHES
 
 ELSEIF (${CMAKE_Fortran_COMPILER_ID} MATCHES "Intel" OR Fortran_COMPILER_NAME MATCHES "ifx" OR Fortran_COMPILER_NAME MATCHES "ifort")
 
-  IF(WINDOWS)
+ IF(WINDOWS)
      # Flags for WINDOWS (Slash /)
      # It works both for ifort and ifx but in Windows
      message(STATUS ">> Configuring Intel flags for WINDOWS (/Qopenmp...)")

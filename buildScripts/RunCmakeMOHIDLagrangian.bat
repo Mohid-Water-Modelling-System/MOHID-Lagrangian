@@ -16,7 +16,7 @@ cd %build_dir%
 copy CMakeLists.txt %build_dir%\
 rem run cmake to build the libs
 rem cmake .. -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_BUILD_TYPE="RELEASE" -DCMAKE_Fortran_COMPILER="C:\\PROGRA~2\\Intel\\oneAPI\\compiler\\latest\\bin\\ifx.exe"
-cmake .. -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_BUILD_TYPE="RELEASE" -DCMAKE_GENERATOR_TOOLSET="v143,fortran=ifx"
+cmake .. -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_BUILD_TYPE="RELEASE" -DCMAKE_GENERATOR_TOOLSET="v143,fortran=ifort"
 
 cd ..
 

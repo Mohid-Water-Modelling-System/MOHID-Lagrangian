@@ -94,6 +94,7 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
 	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com	
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2026.01.29 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> instantiates and returns a background object with the data from a
     !> currents input file, which includes all instants of time
@@ -108,8 +109,8 @@
     type(hdf5Reader_class) :: hdf5Reader
     !write(*,*)"Entrei get currentsFile"
     if (fileName%extension() == '.nc' .or. fileName%extension() == '.nc4') then
-        allocate(varList(9))
-        allocate(syntecticVar(9))
+        allocate(varList(10))
+        allocate(syntecticVar(10))
     else
         allocate(varList(9))
         allocate(syntecticVar(9))
@@ -133,6 +134,8 @@
         varList(7) = Globals%Var%bathymetry
 		varList(8) = Globals%Var%rugosityVar
 		varList(9) = Globals%Var%D50Var
+		varList(10) = Globals%Var%ssh
+		
         if (Globals%SimDefs%bathyminNetcdf == 1) then
             syntecticVar(7) = .false.
         else
@@ -148,6 +151,12 @@
         else
 			syntecticVar(9) = .true.
         end if
+        if (Globals%SimDefs%SshinNetcdf == 1) then
+			syntecticVar(10) = .false.
+        else
+			syntecticVar(10) = .true.
+        end if		
+
     else
         varList(7) = Globals%Var%bathymetry
         syntecticVar(7) = .false.
@@ -184,6 +193,9 @@
 	if (Globals%SimDefs%D50inNetcdf == 0) then
 		call getCurrentsFile%makeD50Field() !Consider constat D50 value from input case.xml file for all the domain
     end if	
+	if (Globals%SimDefs%SshinNetcdf == 0) then
+		call getCurrentsFile%makeSshField() !Consider zero sea surface hieght  for all the domain
+    end if
     !computes distance between vertical cells
     call getCurrentsFile%makeDWZField()
     !Change the value of the first bottom cell to enable interpolation until the bottom and not just until the center of!the cell
@@ -237,6 +249,7 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2026.01.29 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> instantiates and returns a background object with the data from a
     !> waves input file (stokes drift velocity)
@@ -249,8 +262,8 @@
     logical, allocatable, dimension(:) :: syntecticVar
     type(ncReader_class) :: ncReader
     type(hdf5Reader_class) :: hdf5Reader
-    allocate(varList(7))
-    allocate(syntecticVar(7))
+    allocate(varList(6))
+    allocate(syntecticVar(6))
     varList(1) = Globals%Var%vsdx
     syntecticVar(1) = .false.
     varList(2) = Globals%Var%vsdy
@@ -263,8 +276,8 @@
     syntecticVar(5) = .false.
     varList(6) = Globals%Var%wl
     syntecticVar(6) = .false.
-    varList(7) = Globals%Var%hs !Dummy var to use as openpoints
-    syntecticVar(7) = .false.
+!    varList(7) = Globals%Var%hs !Dummy var to use as openpoints
+!    syntecticVar(7) = .false.
     
     !need to send to different readers here if different file formats
     if (fileName%extension() == '.nc' .or. fileName%extension() == '.nc4') then

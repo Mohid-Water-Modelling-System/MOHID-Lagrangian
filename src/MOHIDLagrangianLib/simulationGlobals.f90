@@ -87,6 +87,7 @@
         integer         ::  bathyminNetcdf !< bathymetry is a property inside the netcdf
         integer         ::  RugosityinNetcdf !< Rugosity of the seabed is a property inside the netcdf
         integer         ::  D50inNetcdf 	!< D50 of the seabed is a property inside the netcdf
+        integer         ::  SshinNetcdf 	!< Sea surface hieght of the seabed is a property inside the netcdf
         real(prec)      ::  tracerMaxAge !< removes tracers with age greater than maxTracerAge
         real(prec)      ::  Temperature_add_offset !< adds offset to temperature from netcdf
         real(prec)      ::  WqDt !< water quality process time step
@@ -105,6 +106,7 @@
     procedure :: setbathyminNetcdf
     procedure :: setRugosityinNetcdf
     procedure :: setD50inNetcdf
+    procedure :: setSshinNetcdf
     procedure :: settracerMaxAge
     procedure :: setTemperature_add_offset  !Only here becasue some files from SINTEF were not properly converted due to
                                             ! some error in mohid's convert to hdf5 tool
@@ -125,6 +127,7 @@
         real(prec)   :: VarVelHX      !< Horizontal variance of velocity (%)
         real(prec)   :: VarVelH      !< Horizontal base turbulent velocity (m/s)
         real(prec)   :: MixingLength      !< Horizontal mixingLength (m) Value dependent on vortices (assume around 4 or 5* grid spacing)
+        real(prec)   :: StokesDriftCoeff   !< Stokes drift coefficient (% of stokes force)
         real(prec)   :: WindDragCoeff      !< Wind drag coefficient (% of wind force)
         real(prec)   :: MeanDensity         !< mean ocean water density.
         real(prec)   :: MeanKVisco          !< mean ocean water kinematic viscosity
@@ -159,6 +162,7 @@
     procedure :: setVarVelHX
     procedure :: setVarVelH
     procedure :: setMixingLength
+    procedure :: setStokesDriftCoeff
     procedure :: setWindDragCoeff
     procedure :: setSmallDt
     procedure :: setResuspensionCoeff
@@ -517,6 +521,7 @@
     self%SimDefs%bathyminNetcdf = 0
     self%SimDefs%RugosityinNetcdf = 0
     self%SimDefs%D50inNetcdf = 0
+    self%SimDefs%SshinNetcdf = 0
     self%SimDefs%tracerMaxAge = 0
     self%SimDefs%Temperature_add_offset = 0
     !simulation constants
@@ -528,6 +533,7 @@
     self%Constants%VarVelHX = 0.2
     self%Constants%VarVelH = 0.0
     self%Constants%MixingLength = 500.0 !Value dependent on vortices (assume around 4 or 5* grid spacing)
+    self%Constants%StokesDriftCoeff = 0.01
     self%Constants%WindDragCoeff = 0.03
     self%Constants%smallDt = 0.0
     self%Constants%ResuspensionCoeff = 0.0
@@ -2000,8 +2006,29 @@
     sizem = sizeof(self%VarVelH)
     call SimMemory%adddef(sizem)
     end subroutine setVarVelH
+
     !------------------------------------------------------------------------------
-    
+	!> @author Mohsen Shabani CRETUS - GFNL- 2026.01.29 | Email:shabani.mohsen@outlook.com
+    !> @brief
+    !> Stokes Drift coefficient setting routine.
+    !> @param[in] self, read_StokesDriftCoeff
+    !---------------------------------------------------------------------------
+    subroutine setStokesDriftCoeff(self, read_StokesDriftCoeff)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_StokesDriftCoeff
+    type(string) :: outext
+    integer :: sizem
+    if (read_StokesDriftCoeff%to_number(kind=1._R8P) < 0.0) then
+        outext='StokesDriftCoeff coefficient must be zero or positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%StokesDriftCoeff =read_StokesDriftCoeff%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%StokesDriftCoeff)
+    call SimMemory%adddef(sizem)
+    end subroutine setStokesDriftCoeff
+	
+    !------------------------------------------------------------------------------
     !> @author Joao Sobrinho
     !> @brief
     !> Wind drag coefficient setting routine.
@@ -2013,7 +2040,7 @@
     type(string) :: outext
     integer :: sizem
     if (read_WindDragCoeff%to_number(kind=1._R8P) < 0.0) then
-        outext='Diffusion coefficient must be zero or positive, assuming default value'
+        outext='WindDragCoeff must be zero or positive, assuming default value'
         call Log%put(outext)
     else
         self%WindDragCoeff =read_WindDragCoeff%to_number(kind=1._R8P)
@@ -2589,6 +2616,8 @@
     outext = outext//'       VarVelH = '//temp_str(1)//' -'//new_line('a')  
     temp_str(1)=self%MixingLength
     outext = outext//'       MixingLength = '//temp_str(1)//' -'//new_line('a')  
+    temp_str(1)=self%StokesDriftCoeff
+    outext = outext//'       StokesDriftCoeff = '//temp_str(1)//' -'//new_line('a') 
     temp_str(1)=self%WindDragCoeff
     outext = outext//'       WindDragCoeff = '//temp_str(1)//' -'//new_line('a') 
     temp_str(1)=self%BedLoadThickness
@@ -2835,6 +2864,27 @@
     sizem = sizeof(self%D50inNetcdf)
     call SimMemory%adddef(sizem)
     end subroutine setD50inNetcdf
+
+    !---------------------------------------------------------------------------
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2026.02.19 | Email:shabani.mohsen@outlook.com
+    !> @brief
+    !> set Ssh construct from the D50 netcdf property
+    !> @param[in] self, read_SshinNetcdf
+    !---------------------------------------------------------------------------
+    subroutine setSshinNetcdf(self, read_SshinNetcdf)
+    class(simdefs_t), intent(inout) :: self
+    type(string), intent(in) :: read_SshinNetcdf
+    type(string) :: outext
+    integer :: sizem
+    if ((read_SshinNetcdf%to_number(kind=1._I8P) < 0) .OR. (read_SshinNetcdf%to_number(kind=1._I8P) > 1)) then
+        outext='read D50 from netcdf file must be 0:no or 1:yes, assuming default value 0'
+        call Log%put(outext)
+    else
+        self%SshinNetcdf=read_SshinNetcdf%to_number(kind=1._I8P)
+    end if
+    sizem = sizeof(self%SshinNetcdf)
+    call SimMemory%adddef(sizem)
+    end subroutine setSshinNetcdf
 	
     !---------------------------------------------------------------------------
     !> @author Joao Sobrinho - Colab Atlantic
@@ -3104,6 +3154,8 @@
     outext = outext//'       RugosityinNetcdf = '//temp_str(1)//new_line('a')
     temp_str(1)=self%D50inNetcdf
     outext = outext//'       D50inNetcdf = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%SshinNetcdf
+    outext = outext//'       SshinNetcdf = '//temp_str(1)//new_line('a')
     temp_str(1)=self%tracerMaxAge
     outext = outext//'       tracerMaxAge = '//temp_str(1)//new_line('a')
     temp_str(1)=self%Temperature_add_offset

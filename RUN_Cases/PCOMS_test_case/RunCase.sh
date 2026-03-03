@@ -11,7 +11,7 @@ ulimit -s hard
 export OMP_STACKSIZE=512M
 
 # "name" and "dirout" are named according to the testcase
-name=PCOMS_test_case
+name=PCOMS_test_case_SullivanAllen
 dirout=${name}_out
 
 # "executables" are renamed and called from their directory
@@ -42,7 +42,7 @@ if [ $errcode -eq 0 ]; then
   errcode=$?
 fi
 
-python -W ignore $mohidPostprocessor -i ${name}.xml -o $dirout
+#python -W ignore $mohidPostprocessor -i ${name}.xml -o $dirout
 
 if [ $errcode -eq 0 ]; then
   echo All done
