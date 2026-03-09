@@ -1,22 +1,27 @@
 #|==================================================================================|#
-#|						.gitignore for the branch dev_Pedro							|#
+#|						.gitignore 						|#
 #|==================================================================================|#
 
 #|==================================================================================|#
 #|				Build directories, binaries and External libraries					|#
 #|==================================================================================|#
-# 1. Ignore all content within any build directory by default
+
+# 1. We ignore the CONTENT of build, but NOT the build folder itself
+# This allows Git to look inside for the exceptions
 **/build/*
 
-# 2. Allow the path to the specific RELEASE executable
+# 2. Open the specific path layer by layer (Crucial step)
 !**/build/bin/
 !**/build/bin/RELEASE/
+
+# 3. Allow the specific executable
+# This must be BEFORE the global *.exe rule if possible, or very specific
 !**/build/bin/RELEASE/MOHIDLagrangian.exe
 
-# 3. Explicitly ignore DEBUG folder to prevent it from being tracked
+# 4. Explicitly ignore DEBUG folder
 **/build/bin/DEBUG/
 
-# 4. buildScripts is fully tracked (no exclusions here)
+# 5. buildScripts is fully tracked
 buildScripts/
 
 
@@ -31,7 +36,7 @@ buildScripts/
 .vs/cmake.db
 .vs/CMake Overview
 
-# --- Visual Studio Generated Files (Project and workspace files) ---
+# --- Visual Studio Generated Files ---
 *.sln
 *.vcxproj
 *.vcxproj.filters
@@ -44,14 +49,6 @@ buildScripts/
 *.aps
 *.opt
 
-# --- Visual Studio Output Folders ---
-#Debug/
-#Release/
-#x64/
-#x86/
-#ARM/
-#ARM64/
-
 # --- Fortran Compilation Artifacts ---
 *.mod
 *.smod
@@ -62,33 +59,19 @@ CMakeFiles/
 
 
 #|==================================================================================|#
-#|				Source code files													|#
-#|==================================================================================|#
-#src/MOHIDLagrangianLib/kernel.f90
-#src/MOHIDLagrangianLib/kernelColiforms.f90
-
-
-#|==================================================================================|#
-#|								System files (macOS)								|#
-#|==================================================================================|#
-.DS_Store
-**/.DS_Store
-
-
-#|==================================================================================|#
 #|							Build and compilation artifacts							|#
 #|==================================================================================|#
 *_out/
 *.out
 *.o
 *.obj
-# Global ignore for exes, but the specific rule at the top overrides this for MOHID
+# This global rule is what often blocks the .exe
+# The specific exception at the top (!MOHIDLagrangian.exe) fixes this
 *.exe
 *.lo
 *.ol
 *.pyc
 Makefile
-#*.h
 *.Po
 *.log
 CMakeSettings.json
