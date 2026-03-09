@@ -22,7 +22,8 @@
 **/build/bin/DEBUG/
 
 # 5. buildScripts is fully tracked
-buildScripts/
+!buildScripts/
+!buildScripts/**
 
 
 #|==================================================================================|#
