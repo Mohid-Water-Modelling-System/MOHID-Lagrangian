@@ -13,7 +13,7 @@
 			Name="Debug|x64"
 			OutputDirectory="."
 			IntermediateDirectory="$(ConfigurationName)"
-			UseCompiler="ifxCompiler">
+			UseCompiler="ifortCompiler">
 			<Tool
 				Name="VFFortranCompilerTool"
 				DebugInformationFormat="debugEnabled"
@@ -29,7 +29,7 @@
 			/>
 			<Tool
 				Name="VFPostBuildEventTool"
-				CommandLine="for %%i in (ifx.exe) do @echo CMAKE_Fortran_COMPILER=%%~$PATH:i"
+				CommandLine="for %%i in (ifort.exe) do @echo CMAKE_Fortran_COMPILER=%%~$PATH:i"
 			/>
 		</Configuration>
 	</Configurations>

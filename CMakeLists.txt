@@ -124,6 +124,7 @@ message (STATUS "Fortran1 compiler full path: " ${CMAKE_Fortran_COMPILER})
 message (STATUS "Fortran compiler flags: " ${CMAKE_Fortran_FLAGS})
 message (STATUS "Fortran extra flags: " ${CMAKE_Fortran_FLAGS_RELEASE})
 
+
 #################################################################
 # ADD SOURCE SUBDIRS
 #################################################################

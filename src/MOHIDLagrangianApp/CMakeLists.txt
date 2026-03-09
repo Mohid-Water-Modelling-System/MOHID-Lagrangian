@@ -173,3 +173,22 @@ if(WINDOWS)
 			$<TARGET_FILE_DIR:${BIN_NAME}>)
 	ENDFOREACH(item)
 endif()
+
+#################################################################
+# COPIA DE LIBIOMP5MD.DLL (SOLO WINDOWS)
+#################################################################
+
+if(WIN32)
+    # La DLL está en 'buildScripts', que está en la raíz del proyecto
+    set(DLL_FILE_NAME "libiomp5md.dll")
+    set(DLL_SOURCE_PATH "${CMAKE_SOURCE_DIR}/buildScripts/${DLL_FILE_NAME}")
+
+    # Este comando se activa al terminar de generar el ejecutable
+    # $<TARGET_FILE_DIR:MOHIDLagrangian> apunta a bin/RELEASE o bin/DEBUG
+    add_custom_command(TARGET MOHIDLagrangian POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${DLL_SOURCE_PATH}"
+        "$<TARGET_FILE_DIR:MOHIDLagrangian>"
+        COMMENT "Copiando ${DLL_FILE_NAME} al directorio de salida..."
+    )
+endif()
