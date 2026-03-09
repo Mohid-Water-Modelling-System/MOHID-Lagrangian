@@ -67,7 +67,8 @@ CMakeFiles/
 *.obj
 # This global rule is what often blocks the .exe
 # The specific exception at the top (!MOHIDLagrangian.exe) fixes this
-#*.exe
+*.exe
+!**/build/bin/RELEASE/MOHIDLagrangian.exe
 *.lo
 *.ol
 *.pyc
