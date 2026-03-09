@@ -8,17 +8,10 @@
 # Ignore all content within any build directory by default
 **/build/*
 
-# Specifically allow bin and lib directories and their contents
+# Specifically allow the path to the executable in Windows and its parent directories
 !**/build/bin/
-!**/build/bin/**
-!**/build/lib/
-!**/build/lib/**
-
-# Specific build script exclusions
-buildScripts/build/
-buildScripts/MOHID-Lagrangian/
-buildScripts/src/
-build/bin/RELEASE/MOHIDLagrangian.exe
+!**/build/bin/RELEASE/
+!**/build/bin/RELEASE/MOHIDLagrangian.exe
 
 
 #|==================================================================================|#
