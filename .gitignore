@@ -1,17 +1,23 @@
 #|==================================================================================|#
-#|						.gitignore for the branch dev_Mohsen						|#
+#|						.gitignore for the branch dev_Pedro							|#
 #|==================================================================================|#
 
 #|==================================================================================|#
 #|				Build directories, binaries and External libraries					|#
 #|==================================================================================|#
-# Ignore all content within any build directory by default
+# 1. Ignore all content within any build directory by default
 **/build/*
 
-# Specifically allow the path to the executable in Windows and its parent directories
+# 2. Allow the path to the specific RELEASE executable
 !**/build/bin/
 !**/build/bin/RELEASE/
 !**/build/bin/RELEASE/MOHIDLagrangian.exe
+
+# 3. Explicitly ignore DEBUG folder to prevent it from being tracked
+**/build/bin/DEBUG/
+
+# 4. buildScripts is fully tracked (no exclusions here)
+buildScripts/
 
 
 #|==================================================================================|#
@@ -76,6 +82,7 @@ CMakeFiles/
 *.out
 *.o
 *.obj
+# Global ignore for exes, but the specific rule at the top overrides this for MOHID
 *.exe
 *.lo
 *.ol
@@ -132,6 +139,4 @@ RUN_Cases/Mohsen_Cases/**/Arousa_3D_Def_out/
 #|  !filename  | **Negates** a rule: includes a file previously ignored         	|#
 #|  /filename  | Ignores a file only in the root directory of the repository    	|#
 #|==================================================================================|#
-
-
 
