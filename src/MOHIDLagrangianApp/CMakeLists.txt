@@ -181,7 +181,7 @@ endif()
 if(WIN32)
     # La DLL está en 'buildScripts', que está en la raíz del proyecto
     set(DLL_FILE_NAME "libiomp5md.dll")
-    set(DLL_SOURCE_PATH "${CMAKE_SOURCE_DIR}/buildScripts/${DLL_FILE_NAME}")
+    set(DLL_SOURCE_PATH "${CMAKE_SOURCE_DIR}/ExternalLibs/dlls/${DLL_FILE_NAME}")
 
     # Este comando se activa al terminar de generar el ejecutable
     # $<TARGET_FILE_DIR:MOHIDLagrangian> apunta a bin/RELEASE o bin/DEBUG
