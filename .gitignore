@@ -9,7 +9,8 @@
 **/build/*
 
 # Specifically allow the path to the executable in Windows and its parent directories
-
+!**/build/bin/
+!**/build/bin/RELEASE/
 !**/build/bin/RELEASE/MOHIDLagrangian.exe
 
 
