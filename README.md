@@ -1,4 +1,4 @@
-## MOHID Lagrangian - v20.10
+## MOHID Lagrangian - v26.03
 
 MOHID Lagragian is a comprehensive high-performance Lagrangian tracer model, with sources, sinks, particle types and several options for forcing and I/O.
 Altough mainly developed for oceanographic and fluvial contexts, application to atmospheric and other planetary settings should be trivial. 
@@ -9,7 +9,7 @@ Available functionalities are
 - Support for netcdf-cf files with currents, winds and wave fields, as well as water quality (salinity, temperature)
 - Ability to model passive, bouyant and degrading tracers
 - Stokes drift, windage, beaching, resuspension and turbulent diffusion models and options
-- Ability to model millions of tracers in a modest laptop machine
+- Ability to model millions of tracers in a modest laptop machine, paralelized processing
 - Simple and fully documented simulation set-up files, ready to be abstracted by a UI
 - Raw vtk time encoded output, directly compatible with Paraview and other standard post-processors and renderers
 - Flexible python post processor, using cross-simulation reuseable post-processing recipes, ready to be automated
