@@ -208,6 +208,13 @@ compile_project() {
     local project_path="$LAGRANGIAN_BASE_DIR/$PROJECT_DIR_NAME"
     log_message "Starting project compilation..."
 
+    # Ensure all scripts have execution permissions (important for CMake and build scripts)
+    log_message "Ensuring execution permissions for all scripts..."
+    find "$project_path" -type f -name "*.sh" -exec chmod +x {} +
+    find "$project_path" -type f -name "configure" -exec chmod +x {} +
+    find "$project_path" -type f -name "mkdirs" -exec chmod +x {} +
+    find "$project_path" -type f -name "install-sh" -exec chmod +x {} +
+
     # Load Intel compiler environment variables
     local intel_dir
     intel_dir=$(spack find -p "$INTEL_COMPILER_VERSION" | grep -v -- '---' | tail -n1 | awk '{print $2}')
