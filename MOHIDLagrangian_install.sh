@@ -16,9 +16,16 @@ set -e
 #     CONFIGURATION (MODIFY IF NECESSARY)
 #==============================================================================
 
-# 1. INSTALLATION DIRECTORY NAME
+# 0. PERMISSIONS ROOT SETTINGS
 #    Defines the folder name inside your home directory.
-#    - Default: "lagrangian" -> installs to $HOME/lagrangian
+#    Set to true to use sudo for system dependencies. 
+#    If false, the script will report missing packages to be installed by an admin.
+#    - Default: "false"
+USE_SUDO=false
+
+# 1. INSTALLATION DIRECTORY NAME
+#    Defines the user has sudo privileges.
+#    - Default: "False" -> installs to $HOME/lagrangian
 INSTALL_FOLDER_NAME="lagrangian"
 
 # 2. GITHUB BRANCH
@@ -59,12 +66,34 @@ echo "--------------------------------------------------------"
 #     HELPER FUNCTIONS
 #==============================================================================
 
+MISSING_ADMIN_COMMANDS=()
+
 # --- Function to log messages to the terminal ---
 log_message() {
     echo ""
     echo "******************************************************************************"
     echo "✓ $(date '+%Y-%m-%d %H:%M:%S') - $1"
     echo "******************************************************************************"
+}
+
+# Helper to check if a command exists
+check_tool() {
+    command -v "$1" >/dev/null 2>&1
+}
+
+# Helper to handle package installation or reporting
+manage_requirement() {
+    local tool_name=$1
+    local install_cmd=$2
+
+    if ! check_tool "$tool_name"; then
+        if [ "$USE_SUDO" = true ]; then
+            log_message "Installing $tool_name..."
+            sudo $install_cmd
+        else
+            MISSING_ADMIN_COMMANDS+=("$install_cmd")
+        fi
+    fi
 }
 
 # --- Function to check if a Spack package is installed ---
@@ -104,29 +133,39 @@ install_base_dependencies() {
 
     log_message "Detected OS: $OS_ID ($OS_LIKE)"
 
+    # Check for System Dependencies
     if [[ "$OS_ID" == "ubuntu" || "$OS_ID" == "debian" || "$OS_LIKE" == *"debian"* ]]; then
-        # --- UBUNTU / DEBIAN ---
-        log_message "Installing system dependencies using apt (Ubuntu/Debian)..."
-        sudo apt-get update
-        sudo apt-get install -y git vim python3 python3-pip python3-venv build-essential
-
-    elif [[ "$OS_ID" == "rocky" || "$OS_ID" == "centos" || "$OS_ID" == "rhel" || "$OS_LIKE" == *"rhel"* || "$OS_LIKE" == *"fedora"* ]]; then
-        # --- ROCKY LINUX / RHEL ---
-        log_message "Installing system dependencies using dnf (Rocky/RHEL)..."
-        
-        # Install EPEL release if not present (sometimes needed for specific packages)
-        if ! rpm -q epel-release > /dev/null 2>&1; then
-             log_message "Installing EPEL repository..."
-             sudo dnf install -y epel-release
+        if [ "$USE_SUDO" = true ]; then
+            log_message "Updating apt repositories..."
+            sudo apt-get update -y
         fi
         
-        sudo dnf update -y
-        # 'Development Tools' is the RHEL equivalent of 'build-essential'
-        sudo dnf groupinstall -y "Development Tools"
-        sudo dnf install -y git vim python3 python3-pip which
+        # Ahora instalamos uno por uno
+        manage_requirement "git" "apt-get install -y git"
+        manage_requirement "python3" "apt-get install -y python3 python3-pip python3-venv"
+        manage_requirement "gcc" "apt-get install -y build-essential"
+        manage_requirement "vim" "apt-get install -y vim"
 
-    else
-        log_message "WARNING: Unsupported OS family. Skipping system package installation."
+    elif [[ "$OS_ID" == "rocky" || "$OS_ID" == "centos" || "$OS_ID" == "rhel" || "$OS_LIKE" == *"rhel"* ]]; then manage_requirement "git" "dnf install -y git"
+        manage_requirement "python3" "dnf install -y python3 python3-pip"
+        manage_requirement "gcc" "dnf groupinstall -y 'Development Tools'"
+        manage_requirement "vim" "dnf install -y vim"
+        manage_requirement "which" "dnf install -y which"
+    fi
+
+    # Exit if admin action is required
+    if [ ${#MISSING_ADMIN_COMMANDS[@]} -ne 0 ]; then
+        echo ""
+        echo "------------------------------------------------------------------------------"
+        echo "CRITICAL: MISSING SYSTEM DEPENDENCIES"
+        echo "The following packages must be installed by an administrator (USE_SUDO=false):"
+        echo "------------------------------------------------------------------------------"
+        for cmd in "${MISSING_ADMIN_COMMANDS[@]}"; do
+            echo "  sudo $cmd"
+        done
+        echo "------------------------------------------------------------------------------"
+        echo "Please contact your system administrator to install these tools."
+        exit 1
     fi
 
     # --- Common Python Dependencies (Clingo) ---
