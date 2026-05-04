@@ -47,7 +47,8 @@
         real(prec) :: dist2bottom               !< tracer's distance to bottom
         real(prec) :: beachPeriod               !< consecutive period of time (in seconds) that the tracer has been beached
         integer    :: beachAreaId               !< beaching area Id where the tracer last beached
-        real(prec) :: beachedWaterLevel         !< Water level at the time the tracer was beachded
+        real(prec) :: beachedWaterLevel         !< Water level at the time the tracer was beached
+        real(prec) :: beachCoastDistance        !< Coast distance at the time the tracer was beached (m)
     end type tracer_state_class
 
     type :: tracer_class                   !<Type - The pure Lagrangian tracer class
@@ -81,7 +82,7 @@
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
     class(tracer_class), intent(in) :: self
-    getNumVars = 22
+    getNumVars = 23
     end function getNumVars
 
     !---------------------------------------------------------------------------
@@ -116,6 +117,7 @@
     getStateArray(20) = self%now%beachPeriod
     getStateArray(21) = self%now%beachAreaId
     getStateArray(22) = self%now%beachedWaterLevel
+    getStateArray(23) = self%now%beachCoastDistance
     end function getStateArray
 
     !---------------------------------------------------------------------------
@@ -149,6 +151,7 @@
     self%now%beachPeriod 			= StateArray(20)
     self%now%beachAreaId 			= StateArray(21)
     self%now%beachedWaterLevel		= StateArray(22)
+    self%now%beachCoastDistance		= StateArray(23)
     end subroutine setStateArray
 
     !---------------------------------------------------------------------------
@@ -210,6 +213,7 @@
     constructor%now%beachPeriod = 0.0
     constructor%now%beachAreaId = 1
     constructor%now%beachedWaterLevel = 0.0
+    constructor%now%beachCoastDistance = 0.0
     ! initialize var name list
     allocate(constructor%varName(varN))
     constructor%varName(1) = 'x'
@@ -234,6 +238,7 @@
     constructor%varName(20) = 'beachPeriod'
     constructor%varName(21) = 'beachAreaId'
     constructor%varName(22) = 'beachedWaterLevel'
+    constructor%varName(23) = 'beachCoastDistance'
     end function constructor
 
     end module tracerBase_mod

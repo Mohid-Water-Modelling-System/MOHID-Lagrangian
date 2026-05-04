@@ -594,13 +594,20 @@
     type(Node), pointer :: beaching_node       !< Single beaching block to process
     type(Node), pointer :: beachingArea_node   !< Single beaching block to process
     type(Node), pointer :: beaching_detail
+    type(Node), pointer :: coastline_node      !< CoastLine node for CoastDistance method
+    type(Node), pointer :: coastline_detail    !< Single child node inside CoastLine
+    type(NodeList), pointer :: coastlineChildren !< Node list for CoastLine children
     type(string) :: outext
-    integer :: i, id, j, coastType, unbeach, runUpEffect, runUpEffectUnbeach
+    integer :: i, id, j, k, coastType, unbeach, runUpEffect, runUpEffectUnbeach
+    integer :: beachingMethodLocal, coastDistWithTide
     type(string) :: pts(2), tag, att_name, att_val, beaching_geometry
+    type(string) :: coastline_geometry_local
     real(prec) :: probability, waterColumnThreshold, beachTimeScale, unbeachTimeScale, beachSlope
+    real(prec) :: coastDistThreshold, coastLineLevel_val
     class(shape), allocatable :: beaching_shape
+    class(shape), allocatable :: coastline_shape
     type(vector) :: coords
-    logical :: read_flag
+    logical :: read_flag, hasCoastLine
     read_flag = .false.
     coords = 0.0
     outext='-->Reading case simulation definitions'
@@ -803,6 +810,61 @@
                 runUpEffectUnbeach = att_val%to_number(kind=1_I1P)
             end if
         
+            ! --- New method selection and CoastDistance parameters ---
+            tag="BeachingMethod"
+            att_name="value"
+            call XMLReader%getNodeAttribute(beachingArea_node, tag, att_name, att_val, read_flag, .false.)
+            beachingMethodLocal = 1
+            if (read_flag) beachingMethodLocal = att_val%to_number(kind=1_I1P)
+
+            coastDistThreshold = 500.0
+            coastDistWithTide = 0
+            coastLineLevel_val = 0.0
+            coastline_geometry_local = ''
+            hasCoastLine = .false.
+
+            if (beachingMethodLocal == 2) then
+                tag="CoastDistanceThreshold"
+                att_name="value"
+                call XMLReader%getNodeAttribute(beachingArea_node, tag, att_name, att_val, read_flag, .false.)
+                if (read_flag) coastDistThreshold = att_val%to_number(kind=1._R8P)
+
+                tag="CoastDistanceWithTide"
+                att_name="value"
+                call XMLReader%getNodeAttribute(beachingArea_node, tag, att_name, att_val, read_flag, .false.)
+                if (read_flag) coastDistWithTide = att_val%to_number(kind=1_I1P)
+
+                if (coastDistWithTide == 1) then
+                    tag="CoastLineLevel"
+                    att_name="value"
+                    call XMLReader%getNodeAttribute(beachingArea_node, tag, att_name, att_val, read_flag, .false.)
+                    if (read_flag) coastLineLevel_val = att_val%to_number(kind=1._R8P)
+                end if
+
+                ! Read CoastLine child polygon
+                coastline_node => item(getElementsByTagname(beachingArea_node, "CoastLine"), 0)
+                if (associated(coastline_node)) then
+                    coastlineChildren => getChildNodes(coastline_node)
+                    do k = 0, getLength(coastlineChildren) - 1
+                        coastline_detail => item(coastlineChildren, k)
+                        coastline_geometry_local = getLocalName(coastline_detail)
+                        if (Geometry%isPolygon(coastline_geometry_local)) then
+                            call Geometry%allocateShape(coastline_geometry_local, coastline_shape)
+                            call read_xml_geometry(coastline_node, coastline_detail, coastline_shape)
+                            hasCoastLine = .true.
+                            exit
+                        end if
+                    end do
+                end if
+
+                if (.not. hasCoastLine) then
+                    outext = '-->BeachingArea id='//id//' uses BeachingMethod=2 but no <CoastLine> polygon found. Stopping.'
+                    call Log%put(outext)
+                    stop
+                end if
+            end if
+            ! --- end new parameters ---
+
             beachingChildren => getChildNodes(beachingArea_node) !getting all of the nodes bellow the main source node (all of it's private info)
             do i=0, getLength(beachingChildren)-1
                 beaching_detail => item(beachingChildren,i) !grabing a node
@@ -815,9 +877,22 @@
             end do
             
             !initializing Beach area
-            call Globals%BeachingAreas%beachArea(j+1)%initialize(id, coastType, probability, waterColumnThreshold, &
-                                                 beachTimeScale, unbeach, unbeachTimeScale, runUpEffect, &
-                                                 beachSlope, runUpEffectUnbeach, beaching_geometry, beaching_shape)
+            if (beachingMethodLocal == 2 .and. hasCoastLine) then
+                call Globals%BeachingAreas%beachArea(j+1)%initialize(id, coastType, probability, waterColumnThreshold, &
+                                                     beachTimeScale, unbeach, unbeachTimeScale, runUpEffect, &
+                                                     beachSlope, runUpEffectUnbeach, beaching_geometry, beaching_shape, &
+                                                     beachingMethodLocal, coastDistThreshold, &
+                                                     (coastDistWithTide == 1), coastLineLevel_val, &
+                                                     coastline_geometry_local, coastline_shape)
+                deallocate(coastline_shape)
+            else
+                call Globals%BeachingAreas%beachArea(j+1)%initialize(id, coastType, probability, waterColumnThreshold, &
+                                                     beachTimeScale, unbeach, unbeachTimeScale, runUpEffect, &
+                                                     beachSlope, runUpEffectUnbeach, beaching_geometry, beaching_shape, &
+                                                     beachingMethodLocal, coastDistThreshold, &
+                                                     (coastDistWithTide == 1), coastLineLevel_val, &
+                                                     coastline_geometry_local)
+            end if
        
             deallocate(beaching_shape)
         enddo

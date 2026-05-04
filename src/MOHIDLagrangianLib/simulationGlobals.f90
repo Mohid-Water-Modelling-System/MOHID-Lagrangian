@@ -406,6 +406,12 @@
         real(prec) :: beachTimeScale            !< Time scale use to calculate the beach probability = 1-exp(dt/beach_time_scale). dt = (CurrentTime - LastAtualization)
         real(prec) :: unbeachTimeScale          !< Time scale use to calculate the Unbeach probability = 1-exp(BeachPeriod/unbeach_time_scale)
         real(prec) :: beachSlope                !< Beach slope
+        integer :: beachingMethod               !< Beaching method: 1=WaterColumn (default), 2=CoastDistance, 3=InsideBuffer
+        real(prec) :: coastDistanceThreshold    !< Distance threshold (m) for CoastDistance method
+        logical :: coastDistanceWithTide        !< Apply tide correction to coast distance computation
+        real(prec) :: coastLineLevel            !< Coastline vertical level for tide correction (m)
+        type(string) :: coastline_geometry      !< geometry type name for the coastline polygon
+        class(shape), allocatable :: coastlineShape !< coastline polygon shape (for CoastDistance method)
         type(string) :: beaching_geometry       !< polygon describing the beach geometry
         class(shape), allocatable :: geometry   !< geometry shapetype (must be polygon)
     end type beach_par
@@ -3016,11 +3022,14 @@
     !> @brief
     !> source inititialization proceadure - initializes Beaching variables
     !> @param[in] beach, id, coastType, probability, waterColumnThreshold, beachTimeScale, unbeach, unbeachTimeScale, runUpEffect,&
-    !> beachSlope, runUpEffectUnbeach, beaching_geometry, shapetype
+    !> beachSlope, runUpEffectUnbeach, beaching_geometry, shapetype, beachingMethod, coastDistanceThreshold,&
+    !> coastDistanceWithTide, coastLineLevel, coastline_geometry, coastlineShapeIn
     !---------------------------------------------------------------------------
     subroutine initializeBeachAreas(beach, id, coastType, probability, waterColumnThreshold, &
                                 beachTimeScale, unbeach, unbeachTimeScale, runUpEffect, &
-                                beachSlope, runUpEffectUnbeach, beaching_geometry, shapetype)
+                                beachSlope, runUpEffectUnbeach, beaching_geometry, shapetype, &
+                                beachingMethod, coastDistanceThreshold, coastDistanceWithTide, &
+                                coastLineLevel, coastline_geometry, coastlineShapeIn)
     class(beach_class) :: beach
     integer, intent(in) :: id
     integer, intent(in) :: coastType
@@ -3034,6 +3043,12 @@
     real(prec), intent(in) :: beachSlope
     type(string), intent(in) :: beaching_geometry
     class(shape), intent(in) :: shapetype
+    integer, intent(in) :: beachingMethod
+    real(prec), intent(in) :: coastDistanceThreshold
+    logical, intent(in) :: coastDistanceWithTide
+    real(prec), intent(in) :: coastLineLevel
+    type(string), intent(in) :: coastline_geometry
+    class(shape), intent(in), optional :: coastlineShapeIn
     
     !Locals-----------------------------------------
     
@@ -3056,6 +3071,14 @@
     beach%par%runUpEffectUnbeach = runUpEffectUnbeach
     beach%par%beaching_geometry = beaching_geometry
     allocate(beach%par%geometry, source=shapetype)
+    beach%par%beachingMethod = beachingMethod
+    beach%par%coastDistanceThreshold = coastDistanceThreshold
+    beach%par%coastDistanceWithTide = coastDistanceWithTide
+    beach%par%coastLineLevel = coastLineLevel
+    beach%par%coastline_geometry = coastline_geometry
+    if (beachingMethod == 2 .and. present(coastlineShapeIn)) then
+        allocate(beach%par%coastlineShape, source=coastlineShapeIn)
+    endif
 
     sizem = sizeof(beach)
     call SimMemory%addbeachArea(sizem)
