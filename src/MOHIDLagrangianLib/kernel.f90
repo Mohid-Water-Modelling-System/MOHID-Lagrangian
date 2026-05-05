@@ -902,11 +902,8 @@
     !> @author Joao Sobrinho
     !> @brief
     !> Beaching Kernel, uses the already updated state vector and determines if
-    !> and how beaching occurs using the formulation devised in Project FreeLitterAt.
-    !> Supports three beaching methods: 1=WaterColumn, 2=CoastDistance, 3=InsideBuffer.
-    !> Un-beaching is handled by the internal subroutine CheckUnBeachLitter.
-    !> Affects the state vector and state vector derivative.
-    !> @param[in] self, sv, bdata, time, svDt, dt
+    !> and how beaching occurs using the formulation devised in Project FreeLitterAt. Affects the state vector and state vector derivative.
+    !> @param[in] self, sv, svDt, dt
     !---------------------------------------------------------------------------
     function FreeLitterAtBeaching(self, sv, bdata, time, svDt, dt)
     class(kernel_class), intent(inout) :: self
@@ -916,293 +913,151 @@
     real(prec), intent(in) :: time
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: FreeLitterAtBeaching
     real(prec), intent(in) :: dt
-    real(prec) :: x, y
-    real(prec) :: BeachWaterLevel, BeachCoastDistance
-    logical    :: Beached
-    integer    :: beachMethod
-    type(vector), dimension(2) :: beachPolygonBBox
-    type(vector), dimension(:), allocatable :: beachPolygonVertices
-    integer :: col_bat, col_Hs, col_Tp, col_beachPeriod, col_beachedWaterLevel
-    integer :: col_ssh, col_beachAreaId, col_beachCoastDistance
+    real(prec)  :: limLeft, limRight, limBottom, limTop, x, y, Bathymetry
+    real(prec) :: WaterColumn, WaterLevel, rand1, Probability, Tbeach, Tunbeach, Hs, Tp, m, threshold
+    type(vector), dimension(2) :: beachPolygonBBox !Vertices of the beching area polygon
+    type(vector), dimension(:), allocatable :: beachPolygonVertices !Vertices of the beching area polygon
+    integer :: col_bat, col_Hs, col_Tp, col_beachPeriod, col_beachedWaterLevel, col_ssh, col_beachAreaId
     type(string) :: tag, outext
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
-    integer :: i, np
+    integer :: i, np, j
     type(string), dimension(:), allocatable :: requiredVars
+    type(string) :: temp_str
     !Begin------------------------------------------------------
-
+    
     ! Making FreeLitterAtBeaching = svDt so it can be used to set x and y position derivatives to 0 if beached
     FreeLitterAtBeaching = svDt
-
+    
     !bail early
     if (size(Globals%BeachingAreas%beachArea) < 1) then
         outext = '[Kernel::FreeLitterAtBeaching] At least 1 beaching area polygon is required for beaching to be computed'
         call Log%put(outext)
         return
     endif
-
+       
     allocate(requiredVars(3))
     requiredVars(1) = Globals%Var%ssh
     requiredVars(2) = Globals%Var%hs
     requiredVars(3) = Globals%Var%ts
-
+    
     call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, justRequired = .true., reqVertInt = .false.)
-
-    col_bat = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
+    
+    col_bat = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)       
     col_ssh = Utils%find_str(var_name, Globals%Var%ssh, .true.)
-
+    
     tag = 'beachPeriod'
     col_beachPeriod = Utils%find_str(sv%varName, tag, .true.)
-
+    
     tag = 'beachAreaId'
     col_beachAreaId = Utils%find_str(sv%varName, tag, .true.)
-
+    
     tag = 'beachedWaterLevel'
     col_beachedWaterLevel = Utils%find_str(sv%varName, tag, .true.)
-
-    tag = 'beachCoastDistance'
-    col_beachCoastDistance = Utils%find_str(sv%varName, tag, .true.)
-
-    ! Lookup wave columns if any area uses run-up for beaching or unbeaching
-    col_Hs = 0
-    col_Tp = 0
-    if (any(Globals%BeachingAreas%beachArea(:)%par%runUpEffect == 1) .or. &
-        any(Globals%BeachingAreas%beachArea(:)%par%runUpEffectUnbeach == 1)) then
-        col_Hs = Utils%find_str(var_name, Globals%Var%hs, .true.) ! Significant Wave Height
-        col_Tp = Utils%find_str(var_name, Globals%Var%ts, .true.) ! Wave Period
+    
+    if (any(Globals%BeachingAreas%beachArea(:)%par%runUpEffect == 1)) then
+        col_Hs = Utils%find_str(var_name, Globals%Var%hs, .true.) ! Significant Wave Height      
+        col_Tp = Utils%find_str(var_name, Globals%Var%ts, .true.) ! Wave Period     
     endif
-
-    ! --- BEACHING LOOP ---
-    ! Only attempt to beach tracers that are not yet beached (beachPeriod == 0)
-    do i = 1, size(Globals%BeachingAreas%beachArea)
-
+    
+    do i=1,size(Globals%BeachingAreas%beachArea)
+        
         beachPolygonBBox = Geometry%getBoundingBox(Globals%BeachingAreas%beachArea(i)%par%geometry)
         allocate(beachPolygonVertices(size(Geometry%getPoints(Globals%BeachingAreas%beachArea(i)%par%geometry))))
         beachPolygonVertices = Geometry%getPoints(Globals%BeachingAreas%beachArea(i)%par%geometry)
-        beachMethod = Globals%BeachingAreas%beachArea(i)%par%beachingMethod
+        
+        limLeft = beachPolygonBBox(1)%x !limit left
+        limBottom = beachPolygonBBox(1)%y !limit bottom
+        limRight = beachPolygonBBox(2)%x !limit right
+        limTop = beachPolygonBBox(2)%y !limit top
+        
+        Tbeach      = Globals%BeachingAreas%beachArea(i)%par%beachTimeScale
+        Tunbeach    = Globals%BeachingAreas%beachArea(i)%par%unbeachTimeScale
 
-        do np = 1, size(sv%state, 1)
-            if (sv%state(np, col_beachPeriod) > 0.0_prec) cycle   ! already beached, skip beaching
-            x = sv%state(np, 1)
-            y = sv%state(np, 2)
-            if (Utils%isPointInsidePolygon(x, y, beachPolygonVertices)) then
-                Beached = .false.
-                BeachWaterLevel = 0.0_prec
-                BeachCoastDistance = 0.0_prec
-                select case (beachMethod)
-                case (1)
-                    call FreeLitterAtBeachingComputeWaterColumnBeach(i, np, BeachWaterLevel, Beached)
-                case (2)
-                    call ComputeCoastDistanceBeach(i, np, BeachWaterLevel, BeachCoastDistance, Beached)
-                case (3)
-                    call FreeLitterAtBeachingComputeInsideBuffer(i, np, BeachWaterLevel, Beached)
-                end select
-                if (Beached) then
-                    sv%state(np, col_beachPeriod)       = dt
-                    sv%state(np, col_beachedWaterLevel) = BeachWaterLevel
-                    sv%state(np, col_beachCoastDistance)= BeachCoastDistance
-                    sv%state(np, col_beachAreaId)       = real(Globals%BeachingAreas%beachArea(i)%par%id, prec)
-                end if
-            end if
-        end do
+        do np=1, size(sv%state,1)
+                
+            if (sv%state(np,col_beachPeriod) > 0.0 .and. sv%state(np,col_beachAreaId) == Globals%BeachingAreas%beachArea(i)%par%id) then
+                ! Already beached in this beaching area, so try and unbeach it. no need to check if it is inside the beaching area
+                WaterLevel = var_dt(np,col_ssh)
+                Bathymetry = sv%state(np,col_bat)
+            
+                WaterColumn =  WaterLevel - Bathymetry
+                
+                sv%state(np,col_beachPeriod) = sv%state(np,col_beachPeriod) + dt
+                threshold = Globals%BeachingAreas%beachArea(i)%par%waterColumnThreshold
+                
+                if (WaterColumn > threshold .and. WaterLevel > Bathymetry) then
+                
+                    call random_number(rand1)
+                    
+                    Probability = 1 - exp(-dt/Tunbeach)
 
-        deallocate(beachPolygonVertices)
-    end do
+                    if (Probability > rand1) then
+                            
+                        if (Globals%BeachingAreas%beachArea(i)%par%runUpEffectUnbeach == 1) then
+                            Hs         = var_dt(np,col_Hs)
+                            Tp         = var_dt(np,col_Tp) 
+                            m          = Globals%BeachingAreas%beachArea(i)%par%beachSlope
 
-    ! --- UNBEACHING ---
-    ! Increment beach period and probabilistically unbeach tracers
-    call CheckUnBeachLitter()
+                            WaterLevel = var_dt(np,col_ssh) + WaveRunUpStockdon2006(Hs,Tp,m)   
+                        endif
 
-    ! --- ZERO VELOCITIES FOR BEACHED TRACERS ---
-    where (sv%state(:, col_beachPeriod) > 0.0_prec)
-        FreeLitterAtBeaching(:, 1) = 0.0_prec  ! Do not change x position
-        FreeLitterAtBeaching(:, 2) = 0.0_prec  ! Do not change y position
-        FreeLitterAtBeaching(:, 3) = 0.0_prec  ! Do not change z position
-        sv%state(:, 4) = 0.0_prec  ! nor velocities
-        sv%state(:, 5) = 0.0_prec
-        sv%state(:, 6) = 0.0_prec
-        sv%state(:, 7) = 0.0_prec
-        sv%state(:, 8) = 0.0_prec
-        sv%state(:, 9) = 0.0_prec
-    end where
+                        if (WaterLevel > sv%state(np,col_beachedWaterLevel)) then
+                            sv%state(np,col_beachPeriod) = 0.0
+                        endif
+                    endif
+                endif
+            
+            else !Not beached yet, try beaching it. Need to check if tracer is inside beaching area
+                x = sv%state(np,1)
+                y = sv%state(np,2)
+                !Skip all tracers outside the limits of this beaching area
+                if (Utils%isPointInsidePolygon(x, y, beachPolygonVertices)) then
+                    WaterLevel = var_dt(np,col_ssh)
+                    Bathymetry = sv%state(np,col_bat)
+                    WaterColumn =  WaterLevel - Bathymetry
+                    threshold = Globals%BeachingAreas%beachArea(i)%par%waterColumnThreshold
+                    if (WaterColumn < threshold .and. WaterLevel > Bathymetry) then
+                        
+                        call random_number(rand1)
+                
+                        Probability = 1 - exp(-dt/Tbeach)
+                    
+                        if (Probability > rand1) then 
+                            if (Globals%BeachingAreas%beachArea(i)%par%runUpEffect == 1) then
+                                Hs         = var_dt(np,col_Hs)
+                                Tp         = var_dt(np,col_Tp) 
+                                m          = Globals%BeachingAreas%beachArea(i)%par%beachSlope
 
+                                sv%state(np,col_beachedWaterLevel) = var_dt(np,col_ssh) + WaveRunUpStockdon2006(Hs,Tp,m)  
+                            else
+                                sv%state(np,col_beachedWaterLevel) = var_dt(np,col_ssh)
+                            endif
+                                    
+                            sv%state(np,col_beachPeriod) = sv%state(np,col_beachPeriod) + dt
+                        endif
+                    endif
+                endif
+            endif
+        enddo
+    enddo
+        
+    where (sv%state(:,col_beachPeriod) > 0.0)
+        FreeLitterAtBeaching(:,1) = 0.0 !Do not change positions
+        FreeLitterAtBeaching(:,2) = 0.0 !Do not change positions
+        FreeLitterAtBeaching(:,3) = 0.0 !Do not change positions
+        sv%state(:,4) = 0.0 !nor velocities
+        sv%state(:,5) = 0.0 !nor velocities
+        sv%state(:,6) = 0.0 !nor velocities
+        sv%state(:,7) = 0.0 !nor velocities
+        sv%state(:,8) = 0.0 !nor velocities
+        sv%state(:,9) = 0.0 !nor velocities
+    endwhere
+    
+    
     deallocate(var_dt)
     deallocate(var_name)
-
-    contains
-
-    !---------------------------------------------------------------------------
-    !> Beaching method 1: Water Column threshold.
-    !> Beaches a tracer if the water column at its location is below the threshold.
-    !---------------------------------------------------------------------------
-    subroutine FreeLitterAtBeachingComputeWaterColumnBeach(nArea, nP, BchWaterLevel, Bchd)
-    integer, intent(in)    :: nArea, nP
-    real(prec), intent(out):: BchWaterLevel
-    logical,    intent(out):: Bchd
-    real(prec) :: WL, Bath, WC, Rand, Prob, Hs_loc, Tp_loc, m_loc, thresh_loc
-    Bchd = .false.
-    BchWaterLevel = 0.0_prec
-    WL        = var_dt(nP, col_ssh)
-    Bath      = sv%state(nP, col_bat)
-    WC        = WL - Bath
-    thresh_loc= Globals%BeachingAreas%beachArea(nArea)%par%waterColumnThreshold
-    if (WC < thresh_loc .and. WL > Bath) then
-        call random_number(Rand)
-        Prob = 1.0_prec - exp(-dt / Globals%BeachingAreas%beachArea(nArea)%par%beachTimeScale)
-        if (Prob > Rand) then
-            Bchd = .true.
-            if (Globals%BeachingAreas%beachArea(nArea)%par%runUpEffect == 1) then
-                Hs_loc = var_dt(nP, col_Hs)
-                Tp_loc = var_dt(nP, col_Tp)
-                m_loc  = Globals%BeachingAreas%beachArea(nArea)%par%beachSlope
-                BchWaterLevel = WL + WaveRunUpStockdon2006(Hs_loc, Tp_loc, m_loc)
-            else
-                BchWaterLevel = WL
-            end if
-        end if
-    end if
-    end subroutine FreeLitterAtBeachingComputeWaterColumnBeach
-
-    !---------------------------------------------------------------------------
-    !> Beaching method 2: Distance to coastline.
-    !> Beaches a tracer if its distance to the coastline polygon is below the threshold.
-    !> Optionally corrects the effective coast position for tidal level.
-    !---------------------------------------------------------------------------
-    subroutine ComputeCoastDistanceBeach(nArea, nP, BchWaterLevel, BchCoastDist, Bchd)
-    integer, intent(in)    :: nArea, nP
-    real(prec), intent(out):: BchWaterLevel, BchCoastDist
-    logical,    intent(out):: Bchd
-    type(vector), dimension(:), allocatable :: coastVerts
-    real(prec) :: x_tr, y_tr, dx, dy, distVert, minDistDeg, CoastX
-    real(prec) :: WL_loc, Rand, Prob, Hs_loc, Tp_loc, m_loc
-    real(prec) :: coastLvl, distTide
-    integer    :: k_cl
-    Bchd = .false.
-    BchWaterLevel = 0.0_prec
-    BchCoastDist  = 0.0_prec
-    x_tr   = sv%state(nP, 1)
-    y_tr   = sv%state(nP, 2)
-    WL_loc = var_dt(nP, col_ssh)
-    ! Compute minimum distance from tracer to coastline polygon vertices (in degrees)
-    allocate(coastVerts(size(Geometry%getPoints(Globals%BeachingAreas%beachArea(nArea)%par%coastlineShape))))
-    coastVerts = Geometry%getPoints(Globals%BeachingAreas%beachArea(nArea)%par%coastlineShape)
-    minDistDeg = huge(1.0_prec)
-    do k_cl = 1, size(coastVerts)
-        dx = x_tr - coastVerts(k_cl)%x
-        dy = y_tr - coastVerts(k_cl)%y
-        distVert = sqrt(dx*dx + dy*dy)
-        if (distVert < minDistDeg) minDistDeg = distVert
-    end do
-    deallocate(coastVerts)
-    ! Convert degrees to meters (~111 km per degree at equator)
-    BchCoastDist = minDistDeg * 111.0e3_prec
-    CoastX = BchCoastDist
-    ! Apply tide correction to effective coast distance if requested
-    if (Globals%BeachingAreas%beachArea(nArea)%par%coastDistanceWithTide) then
-        coastLvl = Globals%BeachingAreas%beachArea(nArea)%par%coastLineLevel
-        m_loc    = Globals%BeachingAreas%beachArea(nArea)%par%beachSlope
-        distTide = (coastLvl - WL_loc) / m_loc
-        CoastX   = CoastX - distTide
-    end if
-    if (CoastX < Globals%BeachingAreas%beachArea(nArea)%par%coastDistanceThreshold) then
-        call random_number(Rand)
-        Prob = 1.0_prec - exp(-dt / Globals%BeachingAreas%beachArea(nArea)%par%beachTimeScale)
-        if (Prob > Rand) then
-            Bchd = .true.
-            if (Globals%BeachingAreas%beachArea(nArea)%par%runUpEffect == 1) then
-                Hs_loc = var_dt(nP, col_Hs)
-                Tp_loc = var_dt(nP, col_Tp)
-                m_loc  = Globals%BeachingAreas%beachArea(nArea)%par%beachSlope
-                BchWaterLevel = WL_loc + WaveRunUpStockdon2006(Hs_loc, Tp_loc, m_loc)
-            else
-                BchWaterLevel = WL_loc
-            end if
-        end if
-    end if
-    end subroutine ComputeCoastDistanceBeach
-
-    !---------------------------------------------------------------------------
-    !> Beaching method 3: Inside buffer (polygon presence).
-    !> Beaches a tracer simply by being inside the beach polygon, using a
-    !> time-scale probability — no water column or distance threshold.
-    !---------------------------------------------------------------------------
-    subroutine FreeLitterAtBeachingComputeInsideBuffer(nArea, nP, BchWaterLevel, Bchd)
-    integer, intent(in)    :: nArea, nP
-    real(prec), intent(out):: BchWaterLevel
-    logical,    intent(out):: Bchd
-    real(prec) :: WL_loc, Rand, Prob, Hs_loc, Tp_loc, m_loc
-    Bchd = .false.
-    BchWaterLevel = 0.0_prec
-    WL_loc = var_dt(nP, col_ssh)
-    call random_number(Rand)
-    Prob = 1.0_prec - exp(-dt / Globals%BeachingAreas%beachArea(nArea)%par%beachTimeScale)
-    if (Prob > Rand) then
-        Bchd = .true.
-        if (Globals%BeachingAreas%beachArea(nArea)%par%runUpEffect == 1) then
-            Hs_loc = var_dt(nP, col_Hs)
-            Tp_loc = var_dt(nP, col_Tp)
-            m_loc  = Globals%BeachingAreas%beachArea(nArea)%par%beachSlope
-            BchWaterLevel = WL_loc + WaveRunUpStockdon2006(Hs_loc, Tp_loc, m_loc)
-        else
-            BchWaterLevel = WL_loc
-        end if
-    end if
-    end subroutine FreeLitterAtBeachingComputeInsideBuffer
-
-    !---------------------------------------------------------------------------
-    !> Un-beaching check: increments beachPeriod and probabilistically releases
-    !> beached tracers when water level exceeds the stored beached water level.
-    !> Corresponds to MOHID ModuleLitter::CheckUnBeachLitter + ComputeUnBeach.
-    !---------------------------------------------------------------------------
-    subroutine CheckUnBeachLitter()
-    integer    :: iArea, nP2, iBeachMethod
-    real(prec) :: Tunbeach_local, WL_unbeach, Rand, Prob
-    real(prec) :: WC_unbeach, thresh_unbeach, Bath_loc
-    real(prec) :: Hs_loc, Tp_loc, m_loc
-    logical    :: CheckUnbeach
-    do iArea = 1, size(Globals%BeachingAreas%beachArea)
-        if (Globals%BeachingAreas%beachArea(iArea)%par%unbeach /= 1) cycle
-        iBeachMethod   = Globals%BeachingAreas%beachArea(iArea)%par%beachingMethod
-        Tunbeach_local = Globals%BeachingAreas%beachArea(iArea)%par%unbeachTimeScale
-        do nP2 = 1, size(sv%state, 1)
-            if (sv%state(nP2, col_beachPeriod) <= 0.0_prec) cycle
-            if (int(sv%state(nP2, col_beachAreaId)) /= Globals%BeachingAreas%beachArea(iArea)%par%id) cycle
-            ! Increment the time the tracer has been beached
-            sv%state(nP2, col_beachPeriod) = sv%state(nP2, col_beachPeriod) + dt
-            ! Determine if the physical conditions allow unbeaching
-            CheckUnbeach = .false.
-            WL_unbeach   = var_dt(nP2, col_ssh)
-            if (iBeachMethod == 1) then
-                ! WaterColumn method: require water column to exceed threshold
-                Bath_loc       = sv%state(nP2, col_bat)
-                WC_unbeach     = WL_unbeach - Bath_loc
-                thresh_unbeach = Globals%BeachingAreas%beachArea(iArea)%par%waterColumnThreshold
-                if (WC_unbeach > thresh_unbeach .and. WL_unbeach > Bath_loc) CheckUnbeach = .true.
-            else
-                ! CoastDistance and InsideBuffer methods: a valid water level is sufficient
-                CheckUnbeach = .true.
-            end if
-            if (CheckUnbeach) then
-                ! Optionally add wave run-up to water level for unbeaching comparison
-                if (Globals%BeachingAreas%beachArea(iArea)%par%runUpEffectUnbeach == 1) then
-                    Hs_loc = var_dt(nP2, col_Hs)
-                    Tp_loc = var_dt(nP2, col_Tp)
-                    m_loc  = Globals%BeachingAreas%beachArea(iArea)%par%beachSlope
-                    WL_unbeach = WL_unbeach + WaveRunUpStockdon2006(Hs_loc, Tp_loc, m_loc)
-                end if
-                ! Unbeach only if current (effective) water level exceeds stored beached water level
-                if (WL_unbeach > sv%state(nP2, col_beachedWaterLevel)) then
-                    call random_number(Rand)
-                    Prob = 1.0_prec - exp(-dt / Tunbeach_local)
-                    if (Prob > Rand) then
-                        sv%state(nP2, col_beachPeriod) = 0.0_prec
-                    end if
-                end if
-            end if
-        end do
-    end do
-    end subroutine CheckUnBeachLitter
-
+    
     end function FreeLitterAtBeaching
 
     !---------------------------------------------------------------------------
