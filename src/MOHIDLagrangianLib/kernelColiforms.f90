@@ -31,7 +31,8 @@
     use kernelUtils_mod
 
     type :: kernelColiform_class        !< Coliform kernel class
-        type(interpolator_class) :: Interpolator !< The interpolator object for the kernel
+        type(interpolator_class) 	:: Interpolator !< The interpolator object for the kernel
+		type(kernelUtils_class) 	:: KernelUtils   !< kernel utils	
     contains
     procedure :: initialize => initKernelColiform
     procedure :: MortalityT90
@@ -39,19 +40,18 @@
 
     end type kernelColiform_class
     
-    type(kernelUtils_class) :: KernelUtils_coliform   !< kernel utils
-
     public :: kernelColiform_class
     contains
     
     !---------------------------------------------------------------------------
     !> @author Joao Sobrinho - +Atlantic
+	!> Modified @author Mohsen Shabani - CoLab+Atlantic- 2026.05.01 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> T_90 fecal coliforms decay kernel.
     !> @param[in] self, sv, bdata, time
     !---------------------------------------------------------------------------
     function MortalityT90(self, sv, bdata, time)
-    class(kernelColiform_class), intent(in) :: self
+    class(kernelColiform_class), intent(inout) :: self
     type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
@@ -75,6 +75,8 @@
     col_SWcoef = Utils%find_str(sv%varName, tag, .true.)
     tag = 'sw_percentage'
     col_SWper = Utils%find_str(sv%varName, tag, .true.)
+	tag = 'concentration'
+	col_conc = Utils%find_str(sv%varName, tag, .true.)
         
     if (all(sv%state(:,col_T90_varM) == 1)) then
         T90_method = 1
@@ -85,7 +87,7 @@
         allocate(requiredVars(1))
         requiredVars(1) = Globals%Var%rad
         
-        call KernelUtils_coliform%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, justRequired = .true., reqVertInt = .false.)
+        call self%KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, justRequired = .true., reqVertInt = .false.)
         
         col_temp = Utils%find_str(sv%varname, Globals%Var%temp, .true.)
         col_sal = Utils%find_str(sv%varname, Globals%Var%sal, .true.)
@@ -93,7 +95,7 @@
         col_rad = Utils%find_str(var_name, Globals%Var%rad, .true.)
         
         !Computes radiation at vertical center of tracers
-        call KernelUtils_coliform%getSWRadiation(sv, var_dt, bdata, col_rad, col_SWper, col_SWcoef, Radiation)
+        call self%KernelUtils%getSWRadiation(sv, var_dt, bdata, col_rad, col_SWper, col_SWcoef, Radiation)
         
         !Compute T90
         if (T90_method == 1) then
@@ -124,14 +126,15 @@
     
     end function MortalityT90
     
-    
+    !---------------------------------------------------------------------------    
     !> @author Joao Sobrinho - +Atlantic
+	!> Modified @author Mohsen Shabani - CoLab+Atlantic- 2026.05.01 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> Computes the dilution of dissolved material in the water column by increasing its volume
     !> @param[in] self, sv, bdata, time
     !---------------------------------------------------------------------------
     function Dilution(self, sv, bdata, time, dt)
-    class(kernelColiform_class), intent(in) :: self
+    class(kernelColiform_class), intent(inout) :: self
     type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     integer :: np, nf, bkg, init_vol_IDx, vol_Idx, conc_idx, nf_u, nf_v
@@ -190,6 +193,7 @@
     end function Dilution
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - GFNL
+	!> Modified @author Mohsen Shabani - CoLab+Atlantic- 2026.05.01 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> Initializer method adpated from for kernel class. Sets the type of
     !> kernel and the interpolator to evaluate it.
@@ -199,7 +203,7 @@
     type(string) :: interpName
     interpName = 'linear'
     call self%Interpolator%initialize(1,interpName)
-    call KernelUtils_coliform%initialize()
+    call self%KernelUtils%initialize()
     end subroutine initKernelColiform
 
     end module kernelColiform_mod

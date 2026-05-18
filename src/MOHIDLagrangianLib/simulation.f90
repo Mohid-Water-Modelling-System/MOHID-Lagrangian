@@ -409,6 +409,7 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani - CoLab+Atlantic- 2026.05.01 | Email:shabani.mohsen@outlook.com
     !> @brief
     !> Simulation method to distribute the Sources to the Blocks, allocate the
     !> respective Tracers and redistribute if needed
@@ -434,7 +435,10 @@
     end do
     call tempSources%finalize() !destroying the temporary Sources now they are shipped to the Blocks
     outext='-->Sources allocated to their current Blocks'
-    call Log%put(outext,.false.)
+	do i=1, size(sBlock)
+        call sBlock(i)%print()
+    end do
+    ! call Log%put(outext,.false.)
     !outext = ntrc
     !outext='-->'//outext//' Tracers on the emission stack'
     !call Log%put(outext,.false.)

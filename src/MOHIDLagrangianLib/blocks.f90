@@ -467,8 +467,30 @@
     call sBlock(blk)%LSource%add(src)
     end subroutine sendSource
 
+    ! !---------------------------------------------------------------------------
+    ! !> @author Ricardo Birjukovs Canelas - MARETEC
+    ! !> @brief
+    ! !> Returns the index of a Block for a given set of coordinates.
+    ! !> @param[in] pt
+    ! !---------------------------------------------------------------------------
+    ! integer function getBlockIndex(pt)
+    ! implicit none
+    ! type(vector), intent(in) :: pt
+    ! integer :: ix, iy
+    ! type(string) :: outext
+    ! ix = min(int((pt%x + BBox%offset%x)/Globals%SimDefs%blocksize%x) + 1, Globals%SimDefs%numblocksx)
+    ! iy = min(int((pt%y + BBox%offset%y)/Globals%SimDefs%blocksize%y) + 1, Globals%SimDefs%numblocksy)
+    ! getBlockIndex = Globals%SimDefs%numblocksy*(ix-1) + iy
+    ! if (getBlockIndex < 0) then
+        ! if (getBlockIndex > Globals%SimDefs%numblocks) then
+            ! outext='[getBlockIndex]: point coordinates out of simulation bound, stoping'
+            ! call Log%put(outext)
+            ! stop
+        ! end if
+    ! end if
+    ! end function getBlockIndex
     !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> @author Mohsen Shabani - CoLab+Atlantic- 2026.05.01 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> Returns the index of a Block for a given set of coordinates.
     !> @param[in] pt
@@ -477,19 +499,23 @@
     implicit none
     type(vector), intent(in) :: pt
     integer :: ix, iy
-    type(string) :: outext
-    ix = min(int((pt%x + BBox%offset%x)/Globals%SimDefs%blocksize%x) + 1, Globals%SimDefs%numblocksx)
-    iy = min(int((pt%y + BBox%offset%y)/Globals%SimDefs%blocksize%y) + 1, Globals%SimDefs%numblocksy)
+    type(string) :: outext, temp(5)
+    ix = max(1, min(int((pt%x + BBox%offset%x)/Globals%SimDefs%blocksize%x) + 1, Globals%SimDefs%numblocksx))
+    iy = max(1, min(int((pt%y + BBox%offset%y)/Globals%SimDefs%blocksize%y) + 1, Globals%SimDefs%numblocksy))	
     getBlockIndex = Globals%SimDefs%numblocksy*(ix-1) + iy
-    if (getBlockIndex < 0) then
-        if (getBlockIndex > Globals%SimDefs%numblocks) then
-            outext='[getBlockIndex]: point coordinates out of simulation bound, stoping'
-            call Log%put(outext)
-            stop
-        end if
-    end if
+    if (getBlockIndex < 1 .or. getBlockIndex > Globals%SimDefs%numblocks) then
+        temp(1) = pt%x
+        temp(2) = pt%y
+        temp(3) = ix
+        temp(4) = iy
+        temp(5) = getBlockIndex
+        outext='[getBlockIndex]: point coordinates out of simulation bound or invalid block index. ' // &
+               'x=' // temp(1) // ', y=' // temp(2) // ', ix=' // temp(3) // ', iy=' // temp(4) // ', blk=' // temp(5)
+        call Log%put(outext)
+        stop
+    end if	
+	
     end function getBlockIndex
-
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -558,6 +584,7 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani - CoLab+Atlantic- 2026.05.01 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> routine to set the simulation blocks extents and call the block initializer
     !> @param[in] auto, nblk, nxi, nyi
@@ -569,20 +596,41 @@
     integer, intent(out) :: nxi, nyi
     type(string) :: outext, temp(2)
     integer :: i, j, b
-    real(prec) :: ar
+    ! real(prec) :: ar
+    integer :: ny_try, nx_try
+    real(prec) :: ar, target_ny, best_score, score	
     type(box) :: tempbox
     if (auto) then
         ar = BBox%size%x/BBox%size%y
         ar = Utils%get_closest_twopow(ar) !aspect ratio of our bounding box
-        nyi = sqrt(nblk/ar)
-        if (nblk == 1) nyi = 1
-        if (nyi == 0) then
+        ! nyi = sqrt(nblk/ar)
+        ! if (nblk == 1) nyi = 1
+        ! if (nyi == 0) then
+        target_ny = sqrt(real(nblk, prec)/ar)
+		
+        nyi = 1
+        nxi = nblk
+        best_score = huge(1.0_prec)
+
+        do ny_try = 1, nblk
+            if (mod(nblk, ny_try) /= 0) cycle
+            nx_try = nblk / ny_try
+            score = abs(real(ny_try, prec) - target_ny)
+            if (score < best_score) then
+                best_score = score
+                nyi = ny_try
+                nxi = nx_try
+            end if
+        end do
+
+        if (nxi*nyi /= nblk) then
             temp(1) = ar
             outext='[setBlocks]: block auto sizing failed. Bouding box aspect ratio = '//temp(1)//'. Stoping'
             call Log%put(outext)
             stop
         endif
-        nxi = (nblk/nyi)
+		
+        ! nxi = (nblk/nyi)
 
         b=1
         do i=1, nxi

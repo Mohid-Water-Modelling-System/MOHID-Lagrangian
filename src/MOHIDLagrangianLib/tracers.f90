@@ -14,6 +14,7 @@
 !
 ! DESCRIPTION:
 !> Module to hold and 'wrap' all the tracer respective modules.
+	!> Modified @author Mohsen Shabani - CoLab+Atlantic- 2026.05.01 | Email:shabani.mohsen@outlook.com	
 !------------------------------------------------------------------------------
 
 module tracers_mod
@@ -26,5 +27,6 @@ module tracers_mod
     use tracerSeed_mod    ! Algae Seed particles
     use tracerdetritus_mod    ! Detritus particles
     use tracerwaterQuality_mod    ! Water particles with waterquality processes
+	use tracerFloater_mod	! Floater particles
 
 end module tracers_mod

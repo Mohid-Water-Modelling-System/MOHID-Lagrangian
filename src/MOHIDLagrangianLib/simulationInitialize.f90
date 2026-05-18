@@ -362,6 +362,7 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani - CoLab+Atlantic- 2026.05.01 | Email:shabani.mohsen@outlook.com
     !> @brief
     !> Private source definitions parser routine. Builds the tracer sources from the input xml case file.
     !> @param[in] case_node
@@ -408,7 +409,8 @@
         tag="setsource"
         att_name="id"
         call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val)
-        id=att_val%to_number(kind=1_I1P)
+		! id=att_val%to_number(kind=1_I1P)
+        id=att_val%to_number(kind=1_I4P)
         att_name="name"
         call XMLReader%getNodeAttribute(source_node, tag, att_name, name)
         !reading possible custom resolution

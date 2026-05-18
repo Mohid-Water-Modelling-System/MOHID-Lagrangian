@@ -177,6 +177,7 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani - CoLab+Atlantic- 2026.05.01 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> source property setting routine, calls source by id to set its properties
     !> @param[in] self,srcid_str,ptype,pname
@@ -191,7 +192,8 @@
     type(string) :: outext, temp
     integer :: i
     logical :: notlinked
-    srcid = srcid_str%to_number(kind=1_I1P)
+	! srcid = srcid_str%to_number(kind=1_I1P)
+    srcid = srcid_str%to_number(kind=1_I4P)
     notlinked = .true.  !assuming not linked
     do i=1, size(self%src)
         if (self%src(i)%par%id == srcid) then ! found the correct source to link to
@@ -252,6 +254,7 @@
     type(string), intent(in) :: pname
     type(string), intent(in) :: pvalue
     type(string) :: outext
+
     select case (pname%chars())
     case ('particulate')
         src%prop%particulate = pvalue%to_number(kind=1_I1P)

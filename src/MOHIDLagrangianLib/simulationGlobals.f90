@@ -347,6 +347,7 @@
     contains
     end type maskVals_t
 
+	!> Modified @author Mohsen Shabani - CoLab+Atlantic- 2026.05.01 | Email:shabani.mohsen@outlook.com	
     type :: tracerTypes_t
         integer :: base  = 0
         integer :: paper   = 1
@@ -355,6 +356,7 @@
         integer :: seed = 4
         integer :: detritus = 5
         integer :: waterQuality = 6
+        integer :: floater = 7
     contains
     end type tracerTypes_t
 

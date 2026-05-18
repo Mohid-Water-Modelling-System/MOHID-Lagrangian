@@ -45,6 +45,7 @@
     contains
     procedure :: toTracers
     procedure :: copyState
+    procedure :: deepcopyState	
     procedure :: finalize => cleanState
     end type stateVector_class
 
@@ -77,6 +78,45 @@
     !maybe no need to copy source, id and tracer pointer
     
     end subroutine copyState
+
+
+    !---------------------------------------------------------------------------
+	!> @author Mohsen Shabani - CoLab+Atlantic- 2026.05.01 | Email:shabani.mohsen@outlook.com	
+    !> @brief
+    !> Deep Copies a State Vector to another.
+    !---------------------------------------------------------------------------
+	subroutine deepcopyState(self, newsv)
+	class(stateVector_class), intent(in) :: self
+	type(stateVector_class), intent(inout) :: newsv
+
+	call newsv%finalize()
+
+	newsv%ttype = self%ttype
+	newsv%idx   = self%idx
+
+	allocate(newsv%state(size(self%state,1), size(self%state,2)))
+	newsv%state = self%state
+
+	allocate(newsv%landIntMask(size(self%landIntMask)))
+	newsv%landIntMask = self%landIntMask
+
+	allocate(newsv%resolution(size(self%resolution)))
+	newsv%resolution = self%resolution
+
+	allocate(newsv%active(size(self%active)))
+	newsv%active = self%active
+
+	allocate(newsv%varName(size(self%varName)))
+	newsv%varName = self%varName
+
+	allocate(newsv%source(size(self%source)))
+	newsv%source = self%source
+
+	if (allocated(self%id)) then
+		allocate(newsv%id(size(self%id)))
+		newsv%id = self%id
+	end if
+	end subroutine deepcopyState
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

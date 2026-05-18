@@ -37,8 +37,6 @@
     procedure :: Degradation
 
     end type kernelDetritus_class
-    
-    type(kernelUtils_class) :: KernelUtils_detritus   !< kernel utils
 
     public :: kernelDetritus_class
     contains
@@ -46,6 +44,7 @@
     !---------------------------------------------------------------------------
     !> @author Joao Sobrinho - +Atlantic
 	!> @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
+	!> Modified @author Mohsen Shabani - CoLab+Atlantic- 2026.05.01 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> Detritus degradation rate kernel.
     !> @param[in] self, sv, bdata, dt
@@ -124,9 +123,9 @@
 	temperature = sv%state(:,col_temp)
 	
 	time_curr_plus_dt = sv%state(:,age_col) + dt
-	MixDegradationRate =+ (+ 1.0 - Lin0_DegradationRate * time_curr_plus_dt ) \
-						* (+ Exp0_DegradationRate * exp(-Exp1_DegradationRate * time_curr_plus_dt)\
-						   + (1.0 - Exp0_DegradationRate) * exp(-Exp2_DegradationRate * time_curr_plus_dt)\
+	MixDegradationRate =+ (+ 1.0 - Lin0_DegradationRate * time_curr_plus_dt ) * & 
+						 (+ Exp0_DegradationRate * exp(-Exp1_DegradationRate * time_curr_plus_dt) + &
+						    (1.0 - Exp0_DegradationRate) * exp(-Exp2_DegradationRate * time_curr_plus_dt) &
 							)
 
 	
@@ -172,6 +171,7 @@
     
     !---------------------------------------------------------------------------
     !> @author Joao Sobrinho - Colab Atlantic
+	!> Modified @author Mohsen Shabani - CoLab+Atlantic- 2026.05.01 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> Initializer method adpated from for kernel class. Sets the type of
     !> kernel and the interpolator to evaluate it.
@@ -181,7 +181,7 @@
     type(string) :: interpName
     interpName = 'linear'
     call self%Interpolator%initialize(1,interpName)
-    call KernelUtils_detritus%initialize()
+
     end subroutine initKernelDetritus
 
     end module kernelDetritus_mod

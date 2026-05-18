@@ -23,6 +23,9 @@
     use background_mod
     use interpolator_mod
 
+	implicit none
+	private
+
     type :: kernelUtils_class        !< Kernel class
         type(interpolator_class) :: Interpolator !< The interpolator object for the kernel
     contains
@@ -38,6 +41,7 @@
 
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC
+	!> Modified @author Mohsen Shabani - CoLab+Atlantic- 2026.05.01 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> calls interpolator for each required var. Seaches in every background
     !---------------------------------------------------------------------------
@@ -51,7 +55,7 @@
     logical, optional, intent(in) :: justRequired, reqVertInt
     logical :: localjustRequired, localreqVertInt
     real(prec), intent(in) :: time
-    integer :: np, nf, bkg, i, j, aux
+    integer :: np, nf, bkg, i, j, aux, nReqFound, levelBkg
 	real(prec), dimension(2) :: maxLevel	
 	real(prec), dimension(size(sv%state,1)) :: sv_state_3
     type(varBackground_t), dimension(:), allocatable :: bkgToInterpolate
@@ -83,7 +87,17 @@
 	!Substitut z postion of the tracers which are grater that maxLevel(2) with maxlevel(2)(it is last level of the grid data)
 	!In this situation, the data can interpolate inside the grid domain (at the maxlevel(2):top of the grid).
 	!At the end of this function, the correct z postions will be replaced.
-	maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .false.)
+	!maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .false.)	!old version
+	levelBkg = 1													!new version
+	do i=1, size(bdata)
+		maxLevel = bdata(i)%getDimExtents(Globals%Var%level, .false.)
+		if (maxLevel(2) /= MV) then
+			levelBkg = i
+			exit
+		end if
+	end do
+	maxLevel = bdata(levelBkg)%getDimExtents(Globals%Var%level, .false.)	
+	
 	if (maxLevel(2) /= MV) then 
 		!print*,"kernelUtils: correct sv%state(:,3): maxlevel"	
 		where (sv%state(:,3) > maxLevel(2)) sv%state(:,3) = maxLevel(2) - 0.0001  
@@ -95,8 +109,18 @@
     
     if (localjustRequired) then
         !write(*,*)"localjustRequired = true"
-        allocate(var_dt(np,size(requiredVars)))
-        allocate(var_name(size(requiredVars)))    
+        ! allocate(var_dt(np,size(requiredVars)))
+        ! allocate(var_name(size(requiredVars)))   
+		nReqFound = 0
+        do i=1, size(bkgToInterpolate)
+            nReqFound = nReqFound + bkgToInterpolate(i)%bkgVars%getSize()
+        end do
+        allocate(var_dt(np,nReqFound))
+        allocate(var_name(nReqFound))
+        if (nReqFound == 0) then
+            sv%state(:,3) = sv_state_3(:)
+            return
+        end if		
         j=1
         do i=1, size(bkgToInterpolate)
             !write(*,*)"i do bkgToInterpolate = ", i
@@ -196,7 +220,8 @@
             !call localBackgroundVarDict(i)%bkgVars%print()
             if (.not.localBackgroundVarDict(i)%bkgVars%notRepeated(reqVars(j))) then
                 !write(*,*)"encontrei reqVars(j) no localBackgroundVarDict"
-                bkgVarsIntersect(k)%bkgIndex = i
+                ! bkgVarsIntersect(k)%bkgIndex = i   !old version
+				bkgVarsIntersect(k)%bkgIndex = localBackgroundVarDict(i)%bkgIndex	!new version
                 if (bkgVarsIntersect(k)%bkgVars%notRepeated(reqVars(j))) then
                     !write(*,*)"encontrei reqVars(j) no bkgVarsIntersect"
                     call bkgVarsIntersect(k)%bkgVars%add(reqVars(j))

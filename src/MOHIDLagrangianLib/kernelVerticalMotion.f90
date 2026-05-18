@@ -30,6 +30,9 @@
     use interpolator_mod
     use kernelUtils_mod
 
+	implicit none
+	private
+
     !  density of seawater at zero pressure constants
     real(prec),parameter :: a0 = 999.842594
     real(prec),parameter :: a1 =   6.793952e-2
@@ -91,6 +94,7 @@
 
     type :: kernelVerticalMotion_class        !< VerticalMotion kernel class
         type(interpolator_class) :: Interpolator !< The interpolator object for the kernel
+		type(kernelUtils_class)          	:: KernelUtils
     contains
     procedure :: initialize => initKernelVerticalMotion
 	procedure :: LandIntThresholdValue								   
@@ -105,14 +109,13 @@
 	procedure, nopass :: absoluteSeaWaterViscosity									 
     end type kernelVerticalMotion_class
     
-    type(kernelUtils_class) :: KernelUtils_VerticalMotion   !< kernel utils
-
     public :: kernelVerticalMotion_class
 
     contains
 	
 	!---------------------------------------------------------------------------
 	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.09.12 | Email:shabani.mohsen@outlook.com	
+	!> Modified @author Mohsen Shabani - CoLab+Atlantic- 2026.05.01 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> Evaluate the LandIntThresholdValue value  for a given Threshold_value (land threshold value for the dist2bottom function).
     !> Threshold_value is the regarding the position of the particle form seabed in [meter]
@@ -123,15 +126,12 @@
     type(stateVector_class), intent(in) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
-    integer :: part_idx, col_dist2bottom
-    !integer :: nf_w, col_dist2bottom, part_idx
-	
+    integer :: part_idx, col_dist2bottom, col_dwz
     real(prec), dimension(size(sv%state,1)) :: dist2bottom
-    real(prec) :: threshold_bot_wat
 	real(prec), dimension(size(sv%state,1)) :: Threshold_value	!distance from the bottom (seabed) in unit [meter]. It could be a constant * Globals%Constants%Rugosity
 	real(prec), dimension(size(sv%state,1)) :: LandIntThresholdValue
+    real(prec) :: threshold_bot_wat
     type(string) :: tag
-	
     integer :: i,counterr
     !-------------------------------------------------------------------------------------
     !write(*,*)"Entrada kinematic"
@@ -154,6 +154,7 @@
 
     !---------------------------------------------------------------------------
 	!> @author Mohsen Shabani CRETUS - GFNL- 2025.08.12 | Email:shabani.mohsen@outlook.com	
+	!> Modified @author Mohsen Shabani - CoLab+Atlantic- 2026.05.01 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> Computes the vertical velocity due to buoyancy of the tracers in seawater
     !> @param[in] self, sv, bdata, time
@@ -167,7 +168,7 @@
     type(stateVector_class), intent(in) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
-    integer :: rIdx, rhoIdx, areaIdx, volIdx
+    integer :: rIdx, rhoIdx, areaIdx, volIdx, ageIdx
     integer :: col_temp, col_sal, col_dist2bottom, col_rugosityVar_sv, counterr
     !integer :: col_temp, col_sal, col_dwz, col_bat
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Buoyancy
@@ -358,6 +359,7 @@
     !---------------------------------------------------------------------------
 	!> @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com	
 	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2026.01.29 | Email:shabani.mohsen@outlook.com	
+	!> Modified @author Mohsen Shabani - CoLab+Atlantic- 2026.05.01 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> Corrects vertical position of the tracers according to data limits
     !> @param[in] self, sv, bdata, time
@@ -396,7 +398,7 @@
 	allocate(requiredVars(1))
     requiredVars(1) = Globals%Var%ssh
     !write(*,*)"Entrada setCommonProcesses interpolate"
-    call KernelUtils_VerticalMotion%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, justRequired = .true., reqVertInt = .false.)
+    call self%KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, justRequired = .true., reqVertInt = .false.)
 	
     col_ssh = Utils%find_str(var_name, Globals%Var%ssh, .false.)	
 !	ssh_values = merge(var_dt(:,col_ssh) ,  0.0 , maxLevel(2) /= MV_INT) 
@@ -446,6 +448,7 @@
 	!---------------------------------------------------------------------------
     !> @author Joao Sobrinho - Colab Atlantic 
 	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com	
+	!> Modified @author Mohsen Shabani - CoLab+Atlantic- 2026.05.01 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> Resuspend particles based on shear erosion calculated from currents and waves. 
     !> @param[in] self, sv, bdata, time, dt
@@ -547,7 +550,7 @@
         requiredHorVars(5) = Globals%Var%v
         requiredHorVars(6) = Globals%Var%w
         
-        call KernelUtils_VerticalMotion%getInterpolatedFields(sv, bdata, time, requiredHorVars, var_hor_dt, var_hor_name, reqVertInt = .false.)
+        call self%KernelUtils%getInterpolatedFields(sv, bdata, time, requiredHorVars, var_hor_dt, var_hor_name, reqVertInt = .false.)
         
 		col_temp = Utils%find_str(sv%varName, Globals%Var%temp, .true.)
         col_sal = Utils%find_str(sv%varName, Globals%Var%sal, .true.)
@@ -593,6 +596,8 @@
 				where (densityRelation >= 0.9)
 					densityRelation = abs(1.- (sv%state(:,rhoIdx)/Globals%Constants%MeanDensity))
 				endwhere
+				densityRelationTracer 	= densityRelation 
+				densityRelationSediment = abs(1.- (densitySediment /water_density))  
 			end where
 		else
 			!If there is no salt and temperatue Compute buoyancy using constant density and temp
@@ -883,6 +888,7 @@
 	
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - GFNL
+	!> Modified @author Mohsen Shabani - CoLab+Atlantic- 2026.05.01 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> Initializer method adpated from for kernel class. Sets the type of
     !> kernel and the interpolator to evaluate it.
@@ -892,6 +898,8 @@
     type(string) :: interpName
     interpName = 'linear'
     call self%Interpolator%initialize(1,interpName)
+    call self%KernelUtils%initialize()
+	
     end subroutine initKernelVerticalMotion
 
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

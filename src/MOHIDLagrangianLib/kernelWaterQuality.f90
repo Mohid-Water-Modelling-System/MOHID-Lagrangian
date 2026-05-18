@@ -10,6 +10,7 @@
     ! AFFILIATION   : USC/MARETEC, Marine Modelling Group
     ! DATE          : September 2019
     ! REVISION      : Canelas 0.1
+    ! REVISION      : Mohsen Shabani: NEED DEEP REVISION	
     !> @author
     !> Ricardo Birjukovs Canelas
     !
@@ -33,7 +34,8 @@
 
 
     type :: kernelMOHIDWaterQuality_class        !< MOHIDWaterQuality kernel class
-        type(interpolator_class) :: Interpolator !< The interpolator object for the kernel
+        type(interpolator_class) 	:: Interpolator !< The interpolator object for the kernel
+		type(kernelUtils_class) 	:: KernelUtils   !< kernel utils	
     contains
     procedure :: initialize => initKernelMOHIDWaterQuality
     procedure :: WQProcess
@@ -47,12 +49,13 @@
     
     !---------------------------------------------------------------------------
     !> @author Joao Sobrinho
-    !> @brief
+	!> Modified @author Mohsen Shabani - CoLab+Atlantic- 2026.05.01 | Email:shabani.mohsen@outlook.com	
+    !> @brief NEED DEEP REVISION	
     !> changes concentration of water quality parameters using the MOHIDWaterQuality module
     !> @param[in] self, bdata, sv, time, dt
     !---------------------------------------------------------------------------
     function WQProcess(self, sv, bdata, time, dt)
-    class(kernelMOHIDWaterQuality_class), intent(in) :: self
+    class(kernelMOHIDWaterQuality_class), intent(inout) :: self
     type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
@@ -138,7 +141,7 @@
         allocate(requiredVars(1))
         requiredVars(1) = Globals%Var%rad
         
-        call KernelUtils_MOHIDWaterQuality%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, justRequired = .true.)
+        call self%KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, justRequired = .true.)
         !surface radiation
         c_rad = Utils%find_str(var_name, Globals%Var%rad, .true.)
 
@@ -203,9 +206,11 @@
     endif
     
     end function WQProcess
-    
+	
+    !---------------------------------------------------------------------------   
     !> @author Joao Sobrinho
-    !> @brief
+	!> Modified @author Mohsen Shabani - CoLab+Atlantic- 2026.05.01 | Email:shabani.mohsen@outlook.com	
+    !> @brief NEED DEEP REVISION
     !> Gets a pointer to a matrix, used in mohid waterquality
     !> @param[in] ptr
     !---------------------------------------------------------------------------
@@ -219,13 +224,15 @@
     ptr => matrix
     end function GetPointer
 
-    !> @author Joao Sobrinho - +Atlantic
-    !> @brief
+    !---------------------------------------------------------------------------   
+    !> @author Joao Sobrinho
+	!> Modified @author Mohsen Shabani - CoLab+Atlantic- 2026.05.01 | Email:shabani.mohsen@outlook.com	
+    !> @brief NEED DEEP REVISION
     !> Computes the dilution of dissolved material in the water column by increasing its volume
     !> @param[in] self, sv, bdata, time
     !---------------------------------------------------------------------------
     function Dilution(self, sv, bdata, time, dt)
-    class(kernelMOHIDWaterQuality_class), intent(in) :: self
+    class(kernelMOHIDWaterQuality_class), intent(inout) :: self
     type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: dt, time
@@ -245,7 +252,7 @@
     !TODO : create arrays for all these variables and create  routines to get an array of column IDs.
     Dilution = 0.0
     
-    allocate(requiredVars(13))
+    allocate(requiredVars(15))
     requiredVars(3) = Globals%Var%dissolved_oxygen
     requiredVars(4) = Globals%Var%nitrate
     requiredVars(5) = Globals%Var%nitrite
@@ -291,7 +298,7 @@
     tag = 'partOrgPho'
     c_PartOrgPho = Utils%find_str(sv%varName, tag, .true.)
     
-    call KernelUtils_MOHIDWaterQuality%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, justRequired = .true.)
+    call self%KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, justRequired = .true.)
     
     nf_u = Utils%find_str(sv%varName, Globals%Var%u, .true.)
     nf_v = Utils%find_str(sv%varName, Globals%Var%v, .true.)
@@ -344,9 +351,10 @@
     
     end function Dilution
     
-    !---------------------------------------------------------------------------
-    !> @author Daniel Garaboa Paz - GFNL
-    !> @brief
+    !---------------------------------------------------------------------------   
+    !> @author Joao Sobrinho
+	!> Modified @author Mohsen Shabani - CoLab+Atlantic- 2026.05.01 | Email:shabani.mohsen@outlook.com	
+    !> @brief NEED DEEP REVISION
     !> Initializer method adpated from for kernel class. Sets the type of
     !> kernel and the interpolator to evaluate it.
     !---------------------------------------------------------------------------
@@ -355,6 +363,7 @@
     type(string) :: interpName
     interpName = 'linear'
     call self%Interpolator%initialize(1,interpName)
+    call self%KernelUtils%initialize()
     end subroutine initKernelMOHIDWaterQuality
 
     end module kernelMOHIDWaterQuality_mod

@@ -129,6 +129,7 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani - CoLab+Atlantic- 2026.05.01 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> method that calls the corresponding Tracer constructor, depending on the
     !> requested type from the emitting Source
@@ -159,6 +160,8 @@
         allocate(trc, source = detritusTracer(Globals%Sim%getnumTracer(), src, Globals%SimTime%CurrTime, p))
     case ('waterQuality')
         allocate(trc, source = waterQualityTracer(Globals%Sim%getnumTracer(), src, Globals%SimTime%CurrTime, p))
+	case ('floater')
+        allocate(trc, source = floaterTracer(Globals%Sim%getnumTracer(), src, Globals%SimTime%CurrTime, p))
         case default
         outext='[Emitter::tracerMaker]: unexpected type for Tracer object: '//src%prop%propertyType
         call Log%put(outext)
