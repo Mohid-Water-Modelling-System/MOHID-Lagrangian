@@ -152,6 +152,9 @@
 	real(prec), dimension(2) :: maxLevel
     real(prec) :: Pi = 4*atan(1.0)
     type(string) :: tag
+	
+	StokesDriftVelocity = 0.0
+	
     !Begin--------------------------------------------------------------------
 	if (.not. allocated(depth))         allocate(depth(size(sv%state,1)))
 	if (.not. allocated(expdepth))      allocate(expdepth(size(sv%state,1)))
