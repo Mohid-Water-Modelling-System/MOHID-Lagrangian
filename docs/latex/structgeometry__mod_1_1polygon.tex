@@ -1,0 +1,121 @@
+\hypertarget{structgeometry__mod_1_1polygon}{}\section{geometry\+\_\+mod\+:\+:polygon Type Reference}
+\label{structgeometry__mod_1_1polygon}\index{geometry\+\_\+mod\+::polygon@{geometry\+\_\+mod\+::polygon}}
+
+
+Type -\/ polygon class.  
+
+
+
+
+Inheritance diagram for geometry\+\_\+mod\+:\+:polygon\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=201pt]{structgeometry__mod_1_1polygon__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for geometry\+\_\+mod\+:\+:polygon\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=201pt]{structgeometry__mod_1_1polygon__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+procedure, public \mbox{\hyperlink{structgeometry__mod_1_1polygon_a7d9ad70e834269c63b3e6339c65fe2c3}{setboundingbox}}
+\item 
+procedure, public \mbox{\hyperlink{structgeometry__mod_1_1polygon_acd3b99f250f50ce45cb4c54b6f24a079}{getmetricpolygon}}
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+type(vector), dimension(\+:), allocatable \mbox{\hyperlink{structgeometry__mod_1_1polygon_a8842e1792a26fbc0a8ab2ad252d07998}{vertex}}
+\begin{DoxyCompactList}\small\item\em vertex array \end{DoxyCompactList}\item 
+type(vector) \mbox{\hyperlink{structgeometry__mod_1_1polygon_a962e69bdf4fc506d07445927f9f45776}{bbmin}}
+\item 
+type(vector) \mbox{\hyperlink{structgeometry__mod_1_1polygon_a466582ac4df0ff7e8e0fbd74a7778a88}{bbmax}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Type -\/ polygon class. 
+
+Definition at line 71 of file geometry.\+f90.
+
+
+
+\subsection{Member Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{structgeometry__mod_1_1polygon_acd3b99f250f50ce45cb4c54b6f24a079}\label{structgeometry__mod_1_1polygon_acd3b99f250f50ce45cb4c54b6f24a079}} 
+\index{geometry\+\_\+mod\+::polygon@{geometry\+\_\+mod\+::polygon}!getmetricpolygon@{getmetricpolygon}}
+\index{getmetricpolygon@{getmetricpolygon}!geometry\+\_\+mod\+::polygon@{geometry\+\_\+mod\+::polygon}}
+\subsubsection{\texorpdfstring{getmetricpolygon()}{getmetricpolygon()}}
+{\footnotesize\ttfamily procedure, public geometry\+\_\+mod\+::polygon\+::getmetricpolygon (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 76 of file geometry.\+f90.
+
+\mbox{\Hypertarget{structgeometry__mod_1_1polygon_a7d9ad70e834269c63b3e6339c65fe2c3}\label{structgeometry__mod_1_1polygon_a7d9ad70e834269c63b3e6339c65fe2c3}} 
+\index{geometry\+\_\+mod\+::polygon@{geometry\+\_\+mod\+::polygon}!setboundingbox@{setboundingbox}}
+\index{setboundingbox@{setboundingbox}!geometry\+\_\+mod\+::polygon@{geometry\+\_\+mod\+::polygon}}
+\subsubsection{\texorpdfstring{setboundingbox()}{setboundingbox()}}
+{\footnotesize\ttfamily procedure, public geometry\+\_\+mod\+::polygon\+::setboundingbox (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 75 of file geometry.\+f90.
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structgeometry__mod_1_1polygon_a466582ac4df0ff7e8e0fbd74a7778a88}\label{structgeometry__mod_1_1polygon_a466582ac4df0ff7e8e0fbd74a7778a88}} 
+\index{geometry\+\_\+mod\+::polygon@{geometry\+\_\+mod\+::polygon}!bbmax@{bbmax}}
+\index{bbmax@{bbmax}!geometry\+\_\+mod\+::polygon@{geometry\+\_\+mod\+::polygon}}
+\subsubsection{\texorpdfstring{bbmax}{bbmax}}
+{\footnotesize\ttfamily type(vector) geometry\+\_\+mod\+::polygon\+::bbmax\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 73 of file geometry.\+f90.
+
+\mbox{\Hypertarget{structgeometry__mod_1_1polygon_a962e69bdf4fc506d07445927f9f45776}\label{structgeometry__mod_1_1polygon_a962e69bdf4fc506d07445927f9f45776}} 
+\index{geometry\+\_\+mod\+::polygon@{geometry\+\_\+mod\+::polygon}!bbmin@{bbmin}}
+\index{bbmin@{bbmin}!geometry\+\_\+mod\+::polygon@{geometry\+\_\+mod\+::polygon}}
+\subsubsection{\texorpdfstring{bbmin}{bbmin}}
+{\footnotesize\ttfamily type(vector) geometry\+\_\+mod\+::polygon\+::bbmin\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 73 of file geometry.\+f90.
+
+
+\begin{DoxyCode}
+73         \textcolor{keywordtype}{type}(vector) :: bbMin, bbMax
+\end{DoxyCode}
+\mbox{\Hypertarget{structgeometry__mod_1_1polygon_a8842e1792a26fbc0a8ab2ad252d07998}\label{structgeometry__mod_1_1polygon_a8842e1792a26fbc0a8ab2ad252d07998}} 
+\index{geometry\+\_\+mod\+::polygon@{geometry\+\_\+mod\+::polygon}!vertex@{vertex}}
+\index{vertex@{vertex}!geometry\+\_\+mod\+::polygon@{geometry\+\_\+mod\+::polygon}}
+\subsubsection{\texorpdfstring{vertex}{vertex}}
+{\footnotesize\ttfamily type(vector), dimension(\+:), allocatable geometry\+\_\+mod\+::polygon\+::vertex\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+vertex array 
+
+
+
+Definition at line 72 of file geometry.\+f90.
+
+
+\begin{DoxyCode}
+72         \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: vertex
+\end{DoxyCode}
+
+
+The documentation for this type was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/\mbox{\hyperlink{geometry_8f90}{geometry.\+f90}}\end{DoxyCompactItemize}

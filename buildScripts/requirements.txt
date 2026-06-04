@@ -1,0 +1,12 @@
+xarray
+h5py
+netcdf4
+h5netcdf
+tqdm
+cartopy
+geopandas
+vtk
+numba
+dask
+scipy
+

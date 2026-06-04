@@ -1,0 +1,28 @@
+\hypertarget{simulation_parallel__omp_8f90}{}\section{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/simulation\+Parallel\+\_\+omp.f90 File Reference}
+\label{simulation_parallel__omp_8f90}\index{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/simulation\+Parallel\+\_\+omp.\+f90@{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/simulation\+Parallel\+\_\+omp.\+f90}}
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structsimulationparallel__omp__mod_1_1parallel__omp__class}{simulationparallel\+\_\+omp\+\_\+mod\+::parallel\+\_\+omp\+\_\+class}}
+\end{DoxyCompactItemize}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+module \mbox{\hyperlink{namespacesimulationparallel__omp__mod}{simulationparallel\+\_\+omp\+\_\+mod}}
+\begin{DoxyCompactList}\small\item\em Module that defines a timer class using the O\+MP timer function to get the wall time. A\+PI supports accumulation, several start-\/stop cycles and printing. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacesimulationparallel__omp__mod_a43af0d6de562e53dfbaa874bce957ba9}{simulationparallel\+\_\+omp\+\_\+mod\+::initompmanager}} (this)
+\begin{DoxyCompactList}\small\item\em Method that initializes an omp data manager object. Sets the number of threads as the maximum given by the system. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationparallel__omp__mod_ac5d0e4616b102fc7f4edddf8285fb61f}{simulationparallel\+\_\+omp\+\_\+mod\+::setthreads}} (this, tvalue)
+\begin{DoxyCompactList}\small\item\em Method that sets the number of threads to the given value. Checks for the maximum admissible number of threads. \end{DoxyCompactList}\item 
+integer function \mbox{\hyperlink{namespacesimulationparallel__omp__mod_af3219ed75e38a01f71255314b2cd9eee}{simulationparallel\+\_\+omp\+\_\+mod\+::getmaxthreads}} (this)
+\begin{DoxyCompactList}\small\item\em Returns the maximum number of O\+MP threads as given by the system. \end{DoxyCompactList}\item 
+integer function \mbox{\hyperlink{namespacesimulationparallel__omp__mod_a1f07ce2cf6390af06c3478e6271644e5}{simulationparallel\+\_\+omp\+\_\+mod\+::getthreads}} (this)
+\begin{DoxyCompactList}\small\item\em Returns the set number of O\+MP threads for the simulation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+type(parallel\+\_\+omp\+\_\+class), public \mbox{\hyperlink{namespacesimulationparallel__omp__mod_abc49bae2a6d752c9868b8b7bd233e740}{simulationparallel\+\_\+omp\+\_\+mod\+::ompmanager}}
+\end{DoxyCompactItemize}

@@ -1,0 +1,7 @@
+<map id="field_types_mod::scalar_field_class" name="field_types_mod::scalar_field_class">
+<area shape="rect" id="node3" href="$structfield__types__mod_1_1scalar1d__field__class.html" title="a 1D scalar field class " alt="" coords="5,344,179,436"/>
+<area shape="rect" id="node4" href="$structfield__types__mod_1_1scalar2d__field__class.html" title="a 2D scalar field class " alt="" coords="203,344,376,436"/>
+<area shape="rect" id="node5" href="$structfield__types__mod_1_1scalar3d__field__class.html" title="a 3D scalar field class " alt="" coords="400,344,573,436"/>
+<area shape="rect" id="node6" href="$structfield__types__mod_1_1scalar4d__field__class.html" title="a 4D scalar field class " alt="" coords="597,344,771,436"/>
+<area shape="rect" id="node2" href="$structfield__types__mod_1_1field__class.html" title="{field_types_mod::field\l_class\n|&#45; name\l&#45; units\l&#45; dim\l|&#45; setfieldmetadata()\l&#45; print()\l&#45; getfieldtype()\l}" alt="" coords="315,5,461,156"/>
+</map>

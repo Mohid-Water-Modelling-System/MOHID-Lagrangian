@@ -1,0 +1,5 @@
+<map id="simulation_initialize_mod::read_xml_geometry" name="simulation_initialize_mod::read_xml_geometry">
+<area shape="rect" id="node2" href="$namespacesimulation__initialize__mod.html#ae89df4e3074d9624a7db2bc015545d8d" title="Private source definitions parser routine. Builds the tracer sources from the input xml case file..." alt="" coords="229,5,364,47"/>
+<area shape="rect" id="node3" href="$namespacesimulation__initialize__mod.html#aa596874d438807298121982eaa129d3a" title="Public xml parser routine. Builds the simulation space from the input xml case file. " alt="" coords="412,5,547,47"/>
+<area shape="rect" id="node4" href="$namespacesimulation__mod.html#aedbba2bb458cbcd7eb93938a5f7b5940" title="Simulation initialization method. Effectively builds and populates the simulation objects that will b..." alt="" coords="595,13,792,39"/>
+</map>

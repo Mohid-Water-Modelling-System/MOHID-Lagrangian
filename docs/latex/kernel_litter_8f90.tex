@@ -1,0 +1,21 @@
+\hypertarget{kernel_litter_8f90}{}\section{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/kernel\+Litter.f90 File Reference}
+\label{kernel_litter_8f90}\index{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/kernel\+Litter.\+f90@{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/kernel\+Litter.\+f90}}
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structkernellitter__mod_1_1kernellitter__class}{kernellitter\+\_\+mod\+::kernellitter\+\_\+class}}
+\end{DoxyCompactItemize}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+module \mbox{\hyperlink{namespacekernellitter__mod}{kernellitter\+\_\+mod}}
+\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+real(prec) function, dimension(size(sv\%state, 1), size(sv\%state, 2)) \mbox{\hyperlink{namespacekernellitter__mod_ab3201eb9917816dbd1043be44120efcb}{kernellitter\+\_\+mod\+::degradationlinear}} (self, sv)
+\begin{DoxyCompactList}\small\item\em Linear degradation kernel. \end{DoxyCompactList}\item 
+real(prec) function, dimension(size(sv\%state, 1), size(sv\%state, 2)) \mbox{\hyperlink{namespacekernellitter__mod_a6dfc58ed5badd008180abb729e1bca82}{kernellitter\+\_\+mod\+::buoyancy}} (self, sv, bdata, time)
+\begin{DoxyCompactList}\small\item\em Computes the vertical velocity due to buoyancy of the litter tracers. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacekernellitter__mod_a145c58d91c7654c5c4f8beac04b608b6}{kernellitter\+\_\+mod\+::initkernellitter}} (self)
+\begin{DoxyCompactList}\small\item\em Initializer method adpated from for kernel class. Sets the type of kernel and the interpolator to evaluate it. \end{DoxyCompactList}\end{DoxyCompactItemize}

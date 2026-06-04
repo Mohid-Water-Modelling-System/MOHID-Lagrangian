@@ -1,0 +1,79 @@
+\hypertarget{namespacetraceruser__mod}{}\section{traceruser\+\_\+mod Module Reference}
+\label{namespacetraceruser__mod}\index{traceruser\+\_\+mod@{traceruser\+\_\+mod}}
+
+
+Module that defines a generic Lagrangian tracer class for material modelling and related methods. The type is defined as a derived type from the pule Lagrangian tracer, and hence inherits all of it\textquotesingle{}s data and methods. It holds an arbitrarily sized array for properties and their names, that a user can then explore in the methods.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structtraceruser__mod_1_1user__par__class}{user\+\_\+par\+\_\+class}}
+\item 
+type \mbox{\hyperlink{structtraceruser__mod_1_1user__state__class}{user\+\_\+state\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em Type -\/ State variables of a tracer object representing a user defined type. \end{DoxyCompactList}\item 
+interface \mbox{\hyperlink{interfacetraceruser__mod_1_1usertracer}{usertracer}}
+\item 
+type \mbox{\hyperlink{structtraceruser__mod_1_1usertracer__class}{usertracer\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em Type -\/ The user-\/defined Lagrangian tracer class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+type(\mbox{\hyperlink{structtraceruser__mod_1_1usertracer__class}{usertracer\+\_\+class}}) function \mbox{\hyperlink{namespacetraceruser__mod_a9b5d52bbc9611921275ff35fa82a91c5}{constructor}} (id, src, time, p)
+\begin{DoxyCompactList}\small\item\em User-\/defined Tracer constructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Module that defines a generic Lagrangian tracer class for material modelling and related methods. The type is defined as a derived type from the pule Lagrangian tracer, and hence inherits all of it\textquotesingle{}s data and methods. It holds an arbitrarily sized array for properties and their names, that a user can then explore in the methods. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacetraceruser__mod_a9b5d52bbc9611921275ff35fa82a91c5}\label{namespacetraceruser__mod_a9b5d52bbc9611921275ff35fa82a91c5}} 
+\index{traceruser\+\_\+mod@{traceruser\+\_\+mod}!constructor@{constructor}}
+\index{constructor@{constructor}!traceruser\+\_\+mod@{traceruser\+\_\+mod}}
+\subsubsection{\texorpdfstring{constructor()}{constructor()}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structtraceruser__mod_1_1usertracer__class}{usertracer\+\_\+class}}) function traceruser\+\_\+mod\+::constructor (\begin{DoxyParamCaption}\item[{integer, intent(in)}]{id,  }\item[{class(\mbox{\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}}), intent(in)}]{src,  }\item[{real(prec), intent(in)}]{time,  }\item[{integer, intent(in)}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+User-\/defined Tracer constructor. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em id,src,time,p} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 68 of file tracer\+User.\+f90.
+
+
+\begin{DoxyCode}
+68     \textcolor{keywordtype}{type}(userTracer\_class) :: constructor
+69     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: id
+70     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(in)} :: src
+71     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time
+72     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: p
+73 
+74     \textcolor{comment}{!use the base class constructor to build the base of our new derived type}
+75     constructor%tracer\_class = tracer(id, src, time, p)
+76     \textcolor{comment}{!VERY NICE IFORT BUG (I think) - only some of the variables get used using the base constructor...}
+77     constructor%par%id = id \textcolor{comment}{!forcing}
+78     constructor%par%idsource = src%par%id \textcolor{comment}{!forcing}
+79     \textcolor{comment}{!now initialize the specific components of this derived type}
+80 
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacetraceruser__mod_a9b5d52bbc9611921275ff35fa82a91c5_cgraph}
+\end{center}
+\end{figure}

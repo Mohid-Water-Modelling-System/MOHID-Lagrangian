@@ -1,0 +1,214 @@
+\hypertarget{namespaceintegrator__mod}{}\section{integrator\+\_\+mod Module Reference}
+\label{namespaceintegrator__mod}\index{integrator\+\_\+mod@{integrator\+\_\+mod}}
+
+
+Defines an integrator class.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structintegrator__mod_1_1integrator__class}{integrator\+\_\+class}}
+\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespaceintegrator__mod_a057e4afe510b4382b006005105ca1718}{runstep}} (self, aot, data, time, dt)
+\begin{DoxyCompactList}\small\item\em Method that integrates the Tracer state array in one time-\/step, according to the selected integration algorithm. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceintegrator__mod_aa867e98470b3ec97a666099e8258b6ef}{runstepsymplectic}} (self, aot, data, time, dt)
+\begin{DoxyCompactList}\small\item\em Method that integrates the Tracer state array in one time-\/step, using a Symplectic integration algorithm. This is a predictor-\/corrector type explicit scheme with excelent conservation properties and average cost. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceintegrator__mod_af53e2642a8984c3841ae6085704f7b8d}{runstepverlet}} (self, aot, data, time, dt)
+\begin{DoxyCompactList}\small\item\em Method that integrates the Tracer state array in one time-\/step, using a Verlet integration algorithm. This is a one-\/shot type explicit scheme with low computational cost, mostly for quick tests and debug. Implements $ {\vec {x}}_{1}={\vec {x}}_{0}+{\vec {v}}_{0}\Delta t+{\frac {1}{2}}{\vec {A}}({\vec {x}}_{0})\Delta t^{2}$. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceintegrator__mod_a5041a009a45095be904f30377c509e7e}{runsteprk4}} (self, aot, data, time, dt)
+\begin{DoxyCompactList}\small\item\em Method that integrates the Tracer state array in one time-\/step, using a Runge-\/\+Kuta 4th order integration algorithm. This is an explicit scheme with medium to high computational cost. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceintegrator__mod_acb397b27678b3fb5f9d6b0021b5ab058}{initintegrator}} (self, flag, name)
+\begin{DoxyCompactList}\small\item\em Initializer method for the Integrator class. Sets the type of integrator and name of the algorithm this Integrator will call. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceintegrator__mod_a6c1df4442c3a9bdef68a4f2f95a403cd}{printintegrator}} (self)
+\begin{DoxyCompactList}\small\item\em Method that prints the Integrator information. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Defines an integrator class. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespaceintegrator__mod_acb397b27678b3fb5f9d6b0021b5ab058}\label{namespaceintegrator__mod_acb397b27678b3fb5f9d6b0021b5ab058}} 
+\index{integrator\+\_\+mod@{integrator\+\_\+mod}!initintegrator@{initintegrator}}
+\index{initintegrator@{initintegrator}!integrator\+\_\+mod@{integrator\+\_\+mod}}
+\subsubsection{\texorpdfstring{initintegrator()}{initintegrator()}}
+{\footnotesize\ttfamily subroutine integrator\+\_\+mod\+::initintegrator (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structintegrator__mod_1_1integrator__class}{integrator\+\_\+class}}), intent(inout)}]{self,  }\item[{integer, intent(in)}]{flag,  }\item[{type(string), intent(in)}]{name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Initializer method for the Integrator class. Sets the type of integrator and name of the algorithm this Integrator will call. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,flag,name} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 120 of file integrator.\+f90.
+
+
+\begin{DoxyCode}
+120     \textcolor{keywordtype}{class}(integrator\_class), \textcolor{keywordtype}{intent(inout)} :: self
+121     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: flag
+122     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+123     self%integratorType = flag
+124     self%name = name
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceintegrator__mod_a6c1df4442c3a9bdef68a4f2f95a403cd}\label{namespaceintegrator__mod_a6c1df4442c3a9bdef68a4f2f95a403cd}} 
+\index{integrator\+\_\+mod@{integrator\+\_\+mod}!printintegrator@{printintegrator}}
+\index{printintegrator@{printintegrator}!integrator\+\_\+mod@{integrator\+\_\+mod}}
+\subsubsection{\texorpdfstring{printintegrator()}{printintegrator()}}
+{\footnotesize\ttfamily subroutine integrator\+\_\+mod\+::printintegrator (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structintegrator__mod_1_1integrator__class}{integrator\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that prints the Integrator information. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 133 of file integrator.\+f90.
+
+
+\begin{DoxyCode}
+133     \textcolor{keywordtype}{class}(integrator\_class), \textcolor{keywordtype}{intent(inout)} :: self
+134     \textcolor{keywordtype}{type}(string) :: outext, t
+135     outext = \textcolor{stringliteral}{'Integrator algorithm is '}//self%name
+136     \textcolor{keyword}{call }log%put(outext,.false.)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceintegrator__mod_a057e4afe510b4382b006005105ca1718}\label{namespaceintegrator__mod_a057e4afe510b4382b006005105ca1718}} 
+\index{integrator\+\_\+mod@{integrator\+\_\+mod}!runstep@{runstep}}
+\index{runstep@{runstep}!integrator\+\_\+mod@{integrator\+\_\+mod}}
+\subsubsection{\texorpdfstring{runstep()}{runstep()}}
+{\footnotesize\ttfamily subroutine integrator\+\_\+mod\+::runstep (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structintegrator__mod_1_1integrator__class}{integrator\+\_\+class}}), intent(inout)}]{self,  }\item[{type(aot\+\_\+class), intent(inout)}]{aot,  }\item[{type(\mbox{\hyperlink{structbackground__mod_1_1background__class}{background\+\_\+class}}), dimension(\+:), intent(in)}]{data,  }\item[{real(prec), intent(in)}]{time,  }\item[{real(prec), intent(in)}]{dt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that integrates the Tracer state array in one time-\/step, according to the selected integration algorithm. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,aot,data,dt)} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 53 of file integrator.\+f90.
+
+
+\begin{DoxyCode}
+53     \textcolor{keywordtype}{class}(integrator\_class), \textcolor{keywordtype}{intent(inout)} :: self
+54     \textcolor{keywordtype}{type}(aot\_class), \textcolor{keywordtype}{intent(inout)} :: aot
+55     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: data
+56     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time, dt
+57     \textcolor{keywordflow}{if} (self%integratorType == 2) \textcolor{keyword}{call }self%runStepSymplectic(aot, \textcolor{keyword}{data}, time, dt)
+58     \textcolor{keywordflow}{if} (self%integratorType == 1) \textcolor{keyword}{call }self%runStepVerlet(aot, \textcolor{keyword}{data}, time, dt)
+59     \textcolor{keywordflow}{if} (self%integratorType == 3) \textcolor{keyword}{call }self%runStepRK4(aot, \textcolor{keyword}{data}, time, dt)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceintegrator__mod_a5041a009a45095be904f30377c509e7e}\label{namespaceintegrator__mod_a5041a009a45095be904f30377c509e7e}} 
+\index{integrator\+\_\+mod@{integrator\+\_\+mod}!runsteprk4@{runsteprk4}}
+\index{runsteprk4@{runsteprk4}!integrator\+\_\+mod@{integrator\+\_\+mod}}
+\subsubsection{\texorpdfstring{runsteprk4()}{runsteprk4()}}
+{\footnotesize\ttfamily subroutine integrator\+\_\+mod\+::runsteprk4 (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structintegrator__mod_1_1integrator__class}{integrator\+\_\+class}}), intent(inout)}]{self,  }\item[{type(aot\+\_\+class), intent(inout)}]{aot,  }\item[{type(\mbox{\hyperlink{structbackground__mod_1_1background__class}{background\+\_\+class}}), dimension(\+:), intent(in)}]{data,  }\item[{real(prec), intent(in)}]{time,  }\item[{real(prec), intent(in)}]{dt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that integrates the Tracer state array in one time-\/step, using a Runge-\/\+Kuta 4th order integration algorithm. This is an explicit scheme with medium to high computational cost. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,aot,data,dt)} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 105 of file integrator.\+f90.
+
+
+\begin{DoxyCode}
+105     \textcolor{keywordtype}{class}(integrator\_class), \textcolor{keywordtype}{intent(inout)} :: self
+106     \textcolor{keywordtype}{type}(aot\_class), \textcolor{keywordtype}{intent(inout)} :: aot
+107     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: data
+108     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time, dt
+109                 
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceintegrator__mod_aa867e98470b3ec97a666099e8258b6ef}\label{namespaceintegrator__mod_aa867e98470b3ec97a666099e8258b6ef}} 
+\index{integrator\+\_\+mod@{integrator\+\_\+mod}!runstepsymplectic@{runstepsymplectic}}
+\index{runstepsymplectic@{runstepsymplectic}!integrator\+\_\+mod@{integrator\+\_\+mod}}
+\subsubsection{\texorpdfstring{runstepsymplectic()}{runstepsymplectic()}}
+{\footnotesize\ttfamily subroutine integrator\+\_\+mod\+::runstepsymplectic (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structintegrator__mod_1_1integrator__class}{integrator\+\_\+class}}), intent(inout)}]{self,  }\item[{type(aot\+\_\+class), intent(inout)}]{aot,  }\item[{type(\mbox{\hyperlink{structbackground__mod_1_1background__class}{background\+\_\+class}}), dimension(\+:), intent(in)}]{data,  }\item[{real(prec), intent(in)}]{time,  }\item[{real(prec), intent(in)}]{dt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that integrates the Tracer state array in one time-\/step, using a Symplectic integration algorithm. This is a predictor-\/corrector type explicit scheme with excelent conservation properties and average cost. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,aot,data,dt)} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 71 of file integrator.\+f90.
+
+
+\begin{DoxyCode}
+71     \textcolor{keywordtype}{class}(integrator\_class), \textcolor{keywordtype}{intent(inout)} :: self
+72     \textcolor{keywordtype}{type}(aot\_class), \textcolor{keywordtype}{intent(inout)} :: aot
+73     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: data
+74     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time, dt
+75         
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceintegrator__mod_af53e2642a8984c3841ae6085704f7b8d}\label{namespaceintegrator__mod_af53e2642a8984c3841ae6085704f7b8d}} 
+\index{integrator\+\_\+mod@{integrator\+\_\+mod}!runstepverlet@{runstepverlet}}
+\index{runstepverlet@{runstepverlet}!integrator\+\_\+mod@{integrator\+\_\+mod}}
+\subsubsection{\texorpdfstring{runstepverlet()}{runstepverlet()}}
+{\footnotesize\ttfamily subroutine integrator\+\_\+mod\+::runstepverlet (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structintegrator__mod_1_1integrator__class}{integrator\+\_\+class}}), intent(inout)}]{self,  }\item[{type(aot\+\_\+class), intent(inout)}]{aot,  }\item[{type(\mbox{\hyperlink{structbackground__mod_1_1background__class}{background\+\_\+class}}), dimension(\+:), intent(in)}]{data,  }\item[{real(prec), intent(in)}]{time,  }\item[{real(prec), intent(in)}]{dt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that integrates the Tracer state array in one time-\/step, using a Verlet integration algorithm. This is a one-\/shot type explicit scheme with low computational cost, mostly for quick tests and debug. Implements $ {\vec {x}}_{1}={\vec {x}}_{0}+{\vec {v}}_{0}\Delta t+{\frac {1}{2}}{\vec {A}}({\vec {x}}_{0})\Delta t^{2}$. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,aot,data,dt)} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 89 of file integrator.\+f90.
+
+
+\begin{DoxyCode}
+89     \textcolor{keywordtype}{class}(integrator\_class), \textcolor{keywordtype}{intent(inout)} :: self
+90     \textcolor{keywordtype}{type}(aot\_class), \textcolor{keywordtype}{intent(inout)} :: aot
+91     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: data
+92     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time, dt
+93            
+\end{DoxyCode}

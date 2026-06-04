@@ -1,0 +1,9 @@
+<map id="simulation_initialize_mod::initfromxml" name="simulation_initialize_mod::initfromxml">
+<area shape="rect" id="node2" href="$namespacesimulation__initialize__mod.html#a4ee29d81788bb77840a67af18784da66" title="Private parameter parser routine. Builds the simulation parametric space from the input xml case file..." alt="" coords="198,5,349,47"/>
+<area shape="rect" id="node3" href="$namespacesimulation__initialize__mod.html#a97705c918360827c6fc76170b5eeb9bb" title="Private case constant parser routine. Builds the simulation parametric space from the input xml case ..." alt="" coords="188,71,359,112"/>
+<area shape="rect" id="node4" href="$namespacesimulation__initialize__mod.html#ae4a495136e5f02724a5cc456d5884281" title="Private simulation definitions parser routine. Builds the simulation geometric space from the input x..." alt="" coords="206,136,341,177"/>
+<area shape="rect" id="node5" href="$namespacesimulation__initialize__mod.html#ae89df4e3074d9624a7db2bc015545d8d" title="Private source definitions parser routine. Builds the tracer sources from the input xml case file..." alt="" coords="206,201,341,243"/>
+<area shape="rect" id="node7" href="$namespacesimulation__initialize__mod.html#a7b30af4cf1a6ee74a4b2c6e8c9d1d98d" title="Private property xml parser routine. Reads the properties tab from the xml file and links these to th..." alt="" coords="202,267,345,308"/>
+<area shape="rect" id="node6" href="$namespacesimulation__initialize__mod.html#ab6e350f9f537c9f62e8ba5aeb023d2a6" title="Private geometry xml parser routine. Reads a geometry from the xml depending on the geometry type of ..." alt="" coords="407,201,583,243"/>
+<area shape="rect" id="node8" href="$namespacesimulation__initialize__mod.html#a695ed61242e902d50bc40b83a6d11f65" title="Private property xml parser routine. Reads the properties tab from the xml file and links these to th..." alt="" coords="407,267,582,308"/>
+</map>

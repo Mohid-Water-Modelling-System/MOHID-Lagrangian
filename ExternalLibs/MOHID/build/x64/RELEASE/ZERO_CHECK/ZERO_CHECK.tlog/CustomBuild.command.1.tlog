@@ -1,0 +1,10 @@
+^C:\USERS\USRXMODEL1\DOCUMENTS\02_TRABALLO\03_MODELOS\02_MOHID_LAGRANGIAN\MOHID-LAGRANGIAN\EXTERNALLIBS\MOHID\BUILD\CMAKEFILES\F987830217AAA37FE47F66ABDD0BE9A5\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/MOHID -BC:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/MOHID/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/MOHID/build/MOHIDBases.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

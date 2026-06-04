@@ -1,0 +1,11 @@
+<map id="geometry_mod::getfillpoints" name="geometry_mod::getfillpoints">
+<area shape="rect" id="node2" href="$namespacegeometry__mod.html#ad790edd694561b33dad20cfa3a14e8f2" title="method to get the number of points that fill a given geometry " alt="" coords="250,64,402,91"/>
+<area shape="rect" id="node7" href="$namespacegeometry__mod.html#ae87e4ecff2d21a839da2b82919b5fd0b" title="private routine that returns the points distributed on a grid with spacing dp inside a box ..." alt="" coords="243,115,409,141"/>
+<area shape="rect" id="node8" href="$namespacegeometry__mod.html#a48e38bde8ea77f5e1bb42d3fa2c85037" title="private routine that returns the points distributed on a grid with spacing dp along a line ..." alt="" coords="244,165,408,192"/>
+<area shape="rect" id="node9" href="$namespacegeometry__mod.html#a9b4ea4b26bc4f50dbfa3ba8b1d3fb2f2" title="private routine that returns the points distributed on a grid with spacing dp inside a sphere ..." alt="" coords="235,216,417,243"/>
+<area shape="rect" id="node10" href="$namespacegeometry__mod.html#a4862bb9e5bbc62fd581a34c4249b84d1" title="private routine that returns the points distributed on a grid with spacing dp inside a polygon ..." alt="" coords="477,5,660,32"/>
+<area shape="rect" id="node3" href="$namespacegeometry__mod.html#a05de7940b4e7df5a2b31f3d0414e3743" title="private function that returns the number of points distributed on a grid with spacing dp inside a sph..." alt="" coords="491,57,646,98"/>
+<area shape="rect" id="node4" href="$namespacegeometry__mod.html#aaffceaeb22689f0aaee4568c662f192a" title="private function that returns the number of points distributed on a grid with spacing dp inside a pol..." alt="" coords="465,123,672,149"/>
+<area shape="rect" id="node5" href="$namespacegeometry__mod.html#aee5a288df947e30d7e46c37a2f7ca9d2" title="returns a polygon in metric units, centered at the origin " alt="" coords="720,23,935,49"/>
+<area shape="rect" id="node6" href="$namespacegeometry__mod.html#a51bc27aa95191008da7496c7b67b1bf4" title="private function that returns true for a point in a polygon, assumed regular on the vertical coordina..." alt="" coords="728,89,927,116"/>
+</map>

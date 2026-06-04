@@ -1,0 +1,4 @@
+<map id="geometry_mod::polygonnpcount" name="geometry_mod::polygonnpcount">
+<area shape="rect" id="node2" href="$namespacegeometry__mod.html#aee5a288df947e30d7e46c37a2f7ca9d2" title="returns a polygon in metric units, centered at the origin " alt="" coords="260,5,475,32"/>
+<area shape="rect" id="node3" href="$namespacegeometry__mod.html#a51bc27aa95191008da7496c7b67b1bf4" title="private function that returns true for a point in a polygon, assumed regular on the vertical coordina..." alt="" coords="268,56,467,83"/>
+</map>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<postProcessing>
+	<time>
+        <step value = "1" />
+	</time>
+	<EulerianMeasures>
+		<measures>
+			<field key = "concentrations"/>
+			<filters>
+				<filter key = "beaching" value= "0" comments = "0-all, 1-only non beached particles, 2-only beached (defaut=0)"/>
+			</filters>
+		</measures>
+		<polygonDefinition>
+			<file name= "data/MSFD_Subregions/MSFD_Marine_Subregions_draft_EU_EEZ_20130614.shp" comments="path to polygon from root case folder."/>
+		</polygonDefinition>
+	</EulerianMeasures>	
+    <plot>
+        <time key= "" value= "all" comments="season, month, year"/>
+        <measure key="mean" comments="any implicit method, mean, std, diff, cumsum"/>
+        <normalize key="max" comments="method to normalize the data" />
+        <type value="imshow" comments="contour,contourf,pcolormesh,imshow"/> 
+    </plot>
+</postProcessing>

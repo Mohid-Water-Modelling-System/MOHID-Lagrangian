@@ -1,0 +1,186 @@
+\hypertarget{structhdf5parser__mod_1_1hdf5file__class}{}\section{hdf5parser\+\_\+mod\+:\+:hdf5file\+\_\+class Type Reference}
+\label{structhdf5parser__mod_1_1hdf5file__class}\index{hdf5parser\+\_\+mod\+::hdf5file\+\_\+class@{hdf5parser\+\_\+mod\+::hdf5file\+\_\+class}}
+
+
+A class that models a hdf5 mohid file.  
+
+
+
+
+Collaboration diagram for hdf5parser\+\_\+mod\+:\+:hdf5file\+\_\+class\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=326pt]{structhdf5parser__mod_1_1hdf5file__class__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+type(string) \mbox{\hyperlink{structhdf5parser__mod_1_1hdf5file__class_ae59b5938c38fe6c76740a70082062b85}{filename}}
+\begin{DoxyCompactList}\small\item\em name of the file to read \end{DoxyCompactList}\item 
+integer \mbox{\hyperlink{structhdf5parser__mod_1_1hdf5file__class_af777516a319f0311090944b35118a279}{ncid}}
+\begin{DoxyCompactList}\small\item\em ID of the file. \end{DoxyCompactList}\item 
+integer \mbox{\hyperlink{structhdf5parser__mod_1_1hdf5file__class_aba62709bfb8b0c5327720d0e07a2eedb}{ndims}}
+\item 
+integer \mbox{\hyperlink{structhdf5parser__mod_1_1hdf5file__class_a2ca9fe45a4ab92a9f7168823656e84af}{nvars}}
+\item 
+integer \mbox{\hyperlink{structhdf5parser__mod_1_1hdf5file__class_a02480d9c4d0242456b4ea76eff71a0a3}{natt}}
+\item 
+integer \mbox{\hyperlink{structhdf5parser__mod_1_1hdf5file__class_a62e844de1bb39611ad7145ab658fc09e}{udimid}}
+\begin{DoxyCompactList}\small\item\em number of dimensions, variables, attributes and dim I\+Ds on the file \end{DoxyCompactList}\item 
+type(\mbox{\hyperlink{structhdf5parser__mod_1_1dim__t}{dim\+\_\+t}}), dimension(\+:), allocatable \mbox{\hyperlink{structhdf5parser__mod_1_1hdf5file__class_a3d699b7aea90d058126e7940973aef74}{dimdata}}
+\begin{DoxyCompactList}\small\item\em metadata from the dimensions on the file \end{DoxyCompactList}\item 
+type(\mbox{\hyperlink{structhdf5parser__mod_1_1var__t}{var\+\_\+t}}), dimension(\+:), allocatable \mbox{\hyperlink{structhdf5parser__mod_1_1hdf5file__class_a70efd0ed930593326b6d0d4383b519e6}{vardata}}
+\begin{DoxyCompactList}\small\item\em metadata from the variables on the file \end{DoxyCompactList}\item 
+integer \mbox{\hyperlink{structhdf5parser__mod_1_1hdf5file__class_a6f4df4cad2b66b6cb92c348df647c305}{status}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A class that models a hdf5 mohid file. 
+
+Definition at line 62 of file H\+D\+F5\+Parser.\+f90.
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structhdf5parser__mod_1_1hdf5file__class_a3d699b7aea90d058126e7940973aef74}\label{structhdf5parser__mod_1_1hdf5file__class_a3d699b7aea90d058126e7940973aef74}} 
+\index{hdf5parser\+\_\+mod\+::hdf5file\+\_\+class@{hdf5parser\+\_\+mod\+::hdf5file\+\_\+class}!dimdata@{dimdata}}
+\index{dimdata@{dimdata}!hdf5parser\+\_\+mod\+::hdf5file\+\_\+class@{hdf5parser\+\_\+mod\+::hdf5file\+\_\+class}}
+\subsubsection{\texorpdfstring{dimdata}{dimdata}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structhdf5parser__mod_1_1dim__t}{dim\+\_\+t}}), dimension(\+:), allocatable hdf5parser\+\_\+mod\+::hdf5file\+\_\+class\+::dimdata\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+metadata from the dimensions on the file 
+
+
+
+Definition at line 66 of file H\+D\+F5\+Parser.\+f90.
+
+
+\begin{DoxyCode}
+66         \textcolor{keywordtype}{type}(dim\_t), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: dimData
+\end{DoxyCode}
+\mbox{\Hypertarget{structhdf5parser__mod_1_1hdf5file__class_ae59b5938c38fe6c76740a70082062b85}\label{structhdf5parser__mod_1_1hdf5file__class_ae59b5938c38fe6c76740a70082062b85}} 
+\index{hdf5parser\+\_\+mod\+::hdf5file\+\_\+class@{hdf5parser\+\_\+mod\+::hdf5file\+\_\+class}!filename@{filename}}
+\index{filename@{filename}!hdf5parser\+\_\+mod\+::hdf5file\+\_\+class@{hdf5parser\+\_\+mod\+::hdf5file\+\_\+class}}
+\subsubsection{\texorpdfstring{filename}{filename}}
+{\footnotesize\ttfamily type(string) hdf5parser\+\_\+mod\+::hdf5file\+\_\+class\+::filename\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+name of the file to read 
+
+
+
+Definition at line 63 of file H\+D\+F5\+Parser.\+f90.
+
+
+\begin{DoxyCode}
+63         \textcolor{keywordtype}{type}(string) :: filename
+\end{DoxyCode}
+\mbox{\Hypertarget{structhdf5parser__mod_1_1hdf5file__class_a02480d9c4d0242456b4ea76eff71a0a3}\label{structhdf5parser__mod_1_1hdf5file__class_a02480d9c4d0242456b4ea76eff71a0a3}} 
+\index{hdf5parser\+\_\+mod\+::hdf5file\+\_\+class@{hdf5parser\+\_\+mod\+::hdf5file\+\_\+class}!natt@{natt}}
+\index{natt@{natt}!hdf5parser\+\_\+mod\+::hdf5file\+\_\+class@{hdf5parser\+\_\+mod\+::hdf5file\+\_\+class}}
+\subsubsection{\texorpdfstring{natt}{natt}}
+{\footnotesize\ttfamily integer hdf5parser\+\_\+mod\+::hdf5file\+\_\+class\+::natt\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 65 of file H\+D\+F5\+Parser.\+f90.
+
+\mbox{\Hypertarget{structhdf5parser__mod_1_1hdf5file__class_af777516a319f0311090944b35118a279}\label{structhdf5parser__mod_1_1hdf5file__class_af777516a319f0311090944b35118a279}} 
+\index{hdf5parser\+\_\+mod\+::hdf5file\+\_\+class@{hdf5parser\+\_\+mod\+::hdf5file\+\_\+class}!ncid@{ncid}}
+\index{ncid@{ncid}!hdf5parser\+\_\+mod\+::hdf5file\+\_\+class@{hdf5parser\+\_\+mod\+::hdf5file\+\_\+class}}
+\subsubsection{\texorpdfstring{ncid}{ncid}}
+{\footnotesize\ttfamily integer hdf5parser\+\_\+mod\+::hdf5file\+\_\+class\+::ncid\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+ID of the file. 
+
+
+
+Definition at line 64 of file H\+D\+F5\+Parser.\+f90.
+
+
+\begin{DoxyCode}
+64         \textcolor{keywordtype}{integer} :: ncID
+\end{DoxyCode}
+\mbox{\Hypertarget{structhdf5parser__mod_1_1hdf5file__class_aba62709bfb8b0c5327720d0e07a2eedb}\label{structhdf5parser__mod_1_1hdf5file__class_aba62709bfb8b0c5327720d0e07a2eedb}} 
+\index{hdf5parser\+\_\+mod\+::hdf5file\+\_\+class@{hdf5parser\+\_\+mod\+::hdf5file\+\_\+class}!ndims@{ndims}}
+\index{ndims@{ndims}!hdf5parser\+\_\+mod\+::hdf5file\+\_\+class@{hdf5parser\+\_\+mod\+::hdf5file\+\_\+class}}
+\subsubsection{\texorpdfstring{ndims}{ndims}}
+{\footnotesize\ttfamily integer hdf5parser\+\_\+mod\+::hdf5file\+\_\+class\+::ndims\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 65 of file H\+D\+F5\+Parser.\+f90.
+
+
+\begin{DoxyCode}
+65         \textcolor{keywordtype}{integer} :: nDims, nVars, nAtt, uDimID
+\end{DoxyCode}
+\mbox{\Hypertarget{structhdf5parser__mod_1_1hdf5file__class_a2ca9fe45a4ab92a9f7168823656e84af}\label{structhdf5parser__mod_1_1hdf5file__class_a2ca9fe45a4ab92a9f7168823656e84af}} 
+\index{hdf5parser\+\_\+mod\+::hdf5file\+\_\+class@{hdf5parser\+\_\+mod\+::hdf5file\+\_\+class}!nvars@{nvars}}
+\index{nvars@{nvars}!hdf5parser\+\_\+mod\+::hdf5file\+\_\+class@{hdf5parser\+\_\+mod\+::hdf5file\+\_\+class}}
+\subsubsection{\texorpdfstring{nvars}{nvars}}
+{\footnotesize\ttfamily integer hdf5parser\+\_\+mod\+::hdf5file\+\_\+class\+::nvars\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 65 of file H\+D\+F5\+Parser.\+f90.
+
+\mbox{\Hypertarget{structhdf5parser__mod_1_1hdf5file__class_a6f4df4cad2b66b6cb92c348df647c305}\label{structhdf5parser__mod_1_1hdf5file__class_a6f4df4cad2b66b6cb92c348df647c305}} 
+\index{hdf5parser\+\_\+mod\+::hdf5file\+\_\+class@{hdf5parser\+\_\+mod\+::hdf5file\+\_\+class}!status@{status}}
+\index{status@{status}!hdf5parser\+\_\+mod\+::hdf5file\+\_\+class@{hdf5parser\+\_\+mod\+::hdf5file\+\_\+class}}
+\subsubsection{\texorpdfstring{status}{status}}
+{\footnotesize\ttfamily integer hdf5parser\+\_\+mod\+::hdf5file\+\_\+class\+::status\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 68 of file H\+D\+F5\+Parser.\+f90.
+
+
+\begin{DoxyCode}
+68         \textcolor{keywordtype}{integer} :: status
+\end{DoxyCode}
+\mbox{\Hypertarget{structhdf5parser__mod_1_1hdf5file__class_a62e844de1bb39611ad7145ab658fc09e}\label{structhdf5parser__mod_1_1hdf5file__class_a62e844de1bb39611ad7145ab658fc09e}} 
+\index{hdf5parser\+\_\+mod\+::hdf5file\+\_\+class@{hdf5parser\+\_\+mod\+::hdf5file\+\_\+class}!udimid@{udimid}}
+\index{udimid@{udimid}!hdf5parser\+\_\+mod\+::hdf5file\+\_\+class@{hdf5parser\+\_\+mod\+::hdf5file\+\_\+class}}
+\subsubsection{\texorpdfstring{udimid}{udimid}}
+{\footnotesize\ttfamily integer hdf5parser\+\_\+mod\+::hdf5file\+\_\+class\+::udimid\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+number of dimensions, variables, attributes and dim I\+Ds on the file 
+
+
+
+Definition at line 65 of file H\+D\+F5\+Parser.\+f90.
+
+\mbox{\Hypertarget{structhdf5parser__mod_1_1hdf5file__class_a70efd0ed930593326b6d0d4383b519e6}\label{structhdf5parser__mod_1_1hdf5file__class_a70efd0ed930593326b6d0d4383b519e6}} 
+\index{hdf5parser\+\_\+mod\+::hdf5file\+\_\+class@{hdf5parser\+\_\+mod\+::hdf5file\+\_\+class}!vardata@{vardata}}
+\index{vardata@{vardata}!hdf5parser\+\_\+mod\+::hdf5file\+\_\+class@{hdf5parser\+\_\+mod\+::hdf5file\+\_\+class}}
+\subsubsection{\texorpdfstring{vardata}{vardata}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structhdf5parser__mod_1_1var__t}{var\+\_\+t}}), dimension(\+:), allocatable hdf5parser\+\_\+mod\+::hdf5file\+\_\+class\+::vardata\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+metadata from the variables on the file 
+
+
+
+Definition at line 67 of file H\+D\+F5\+Parser.\+f90.
+
+
+\begin{DoxyCode}
+67         \textcolor{keywordtype}{type}(var\_t), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: varData
+\end{DoxyCode}
+
+
+The documentation for this type was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/\mbox{\hyperlink{_h_d_f5_parser_8f90}{H\+D\+F5\+Parser.\+f90}}\end{DoxyCompactItemize}

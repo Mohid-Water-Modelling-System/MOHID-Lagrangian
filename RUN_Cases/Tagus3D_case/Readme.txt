@@ -1,0 +1,14 @@
+Tagus3D_wq_implementationExampleOnly case can only be run after adding netcdfs with all the necessary properties, including:
+
+dissolved_oxygen
+nitrate
+nitrite
+ammonia
+particulate_organic_nitrogen
+particulate_organic_phosphorus
+dissolved_non-refractory_organic_nitrogen
+dissolved_non-refractory_organic_phosphorus
+dissolved_refractory_organic_nitrogen
+dissolved_refractory_organic_phosphorusphytoplankton
+zooplankton
+inorganic_phosphorus

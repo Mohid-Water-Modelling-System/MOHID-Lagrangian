@@ -1,0 +1,5 @@
+<map id="blocks_mod::toogleblocksources" name="blocks_mod::toogleblocksources">
+<area shape="rect" id="node2" href="$namespaceblocks__mod.html#a101d0a23b5b56baf6e5bd35bc7b677b0" title="Returns true if the point is inside the requested bounding box. " alt="" coords="279,5,432,32"/>
+<area shape="rect" id="node3" href="$namespaceblocks__mod.html#a62e8fb0d6b2535b4499c7a4d848c24ba" title="Returns the index of a Block for a given set of coordinates. " alt="" coords="265,56,445,83"/>
+<area shape="rect" id="node4" href="$namespaceblocks__mod.html#a1e632738786730731a48d9a432f6ab84" title="Method to send a Source from the current Block to another Block. " alt="" coords="272,107,439,133"/>
+</map>

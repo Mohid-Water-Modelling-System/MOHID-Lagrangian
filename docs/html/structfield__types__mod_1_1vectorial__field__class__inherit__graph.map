@@ -1,0 +1,6 @@
+<map id="field_types_mod::vectorial_field_class" name="field_types_mod::vectorial_field_class">
+<area shape="rect" id="node3" href="$structfield__types__mod_1_1vectorial2d__field__class.html" title="a 2D vectorial field class " alt="" coords="5,344,191,436"/>
+<area shape="rect" id="node4" href="$structfield__types__mod_1_1vectorial3d__field__class.html" title="a 3D vectorial field class " alt="" coords="215,344,400,436"/>
+<area shape="rect" id="node5" href="$structfield__types__mod_1_1vectorial4d__field__class.html" title="a 4D vectorial field class " alt="" coords="424,344,609,436"/>
+<area shape="rect" id="node2" href="$structfield__types__mod_1_1field__class.html" title="{field_types_mod::field\l_class\n|&#45; name\l&#45; units\l&#45; dim\l|&#45; setfieldmetadata()\l&#45; print()\l&#45; getfieldtype()\l}" alt="" coords="234,5,381,156"/>
+</map>

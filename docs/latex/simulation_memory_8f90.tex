@@ -1,0 +1,40 @@
+\hypertarget{simulation_memory_8f90}{}\section{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/simulation\+Memory.f90 File Reference}
+\label{simulation_memory_8f90}\index{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/simulation\+Memory.\+f90@{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/simulation\+Memory.\+f90}}
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structsimulationmemory__mod_1_1memory__t}{simulationmemory\+\_\+mod\+::memory\+\_\+t}}
+\end{DoxyCompactItemize}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+module \mbox{\hyperlink{namespacesimulationmemory__mod}{simulationmemory\+\_\+mod}}
+\begin{DoxyCompactList}\small\item\em Module to hold the simulation memory managment class and its methods. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacesimulationmemory__mod_afaf06c4001ebc289c12a9358a99d224d}{simulationmemory\+\_\+mod\+::initializememory}} (self)
+\begin{DoxyCompactList}\small\item\em Memory logger initialization method. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationmemory__mod_a3eb0ad61a559664ed4227ca4ad1746af}{simulationmemory\+\_\+mod\+::getotal}} (self, size)
+\begin{DoxyCompactList}\small\item\em Method to retreive the total size of the allocated memory. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationmemory__mod_a936043befeeb2a3a79b31b519295b842}{simulationmemory\+\_\+mod\+::setntrc}} (self, ntrc)
+\begin{DoxyCompactList}\small\item\em Method to set the total expected number of Tracers. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationmemory__mod_a48844ee646c6d29108f5bb1bdb9fd1bf}{simulationmemory\+\_\+mod\+::setsizetrc}} (self, size\+Trc)
+\begin{DoxyCompactList}\small\item\em Method to set the size of a typical Tracer. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationmemory__mod_a2ade4b86d68e8daa4f22e1cdf7473e2c}{simulationmemory\+\_\+mod\+::addblock}} (self, size)
+\begin{DoxyCompactList}\small\item\em Method to add the size of a Block to the memory log. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationmemory__mod_ae5682757ed7e3e005a1b54e5b44ed8a1}{simulationmemory\+\_\+mod\+::addsource}} (self, size)
+\begin{DoxyCompactList}\small\item\em Method to add the size of a Source to the memory log. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationmemory__mod_a3209dc0fdd14fe4a6190e67607076f65}{simulationmemory\+\_\+mod\+::setracer}} (self, size)
+\begin{DoxyCompactList}\small\item\em Method to add the size of a Tracer to the memory log. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationmemory__mod_a0812b4222f930cfb142586f47b2de0da}{simulationmemory\+\_\+mod\+::adddef}} (self, size)
+\begin{DoxyCompactList}\small\item\em Method to add the size of a definition to the memory log. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationmemory__mod_a5b7c22d236e24b59599f705f63ba3c09}{simulationmemory\+\_\+mod\+::printmemory}} (self)
+\begin{DoxyCompactList}\small\item\em Method to print the total allocated memory. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationmemory__mod_a9e12442b1b7b5d105cd70686e04106d3}{simulationmemory\+\_\+mod\+::printmemorydetailed}} (self)
+\begin{DoxyCompactList}\small\item\em Method to print the allocated memory. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+type(memory\+\_\+t), public \mbox{\hyperlink{namespacesimulationmemory__mod_a47d351637c32a0493b99ed3fb269f22c}{simulationmemory\+\_\+mod\+::simmemory}}
+\end{DoxyCompactItemize}

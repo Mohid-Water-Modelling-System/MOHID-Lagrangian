@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Basic output fields (always printed) are
+-id
+-source
+-position
+-velocity -->
+<!--Optional output fields can be listed here
+-"yes" - field is written, even if it doesn't exist
+-"no" - field is not written -->
+<output>
+	<field name="age" output="yes" />
+	<field name="condition" output="no" />
+</output>

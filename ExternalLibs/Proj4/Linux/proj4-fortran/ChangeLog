@@ -1,0 +1,22 @@
+2009-03-10 Magnus Hagdorn
+ * bootstrap: forgot to add bootstrap
+
+2005-01-31 Magnus Hagdorn
+ * fixed autotools magic
+
+2005-01-31 Mangus Hagdorn
+ * added auto-tools build system
+
+2004-06-15 Magnus Hagdorn
+ * install to GLIMMER_PREFIX
+
+2004-06-10 Magnus Hagdorn
+ * added f90_proj4.tar.gz target
+
+2004-06-08 Magnus Hagdorn
+ * applied a modified version of Carlie Coats' patch
+   http://www.unidata.ucar.edu/content/software/netcdf/intel-f95-patch?unidata=b2187e2bb415beea14be3c189e3933d0
+   use -DIFORT to compile with the Intel f95 compiler
+
+2004-06-08 Magnus Hagdorn
+ * initial checkin

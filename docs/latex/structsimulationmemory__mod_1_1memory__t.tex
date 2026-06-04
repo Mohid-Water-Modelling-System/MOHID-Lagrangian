@@ -1,0 +1,275 @@
+\hypertarget{structsimulationmemory__mod_1_1memory__t}{}\section{simulationmemory\+\_\+mod\+:\+:memory\+\_\+t Type Reference}
+\label{structsimulationmemory__mod_1_1memory__t}\index{simulationmemory\+\_\+mod\+::memory\+\_\+t@{simulationmemory\+\_\+mod\+::memory\+\_\+t}}
+
+
+Collaboration diagram for simulationmemory\+\_\+mod\+:\+:memory\+\_\+t\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=200pt]{structsimulationmemory__mod_1_1memory__t__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+procedure \mbox{\hyperlink{structsimulationmemory__mod_1_1memory__t_a4a5512e8fc794f1efb4a96815ce5bdad}{initialize}} =$>$ initialize\+Memory
+\item 
+procedure \mbox{\hyperlink{structsimulationmemory__mod_1_1memory__t_af4369c1b67450c093ccfb2837e709c3c}{addblock}}
+\item 
+procedure \mbox{\hyperlink{structsimulationmemory__mod_1_1memory__t_a6d2351fb033ce9893d273691db102d08}{addsource}}
+\item 
+procedure \mbox{\hyperlink{structsimulationmemory__mod_1_1memory__t_a47a1415617c756d44e330035acd0c825}{setracer}}
+\item 
+procedure \mbox{\hyperlink{structsimulationmemory__mod_1_1memory__t_a9024c06137d2b62198dc8c29a97d18a3}{adddef}}
+\item 
+procedure \mbox{\hyperlink{structsimulationmemory__mod_1_1memory__t_a87c33934f9464a2fcd66dd416aad3a2f}{getotal}}
+\item 
+procedure \mbox{\hyperlink{structsimulationmemory__mod_1_1memory__t_adf5a441d0b11953db16ca75aa7c01b09}{setntrc}}
+\item 
+procedure \mbox{\hyperlink{structsimulationmemory__mod_1_1memory__t_a25128ba01ed2359e4215b9cbbee746a9}{setsizetrc}}
+\item 
+procedure \mbox{\hyperlink{structsimulationmemory__mod_1_1memory__t_a24c0fb4f4dd83b64e30a8e6213ec459f}{print}} =$>$ \mbox{\hyperlink{namespacesimulationmemory__mod_a5b7c22d236e24b59599f705f63ba3c09}{printmemory}}
+\item 
+procedure \mbox{\hyperlink{structsimulationmemory__mod_1_1memory__t_a909f0aceaaee770e5a20e3878651dfda}{detailedprint}} =$>$ \mbox{\hyperlink{namespacesimulationmemory__mod_a9e12442b1b7b5d105cd70686e04106d3}{printmemorydetailed}}
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+integer \mbox{\hyperlink{structsimulationmemory__mod_1_1memory__t_af6321367f42a24e0331c2e1da01f1367}{size\+\_\+of\+\_\+sources}}
+\begin{DoxyCompactList}\small\item\em Size of the sources in memory (bytes) \end{DoxyCompactList}\item 
+integer \mbox{\hyperlink{structsimulationmemory__mod_1_1memory__t_ab0bafedbc072d99c7f8daf4f52cc1a29}{size\+\_\+of\+\_\+tracers}}
+\begin{DoxyCompactList}\small\item\em Size of the tracers in memory (bytes) \end{DoxyCompactList}\item 
+integer \mbox{\hyperlink{structsimulationmemory__mod_1_1memory__t_ad73dd51ffc77c775c18706b4324db517}{size\+\_\+of\+\_\+defs}}
+\begin{DoxyCompactList}\small\item\em Size of the parameters and definitions in memory (bytes) \end{DoxyCompactList}\item 
+integer \mbox{\hyperlink{structsimulationmemory__mod_1_1memory__t_a12fbf3e8bb3b00b8ea7d69bd8c16c582}{size\+\_\+of\+\_\+blocks}}
+\begin{DoxyCompactList}\small\item\em Size of the Blocks in memory (bytes) \end{DoxyCompactList}\item 
+integer \mbox{\hyperlink{structsimulationmemory__mod_1_1memory__t_a4a8dedbf0302ce774a61b55a1053bd51}{ntrc}}
+\begin{DoxyCompactList}\small\item\em Expected number of Tracers for the simulation (by Source emission at least) \end{DoxyCompactList}\item 
+integer \mbox{\hyperlink{structsimulationmemory__mod_1_1memory__t_aeb0ed70db36a56115ed196dc4a579d6d}{sizetrc}}
+\begin{DoxyCompactList}\small\item\em Size of a dummy Tracer, in bytes. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 28 of file simulation\+Memory.\+f90.
+
+
+
+\subsection{Member Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{structsimulationmemory__mod_1_1memory__t_af4369c1b67450c093ccfb2837e709c3c}\label{structsimulationmemory__mod_1_1memory__t_af4369c1b67450c093ccfb2837e709c3c}} 
+\index{simulationmemory\+\_\+mod\+::memory\+\_\+t@{simulationmemory\+\_\+mod\+::memory\+\_\+t}!addblock@{addblock}}
+\index{addblock@{addblock}!simulationmemory\+\_\+mod\+::memory\+\_\+t@{simulationmemory\+\_\+mod\+::memory\+\_\+t}}
+\subsubsection{\texorpdfstring{addblock()}{addblock()}}
+{\footnotesize\ttfamily procedure simulationmemory\+\_\+mod\+::memory\+\_\+t\+::addblock (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 38 of file simulation\+Memory.\+f90.
+
+\mbox{\Hypertarget{structsimulationmemory__mod_1_1memory__t_a9024c06137d2b62198dc8c29a97d18a3}\label{structsimulationmemory__mod_1_1memory__t_a9024c06137d2b62198dc8c29a97d18a3}} 
+\index{simulationmemory\+\_\+mod\+::memory\+\_\+t@{simulationmemory\+\_\+mod\+::memory\+\_\+t}!adddef@{adddef}}
+\index{adddef@{adddef}!simulationmemory\+\_\+mod\+::memory\+\_\+t@{simulationmemory\+\_\+mod\+::memory\+\_\+t}}
+\subsubsection{\texorpdfstring{adddef()}{adddef()}}
+{\footnotesize\ttfamily procedure simulationmemory\+\_\+mod\+::memory\+\_\+t\+::adddef (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 41 of file simulation\+Memory.\+f90.
+
+\mbox{\Hypertarget{structsimulationmemory__mod_1_1memory__t_a6d2351fb033ce9893d273691db102d08}\label{structsimulationmemory__mod_1_1memory__t_a6d2351fb033ce9893d273691db102d08}} 
+\index{simulationmemory\+\_\+mod\+::memory\+\_\+t@{simulationmemory\+\_\+mod\+::memory\+\_\+t}!addsource@{addsource}}
+\index{addsource@{addsource}!simulationmemory\+\_\+mod\+::memory\+\_\+t@{simulationmemory\+\_\+mod\+::memory\+\_\+t}}
+\subsubsection{\texorpdfstring{addsource()}{addsource()}}
+{\footnotesize\ttfamily procedure simulationmemory\+\_\+mod\+::memory\+\_\+t\+::addsource (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 39 of file simulation\+Memory.\+f90.
+
+\mbox{\Hypertarget{structsimulationmemory__mod_1_1memory__t_a909f0aceaaee770e5a20e3878651dfda}\label{structsimulationmemory__mod_1_1memory__t_a909f0aceaaee770e5a20e3878651dfda}} 
+\index{simulationmemory\+\_\+mod\+::memory\+\_\+t@{simulationmemory\+\_\+mod\+::memory\+\_\+t}!detailedprint@{detailedprint}}
+\index{detailedprint@{detailedprint}!simulationmemory\+\_\+mod\+::memory\+\_\+t@{simulationmemory\+\_\+mod\+::memory\+\_\+t}}
+\subsubsection{\texorpdfstring{detailedprint()}{detailedprint()}}
+{\footnotesize\ttfamily procedure simulationmemory\+\_\+mod\+::memory\+\_\+t\+::detailedprint (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 46 of file simulation\+Memory.\+f90.
+
+\mbox{\Hypertarget{structsimulationmemory__mod_1_1memory__t_a87c33934f9464a2fcd66dd416aad3a2f}\label{structsimulationmemory__mod_1_1memory__t_a87c33934f9464a2fcd66dd416aad3a2f}} 
+\index{simulationmemory\+\_\+mod\+::memory\+\_\+t@{simulationmemory\+\_\+mod\+::memory\+\_\+t}!getotal@{getotal}}
+\index{getotal@{getotal}!simulationmemory\+\_\+mod\+::memory\+\_\+t@{simulationmemory\+\_\+mod\+::memory\+\_\+t}}
+\subsubsection{\texorpdfstring{getotal()}{getotal()}}
+{\footnotesize\ttfamily procedure simulationmemory\+\_\+mod\+::memory\+\_\+t\+::getotal (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 42 of file simulation\+Memory.\+f90.
+
+\mbox{\Hypertarget{structsimulationmemory__mod_1_1memory__t_a4a5512e8fc794f1efb4a96815ce5bdad}\label{structsimulationmemory__mod_1_1memory__t_a4a5512e8fc794f1efb4a96815ce5bdad}} 
+\index{simulationmemory\+\_\+mod\+::memory\+\_\+t@{simulationmemory\+\_\+mod\+::memory\+\_\+t}!initialize@{initialize}}
+\index{initialize@{initialize}!simulationmemory\+\_\+mod\+::memory\+\_\+t@{simulationmemory\+\_\+mod\+::memory\+\_\+t}}
+\subsubsection{\texorpdfstring{initialize()}{initialize()}}
+{\footnotesize\ttfamily procedure simulationmemory\+\_\+mod\+::memory\+\_\+t\+::initialize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 37 of file simulation\+Memory.\+f90.
+
+\mbox{\Hypertarget{structsimulationmemory__mod_1_1memory__t_a24c0fb4f4dd83b64e30a8e6213ec459f}\label{structsimulationmemory__mod_1_1memory__t_a24c0fb4f4dd83b64e30a8e6213ec459f}} 
+\index{simulationmemory\+\_\+mod\+::memory\+\_\+t@{simulationmemory\+\_\+mod\+::memory\+\_\+t}!print@{print}}
+\index{print@{print}!simulationmemory\+\_\+mod\+::memory\+\_\+t@{simulationmemory\+\_\+mod\+::memory\+\_\+t}}
+\subsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily procedure simulationmemory\+\_\+mod\+::memory\+\_\+t\+::print (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 45 of file simulation\+Memory.\+f90.
+
+\mbox{\Hypertarget{structsimulationmemory__mod_1_1memory__t_adf5a441d0b11953db16ca75aa7c01b09}\label{structsimulationmemory__mod_1_1memory__t_adf5a441d0b11953db16ca75aa7c01b09}} 
+\index{simulationmemory\+\_\+mod\+::memory\+\_\+t@{simulationmemory\+\_\+mod\+::memory\+\_\+t}!setntrc@{setntrc}}
+\index{setntrc@{setntrc}!simulationmemory\+\_\+mod\+::memory\+\_\+t@{simulationmemory\+\_\+mod\+::memory\+\_\+t}}
+\subsubsection{\texorpdfstring{setntrc()}{setntrc()}}
+{\footnotesize\ttfamily procedure simulationmemory\+\_\+mod\+::memory\+\_\+t\+::setntrc (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 43 of file simulation\+Memory.\+f90.
+
+\mbox{\Hypertarget{structsimulationmemory__mod_1_1memory__t_a47a1415617c756d44e330035acd0c825}\label{structsimulationmemory__mod_1_1memory__t_a47a1415617c756d44e330035acd0c825}} 
+\index{simulationmemory\+\_\+mod\+::memory\+\_\+t@{simulationmemory\+\_\+mod\+::memory\+\_\+t}!setracer@{setracer}}
+\index{setracer@{setracer}!simulationmemory\+\_\+mod\+::memory\+\_\+t@{simulationmemory\+\_\+mod\+::memory\+\_\+t}}
+\subsubsection{\texorpdfstring{setracer()}{setracer()}}
+{\footnotesize\ttfamily procedure simulationmemory\+\_\+mod\+::memory\+\_\+t\+::setracer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 40 of file simulation\+Memory.\+f90.
+
+\mbox{\Hypertarget{structsimulationmemory__mod_1_1memory__t_a25128ba01ed2359e4215b9cbbee746a9}\label{structsimulationmemory__mod_1_1memory__t_a25128ba01ed2359e4215b9cbbee746a9}} 
+\index{simulationmemory\+\_\+mod\+::memory\+\_\+t@{simulationmemory\+\_\+mod\+::memory\+\_\+t}!setsizetrc@{setsizetrc}}
+\index{setsizetrc@{setsizetrc}!simulationmemory\+\_\+mod\+::memory\+\_\+t@{simulationmemory\+\_\+mod\+::memory\+\_\+t}}
+\subsubsection{\texorpdfstring{setsizetrc()}{setsizetrc()}}
+{\footnotesize\ttfamily procedure simulationmemory\+\_\+mod\+::memory\+\_\+t\+::setsizetrc (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 44 of file simulation\+Memory.\+f90.
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structsimulationmemory__mod_1_1memory__t_a4a8dedbf0302ce774a61b55a1053bd51}\label{structsimulationmemory__mod_1_1memory__t_a4a8dedbf0302ce774a61b55a1053bd51}} 
+\index{simulationmemory\+\_\+mod\+::memory\+\_\+t@{simulationmemory\+\_\+mod\+::memory\+\_\+t}!ntrc@{ntrc}}
+\index{ntrc@{ntrc}!simulationmemory\+\_\+mod\+::memory\+\_\+t@{simulationmemory\+\_\+mod\+::memory\+\_\+t}}
+\subsubsection{\texorpdfstring{ntrc}{ntrc}}
+{\footnotesize\ttfamily integer simulationmemory\+\_\+mod\+::memory\+\_\+t\+::ntrc\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Expected number of Tracers for the simulation (by Source emission at least) 
+
+
+
+Definition at line 34 of file simulation\+Memory.\+f90.
+
+
+\begin{DoxyCode}
+34         \textcolor{keywordtype}{integer} :: ntrc
+\end{DoxyCode}
+\mbox{\Hypertarget{structsimulationmemory__mod_1_1memory__t_a12fbf3e8bb3b00b8ea7d69bd8c16c582}\label{structsimulationmemory__mod_1_1memory__t_a12fbf3e8bb3b00b8ea7d69bd8c16c582}} 
+\index{simulationmemory\+\_\+mod\+::memory\+\_\+t@{simulationmemory\+\_\+mod\+::memory\+\_\+t}!size\+\_\+of\+\_\+blocks@{size\+\_\+of\+\_\+blocks}}
+\index{size\+\_\+of\+\_\+blocks@{size\+\_\+of\+\_\+blocks}!simulationmemory\+\_\+mod\+::memory\+\_\+t@{simulationmemory\+\_\+mod\+::memory\+\_\+t}}
+\subsubsection{\texorpdfstring{size\+\_\+of\+\_\+blocks}{size\_of\_blocks}}
+{\footnotesize\ttfamily integer simulationmemory\+\_\+mod\+::memory\+\_\+t\+::size\+\_\+of\+\_\+blocks\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Size of the Blocks in memory (bytes) 
+
+
+
+Definition at line 33 of file simulation\+Memory.\+f90.
+
+
+\begin{DoxyCode}
+33         \textcolor{keywordtype}{integer} :: size\_of\_blocks
+\end{DoxyCode}
+\mbox{\Hypertarget{structsimulationmemory__mod_1_1memory__t_ad73dd51ffc77c775c18706b4324db517}\label{structsimulationmemory__mod_1_1memory__t_ad73dd51ffc77c775c18706b4324db517}} 
+\index{simulationmemory\+\_\+mod\+::memory\+\_\+t@{simulationmemory\+\_\+mod\+::memory\+\_\+t}!size\+\_\+of\+\_\+defs@{size\+\_\+of\+\_\+defs}}
+\index{size\+\_\+of\+\_\+defs@{size\+\_\+of\+\_\+defs}!simulationmemory\+\_\+mod\+::memory\+\_\+t@{simulationmemory\+\_\+mod\+::memory\+\_\+t}}
+\subsubsection{\texorpdfstring{size\+\_\+of\+\_\+defs}{size\_of\_defs}}
+{\footnotesize\ttfamily integer simulationmemory\+\_\+mod\+::memory\+\_\+t\+::size\+\_\+of\+\_\+defs\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Size of the parameters and definitions in memory (bytes) 
+
+
+
+Definition at line 32 of file simulation\+Memory.\+f90.
+
+
+\begin{DoxyCode}
+32         \textcolor{keywordtype}{integer} :: size\_of\_defs
+\end{DoxyCode}
+\mbox{\Hypertarget{structsimulationmemory__mod_1_1memory__t_af6321367f42a24e0331c2e1da01f1367}\label{structsimulationmemory__mod_1_1memory__t_af6321367f42a24e0331c2e1da01f1367}} 
+\index{simulationmemory\+\_\+mod\+::memory\+\_\+t@{simulationmemory\+\_\+mod\+::memory\+\_\+t}!size\+\_\+of\+\_\+sources@{size\+\_\+of\+\_\+sources}}
+\index{size\+\_\+of\+\_\+sources@{size\+\_\+of\+\_\+sources}!simulationmemory\+\_\+mod\+::memory\+\_\+t@{simulationmemory\+\_\+mod\+::memory\+\_\+t}}
+\subsubsection{\texorpdfstring{size\+\_\+of\+\_\+sources}{size\_of\_sources}}
+{\footnotesize\ttfamily integer simulationmemory\+\_\+mod\+::memory\+\_\+t\+::size\+\_\+of\+\_\+sources\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Size of the sources in memory (bytes) 
+
+
+
+Definition at line 30 of file simulation\+Memory.\+f90.
+
+
+\begin{DoxyCode}
+30         \textcolor{keywordtype}{integer} :: size\_of\_sources
+\end{DoxyCode}
+\mbox{\Hypertarget{structsimulationmemory__mod_1_1memory__t_ab0bafedbc072d99c7f8daf4f52cc1a29}\label{structsimulationmemory__mod_1_1memory__t_ab0bafedbc072d99c7f8daf4f52cc1a29}} 
+\index{simulationmemory\+\_\+mod\+::memory\+\_\+t@{simulationmemory\+\_\+mod\+::memory\+\_\+t}!size\+\_\+of\+\_\+tracers@{size\+\_\+of\+\_\+tracers}}
+\index{size\+\_\+of\+\_\+tracers@{size\+\_\+of\+\_\+tracers}!simulationmemory\+\_\+mod\+::memory\+\_\+t@{simulationmemory\+\_\+mod\+::memory\+\_\+t}}
+\subsubsection{\texorpdfstring{size\+\_\+of\+\_\+tracers}{size\_of\_tracers}}
+{\footnotesize\ttfamily integer simulationmemory\+\_\+mod\+::memory\+\_\+t\+::size\+\_\+of\+\_\+tracers\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Size of the tracers in memory (bytes) 
+
+
+
+Definition at line 31 of file simulation\+Memory.\+f90.
+
+
+\begin{DoxyCode}
+31         \textcolor{keywordtype}{integer} :: size\_of\_tracers
+\end{DoxyCode}
+\mbox{\Hypertarget{structsimulationmemory__mod_1_1memory__t_aeb0ed70db36a56115ed196dc4a579d6d}\label{structsimulationmemory__mod_1_1memory__t_aeb0ed70db36a56115ed196dc4a579d6d}} 
+\index{simulationmemory\+\_\+mod\+::memory\+\_\+t@{simulationmemory\+\_\+mod\+::memory\+\_\+t}!sizetrc@{sizetrc}}
+\index{sizetrc@{sizetrc}!simulationmemory\+\_\+mod\+::memory\+\_\+t@{simulationmemory\+\_\+mod\+::memory\+\_\+t}}
+\subsubsection{\texorpdfstring{sizetrc}{sizetrc}}
+{\footnotesize\ttfamily integer simulationmemory\+\_\+mod\+::memory\+\_\+t\+::sizetrc\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Size of a dummy Tracer, in bytes. 
+
+
+
+Definition at line 35 of file simulation\+Memory.\+f90.
+
+
+\begin{DoxyCode}
+35         \textcolor{keywordtype}{integer} :: sizeTrc
+\end{DoxyCode}
+
+
+The documentation for this type was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/\mbox{\hyperlink{simulation_memory_8f90}{simulation\+Memory.\+f90}}\end{DoxyCompactItemize}

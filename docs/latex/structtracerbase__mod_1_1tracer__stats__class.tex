@@ -1,0 +1,114 @@
+\hypertarget{structtracerbase__mod_1_1tracer__stats__class}{}\section{tracerbase\+\_\+mod\+:\+:tracer\+\_\+stats\+\_\+class Type Reference}
+\label{structtracerbase__mod_1_1tracer__stats__class}\index{tracerbase\+\_\+mod\+::tracer\+\_\+stats\+\_\+class@{tracerbase\+\_\+mod\+::tracer\+\_\+stats\+\_\+class}}
+
+
+Type -\/ statistical variables of a pure Lagrangian tracer object.  
+
+
+
+
+Collaboration diagram for tracerbase\+\_\+mod\+:\+:tracer\+\_\+stats\+\_\+class\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=197pt]{structtracerbase__mod_1_1tracer__stats__class__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+type(vector) \mbox{\hyperlink{structtracerbase__mod_1_1tracer__stats__class_ab873af2b6de9650bd8db0c4ebbf8bcbe}{acc\+\_\+pos}}
+\begin{DoxyCompactList}\small\item\em Accumulated position of the tracer (m) \end{DoxyCompactList}\item 
+type(vector) \mbox{\hyperlink{structtracerbase__mod_1_1tracer__stats__class_aaac47a74e7741ce3b8e300f38f1abb0e}{acc\+\_\+vel}}
+\begin{DoxyCompactList}\small\item\em Accumulated velocity of the tracer (m s-\/1) \end{DoxyCompactList}\item 
+real(prec\+\_\+wrt) \mbox{\hyperlink{structtracerbase__mod_1_1tracer__stats__class_ad97a8b58596f4c36ed7af64b7e445a5f}{acc\+\_\+level}} = MV
+\begin{DoxyCompactList}\small\item\em Accumulated depth of the tracer (m) \end{DoxyCompactList}\item 
+integer \mbox{\hyperlink{structtracerbase__mod_1_1tracer__stats__class_ad0fd94fb56ff9eaf4766fabc2e83b3a7}{ns}} = MV
+\begin{DoxyCompactList}\small\item\em Number of sampling steps. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Type -\/ statistical variables of a pure Lagrangian tracer object. 
+
+Definition at line 42 of file tracer\+Base.\+f90.
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structtracerbase__mod_1_1tracer__stats__class_ad97a8b58596f4c36ed7af64b7e445a5f}\label{structtracerbase__mod_1_1tracer__stats__class_ad97a8b58596f4c36ed7af64b7e445a5f}} 
+\index{tracerbase\+\_\+mod\+::tracer\+\_\+stats\+\_\+class@{tracerbase\+\_\+mod\+::tracer\+\_\+stats\+\_\+class}!acc\+\_\+level@{acc\+\_\+level}}
+\index{acc\+\_\+level@{acc\+\_\+level}!tracerbase\+\_\+mod\+::tracer\+\_\+stats\+\_\+class@{tracerbase\+\_\+mod\+::tracer\+\_\+stats\+\_\+class}}
+\subsubsection{\texorpdfstring{acc\+\_\+level}{acc\_level}}
+{\footnotesize\ttfamily real(prec\+\_\+wrt) tracerbase\+\_\+mod\+::tracer\+\_\+stats\+\_\+class\+::acc\+\_\+level = MV\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Accumulated depth of the tracer (m) 
+
+
+
+Definition at line 45 of file tracer\+Base.\+f90.
+
+
+\begin{DoxyCode}
+45         \textcolor{keywordtype}{real(prec\_wrt)} :: acc\_level = mv        
+\end{DoxyCode}
+\mbox{\Hypertarget{structtracerbase__mod_1_1tracer__stats__class_ab873af2b6de9650bd8db0c4ebbf8bcbe}\label{structtracerbase__mod_1_1tracer__stats__class_ab873af2b6de9650bd8db0c4ebbf8bcbe}} 
+\index{tracerbase\+\_\+mod\+::tracer\+\_\+stats\+\_\+class@{tracerbase\+\_\+mod\+::tracer\+\_\+stats\+\_\+class}!acc\+\_\+pos@{acc\+\_\+pos}}
+\index{acc\+\_\+pos@{acc\+\_\+pos}!tracerbase\+\_\+mod\+::tracer\+\_\+stats\+\_\+class@{tracerbase\+\_\+mod\+::tracer\+\_\+stats\+\_\+class}}
+\subsubsection{\texorpdfstring{acc\+\_\+pos}{acc\_pos}}
+{\footnotesize\ttfamily type(vector) tracerbase\+\_\+mod\+::tracer\+\_\+stats\+\_\+class\+::acc\+\_\+pos\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Accumulated position of the tracer (m) 
+
+
+
+Definition at line 43 of file tracer\+Base.\+f90.
+
+
+\begin{DoxyCode}
+43         \textcolor{keywordtype}{type}(vector) :: acc\_pos
+\end{DoxyCode}
+\mbox{\Hypertarget{structtracerbase__mod_1_1tracer__stats__class_aaac47a74e7741ce3b8e300f38f1abb0e}\label{structtracerbase__mod_1_1tracer__stats__class_aaac47a74e7741ce3b8e300f38f1abb0e}} 
+\index{tracerbase\+\_\+mod\+::tracer\+\_\+stats\+\_\+class@{tracerbase\+\_\+mod\+::tracer\+\_\+stats\+\_\+class}!acc\+\_\+vel@{acc\+\_\+vel}}
+\index{acc\+\_\+vel@{acc\+\_\+vel}!tracerbase\+\_\+mod\+::tracer\+\_\+stats\+\_\+class@{tracerbase\+\_\+mod\+::tracer\+\_\+stats\+\_\+class}}
+\subsubsection{\texorpdfstring{acc\+\_\+vel}{acc\_vel}}
+{\footnotesize\ttfamily type(vector) tracerbase\+\_\+mod\+::tracer\+\_\+stats\+\_\+class\+::acc\+\_\+vel\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Accumulated velocity of the tracer (m s-\/1) 
+
+
+
+Definition at line 44 of file tracer\+Base.\+f90.
+
+
+\begin{DoxyCode}
+44         \textcolor{keywordtype}{type}(vector) :: acc\_vel
+\end{DoxyCode}
+\mbox{\Hypertarget{structtracerbase__mod_1_1tracer__stats__class_ad0fd94fb56ff9eaf4766fabc2e83b3a7}\label{structtracerbase__mod_1_1tracer__stats__class_ad0fd94fb56ff9eaf4766fabc2e83b3a7}} 
+\index{tracerbase\+\_\+mod\+::tracer\+\_\+stats\+\_\+class@{tracerbase\+\_\+mod\+::tracer\+\_\+stats\+\_\+class}!ns@{ns}}
+\index{ns@{ns}!tracerbase\+\_\+mod\+::tracer\+\_\+stats\+\_\+class@{tracerbase\+\_\+mod\+::tracer\+\_\+stats\+\_\+class}}
+\subsubsection{\texorpdfstring{ns}{ns}}
+{\footnotesize\ttfamily integer tracerbase\+\_\+mod\+::tracer\+\_\+stats\+\_\+class\+::ns = MV\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Number of sampling steps. 
+
+
+
+Definition at line 46 of file tracer\+Base.\+f90.
+
+
+\begin{DoxyCode}
+46         \textcolor{keywordtype}{integer} :: ns = mv                      
+\end{DoxyCode}
+
+
+The documentation for this type was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/\mbox{\hyperlink{tracer_base_8f90}{tracer\+Base.\+f90}}\end{DoxyCompactItemize}

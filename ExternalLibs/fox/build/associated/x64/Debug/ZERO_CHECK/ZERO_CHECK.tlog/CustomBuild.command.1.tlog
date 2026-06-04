@@ -1,0 +1,10 @@
+^C:\USERS\USRXMODEL1\DOCUMENTS\02_TRABALLO\03_MODELOS\02_MOHID_LAGRANGIAN\MOHID-LAGRANGIAN\EXTERNALLIBS\FOX\BUILD\ASSOCIATED\CMAKEFILES\5B3D46E826C4CAC61180D3899381B1EB\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/cmake -BC:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/associated --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/UsrXModel1/Documents/02_TRABALLO/03_MODELOS/02_MOHID_LAGRANGIAN/MOHID-Lagrangian/ExternalLibs/fox/build/associated/fox_config.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

@@ -1,0 +1,128 @@
+#|==================================================================================|#
+#|						.gitignore 						|#
+#|==================================================================================|#
+
+#|==================================================================================|#
+#|				Build directories, binaries and External libraries					|#
+#|==================================================================================|#
+
+# 1. We ignore the CONTENT of build, but NOT the build folder itself
+# This allows Git to look inside for the exceptions
+#**/build/*
+
+# 2. Open the specific path layer by layer (Crucial step)
+!**/build/bin/
+!**/build/bin/RELEASE/
+
+# 3. Allow the specific executable
+# This must be BEFORE the global *.exe rule if possible, or very specific
+!**/build/bin/RELEASE/MOHIDLagrangian.exe
+
+# 4. Explicitly ignore DEBUG folder
+#**/build/bin/DEBUG/
+
+# 5. buildScripts is fully tracked
+!buildScripts/
+!buildScripts/**
+
+
+#|==================================================================================|#
+#|				Editor and IDE settings												|#
+#|==================================================================================|#
+.vscode
+.vs/VSWorkspaceState.json
+.vs/slnx.sqlite
+.vs/ProjectSettings.json
+.vs/MOHID-Lagrangian/v16/.suo
+.vs/cmake.db
+.vs/CMake Overview
+
+# --- Visual Studio Generated Files ---
+#*.sln
+#*.vcxproj
+#*.vcxproj.filters
+#*.vcxproj.user
+*.suo
+*.user
+*.idb
+*.pdb
+*.ilk
+*.aps
+*.opt
+
+# --- Fortran Compilation Artifacts ---
+#*.mod
+*.smod
+
+# CMake temporary files
+CMakeCache.txt
+CMakeFiles/
+
+
+#|==================================================================================|#
+#|							Build and compilation artifacts							|#
+#|==================================================================================|#
+*_out/
+*.out
+*.o
+*.obj
+# This global rule is what often blocks the .exe
+# The specific exception at the top (!MOHIDLagrangian.exe) fixes this
+#*.exe
+!**/build/bin/RELEASE/MOHIDLagrangian.exe
+*.lo
+*.ol
+*.pyc
+Makefile
+*.Po
+*.log
+CMakeSettings.json
+**/build/.vs/
+
+
+#|==================================================================================|#
+#|					Animation output directories (case sensitive)					|#
+#|==================================================================================|#
+anim/
+Anim/
+
+
+#|==================================================================================|#
+#|					Run cases directories and files									|#
+#|==================================================================================|#
+run_local_cases/
+RUN_Cases/Debug_case/Command Prompt.lnk
+RUN_Cases/Debug_case/data/Batea.kmz
+RUN_Cases/Debug_case/data/Lerez.dat
+RUN_Cases/Debug_case/data/Minor.dat
+RUN_Cases/Debug_case/data/source_box2.kmz
+RUN_Cases/Debug_case/data/spill_trajectory.dat
+RUN_Cases/Debug_case/data/Verdugo.dat
+RUN_Cases/Debug_case/materialTypes.xml
+RUN_Cases/Debug_case/Debug_case.xml
+RUN_Cases/Debug_case/nc_fields/hydrodynamic/2022053100.nc
+RUN_Cases/Debug_case/nc_fields/hydrodynamic/2022060100.nc
+RUN_Cases/Debug_case/nc_fields/hydrodynamic/2022060200.nc
+RUN_Cases/Debug_case/nc_fields/meteo/2022053100.nc
+RUN_Cases/Debug_case/nc_fields/meteo/2022060100.nc
+RUN_Cases/Debug_case/nc_fields/meteo/2022060200.nc
+RUN_Cases/Debug_case/ncNamesLibrary.xml
+RUN_Cases/Debug_case/outputFields.xml
+RUN_Cases/Debug_case/PV_state.pvsm
+RUN_Cases/Debug_case/RunCase_buoyancy.sh
+
+RUN_Cases/Mohsen_Cases/**/Arousa_3D_Def_out/
+
+
+#|==================================================================================|#
+#|==================================================================================|#
+#| Syntax      | Meaning                                                        	|#
+#| ----------- | -------------------------------------------------------------- 	|#
+#|  filename   | Ignores a file in the root or any subdirectory (e.g., `*.log`) 	|#
+#|  folder/    | Ignores an entire directory and everything inside it, recursively	|#
+#|  *.ext      | Ignores all files with the .ext extension, anywhere 		     	|#
+#|  **/file    | Ignores `file` in any subdirectory (all directories,recursive)   	|#
+#|  !filename  | **Negates** a rule: includes a file previously ignored         	|#
+#|  /filename  | Ignores a file only in the root directory of the repository    	|#
+#|==================================================================================|#
+

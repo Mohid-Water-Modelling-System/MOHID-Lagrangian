@@ -1,0 +1,23 @@
+\hypertarget{tracer_user_8f90}{}\section{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/tracer\+User.f90 File Reference}
+\label{tracer_user_8f90}\index{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/tracer\+User.\+f90@{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/tracer\+User.\+f90}}
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structtraceruser__mod_1_1user__par__class}{traceruser\+\_\+mod\+::user\+\_\+par\+\_\+class}}
+\item 
+type \mbox{\hyperlink{structtraceruser__mod_1_1user__state__class}{traceruser\+\_\+mod\+::user\+\_\+state\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em Type -\/ State variables of a tracer object representing a user defined type. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structtraceruser__mod_1_1usertracer__class}{traceruser\+\_\+mod\+::usertracer\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em Type -\/ The user-\/defined Lagrangian tracer class. \end{DoxyCompactList}\item 
+interface \mbox{\hyperlink{interfacetraceruser__mod_1_1usertracer}{traceruser\+\_\+mod\+::usertracer}}
+\end{DoxyCompactItemize}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+module \mbox{\hyperlink{namespacetraceruser__mod}{traceruser\+\_\+mod}}
+\begin{DoxyCompactList}\small\item\em Module that defines a generic Lagrangian tracer class for material modelling and related methods. The type is defined as a derived type from the pule Lagrangian tracer, and hence inherits all of it\textquotesingle{}s data and methods. It holds an arbitrarily sized array for properties and their names, that a user can then explore in the methods. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+type(usertracer\+\_\+class) function \mbox{\hyperlink{namespacetraceruser__mod_a9b5d52bbc9611921275ff35fa82a91c5}{traceruser\+\_\+mod\+::constructor}} (id, src, time, p)
+\begin{DoxyCompactList}\small\item\em User-\/defined Tracer constructor. \end{DoxyCompactList}\end{DoxyCompactItemize}

@@ -1,0 +1,29 @@
+\hypertarget{vtk_writter_8f90}{}\section{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/vtk\+Writter.f90 File Reference}
+\label{vtk_writter_8f90}\index{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/vtk\+Writter.\+f90@{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/vtk\+Writter.\+f90}}
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structvtkwritter__mod_1_1vtkwritter__class}{vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class}}
+\end{DoxyCompactItemize}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+module \mbox{\hyperlink{namespacevtkwritter__mod}{vtkwritter\+\_\+mod}}
+\begin{DoxyCompactList}\small\item\em Defines a vtk writer class with an object exposable to the Output streamer. Writes files in .xml vtk, both in serial and parallel model. Uses an unstructured mesh format specifier to store any type of data, both meshes and Tracers. Supports scalar and vectorial data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacevtkwritter__mod_abd35d591c8e15730a277b2d26deb83e8}{vtkwritter\+\_\+mod\+::initvtkwritter}} (self)
+\begin{DoxyCompactList}\small\item\em Initializes a V\+TK writer object. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacevtkwritter__mod_a13f1b870d2367704bcd4143a80b552f9}{vtkwritter\+\_\+mod\+::closevtkwriter}} (self)
+\begin{DoxyCompactList}\small\item\em Closes a V\+TK writer object. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacevtkwritter__mod_ac11e4d1d71141e6de89ba67508212ce0}{vtkwritter\+\_\+mod\+::tracerserial}} (self, filename, blocks)
+\begin{DoxyCompactList}\small\item\em Public Tracer writting routine. Writes Tracer data in binary X\+ML V\+TK format using an unstructured grid. Serial writer for serial files. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacevtkwritter__mod_a4c50b52b496bad6b053ffd5749da1582}{vtkwritter\+\_\+mod\+::indexvtkfile}} (self, filename, timestamp)
+\begin{DoxyCompactList}\small\item\em indexes a given file with a correct time stamp in a paraview readable xml format. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacevtkwritter__mod_a0c26bb22a8b7dd9f9da69309ad65d669}{vtkwritter\+\_\+mod\+::openindexvtkfile}} (self)
+\begin{DoxyCompactList}\small\item\em Open vtu file indexer. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacevtkwritter__mod_a6f9a731d9dee5651f85d4aeed3f3ea5d}{vtkwritter\+\_\+mod\+::closeindexvtkfile}} (self)
+\begin{DoxyCompactList}\small\item\em Close vtu file indexer. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacevtkwritter__mod_a9f44d9fd1c5da759c4f2d721d12a8181}{vtkwritter\+\_\+mod\+::domain}} (self, filename, bbox, npbbox, blocks)
+\begin{DoxyCompactList}\small\item\em Public simulation domain writting routine. Writes binary X\+ML V\+TK format using an unstructured grid. \end{DoxyCompactList}\end{DoxyCompactItemize}

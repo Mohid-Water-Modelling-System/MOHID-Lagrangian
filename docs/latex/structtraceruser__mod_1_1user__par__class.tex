@@ -1,0 +1,109 @@
+\hypertarget{structtraceruser__mod_1_1user__par__class}{}\section{traceruser\+\_\+mod\+:\+:user\+\_\+par\+\_\+class Type Reference}
+\label{structtraceruser__mod_1_1user__par__class}\index{traceruser\+\_\+mod\+::user\+\_\+par\+\_\+class@{traceruser\+\_\+mod\+::user\+\_\+par\+\_\+class}}
+
+
+Collaboration diagram for traceruser\+\_\+mod\+:\+:user\+\_\+par\+\_\+class\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=189pt]{structtraceruser__mod_1_1user__par__class__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+type(string) \mbox{\hyperlink{structtraceruser__mod_1_1user__par__class_acd7b1fc4fb07e0aa2c7805bc0b89bcc9}{name}}
+\begin{DoxyCompactList}\small\item\em Name of the Tracer. \end{DoxyCompactList}\item 
+type(string), dimension(\+:), allocatable \mbox{\hyperlink{structtraceruser__mod_1_1user__par__class_a9d58d14629e986bbc4a837b3c3116bb9}{propname}}
+\begin{DoxyCompactList}\small\item\em Name of the property on the Tracer property array. \end{DoxyCompactList}\item 
+logical \mbox{\hyperlink{structtraceruser__mod_1_1user__par__class_ae217ac0567b650151963309dc107a33f}{particulate}}
+\begin{DoxyCompactList}\small\item\em flag to indicate if the material is a particle (false) or a collection of particles (true) \end{DoxyCompactList}\item 
+real(prec) \mbox{\hyperlink{structtraceruser__mod_1_1user__par__class_ac403ed1bb4162acf2704054f51026827}{size}}
+\begin{DoxyCompactList}\small\item\em Size (radius) of the particles (equals to the tracer radius if particulate==false) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 31 of file tracer\+User.\+f90.
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structtraceruser__mod_1_1user__par__class_acd7b1fc4fb07e0aa2c7805bc0b89bcc9}\label{structtraceruser__mod_1_1user__par__class_acd7b1fc4fb07e0aa2c7805bc0b89bcc9}} 
+\index{traceruser\+\_\+mod\+::user\+\_\+par\+\_\+class@{traceruser\+\_\+mod\+::user\+\_\+par\+\_\+class}!name@{name}}
+\index{name@{name}!traceruser\+\_\+mod\+::user\+\_\+par\+\_\+class@{traceruser\+\_\+mod\+::user\+\_\+par\+\_\+class}}
+\subsubsection{\texorpdfstring{name}{name}}
+{\footnotesize\ttfamily type(string) traceruser\+\_\+mod\+::user\+\_\+par\+\_\+class\+::name\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Name of the Tracer. 
+
+
+
+Definition at line 32 of file tracer\+User.\+f90.
+
+
+\begin{DoxyCode}
+32         \textcolor{keywordtype}{type}(string) :: name
+\end{DoxyCode}
+\mbox{\Hypertarget{structtraceruser__mod_1_1user__par__class_ae217ac0567b650151963309dc107a33f}\label{structtraceruser__mod_1_1user__par__class_ae217ac0567b650151963309dc107a33f}} 
+\index{traceruser\+\_\+mod\+::user\+\_\+par\+\_\+class@{traceruser\+\_\+mod\+::user\+\_\+par\+\_\+class}!particulate@{particulate}}
+\index{particulate@{particulate}!traceruser\+\_\+mod\+::user\+\_\+par\+\_\+class@{traceruser\+\_\+mod\+::user\+\_\+par\+\_\+class}}
+\subsubsection{\texorpdfstring{particulate}{particulate}}
+{\footnotesize\ttfamily logical traceruser\+\_\+mod\+::user\+\_\+par\+\_\+class\+::particulate\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+flag to indicate if the material is a particle (false) or a collection of particles (true) 
+
+
+
+Definition at line 34 of file tracer\+User.\+f90.
+
+
+\begin{DoxyCode}
+34         \textcolor{keywordtype}{logical}      :: particulate
+\end{DoxyCode}
+\mbox{\Hypertarget{structtraceruser__mod_1_1user__par__class_a9d58d14629e986bbc4a837b3c3116bb9}\label{structtraceruser__mod_1_1user__par__class_a9d58d14629e986bbc4a837b3c3116bb9}} 
+\index{traceruser\+\_\+mod\+::user\+\_\+par\+\_\+class@{traceruser\+\_\+mod\+::user\+\_\+par\+\_\+class}!propname@{propname}}
+\index{propname@{propname}!traceruser\+\_\+mod\+::user\+\_\+par\+\_\+class@{traceruser\+\_\+mod\+::user\+\_\+par\+\_\+class}}
+\subsubsection{\texorpdfstring{propname}{propname}}
+{\footnotesize\ttfamily type(string), dimension(\+:), allocatable traceruser\+\_\+mod\+::user\+\_\+par\+\_\+class\+::propname\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Name of the property on the Tracer property array. 
+
+
+
+Definition at line 33 of file tracer\+User.\+f90.
+
+
+\begin{DoxyCode}
+33         \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: propName
+\end{DoxyCode}
+\mbox{\Hypertarget{structtraceruser__mod_1_1user__par__class_ac403ed1bb4162acf2704054f51026827}\label{structtraceruser__mod_1_1user__par__class_ac403ed1bb4162acf2704054f51026827}} 
+\index{traceruser\+\_\+mod\+::user\+\_\+par\+\_\+class@{traceruser\+\_\+mod\+::user\+\_\+par\+\_\+class}!size@{size}}
+\index{size@{size}!traceruser\+\_\+mod\+::user\+\_\+par\+\_\+class@{traceruser\+\_\+mod\+::user\+\_\+par\+\_\+class}}
+\subsubsection{\texorpdfstring{size}{size}}
+{\footnotesize\ttfamily real(prec) traceruser\+\_\+mod\+::user\+\_\+par\+\_\+class\+::size\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Size (radius) of the particles (equals to the tracer radius if particulate==false) 
+
+
+
+Definition at line 35 of file tracer\+User.\+f90.
+
+
+\begin{DoxyCode}
+35         \textcolor{keywordtype}{real(prec)}   :: size
+\end{DoxyCode}
+
+
+The documentation for this type was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/\mbox{\hyperlink{tracer_user_8f90}{tracer\+User.\+f90}}\end{DoxyCompactItemize}
