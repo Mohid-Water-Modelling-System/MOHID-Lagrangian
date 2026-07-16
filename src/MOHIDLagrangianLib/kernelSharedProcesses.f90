@@ -665,7 +665,7 @@
     call random_number(beachCoeffRand) !this is a uniform distribution generator 
 	beachCoeffRandC = max(0.0, Globals%Constants%BeachingStopProb - beachCoeffRand)  !Set random numbers greater than the probability to zero.(beaching will not happen)
     !where (beachCoeffRandC /= 0.0 ) beachCoeffRandC = beachCoeffRandC*(1.0/maxval(beachCoeffRandC))	!Normalize the values between [0,1]
-    where (beachCoeffRandC /= 0.0 ) beachCoeffRandC = max(1.0,	beachCoeffRandC)!Normalize the values between [0,1]
+    where (beachCoeffRandC /= 0.0 ) beachCoeffRandC = max(1.0,	beachCoeffRandC)	!Convert selected particles to 1 and leave non-selected particles as 0
 	!beachCoeffRandC = 1.0
     Beaching = svDt
 
@@ -674,21 +674,19 @@
         !getting the bounds for the interpolation of the land interaction field that correspond to beaching
         !lbound = (Globals%Mask%beachVal + Globals%Mask%waterVal)*0.5
         !ubound = (Globals%Mask%beachVal + Globals%Mask%landVal)*0.5
-        lbound =  Globals%Mask%landVal * (-1.0)
+        lbound =  Globals%Mask%landVal * (+0.0)
 		ubound =  Globals%Mask%landVal * (+1.0)
-        !beachWeight = 1 - 0.5*(sv%landIntMask - lbound)/(ubound-lbound) !linear distance weight for beaching
-        !beachWeight = 1 - 0.9*(sv%landIntMask - lbound)/(ubound-lbound)*(sv%landIntMask - lbound)/(ubound-lbound) !quadratic weight
         ! 2nd order weight
 		!beachWeight = 1 - 1.0 *(sv%landIntMask - lbound)/(ubound-lbound)*(sv%landIntMask - lbound)/(ubound-lbound) !quadratic weight
-        ! 4th order weight [0.5, 2]
+        ! 4th order weight 
 		!beachWeight = 1 - 1.0 *(sv%landIntMask - lbound)/(ubound-lbound)*(sv%landIntMask - lbound)/(ubound-lbound)*(sv%landIntMask - lbound)/(ubound-lbound)*(sv%landIntMask - lbound)/(ubound-lbound) !4th order weight
 		! 6th order weight axisymmetric respect to 0 in domain of [-2,2]
 		beachWeight = 1 - 1.0 *(sv%landIntMask - lbound)/(ubound-lbound)*(sv%landIntMask - lbound)/(ubound-lbound)*(sv%landIntMask - lbound)/(ubound-lbound)*(sv%landIntMask - lbound)/(ubound-lbound) *(sv%landIntMask - lbound)/(ubound-lbound)*(sv%landIntMask - lbound)/(ubound-lbound)!6th order weight
 		
         !replacing 1.0 with a coefficient from beaching where needed
-        where((sv%landIntMask <= ubound) .and. (sv%landIntMask >= lbound) .and. (dist2bottom > LandIntThreshold_value)) beachCoeff = (beachCoeffRandC) * beachWeight
-!        where((sv%landIntMask <= ubound) .and. (sv%landIntMask >= lbound)) beachCoeff = (beachCoeffRandC) * beachWeight
-		!where((sv%landIntMask > ubound)) beachCoeff= 0.0
+        !where((sv%landIntMask <= ubound) .and. (sv%landIntMask >= lbound) .and. (dist2bottom > LandIntThreshold_value)) beachCoeff = (beachCoeffRandC) * beachWeight
+        where((dist2bottom > LandIntThreshold_value) .and. (beachCoeffRandC > 0.1)) beachCoeff = (beachCoeffRandC) * beachWeight
+
 		do i=1,3
             Beaching(:,i) = svDt(:,i)*beachCoeff !position derivative is affected
             sv%state(:,i+3) = sv%state(:,i+3)*beachCoeff !so are the velocities
