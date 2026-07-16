@@ -1112,6 +1112,7 @@ do2:                do indx=1, self%nVars
     if (size(dc) == 4) then
         scale = 1.0
         if (dc(1) == 'seconds') scale = 1.0
+        if (dc(1) == 'minutes') scale = 60.0
         if (dc(1) == 'hours')   scale = 3600.0
         if (dc(1) == 'days')    scale = 3600.0*24.0
         if (dc(1) == 'months')  scale = 3600.0*24.0*30.0 !really hope no one gets such a brilliant idea as to use this as a time unit
@@ -1130,6 +1131,7 @@ do2:                do indx=1, self%nVars
     elseif (size(dc) == 3) then
         scale = 1.0
         if (dc(1) == 'seconds') scale = 1.0
+		if (dc(1) == 'minutes') scale = 60.0
         if (dc(1) == 'hours')   scale = 3600.0
         if (dc(1) == 'days')    scale = 3600.0*24.0
         if (dc(1) == 'months')  scale = 3600.0*24.0*30.0 !really hope no one gets such a brilliant idea as to use this as a time unit
