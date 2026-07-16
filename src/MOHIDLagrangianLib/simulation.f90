@@ -333,6 +333,7 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani - INTECMAR- 2026.07.16 | Email:shabani.mohsen@outlook.com	
     !> @brief
     !> Simulation method to call the Blocks to decode their State Vector (SV)
     !> back to the Tracer objects on the list at current Time
@@ -340,7 +341,7 @@
     subroutine BlocksSVtoTracers(self)
     class(simulation_class), intent(inout) :: self
     integer :: i
-    call self%timerSVOps%Toc()
+    call self%timerSVOps%Tic()
     !$OMP PARALLEL PRIVATE(i)
     !$OMP DO
     do i=1, size(sBlock)

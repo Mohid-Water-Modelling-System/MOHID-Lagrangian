@@ -7,6 +7,7 @@
     ! REVISION      : Canelas 0.1
     !> @author
     !> Ricardo Birjukovs Canelas
+	!> Modified @author Mohsen Shabani - INTECMAR- 2026.07.16 | Email:shabani.mohsen@outlook.com
     !
     ! DESCRIPTION:
     !> Module that defines a timer class using the OMP timer function to get the
@@ -34,10 +35,17 @@
         real(prec) :: last = 0.0      !< elapsed time of the last cycle
         real(prec) :: start           !< time of the tic at the current cycle
         real(prec) :: stop            !< time of the tac at the current cycle
+        real(prec) :: cpu_elapsed = 0.0   !< full CPU time of all cycles
+        real(prec) :: cpu_last = 0.0      !< CPU time of the last cycle
+        real(prec) :: cpu_start           !< CPU time of the tic at the current cycle
+        real(prec) :: cpu_stop            !< CPU time of the tac at the current cycle
+
     contains
     procedure :: initialize => initTimer
     procedure :: getElapsed             !< returns the elasped time on this timer
     procedure :: getElapsedLast
+	procedure :: getCpuElapsed
+	procedure :: getCpuElapsedLast
     procedure :: Tic                    !< starts timming cycle
     procedure :: Toc                    !< ends timming cycle and accumulates the total
     procedure :: print => printElapsed  !< prints elapsed time of this timmer
@@ -65,6 +73,10 @@
     this%last = 0.0
     this%start = 0.0
     this%stop = 0.0
+    this%cpu_elapsed = 0.0
+    this%cpu_last = 0.0
+    this%cpu_start = 0.0
+    this%cpu_stop = 0.0
     if (present(restartime)) then
         this%elapsed = restartime
     end if
@@ -90,6 +102,27 @@
     getElapsedLast = this%last
     end function getElapsedLast
 
+
+    !---------------------------------------------------------------------------
+	!> @author Mohsen Shabani - INTECMAR- 2026.07.16 | Email:shabani.mohsen@outlook.com
+    !> @brief
+    !> Method that returns the total CPU time on this timer
+    !---------------------------------------------------------------------------
+    real(prec) function getCpuElapsed(this)
+    class(timer_class), intent(in) :: this
+    getCpuElapsed = this%cpu_elapsed
+    end function getCpuElapsed
+
+    !---------------------------------------------------------------------------
+	!> @author Mohsen Shabani - INTECMAR- 2026.07.16 | Email:shabani.mohsen@outlook.com
+    !> @brief
+    !> Method that returns the last CPU time on this timer
+    !---------------------------------------------------------------------------
+    real(prec) function getCpuElapsedLast(this)
+    class(timer_class), intent(in) :: this
+    getCpuElapsedLast = this%cpu_last
+    end function getCpuElapsedLast
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -99,6 +132,7 @@
     subroutine Tic(this)
     class (timer_class), intent(inout) :: this
     this%start = omp_get_wtime()
+	call cpu_time(this%cpu_start)
     end subroutine
 
     !---------------------------------------------------------------------------
@@ -110,23 +144,37 @@
     subroutine Toc(this)
     class (timer_class), intent(inout) :: this
     this%stop = omp_get_wtime()
+	call cpu_time(this%cpu_stop)
     this%last = this%stop - this%start
     this%elapsed = this%elapsed + this%last
+    this%cpu_last = this%cpu_stop - this%cpu_start
+    this%cpu_elapsed = this%cpu_elapsed + this%cpu_last
     end subroutine
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani - INTECMAR- 2026.07.16 | Email:shabani.mohsen@outlook.com
     !> @brief
     !> Method to print the total elapsed time. Rudimentary at best.
     !> @param[in] this
     !---------------------------------------------------------------------------
     subroutine printElapsed(this)
     class(timer_class), intent(in) :: this
-    type(string) :: outext, temp
+    character(len=256) :: line
+    character(len=32) :: timerName
+    type(string) :: outext
+    real(prec) :: ratio
     if (this%initialized) then
-        temp = this%elapsed
-        outext = 'Total elapsed time for '// this%name //' is '// temp//' s'
-        call Log%put(outext)
+        if (this%elapsed > 0.0) then
+            ratio = this%cpu_elapsed / this%elapsed
+        else
+            ratio = 0.0
+        end if
+        timerName = this%name%chars()
+        write(line,'("Timing | ",A32," | wall = ",F12.4," s | CPU = ",F12.4," s | CPU/wall = ",F8.2)') &
+            timerName, this%elapsed, this%cpu_elapsed, ratio
+        outext = trim(line)
+	    call Log%put(outext)
     else
         call this%printNotInitialized()
     end if    
@@ -134,6 +182,7 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani - INTECMAR- 2026.07.16 | Email:shabani.mohsen@outlook.com
     !> @brief
     !> Method to print the elapsed time of the last cycle. Rudimentary at best.
     !> @param[in] this
@@ -141,10 +190,12 @@
     subroutine printLast(this)
     class(timer_class), intent(in) :: this
     print*, "[timer_class::printLast]: elapsed time from last cycle is ", this%last
+	print*, "[timer_class::printLast]: CPU time from last cycle is ", this%cpu_last
     end subroutine printLast
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
+	!> Modified @author Mohsen Shabani - INTECMAR- 2026.07.16 | Email:shabani.mohsen@outlook.com
     !> @brief
     !> Method to print the current elapsed time. Rudimentary at best.
     !> @param[in] this
