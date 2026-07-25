@@ -69,9 +69,8 @@
     class(*), pointer :: aSource
     type(string) :: outext
     integer :: i
-    logical :: reset_stack
+    integer :: n_emitted
 
-    reset_stack = .false.
     call srclist%reset()                   ! reset list iterator
     do while(srclist%moreValues())         ! loop while there are values
         aSource => srclist%currentValue()  ! get current value
@@ -86,13 +85,16 @@
                     endif
                 endif
                 aSource%now%emission_stack = aSource%now%emission_stack + aSource%par%emitting_rate*Globals%SimDefs%dt  !adding to the emission stack
-                do i=1, floor(aSource%now%emission_stack)
+                !small epsilon absorbs floating-point round-down (e.g. (1/60*31)*60 = 30.999...)
+                n_emitted = floor(aSource%now%emission_stack + 1.0d-9)
+                do i=1, n_emitted
                     call self%emitt_src(aSource, trclist)
-                    reset_stack = .true.                    
-                end do 
-                if (reset_stack) then
-                    aSource%now%emission_stack = 0 !reseting for the next time step              
-                end if
+                end do
+                !subtract what was emitted instead of resetting to zero: keeps the fractional
+                !remainder so slow continuous rates emit the exact requested total over time
+                !(the old reset also zeroed the stack of every following source in the list
+                ! once any source had emitted, via the shared reset_stack flag)
+                aSource%now%emission_stack = aSource%now%emission_stack - n_emitted
             end if
             class default
             outext = '[Emitter] Unexepected type of content, not a Source'

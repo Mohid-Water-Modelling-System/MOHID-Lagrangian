@@ -554,7 +554,7 @@
     !Setting state variables
     src%now%age=0.0
     src%now%active=.false. !disabled by default
-    src%now%emission_stack = 1
+    src%now%emission_stack = 0 !start empty: an initial value of 1 emitted one extra (seed) tracer on the first emission step, so every source produced requested+1 tracers
     src%now%pos=src%par%geometry%pt !coords of the Source (meaning depends on the geometry type!)
     !setting statistical samplers
     src%stats%particles_emitted=0
