@@ -945,7 +945,7 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
     real(prec), allocatable, dimension(:,:,:,:) :: xx4d, yy4d
     real(prec), allocatable, dimension(:,:,:,:) :: xx4d_temp, yy4d_temp
     type(string) :: outext
-    integer :: xIndx, yIndx, zIndx, i, j, k, t
+    integer :: xIndx, yIndx, zIndx, i, j, k, t, nx, ny
     call self%fields%reset()               ! reset list iterator
     do while(self%fields%moreValues())     ! loop while there are values
         curr => self%fields%currentValue() ! get current value
@@ -961,10 +961,24 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
                 xIndx = self%getDimIndex(Globals%Var%lon)
                 yIndx = self%getDimIndex(Globals%Var%lat)
                 if (allocated(self%dim(xIndx)%field1D)) then
+                    nx = size(curr%field,2)
+                    ny = size(curr%field,1)
+                    if (nx < 2 .or. ny < 2) then
+                        outext = '[background_class::makeResolutionField] Regular axes need at least two points'
+                        call Log%put(outext)
+                        stop 1
+                    end if
+                    ! Use adjacent-point spacings; repeat the final interval at the boundary.
                     do i=1, size(xx3d,1)
-                        xx3d(i,:,1) = Utils%geo2m(abs(self%dim(xIndx)%field1D(:size(curr%field,2)-1) - self%dim(xIndx)%field1D(2:)), self%dim(yIndx)%field1D(i), .false.)
+                        xx3d(i,:nx-1,1) = Utils%geo2m( &
+                            abs(self%dim(xIndx)%field1D(:nx-1) - self%dim(xIndx)%field1D(2:nx)), &
+                            self%dim(yIndx)%field1D(i), .false.)
+                        xx3d(i,nx,1) = xx3d(i,nx-1,1)
                     end do
-                    yy3d(:,1,1) = Utils%geo2m(abs(self%dim(yIndx)%field1D(:size(curr%field,1)-1) - self%dim(yIndx)%field1D(1:)), self%dim(yIndx)%field1D(1), .true.)
+                    yy3d(:ny-1,1,1) = Utils%geo2m( &
+                        abs(self%dim(yIndx)%field1D(:ny-1) - self%dim(yIndx)%field1D(2:ny)), &
+                        self%dim(yIndx)%field1D(1), .true.)
+                    yy3d(ny,1,1) = yy3d(ny-1,1,1)
                     do j=2, size(yy3d,2)
                         yy3d(:,j,1) = yy3d(:,1,1)
                     end do
@@ -1018,10 +1032,24 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
                 xIndx = self%getDimIndex(Globals%Var%lon)
                 yIndx = self%getDimIndex(Globals%Var%lat)
                 if (allocated(self%dim(xIndx)%field1D)) then                    
+                    nx = size(curr%field,2)
+                    ny = size(curr%field,1)
+                    if (nx < 2 .or. ny < 2) then
+                        outext = '[background_class::makeResolutionField] Regular axes need at least two points'
+                        call Log%put(outext)
+                        stop 1
+                    end if
+                    ! Use adjacent-point spacings; repeat the final interval at the boundary.
                     do i=1, size(xx4d,1)
-                        xx4d(i,:,1,1) = Utils%geo2m(abs(self%dim(xIndx)%field1D(:size(curr%field,2)-1) - self%dim(xIndx)%field1D(2:)), self%dim(yIndx)%field1D(i), .false.)
+                        xx4d(i,:nx-1,1,1) = Utils%geo2m( &
+                            abs(self%dim(xIndx)%field1D(:nx-1) - self%dim(xIndx)%field1D(2:nx)), &
+                            self%dim(yIndx)%field1D(i), .false.)
+                        xx4d(i,nx,1,1) = xx4d(i,nx-1,1,1)
                     end do
-                    yy4d(:,1,1,1) = Utils%geo2m(abs(self%dim(yIndx)%field1D(:size(curr%field,1)-1) - self%dim(yIndx)%field1D(1:)), self%dim(yIndx)%field1D(1), .true.)
+                    yy4d(:ny-1,1,1,1) = Utils%geo2m( &
+                        abs(self%dim(yIndx)%field1D(:ny-1) - self%dim(yIndx)%field1D(2:ny)), &
+                        self%dim(yIndx)%field1D(1), .true.)
+                    yy4d(ny,1,1,1) = yy4d(ny-1,1,1,1)
                     do j=2, size(yy4d,2)
                         yy4d(:,j,1,1) = yy4d(:,1,1,1)
                     end do
