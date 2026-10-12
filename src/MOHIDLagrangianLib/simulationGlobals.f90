@@ -53,6 +53,7 @@
         integer         :: IntegratorIndexes(3)      !< Index list for the integrator selector
         type(string)    :: IntegratorNames(3)        !< Names list for the integrator selector
         integer         :: numOPMthreads             !< number of openMP threads to be used
+        integer         :: numBlocks = 0             !< Requested blocks; zero defaults to the requested thread count
         real(prec)      :: WarmUpTime                !< Time to freeze the tracers at simulation start (warmup) (s) (default=0.0)
         real(prec)      :: TimeMax                   !< Simulation duration (s)
         real(prec)      :: OutputWriteTime           !< Output write time (1/Hz)
@@ -489,6 +490,7 @@
     self%Parameters%IntegratorNames(2) = 'Multi-Step Euler'
     self%Parameters%IntegratorNames(3) = 'Runge-Kuta 4'
     self%Parameters%numOPMthreads = OMPManager%getThreads()
+    self%Parameters%numBlocks = 0
     self%Parameters%WarmUpTime = 0.0
     self%Parameters%OutputWriteTime = MV
     self%Parameters%StartTime = datetime()
@@ -1727,6 +1729,10 @@
     type(string), intent(in) :: parmkey
     type(string), intent(in) :: parmvalue
     type(string), allocatable :: dc(:)
+    type(string) :: outext
+    character(len=:), allocatable :: blockCountText
+    integer :: readStatus, requestedBlocks, firstDigit
+    logical :: validBlockCount
     integer :: i
     integer, dimension(6) :: date
     integer :: sizem
@@ -1740,6 +1746,28 @@
             call OMPManager%setThreads(self%numOPMthreads)
         end if
         sizem=sizeof(self%WarmUpTime)
+    elseif(parmkey%chars()=="NumBlocks") then
+        blockCountText = trim(adjustl(parmvalue%chars()))
+        firstDigit = 1
+        if (len(blockCountText) > 0) then
+            if (blockCountText(1:1) == '+') firstDigit = 2
+        end if
+        validBlockCount = len(blockCountText) >= firstDigit
+        if (validBlockCount) then
+            validBlockCount = verify(blockCountText(firstDigit:), '0123456789') == 0
+        end if
+        if (validBlockCount) then
+            read(blockCountText, *, iostat=readStatus) requestedBlocks
+            validBlockCount = readStatus == 0
+            if (validBlockCount) validBlockCount = requestedBlocks > 0
+        end if
+        if (.not. validBlockCount) then
+            outext = '[Globals::parameters::setParam]: NumBlocks must be a positive integer, stopping'
+            call Log%put(outext)
+            stop 1
+        end if
+        self%numBlocks = requestedBlocks
+        sizem=sizeof(self%numBlocks)
     elseif(parmkey%chars()=="WarmUpTime") then
         self%WarmUpTime=parmvalue%to_number(kind=1._R8P)
         sizem=sizeof(self%WarmUpTime)

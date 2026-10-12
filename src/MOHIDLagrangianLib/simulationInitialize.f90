@@ -1117,7 +1117,7 @@
     subroutine InitFromXml(xmlfilename)
     implicit none
     type(string), intent(in) :: xmlfilename         !< .xml file name
-    type(string) :: outext, tag
+    type(string) :: outext, tag, blockCountText
     type(Node), pointer :: xmldoc                   !< .xml file handle
     type(Node), pointer :: case_node
     type(Node), pointer :: execution_node
@@ -1151,8 +1151,21 @@
     call init_sources(case_node)
     call init_properties(case_node)    
 
-    !setting the number of blocks to the correct ammount of selected threads
-    Globals%SimDefs%numblocks = Globals%Parameters%numOPMthreads
+    ! Use the configured block count, or preserve the requested-thread default.
+    if (Globals%Parameters%numBlocks > 0) then
+        Globals%SimDefs%numblocks = Globals%Parameters%numBlocks
+    else
+        Globals%SimDefs%numblocks = Globals%Parameters%numOPMthreads
+    end if
+    blockCountText = Globals%SimDefs%numblocks
+    outext = '->Number of blocks = '//blockCountText
+    call Log%put(outext)
+
+    if (Globals%SimDefs%numblocks < OMPManager%getThreads()) then
+        outext = '[InitFromXml] Advice: NumBlocks is smaller than the selected OpenMP thread count; '// &
+                 'some threads may be idle during block processing.'
+        call Log%put(outext)
+    end if
 
     call XMLReader%closeFile(xmldoc)
 
