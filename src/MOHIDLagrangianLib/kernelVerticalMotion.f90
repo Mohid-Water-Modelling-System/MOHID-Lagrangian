@@ -581,7 +581,8 @@
         dist2bottom = sv%state(:,col_dist2bottom)
         !where (dist2bottom < landIntThreshold) water_density = seaWaterDensity(sv%state(:,col_sal), sv%state(:,col_temp),sv%state(:,3))
 		if ((col_temp /= MV_INT) .and. (col_sal /= MV_INT)) then
-			where ((dist2bottom < threshold_bot_wat))
+			where ((dist2bottom < threshold_bot_wat) .or. &
+                   (dist2bottom < LandIntThreshold_value))
 				water_density = seaWaterDensity(sv%state(:,col_sal), sv%state(:,col_temp),sv%state(:,3))
 				kVisco = absoluteSeaWaterViscosity(sv%state(:,col_sal), sv%state(:,col_temp)) / water_density
 				
@@ -601,7 +602,8 @@
 			end where
 		else
 			!If there is no salt and temperatue Compute buoyancy using constant density and temp
-			where ((dist2bottom < threshold_bot_wat))
+			where ((dist2bottom < threshold_bot_wat) .or. &
+                   (dist2bottom < LandIntThreshold_value))
 				kVisco = Globals%Constants%MeanKvisco
 				water_density = Globals%Constants%MeanDensity
 				! Boundary density values could be 0. This avoid underdumped values on density. 

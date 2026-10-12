@@ -134,12 +134,16 @@
 
     call self%setTracerMemory()
     !call SimMemory%detailedprint()
+    outext = repeat('-', 112)
+    call Log%put(outext)
     call self%timerTotalRun%print()
     call self%timerPrep%print()
     call self%timerSVOps%print()
     call self%timerSolver%print()
     call self%timerInput%print()
     call self%timerOutput%print()
+    outext = repeat('-', 112)
+    call Log%put(outext)
 
     end subroutine run
 
