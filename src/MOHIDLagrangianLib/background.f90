@@ -21,6 +21,7 @@
 
     module background_mod
 
+    use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
     use common_modules
     use abstract_LinkedList_mod
     use fieldTypes_mod
@@ -41,7 +42,7 @@
         type(box) :: extents                                                    !< shape::box that defines the extents of the Background solution
         type(scalar_dimfield_class), allocatable, dimension(:) :: dim             !< Dimensions of the Background fields (time,lon,lat,level for example)
         logical, allocatable, dimension(:) :: regularDim                        !< Flag that indicates if the respective dimension is regular or irregular
-        logical :: gridIsCurvilinear
+        logical :: gridIsCurvilinear = .false.
         type(fieldsList_class) :: fields                                        !< Linked list to store the fields in the Background
         type(stringList_class) :: variables
     contains
@@ -68,6 +69,7 @@
     procedure, private :: getSlabDim_2D
     procedure, private :: getSlabDim_4D
     procedure, private :: getPointDimIndexes
+    procedure, private :: setCurvedSliceBounds
     procedure :: finalize => cleanBackground
     procedure, private :: cleanFields
     procedure, private :: setDims
@@ -519,6 +521,7 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
             endif
         endif
     end do
+    if (self%gridIsCurvilinear) call self%setCurvedSliceBounds(domain,llbound,uubound)
     !write(*,*)"A entrar no ciclo do self%dim"
     do i=1, size(self%dim)
         !write(*,*)"nome da dimensao = ", trim(self%dim(i)%name)
@@ -592,6 +595,7 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
     !write(*,*)"extents e pt"
     
     getHyperSlab = constructor(1, self%name, extents, backgrounDims)
+    getHyperSlab%gridIsCurvilinear = self%gridIsCurvilinear
     !write(*,*)"tamanho gfield = ", size(gfield)
     do i=1, size(gfield)
         call getHyperSlab%add(gfield(i))
@@ -603,6 +607,49 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
         stop
     end if
     end function getHyperSlab
+
+    subroutine setCurvedSliceBounds(self, domain, lower, upper)
+    class(background_class), intent(in) :: self
+    type(box), intent(in) :: domain
+    integer, intent(inout) :: lower(:), upper(:)
+    integer :: latDim, lonDim, row, column, firstRow, lastRow, firstColumn, lastColumn, maxRow, maxColumn
+    latDim = self%getDimIndex(Globals%Var%lat)
+    lonDim = self%getDimIndex(Globals%Var%lon)
+    if (.not. allocated(self%dim(latDim)%field2D) .or. &
+        .not. allocated(self%dim(lonDim)%field2D)) &
+        error stop 'Curvilinear slicing requires two-dimensional latitude and longitude'
+    firstRow = size(self%dim(latDim)%field2D,1)
+    firstColumn = size(self%dim(lonDim)%field2D,2)
+    lastRow = 0
+    lastColumn = 0
+    ! Select a conservative window from actual cell extents, independent of axis direction.
+    do column = 1, size(self%dim(lonDim)%field2D,2)-1
+        do row = 1, size(self%dim(latDim)%field2D,1)-1
+            if (maxval(self%dim(lonDim)%field2D(row:row+1,column:column+1)) < domain%pt%x .or. &
+                minval(self%dim(lonDim)%field2D(row:row+1,column:column+1)) > domain%pt%x+domain%size%x .or. &
+                maxval(self%dim(latDim)%field2D(row:row+1,column:column+1)) < domain%pt%y .or. &
+                minval(self%dim(latDim)%field2D(row:row+1,column:column+1)) > domain%pt%y+domain%size%y) cycle
+            firstRow = min(firstRow,row)
+            lastRow = max(lastRow,row+1)
+            firstColumn = min(firstColumn,column)
+            lastColumn = max(lastColumn,column+1)
+        end do
+    end do
+    maxRow = size(self%dim(latDim)%field2D,1)
+    maxColumn = size(self%dim(lonDim)%field2D,2)
+    if (Globals%SimDefs%inputFromHDF5) then
+        maxRow = maxRow-1
+        maxColumn = maxColumn-1
+    end if
+    if (lastRow > 0 .and. lastColumn > 0) then
+        ! Retain the existing two-node halo for particles near a block boundary.
+        lower(latDim) = max(1,firstRow-2)
+        upper(latDim) = min(maxRow,lastRow+2)
+        lower(lonDim) = max(1,firstColumn-2)
+        upper(lonDim) = min(maxColumn,lastColumn+2)
+    end if
+    end subroutine setCurvedSliceBounds
+
 
     !---------------------------------------------------------------------------
     !> @author Joao Sobrinho - Colab Atlantic
@@ -1557,6 +1604,7 @@ do3:                do i=1, size(curr%field,1)
     self%initialized = bkg%initialized
     self%id = bkg%id
     self%name = bkg%name
+    self%gridIsCurvilinear = bkg%gridIsCurvilinear
     self%extents%pt = bkg%extents%pt
     self%extents%size = bkg%extents%size
     if (allocated(bkg%dim)) then
@@ -1647,6 +1695,7 @@ do3:                do i=1, size(curr%field,1)
     class(background_class), intent(inout) :: self
     integer :: i
     self%initialized = .false.
+    self%gridIsCurvilinear = .false.
     self%id = MV_INT
     self%name = ''
     self%extents%size = 0.0
@@ -1704,13 +1753,14 @@ do3:                do i=1, size(curr%field,1)
     subroutine setDims(self, dims)
     class(background_class), intent(inout) :: self
     type(generic_field_class), dimension(:), intent(in) :: dims
-    integer :: i
-    real(prec) :: fmin, fmax, eta, dreg
+    integer :: i, j
+    real(prec) :: fmin, fmax, eta, dreg, coordinateTol
     type(string) :: outext
     !Begin--------------------------------------------------------
     allocate(self%dim(size(dims)))
     allocate(self%regularDim(size(dims)))
     self%regularDim = .false.
+    self%gridIsCurvilinear = .false.
     !write(*,*)"tamanho dims = ", size(dims)
     do i=1,  size(dims)
         !write(*,*)"i = ", i
@@ -1718,6 +1768,10 @@ do3:                do i=1, size(curr%field,1)
             !write(*,*)"alocado 1d = ", trim(dims(i)%name)
             call self%dim(i)%initialize(dims(i)%scalar1d%name, dims(i)%scalar1d%units, 1, dims(i)%scalar1d%field)
         elseif (allocated(dims(i)%scalar2d%field)) then
+            if (dims(i)%name == Globals%Var%lat .or. dims(i)%name == Globals%Var%lon) then
+                if (.not. all(ieee_is_finite(dims(i)%scalar2d%field))) &
+                    error stop 'Horizontal grid coordinates must be finite'
+            end if
             !write(*,*)"alocado 2d = ", trim(dims(i)%name)
             call self%dim(i)%initialize(dims(i)%scalar2d%name, dims(i)%scalar2d%units, 2, dims(i)%scalar2d%field)
         elseif (allocated(dims(i)%scalar3d%field)) then
@@ -1748,7 +1802,12 @@ do3:                do i=1, size(curr%field,1)
                 eta = (fmax-fmin)/(10.0*size(dims(i)%scalar2d%field,1))
                 dreg = (fmax-fmin)/(size(dims(i)%scalar2d%field, 1))
                 self%regularDim(i) = all(abs((dims(i)%scalar2d%field(2:,1)-dims(i)%scalar2d%field(:size(dims(i)%scalar2d%field,1)-1,1)) - dreg) < abs(eta))
-                self%gridIsCurvilinear = maxval(dims(i)%scalar2d%field(1,2:size(dims(i)%scalar2d%field,2))-dims(i)%scalar2d%field(1,1)) > abs(eta/10)
+                ! Latitude must be constant across columns on a separable grid.
+                coordinateTol = 64.0_prec*epsilon(1.0_prec)*max(1.0_prec,maxval(abs(dims(i)%scalar2d%field)))
+                do j=2, size(dims(i)%scalar2d%field,2)
+                    self%gridIsCurvilinear = self%gridIsCurvilinear .or. &
+                        any(abs(dims(i)%scalar2d%field(:,j)-dims(i)%scalar2d%field(:,1)) > coordinateTol)
+                enddo
                 !write(*,*)"Regular dim lat = ", self%regularDim(i), i
             elseif (dims(i)%name == Globals%Var%lon) then
                 fmin = dims(i)%scalar2d%getFieldMinBound(arrayDim=2) !lon columns are in dimension2 CHANGED in Jan 2025 (was dimension1)
@@ -1757,6 +1816,12 @@ do3:                do i=1, size(curr%field,1)
                 eta = (fmax-fmin)/(10.0*size(dims(i)%scalar2d%field,2))
                 dreg = (fmax-fmin)/(size(dims(i)%scalar2d%field,2))
                 self%regularDim(i) = all(abs((dims(i)%scalar2d%field(1,2:)-dims(i)%scalar2d%field(1,:size(dims(i)%scalar2d%field,2)-1)) - dreg) < abs(eta))
+                ! Longitude must be constant across rows on a separable grid.
+                coordinateTol = 64.0_prec*epsilon(1.0_prec)*max(1.0_prec,maxval(abs(dims(i)%scalar2d%field)))
+                do j=2, size(dims(i)%scalar2d%field,1)
+                    self%gridIsCurvilinear = self%gridIsCurvilinear .or. &
+                        any(abs(dims(i)%scalar2d%field(j,:)-dims(i)%scalar2d%field(1,:)) > coordinateTol)
+                enddo
                 !write(*,*)"Regular dim lon = ", self%regularDim(i), i
             endif
         elseif (allocated(dims(i)%scalar3d%field)) then

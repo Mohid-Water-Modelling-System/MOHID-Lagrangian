@@ -39,6 +39,10 @@
     procedure, private :: getArrayCoordNonRegular
     procedure, private :: getArrayCoord_curv
     procedure, private :: Trc2Grid_4D
+    procedure, private :: Trc2Grid_Horizontal
+    procedure, private :: invertBilinearCell
+    procedure, private :: interpolationMask
+    procedure, private :: coordinateInBounds
     procedure, private :: isPointInsidePolygon
     procedure :: initialize => initInterpolator
     procedure :: print => printInterpolator
@@ -160,8 +164,7 @@
                 if (interp) then
                     var_name(i) = aField%name
                     outOfBounds = .false.
-                    xx = self%getArrayCoord(state(:,1), bdata, Globals%Var%lon, outOfBounds)
-                    yy = self%getArrayCoord(state(:,2), bdata, Globals%Var%lat, outOfBounds)
+                    call self%Trc2Grid_Horizontal(state,bdata,xx,yy,outOfBounds,bdata%getGridIsCurvilinear())
                     tt = self%getPointCoordNonRegular(time, bdata, Globals%Var%time)
                     var_dt(:,i) = self%interp3D(xx, yy, tt, outOfBounds, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(state,1))
                     i = i+1
@@ -205,25 +208,38 @@
     real(prec), dimension(n_e) :: c101, c011, c111, c00, c10, c01, c11, c0, c1
     real(prec) :: td
     integer :: i, t0, t1
-    logical :: localIsSsh = .false.
+    logical, dimension(n_e) :: valid
+    logical :: localIsSsh
     real(prec), dimension(n_e) :: interp4D                                !< Field evaluated at x,y,z,t
     ! From x,y,z,t in array coordinates, find the the box inside the field where the particle is
     !write(*,*)"Entrada interp4D"
     !do concurrent(i=1:n_e, .not. out(i))
+    localIsSsh = .false.
     if (present(IsSsh)) localIsSsh = IsSsh
+    interp4D = 0.0
+    valid = self%interpolationMask(x, y, t, out, n_fv, n_cv, n_tv, z, n_pv)
+    if (.not. any(valid)) return
+    x0 = 1
+    x1 = 1
+    y0 = 1
+    y1 = 1
+    z0 = 1
+    z1 = 1
     do i = 1, n_e
-        if (.not. out(i)) then
-            x0(i) = floor(x(i))
-            x1(i) = ceiling(x(i))
-            y0(i) = floor(y(i))
-            y1(i) = ceiling(y(i))
-            z0(i) = floor(z(i))
-            z1(i) = ceiling(z(i))
+        if (valid(i)) then
+            x0(i) = floor(min(real(n_cv,prec),max(1.0_prec,x(i))))
+            x1(i) = ceiling(min(real(n_cv,prec),max(1.0_prec,x(i))))
+            y0(i) = floor(min(real(n_fv,prec),max(1.0_prec,y(i))))
+            y1(i) = ceiling(min(real(n_fv,prec),max(1.0_prec,y(i))))
+            if (n_pv > 1) then
+                z0(i) = floor(min(real(n_pv,prec),max(1.0_prec,z(i))))
+                z1(i) = ceiling(min(real(n_pv,prec),max(1.0_prec,z(i))))
+            endif
         endif
     end do
-    
-    t0 = floor(t)
-    t1 = ceiling(t)
+
+    t0 = floor(min(real(n_tv,prec),max(1.0_prec,t)))
+    t1 = ceiling(min(real(n_tv,prec),max(1.0_prec,t)))
 
     ! If depth layer has one layer
     if (n_pv == 1) then
@@ -235,16 +251,16 @@
     zd = 0.
     td = 0.
     ! Compute the "normalized coordinates" of the particle inside the data field box
-    where (x1 /= x0) xd = (x-x0)/(x1-x0)
-    where (y1 /= y0) yd = (y-y0)/(y1-y0)
-    where (z1 /= z0) zd = (z-z0)/(z1-z0)
+    where (valid .and. x1 /= x0) xd = (x-x0)/(x1-x0)
+    where (valid .and. y1 /= y0) yd = (y-y0)/(y1-y0)
+    where (valid .and. z1 /= z0) zd = (z-z0)/(z1-z0)
     if (t1 /= t0) td = (t-t0)/(t1-t0)
     ! Interpolation on the first dimension and collapse it to a three dimension problem
     interp4D = 0.0
     !write(*,*)"tamanho field : ", size(field,1), size(field,2), size(field,3), size(field,4)
     !do concurrent(i=1:n_e, .not. out(i))
     do i = 1, n_e
-        if (.not. out(i)) then
+        if (valid(i)) then
             !write(*,*)"y0(i),x0(i),z0(i),t0 = ", y0(i),x0(i),z0(i),t0
             !write(*,*)"y1(i),x1(i),z1(i),t1 = ", y1(i),x1(i),z1(i),t0
             !write(*,*)"xd(i),yd(i),zd(i),td = ", xd(i),yd(i),zd(i),td
@@ -321,24 +337,36 @@
     real(prec) :: ceiling_lower_left_t1, ceiling_lower_right_t1
     real(prec) :: ceiling_upper_left_t1, ceiling_upper_right_t1
     integer :: i, t0, t1
+    logical, dimension(n_e) :: valid
     real(prec), dimension(n_e) :: interp4D_Hor                                !< Field evaluated at x,y,z,t
     !Begin---------------------------------------------------------------------------
     !write(*,*)"Entrada interp4D_Hor"
     ! From x,y,z,t in array coordinates, find the the box inside the field where the particle is
     !do concurrent(i=1:n_e, .not. out(i))
+    interp4D_Hor = 0.0
+    valid = self%interpolationMask(x, y, t, out, n_fv, n_cv, n_tv, z, n_pv)
+    if (.not. any(valid)) return
+    x0 = 1
+    x1 = 1
+    y0 = 1
+    y1 = 1
+    z0 = 1
+    z1 = 1
     do i = 1, n_e
-        if (.not. out(i)) then
-            x0(i) = floor(x(i))
-            x1(i) = ceiling(x(i))
-            y0(i) = floor(y(i))
-            y1(i) = ceiling(y(i))
-            z0(i) = floor(z(i))
-            z1(i) = ceiling(z(i))
+        if (valid(i)) then
+            x0(i) = floor(min(real(n_cv,prec),max(1.0_prec,x(i))))
+            x1(i) = ceiling(min(real(n_cv,prec),max(1.0_prec,x(i))))
+            y0(i) = floor(min(real(n_fv,prec),max(1.0_prec,y(i))))
+            y1(i) = ceiling(min(real(n_fv,prec),max(1.0_prec,y(i))))
+            if (n_pv > 1) then
+                z0(i) = floor(min(real(n_pv,prec),max(1.0_prec,z(i))))
+                z1(i) = ceiling(min(real(n_pv,prec),max(1.0_prec,z(i))))
+            endif
         endif
     end do
     !write(*,*)"interp4D_Hor 1"
-    t0 = floor(t)
-    t1 = ceiling(t)
+    t0 = floor(min(real(n_tv,prec),max(1.0_prec,t)))
+    t1 = ceiling(min(real(n_tv,prec),max(1.0_prec,t)))
 
     ! If depth layer has one layer
     if (n_pv == 1) then
@@ -350,8 +378,8 @@
     yd = 0.
     td = 0.
     ! Compute the "normalized coordinates" of the particle inside the data field box
-    where (x1 /= x0) xd = (x-x0)/(x1-x0)
-    where (y1 /= y0) yd = (y-y0)/(y1-y0)
+    where (valid .and. x1 /= x0) xd = (x-x0)/(x1-x0)
+    where (valid .and. y1 /= y0) yd = (y-y0)/(y1-y0)
     if (t1 /= t0) td = (t-t0)/(t1-t0)
     ! Interpolation on the first dimension and collapse it to a three dimension problem
     interp4D_Hor = 0.0
@@ -359,7 +387,7 @@
     !write(*,*)"tamanho field : ", size(field,1), size(field,2), size(field,3), size(field,4)
     !do concurrent(i=1:n_e, .not. out(i))
     do i = 1, n_e
-        if (.not. out(i)) then
+        if (valid(i)) then
             !Use the first available value in the water column that is not 0
             bottom_lower_left_t0   = field(y0(i),x0(i),z0(i),t0)
             bottom_lower_right_t0  = field(y0(i),x1(i),z0(i),t0)
@@ -434,21 +462,29 @@
     real(prec), dimension(n_e) :: c0, c1
     real(prec) :: td
     integer :: i, t0, t1
+    logical, dimension(n_e) :: valid
     real(prec), dimension(n_e) :: interp3D                              !< Field evaluated at x,y,z,t
 
     ! From x,y,z,t in array coordinates, find the the box inside the field where the particle is
     !do concurrent(i=1:n_e, .not. out(i))
+    interp3D = 0.0
+    valid = self%interpolationMask(x, y, t, out, n_fv, n_cv, n_tv)
+    if (.not. any(valid)) return
+    x0 = 1
+    x1 = 1
+    y0 = 1
+    y1 = 1
     do i = 1, n_e
-        if (.not. out(i)) then
-            x0(i) = floor(x(i))
-            x1(i) = ceiling(x(i))
-            y0(i) = floor(y(i))
-            y1(i) = ceiling(y(i))
+        if (valid(i)) then
+            x0(i) = floor(min(real(n_cv,prec),max(1.0_prec,x(i))))
+            x1(i) = ceiling(min(real(n_cv,prec),max(1.0_prec,x(i))))
+            y0(i) = floor(min(real(n_fv,prec),max(1.0_prec,y(i))))
+            y1(i) = ceiling(min(real(n_fv,prec),max(1.0_prec,y(i))))
         endif
     end do
 
-    t0 = floor(t)
-    t1 = ceiling(t)
+    t0 = floor(min(real(n_tv,prec),max(1.0_prec,t)))
+    t1 = ceiling(min(real(n_tv,prec),max(1.0_prec,t)))
 
     ! Compute the "normalized coordinates" of the particle inside the data field box
     xd = 0.
@@ -456,8 +492,8 @@
     td = 0.
     
     ! Compute the "normalized coordinates" of the particle inside the data field box
-    where (x1 /= x0) xd = (x-x0)/(x1-x0)
-    where (y1 /= y0) yd = (y-y0)/(y1-y0)
+    where (valid .and. x1 /= x0) xd = (x-x0)/(x1-x0)
+    where (valid .and. y1 /= y0) yd = (y-y0)/(y1-y0)
     if (t1 /= t0) td = (t-t0)/(t1-t0)
 
 
@@ -466,7 +502,7 @@
     ! Interpolation on the first dimension and collapse it to a three dimension problem
     !do concurrent(i=1:n_e, .not. out(i))
     do i = 1, n_e
-        if (.not. out(i)) then
+        if (valid(i)) then
             c00(i) = field(y0(i),x0(i),t0)*(1.-xd(i)) + field(y0(i),x1(i),t0)*xd(i) !y0x0z0t0!  y0x1z0t0
             c10(i) = field(y1(i),x0(i),t0)*(1.-xd(i)) + field(y1(i),x1(i),t0)*xd(i)
             c01(i) = field(y0(i),x0(i),t1)*(1.-xd(i)) + field(y0(i),x1(i),t1)*xd(i)
@@ -495,21 +531,9 @@
     real(prec), intent(out) :: tt
     logical, dimension(:), intent(inout) :: outOfBounds
     logical, intent(in) :: gridIsCurvilinear
-    integer, dimension(size(state,1), 2) :: grdCoord
     integer                              :: dim_level
     !Begin---------------------------------------------------------------
-    if (gridIsCurvilinear) then
-        !write(*,*)"Entrei curvilinear"
-        grdCoord = self%getArrayCoord_curv(state, bdata, outOfBounds)
-        xx=grdCoord(:,2) !Alterado para xx ser coluna 2
-        yy=grdCoord(:,1) !Alterado para yy ser coluna 1
-    else
-        !write(*,*)"Entrei normais"
-        xx = self%getArrayCoord(state(:,1), bdata, Globals%Var%lon, outOfBounds) !State(:,1) is always Lon
-        !write(*,*)"xx(13) = ", xx(13), state(13,1)
-        yy = self%getArrayCoord(state(:,2), bdata, Globals%Var%lat, outOfBounds)
-        !write(*,*)"yy(13) = ", yy(13), state(13,2)
-    endif
+    call self%Trc2Grid_Horizontal(state,bdata,xx,yy,outOfBounds,gridIsCurvilinear)
     !Get time
     tt = self%getPointCoordNonRegular(time, bdata, Globals%Var%time)
     
@@ -531,42 +555,61 @@
     !> (or grids where lat or lon are 2D)
     !> @param[in] self, xdata, bdata, out
     !---------------------------------------------------------------------------
+    subroutine Trc2Grid_Horizontal(self, state, bdata, xx, yy, out, curved)
+    class(interpolator_class), intent(in) :: self
+    real(prec), intent(in) :: state(:,:)
+    type(background_class), intent(in) :: bdata
+    real(prec), intent(out) :: xx(size(state,1)), yy(size(state,1))
+    logical, intent(inout) :: out(:)
+    logical, intent(in) :: curved
+    real(prec) :: gridCoord(size(state,1),2), safeX(size(state,1)), safeY(size(state,1))
+    where (.not. ieee_is_finite(state(:,1))) out = .true.
+    where (.not. ieee_is_finite(state(:,2))) out = .true.
+    if (curved) then
+        gridCoord = self%getArrayCoord_curv(state, bdata, out)
+        yy = gridCoord(:,1) ! row
+        xx = gridCoord(:,2) ! column
+    else
+        safeX = merge(state(:,1),0.0_prec,ieee_is_finite(state(:,1)))
+        safeY = merge(state(:,2),0.0_prec,ieee_is_finite(state(:,2)))
+        xx = self%getArrayCoord(safeX, bdata, Globals%Var%lon, out)
+        yy = self%getArrayCoord(safeY, bdata, Globals%Var%lat, out)
+    end if
+    end subroutine Trc2Grid_Horizontal
+
     function getArrayCoord_curv(self, xdata, bdata, out)
     class(interpolator_class), intent(in) :: self
     real(prec), dimension(:,:), intent(in):: xdata              !< Tracer coordinate component
     type(background_class), intent(in) :: bdata                 !< Background to use
     logical, dimension(:), intent(inout) :: out
-    real(prec) :: minBound_lat, minBound_lon, maxBound_lat, maxBound_lon
-    real(prec) :: sumAux, perc_x, perc_y, da, db, dc, dd, x, y
+    real(prec) :: perc_x, perc_y, x, y, tolerance
     integer :: dim_lat, dim_lon, i, j, id                        !< corresponding background dimension
     real(prec), dimension(size(xdata,1),2) :: getArrayCoord_curv   !< coordinates (x,y) in array index
     type(vector), dimension(5) :: cellPolygon !Vertices of the grid cell polygon
     real(prec) :: limLeft, limRight, limBottom, limTop !limits of the polygon
-    integer :: pw = 2
     logical :: foundCell
     !Begin-----------------------------------------------------------------
     dim_lon = bdata%getDimIndex(Globals%Var%lon)
     dim_lat = bdata%getDimIndex(Globals%Var%lat)
-    
-    minBound_lon = bdata%dim(dim_lon)%getFieldMinBound()
-    where (xdata(:,1) < minBound_lon) out = .true.
-    maxBound_lon = bdata%dim(dim_lon)%getFieldMaxBound()
-    where (xdata(:,1) > maxBound_lon) out = .true.
-    minBound_lat = bdata%dim(dim_lat)%getFieldMinBound()
-    where (xdata(:,2) < minBound_lat) out = .true.
-    maxBound_lat = bdata%dim(dim_lat)%getFieldMaxBound()
-    where (xdata(:,2) > maxBound_lat) out = .true.
-    
-    !write(*,*)"tamanho da dimensao 1 da matriz longitude = ", size(bdata%dim(dim_lon)%field2D,1)
+
+    if (.not. allocated(bdata%dim(dim_lat)%field2D) .or. &
+        .not. allocated(bdata%dim(dim_lon)%field2D)) &
+        error stop 'Curvilinear mapping requires two-dimensional latitude and longitude'
+    if (size(bdata%dim(dim_lat)%field2D,1) /= size(bdata%dim(dim_lon)%field2D,1) .or. &
+        size(bdata%dim(dim_lat)%field2D,2) /= size(bdata%dim(dim_lon)%field2D,2)) &
+        error stop 'Curvilinear latitude and longitude shapes differ'
+    getArrayCoord_curv = 1.0_prec
     do id = 1, size(xdata,1)
         if (.not. out(id)) then
+            out(id) = .true.
+            if (.not. all(ieee_is_finite(xdata(id,1:2)))) cycle
             x = xdata(id,1)
             y = xdata(id,2)
-            dj: do j = 2, size(bdata%dim(dim_lon)%field2D,2)-1
-                do i = 2, size(bdata%dim(dim_lat)%field2D,1)-1
+            dj: do j = 1, size(bdata%dim(dim_lon)%field2D,2)-1
+                do i = 1, size(bdata%dim(dim_lat)%field2D,1)-1
                     !Define polygon of each grid cell
                     cellPolygon(1)%x = bdata%dim(dim_lon)%field2D(i,j) !lower left corner
-                    cellPolygon(1)%y = bdata%dim(dim_lat)%field2D(i,j) 
+                    cellPolygon(1)%y = bdata%dim(dim_lat)%field2D(i,j)
                     cellPolygon(2)%x = bdata%dim(dim_lon)%field2D(i+1,j) !upper left corner
                     cellPolygon(2)%y = bdata%dim(dim_lat)%field2D(i+1,j)
                     cellPolygon(3)%x = bdata%dim(dim_lon)%field2D(i+1,j+1) !upper right corner
@@ -575,51 +618,23 @@
                     cellPolygon(4)%y = bdata%dim(dim_lat)%field2D(i,j+1)
                     cellPolygon(5)%x = bdata%dim(dim_lon)%field2D(i,j) !close polygon
                     cellPolygon(5)%y = bdata%dim(dim_lat)%field2D(i,j)
-                
-                    limLeft = min(cellPolygon(1)%x, cellPolygon(2)%x) !limit left
-                    limBottom = min(cellPolygon(1)%y, cellPolygon(4)%y) !limit bottom
-                    limRight = max(cellPolygon(3)%x, cellPolygon(4)%x) !limit right
-                    limTop = max(cellPolygon(2)%y, cellPolygon(3)%y) !limit top
-                    
-                    if((x<limLeft) .or. (x>limRight) .or. (y>limTop) .or. (y<limBottom)) cycle !Skip point
-                    
-                    foundCell = self%isPointInsidePolygon(x, y, cellPolygon)
-                    if (foundCell) then
-                        !using a IDW - Inverse distance weighting method - reference is point c
-                        !(Xa,Ya) = (perc_x = 0, perc_y =1)
-                        !(Xb,Yb) = (perc_x = 1, perc_y =1)        
-                        !(Xc,Yc) = (perc_x = 0, perc_y =0)                
-                        !(Xd,Yd) = (perc_x = 1, perc_y =0)
-                        !
-                        !  a_______b
-                        !  |       | 
-                        !  |       |         
-                        !  c_______d
 
-                        da = sqrt((x-cellPolygon(2)%x)**2+(y-cellPolygon(2)%y)**2)
-                        db = sqrt((x-cellPolygon(3)%x)**2+(y-cellPolygon(3)%y)**2)
-                        dc = sqrt((x-cellPolygon(1)%x)**2+(y-cellPolygon(1)%y)**2)
-                        dd = sqrt((x-cellPolygon(4)%x)**2+(y-cellPolygon(4)%y)**2)        
-        
-                        if     (da == 0) then
-                            perc_x = 0
-                            perc_y = 1
-                        elseif (db == 0) then
-                            perc_x = 1
-                            perc_y = 1
-                        elseif (dc == 0) then
-                            perc_x = 0
-                            perc_y = 0
-                        elseif (dd == 0) then
-                            perc_x = 1
-                            perc_y = 0
-                        else
-                            sumAux = ((1./da)**pw+(1./db)**pw+(1./dc)**pw+(1./dd)**pw)
-                            perc_x    = ((1./db)**pw+(1./dd)**pw) / sumAux
-                            perc_y    = ((1./da)**pw+(1./db)**pw) / sumAux            
-                        endif
-                        getArrayCoord_curv(id,1) = j + j*perc_x !relative position to J index
-                        getArrayCoord_curv(id,2) = i + i*perc_y !relative position to I index
+                    if (.not. all(ieee_is_finite(cellPolygon(:4)%x))) cycle
+                    if (.not. all(ieee_is_finite(cellPolygon(:4)%y))) cycle
+                    tolerance = 64.0_prec*epsilon(1.0_prec)*max(1.0_prec, &
+                                maxval(abs(cellPolygon(:4)%x)),maxval(abs(cellPolygon(:4)%y)))
+                    limLeft = minval(cellPolygon(:4)%x)
+                    limRight = maxval(cellPolygon(:4)%x)
+                    limBottom = minval(cellPolygon(:4)%y)
+                    limTop = maxval(cellPolygon(:4)%y)
+                    if (x < limLeft-tolerance .or. x > limRight+tolerance .or. &
+                        y < limBottom-tolerance .or. y > limTop+tolerance) cycle
+
+                    call self%invertBilinearCell(cellPolygon(:4)%x,cellPolygon(:4)%y,x,y,perc_x,perc_y,foundCell)
+                    if (foundCell) then
+                        getArrayCoord_curv(id,1) = i + perc_y !row coordinate
+                        getArrayCoord_curv(id,2) = j + perc_x !column coordinate
+                        out(id) = .false.
                         exit dj
                     endif
                 enddo
@@ -628,6 +643,110 @@
     enddo
 
     end function getArrayCoord_curv
+
+    subroutine invertBilinearCell(self, cellX, cellY, x, y, u, v, found)
+    class(interpolator_class), intent(in) :: self
+    real(prec), intent(in) :: cellX(4), cellY(4), x, y
+    real(prec), intent(out) :: u, v
+    logical, intent(out) :: found
+    real(prec) :: bx, by, rx, ry, dx, dy, px, py, det, scale, areaTol, fractionTol, residualTol
+    real(prec) :: fx, fy, j11, j12, j21, j22, du, dv, cross, orientation
+    integer :: k, next, afterNext, iteration
+    found = .false.
+    u = 0.0_prec
+    v = 0.0_prec
+    scale = max(maxval(abs(cellX-cellX(1))),maxval(abs(cellY-cellY(1))))
+    if (scale <= tiny(1.0_prec)) return
+    areaTol = 64.0_prec*epsilon(1.0_prec)*scale*scale
+    ! A folded or degenerate cell has no unique valid mapping.
+    orientation = 0.0_prec
+    do k = 1, 4
+        next = mod(k,4)+1
+        afterNext = mod(k+1,4)+1
+        cross = (cellX(next)-cellX(k))*(cellY(afterNext)-cellY(next)) - &
+                (cellY(next)-cellY(k))*(cellX(afterNext)-cellX(next))
+        if (abs(cross) <= areaTol) return
+        if (k == 1) orientation = sign(1.0_prec,cross)
+        if (orientation*cross <= areaTol) return
+    end do
+    bx = cellX(4)-cellX(1)
+    by = cellY(4)-cellY(1)
+    rx = cellX(2)-cellX(1)
+    ry = cellY(2)-cellY(1)
+    dx = cellX(3)-cellX(4)-cellX(2)+cellX(1)
+    dy = cellY(3)-cellY(4)-cellY(2)+cellY(1)
+    px = x-cellX(1)
+    py = y-cellY(1)
+    det = bx*ry-by*rx
+    if (abs(det) <= areaTol) return
+    u = (px*ry-py*rx)/det
+    v = (bx*py-by*px)/det
+    residualTol = 32.0_prec*epsilon(1.0_prec)*scale
+    do iteration = 1, 20
+        fx = u*bx+v*rx+u*v*dx-px
+        fy = u*by+v*ry+u*v*dy-py
+        if (max(abs(fx),abs(fy)) <= residualTol) exit
+        j11 = bx+v*dx
+        j12 = rx+u*dx
+        j21 = by+v*dy
+        j22 = ry+u*dy
+        det = j11*j22-j12*j21
+        if (abs(det) <= areaTol) return
+        du = (fx*j22-fy*j12)/det
+        dv = (j11*fy-j21*fx)/det
+        u = u-du
+        v = v-dv
+        if (.not. ieee_is_finite(u) .or. .not. ieee_is_finite(v)) return
+    end do
+    fx = u*bx+v*rx+u*v*dx-px
+    fy = u*by+v*ry+u*v*dy-py
+    if (max(abs(fx),abs(fy)) > residualTol) return
+    fractionTol = 64.0_prec*epsilon(1.0_prec)*max(1.0_prec, &
+                  max(maxval(abs(cellX)),maxval(abs(cellY)))/scale)
+    if (u < -fractionTol .or. u > 1.0_prec+fractionTol .or. &
+        v < -fractionTol .or. v > 1.0_prec+fractionTol) return
+    if (abs(u) <= fractionTol) u = 0.0_prec
+    if (abs(u-1.0_prec) <= fractionTol) u = 1.0_prec
+    if (abs(v) <= fractionTol) v = 0.0_prec
+    if (abs(v-1.0_prec) <= fractionTol) v = 1.0_prec
+    u = min(1.0_prec,max(0.0_prec,u))
+    v = min(1.0_prec,max(0.0_prec,v))
+    found = .true.
+    end subroutine invertBilinearCell
+
+    !> Check coordinates against the actual field before constructing neighbours.
+    function interpolationMask(self, x, y, t, out, nr, nc, nt, z, nz)
+    class(interpolator_class), intent(in) :: self
+    real(prec), dimension(:), intent(in) :: x, y
+    real(prec), intent(in) :: t
+    logical, dimension(:), intent(in) :: out
+    integer, intent(in) :: nr, nc, nt
+    real(prec), dimension(:), optional, intent(in) :: z
+    integer, optional, intent(in) :: nz
+    logical, dimension(size(x)) :: interpolationMask
+    integer :: i
+    interpolationMask = .false.
+    if (.not. self%coordinateInBounds(t,nt)) return
+    do i = 1, size(x)
+        if (out(i)) cycle
+        interpolationMask(i) = self%coordinateInBounds(x(i),nc) .and. self%coordinateInBounds(y(i),nr)
+        if (present(z)) then
+            if (nz < 1) interpolationMask(i) = .false.
+            if (nz > 1) interpolationMask(i) = interpolationMask(i) .and. self%coordinateInBounds(z(i),nz)
+        endif
+    enddo
+    end function interpolationMask
+
+    logical function coordinateInBounds(self, coordinate, n)
+    class(interpolator_class), intent(in) :: self
+    real(prec), intent(in) :: coordinate
+    integer, intent(in) :: n
+    real(prec) :: tolerance
+    coordinateInBounds = .false.
+    if (n < 1 .or. .not. ieee_is_finite(coordinate)) return
+    tolerance = 64.0_prec*epsilon(1.0_prec)*max(1.0_prec,real(n,prec))
+    coordinateInBounds = coordinate >= 1.0_prec-tolerance .and. coordinate <= real(n,prec)+tolerance
+    end function coordinateInBounds
     
     
     !---------------------------------------------------------------------------
@@ -998,6 +1117,15 @@
             enddo
         endif
     elseif (dimSize == 4 .and. present(xx)) then
+        ! Validate the actual vertical-grid stencil before reading a layer face.
+        if (.not. ieee_is_finite(tt)) then
+            out = .true.
+            return
+        end if
+        if (tt < 1.0_prec .or. tt > real(size(bdata%dim(dim)%field4D,4),prec)) then
+            out = .true.
+            return
+        end if
         !Get position for instant 1
         t1 = floor(tt)
         t2 = ceiling(tt)
@@ -1005,6 +1133,16 @@
         !do concurrent(id = 1:size(xdata), .not. out(id))
         do id = 1,size(xdata)
             if (.not. out(id)) then
+                if (.not. ieee_is_finite(xx(id)) .or. .not. ieee_is_finite(yy(id)) .or. &
+                    .not. ieee_is_finite(xdata(id))) then
+                    out(id) = .true.
+                    cycle
+                end if
+                if (xx(id) < 1.0_prec .or. xx(id) > real(size(bdata%dim(dim)%field4D,2),prec) .or. &
+                    yy(id) < 1.0_prec .or. yy(id) > real(size(bdata%dim(dim)%field4D,1),prec)) then
+                    out(id) = .true.
+                    cycle
+                end if
                 i = floor(yy(id))
                 j = floor(xx(id))
             
