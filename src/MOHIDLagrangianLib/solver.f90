@@ -105,7 +105,7 @@
     real(prec), allocatable, dimension(:,:) :: predKernel
     real(prec):: mstime
     integer :: i
-    mstime = time + 0.5*dt
+    mstime = time + dt
 
     do i=1, size(sv)
         !creating predictor step state vector
