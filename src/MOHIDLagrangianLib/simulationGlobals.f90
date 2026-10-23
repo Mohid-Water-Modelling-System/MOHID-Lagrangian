@@ -18,6 +18,7 @@
 
     module simulationGlobals_mod
 
+    use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
     use penf
     use vecfor_r8p
     !use vecfor_r4p
@@ -124,7 +125,13 @@
         real(prec)   :: BeachingLevel       !<Level above which beaching can occur (m)
         real(prec)   :: ResuspensionCoeff   !< Resuspension velocity amplitud factor (default=0) 
         real(prec)   :: BeachingStopProb    !< Probablity of beaching stopping a tracer (-)
-        real(prec)   :: DiffusionCoeff      !< Horizontal diffusion coefficient (-)
+        real(prec)   :: DiffusionCoeff      !< Legacy horizontal diffusion coefficient (m2/s)
+        real(prec)   :: DiffusionCoeffHorz  !< Horizontal diffusion coefficient (m2/s)
+        real(prec)   :: DiffusionCoeffHorzBkg !< Background term in horizontal diffusion
+        logical      :: DiffusionCoeffHorzBkgSpecified = .false. !< Otherwise use resolved horizontal coefficient
+        real(prec)   :: DiffusionCoeffHorTurbVelLimiter        !< Horizontal turbulent velocity multiplier, between zero and one
+        real(prec)   :: DiffusionCoeffVert  !< Resolved vertical diffusion coefficient (m2/s)
+        logical      :: DiffusionCoeffVertSpecified = .false. !< Otherwise use 1e-6 times the resolved horizontal coefficient
         real(prec)   :: VarVelHX      !< Horizontal variance of velocity (%)
         real(prec)   :: VarVelH      !< Horizontal base turbulent velocity (m/s)
         real(prec)   :: MixingLength      !< Horizontal mixingLength (m) Value dependent on vortices (assume around 4 or 5* grid spacing)
@@ -160,6 +167,11 @@
     procedure :: setBeachingLevel
     procedure :: setBeachingStopProb
     procedure :: setDiffusionCoeff
+    procedure :: setDiffusionCoeffHorz
+    procedure :: setDiffusionCoeffVert
+    procedure :: setDiffusionCoeffHorzBkg
+    procedure :: setDiffusionCoeffHorTurbVelLimiter
+    procedure :: resolveDiffusionCoefficients
     procedure :: setVarVelHX
     procedure :: setVarVelH
     procedure :: setMixingLength
@@ -534,6 +546,12 @@
     self%Constants%BeachingLevel = -3.0
     self%Constants%BeachingStopProb = 0.50
     self%Constants%DiffusionCoeff = 1.0
+    self%Constants%DiffusionCoeffHorz = 1.0
+    self%Constants%DiffusionCoeffVert = 0.000001
+    self%Constants%DiffusionCoeffVertSpecified = .false.
+    self%Constants%DiffusionCoeffHorzBkg = self%Constants%DiffusionCoeffHorz
+    self%Constants%DiffusionCoeffHorzBkgSpecified = .false.
+    self%Constants%DiffusionCoeffHorTurbVelLimiter = 0.0
     self%Constants%VarVelHX = 0.2
     self%Constants%VarVelH = 0.0
     self%Constants%MixingLength = 500.0 !Value dependent on vortices (assume around 4 or 5* grid spacing)
@@ -1969,11 +1987,162 @@
         call Log%put(outext)
     else
         self%DiffusionCoeff =read_DiffusionCoeff%to_number(kind=1._R8P)
+        self%DiffusionCoeffHorz = self%DiffusionCoeff
     endif
     sizem = sizeof(self%DiffusionCoeff)
     call SimMemory%adddef(sizem)
     end subroutine setDiffusionCoeff
-    
+
+    !---------------------------------------------------------------------------
+	!> @author Mohsen Shabani INTECMAR- 2026.10.23 | Email:shabani.mohsen@outlook.com
+    !> @brief
+    !> @param[in] self, setDiffusionCoeffHorz
+    !> Horizontal diffusion coefficient setting routine (m2/s).
+    !---------------------------------------------------------------------------
+    subroutine setDiffusionCoeffHorz(self, read_DiffusionCoeff)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_DiffusionCoeff
+    type(string) :: outext
+    real(prec) :: value
+    integer :: sizem, readStatus
+    character(len=:), allocatable :: valueText
+    valueText = read_DiffusionCoeff%chars()
+    read(valueText,*,iostat=readStatus) value
+    if (readStatus /= 0) then
+        outext = 'DiffusionCoeffHorz must be a valid real number, stopping'
+        call Log%put(outext)
+        stop 1
+    endif
+    if (.not. ieee_is_finite(value)) then
+        outext = 'DiffusionCoeffHorz must be finite, stopping'
+        call Log%put(outext)
+        stop 1
+    endif
+    if (value < 0.0_prec) then
+        outext = 'DiffusionCoeffHorz must be zero or positive, stopping'
+        call Log%put(outext)
+        stop 1
+    endif
+    self%DiffusionCoeffHorz = value
+    sizem = sizeof(self%DiffusionCoeffHorz)
+    call SimMemory%adddef(sizem)
+    end subroutine setDiffusionCoeffHorz
+
+    !---------------------------------------------------------------------------
+	!> @author Mohsen Shabani INTECMAR- 2026.10.23 | Email:shabani.mohsen@outlook.com
+    !> @brief
+    !> @param[in] self, setDiffusionCoeffVert
+    !> Vertical diffusion coefficient setting routine (m2/s).
+    !---------------------------------------------------------------------------
+    subroutine setDiffusionCoeffVert(self, read_DiffusionCoeff)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_DiffusionCoeff
+    type(string) :: outext
+    real(prec) :: value
+    integer :: sizem, readStatus
+    character(len=:), allocatable :: valueText
+    valueText = read_DiffusionCoeff%chars()
+    read(valueText,*,iostat=readStatus) value
+    if (readStatus /= 0) then
+        outext = 'DiffusionCoeffVert must be a valid real number, stopping'
+        call Log%put(outext)
+        stop 1
+    endif
+    if (.not. ieee_is_finite(value)) then
+        outext = 'DiffusionCoeffVert must be finite, stopping'
+        call Log%put(outext)
+        stop 1
+    endif
+    if (value < 0.0_prec) then
+        outext = 'DiffusionCoeffVert must be zero or positive, stopping'
+        call Log%put(outext)
+        stop 1
+    endif
+    self%DiffusionCoeffVert = value
+    self%DiffusionCoeffVertSpecified = .true.
+    sizem = sizeof(self%DiffusionCoeffVert)
+    call SimMemory%adddef(sizem)
+    end subroutine setDiffusionCoeffVert
+    !---------------------------------------------------------------------------
+	!> @author Mohsen Shabani INTECMAR- 2026.10.23 | Email:shabani.mohsen@outlook.com
+    !> @brief
+    !> @param[in] self, setDiffusionCoeffHorzBkg
+    !> Background horizontal diffusion coefficient setting routine (m2/s).
+    !---------------------------------------------------------------------------
+    subroutine setDiffusionCoeffHorzBkg(self, read_DiffusionCoeff)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_DiffusionCoeff
+    type(string) :: outext
+    real(prec) :: value
+    integer :: sizem, readStatus
+    character(len=:), allocatable :: valueText
+    valueText = read_DiffusionCoeff%chars()
+    read(valueText,*,iostat=readStatus) value
+    if (readStatus /= 0) then
+        outext = 'DiffusionCoeffHorzBkg must be a valid real number, stopping'
+        call Log%put(outext)
+        stop 1
+    endif
+    if (.not. ieee_is_finite(value)) then
+        outext = 'DiffusionCoeffHorzBkg must be finite, stopping'
+        call Log%put(outext)
+        stop 1
+    endif
+    if (value < 0.0_prec) then
+        outext = 'DiffusionCoeffHorzBkg must be zero or positive, stopping'
+        call Log%put(outext)
+        stop 1
+    endif
+    self%DiffusionCoeffHorzBkg = value
+    self%DiffusionCoeffHorzBkgSpecified = .true.
+    sizem = sizeof(self%DiffusionCoeffHorzBkg)
+    call SimMemory%adddef(sizem)
+    end subroutine setDiffusionCoeffHorzBkg
+
+    !> Resolve the fallback once, after all diffusion parameters have been read.
+    subroutine resolveDiffusionCoefficients(self)
+    class(constants_t), intent(inout) :: self
+    if (.not. self%DiffusionCoeffVertSpecified) then
+        self%DiffusionCoeffVert = 1e-6 * self%DiffusionCoeffHorz
+    endif
+    if (.not. self%DiffusionCoeffHorzBkgSpecified) then
+        self%DiffusionCoeffHorzBkg = self%DiffusionCoeffHorz
+    endif
+    end subroutine resolveDiffusionCoefficients
+    !---------------------------------------------------------------------------
+	!> @author Mohsen Shabani INTECMAR- 2026.10.23 | Email:shabani.mohsen@outlook.com
+    !> @brief
+    !> @param[in] self, setDiffusionCoeffHorTurbVelLimiter
+    !> Background horizontal diffusion coefficient setting routine (m2/s).
+    !---------------------------------------------------------------------------
+    subroutine setDiffusionCoeffHorTurbVelLimiter(self, read_DiffusionCoeff)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_DiffusionCoeff
+    type(string) :: outext
+    real(prec) :: value
+    integer :: sizem, readStatus
+    character(len=:), allocatable :: valueText
+    valueText = read_DiffusionCoeff%chars()
+    read(valueText,*,iostat=readStatus) value
+    if (readStatus /= 0) then
+        outext = 'DiffusionCoeffHorTurbVelLimiter must be a valid real number, stopping'
+        call Log%put(outext)
+        stop 1
+    endif
+    if (.not. ieee_is_finite(value)) then
+        outext = 'DiffusionCoeffHorTurbVelLimiter must be finite, stopping'
+        call Log%put(outext)
+        stop 1
+    endif
+    if (value < 0.0_prec .or. value > 1.0_prec) then
+        outext = 'DiffusionCoeffHorTurbVelLimiter must be between 0 and 1 inclusive, stopping'
+        call Log%put(outext)
+        stop 1
+    endif
+    self%DiffusionCoeffHorTurbVelLimiter = value
+    sizem = sizeof(self%DiffusionCoeffHorTurbVelLimiter)
+    call SimMemory%adddef(sizem)
+    end subroutine setDiffusionCoeffHorTurbVelLimiter
     !---------------------------------------------------------------------------
     !> @author Joao Sobrinho
     !> @brief
@@ -2639,7 +2808,21 @@
     temp_str(1)=self%BeachingStopProb
     outext = outext//'       BeachingStopProb = '//temp_str(1)//' -'//new_line('a')
     temp_str(1)=self%DiffusionCoeff
-    outext = outext//'       DiffusionCoeff = '//temp_str(1)//' -'//new_line('a')  
+    outext = outext//'       DiffusionCoeff (legacy) = '//temp_str(1)//' m2/s'//new_line('a')
+    temp_str(1)=self%DiffusionCoeffHorz
+    outext = outext//'       DiffusionCoeffHorz = '//temp_str(1)//' m2/s'//new_line('a')
+    temp_str(1)=self%DiffusionCoeffHorzBkg
+    outext = outext//'       DiffusionCoeffHorzBkg = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%DiffusionCoeffHorTurbVelLimiter
+    outext = outext//'       DiffusionCoeffHorTurbVelLimiter = '//temp_str(1)//' -'//new_line('a')
+    if (self%DiffusionCoeffVertSpecified) then
+        temp_str(1)=self%DiffusionCoeffVert
+        outext = outext//'       DiffusionCoeffVert = '//temp_str(1)//' m2/s'//new_line('a')
+    else
+        temp_str(1)=self%DiffusionCoeffVert
+        outext = outext//'       DiffusionCoeffVert (default: 1e-6 * DiffusionCoeffHorz) = '// &
+            temp_str(1)//' m2/s'//new_line('a')
+    endif
     temp_str(1)=self%VarVelHX
     outext = outext//'       VarVelHX = '//temp_str(1)//' -'//new_line('a')  
     temp_str(1)=self%VarVelH

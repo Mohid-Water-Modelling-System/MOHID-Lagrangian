@@ -882,6 +882,30 @@
         if (readflag) then
             call Globals%Constants%setDiffusionCoeff(att_val)
         endif
+        tag="DiffusionCoeffHorz"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setDiffusionCoeffHorz(att_val)
+        endif
+        tag="DiffusionCoeffHorzBkg"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setDiffusionCoeffHorzBkg(att_val)
+        endif
+        tag="DiffusionCoeffHorTurbVelLimiter"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setDiffusionCoeffHorTurbVelLimiter(att_val)
+        endif
+        tag="DiffusionCoeffVert"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setDiffusionCoeffVert(att_val)
+        endif
         tag="StokesDriftCoeff"
         att_name="value"
         call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
@@ -1068,6 +1092,7 @@
         endif
         
     endif
+    call Globals%Constants%resolveDiffusionCoefficients()
     call Globals%Constants%print()
 
     end subroutine init_caseconstants

@@ -1,0 +1,16 @@
+<kml> 
+<Document>
+	<Placemark>
+		<Polygon>   
+			<altitudeMode>absolute</altitudeMode>
+			<outerBoundaryIs>  
+				<LinearRing>
+					<coordinates>
+						-9.00461,42.52322,0 -8.99953,42.52517,0 -8.99436,42.52294,0 -8.99122,42.5245,0 -8.98258,42.52106,0 -9,42.5135,0 -9.00461,42.52322,0 
+					</coordinates>
+				</LinearRing> 
+			</outerBoundaryIs> 
+		</Polygon>
+	</Placemark>
+</Document> 
+</kml>

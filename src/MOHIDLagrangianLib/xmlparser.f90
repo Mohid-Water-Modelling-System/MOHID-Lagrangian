@@ -166,7 +166,10 @@
         if (present(read_flag)) then
             read_flag = .true.
             !Beaching level is a negative value so this following check would never allow for a level other than the default
-            if (tag /= "BeachingLevel" .and. tag /= "Temperature_add_offset") then
+            ! New diffusion setters validate finite, nonnegative values and allow zero.
+            if (tag /= "BeachingLevel" .and. tag /= "Temperature_add_offset" .and. &
+                tag /= "DiffusionCoeffHorz" .and. tag /= "DiffusionCoeffVert" .and. &
+                tag /= "DiffusionCoeffHorzBkg" .and. tag /= "DiffusionCoeffHorTurbVelLimiter") then
 				if (tag == "Lin0_DegradationRate") then
 					if (att_value%to_number(kind=1._R8P) <= -1.0e-13) read_flag = .false. 
 				elseif (tag == "Exp0_DegradationRate") then

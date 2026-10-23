@@ -922,7 +922,7 @@
     col_dist2bottom = Utils%find_str(sv%varName, tag, .true.)
     
     DiffusionMixingLength = 0.0
-    if (Globals%Constants%DiffusionCoeff == 0.0) return
+    if (Globals%Constants%DiffusionCoeffHorz == 0.0 .and. Globals%Constants%DiffusionCoeffVert == 0.0) return
     !interpolate each background
 
 
@@ -944,34 +944,27 @@
     call random_number(rand_vel_v)
     call random_number(rand_vel_w)
     
-    !if we are still in the same path, use the same random velocity, do nothing
-    !if we ran the path, new random velocities are generated and placed
-!    where ((sv%state(:,10) > 2.0*sv%resolution) .and. (abs(sv%landIntMask) < Globals%Mask%landVal))
+
     where ((abs(sv%landIntMask) < Globals%Mask%landVal))
-        !DiffusionMixingLength(:,7) = (2.*rand_vel_u-1.)*sqrt(Globals%Constants%DiffusionCoeff*abs(sv%state(:,4))/dt)/dt
-        !DiffusionMixingLength(:,8) = (2.*rand_vel_v-1.)*sqrt(Globals%Constants%DiffusionCoeff*abs(sv%state(:,5))/dt)/dt
-        !DiffusionMixingLength(:,9) = (2.*rand_vel_w-1.)*sqrt(0.000001*Globals%Constants%DiffusionCoeff*abs(sv%state(:,6))/dt)/dt
-        
-		aux_u = 0.1 * abs(sv%state(:,4))
-		aux_v = 0.1 * abs(sv%state(:,5))
-		aux_w = 0.1 * abs(sv%state(:,6))
-		aux_Dx = min(Globals%Constants%DiffusionCoeff, sv%resolution * aux_u)
-		aux_Dy = min(Globals%Constants%DiffusionCoeff, sv%resolution * aux_v)		
-		aux_Dz = 1e-6 * min(Globals%Constants%DiffusionCoeff, sv%resolution * aux_w)			
+
+		aux_u = Globals%Constants%DiffusionCoeffHorzBkg + &
+            Globals%Constants%DiffusionCoeffHorTurbVelLimiter * abs(sv%state(:,4)) * sv%resolution
+		aux_v = Globals%Constants%DiffusionCoeffHorzBkg + &
+            Globals%Constants%DiffusionCoeffHorTurbVelLimiter * abs(sv%state(:,5)) * sv%resolution
+		aux_Dx = min(Globals%Constants%DiffusionCoeffHorz, aux_u)
+		aux_Dy = min(Globals%Constants%DiffusionCoeffHorz, aux_v)
+        aux_Dz = Globals%Constants%DiffusionCoeffVert
 			
-		DiffusionMixingLength(:,7) = sqrt(3.0)*(2.0*rand_vel_u-1.0)* min(sqrt(aux_Dx/dt), aux_u)/dt
-        DiffusionMixingLength(:,8) = sqrt(3.0)*(2.0*rand_vel_v-1.0)* min(sqrt(aux_Dy/dt), aux_v)/dt
-        DiffusionMixingLength(:,9) = sqrt(3.0)*(2.0*rand_vel_w-1.0)* min(sqrt(aux_Dz/dt), aux_w)/dt
+		DiffusionMixingLength(:,7) = sqrt(3.0)*(2.0*rand_vel_u-1.0)* (sqrt(2.0*aux_Dx/dt))/dt
+        DiffusionMixingLength(:,8) = sqrt(3.0)*(2.0*rand_vel_v-1.0)* (sqrt(2.0*aux_Dy/dt))/dt
+        DiffusionMixingLength(:,9) = sqrt(3.0)*(2.0*rand_vel_w-1.0)* (sqrt(2.0*aux_Dz/dt))/dt
         sv%state(:,10) = 0.0
         !update system positions
         DiffusionMixingLength(:,1) = Utils%m2geo(DiffusionMixingLength(:,7), sv%state(:,2), .false.)*dt
         DiffusionMixingLength(:,2) = Utils%m2geo(DiffusionMixingLength(:,8), sv%state(:,2), .true.)*dt
         DiffusionMixingLength(:,3) = DiffusionMixingLength(:,9)*dt
     elsewhere
-!!        !update system positions
-!        DiffusionMixingLength(:,1) = Utils%m2geo(sv%state(:,7), sv%state(:,2), .false.)
-!        DiffusionMixingLength(:,2) = Utils%m2geo(sv%state(:,8), sv%state(:,2), .true.)
-!        DiffusionMixingLength(:,3) = sv%state(:,9)
+
         DiffusionMixingLength(:,7) = 0.0
         DiffusionMixingLength(:,8) = 0.0
         DiffusionMixingLength(:,9) = 0.0
@@ -982,20 +975,19 @@
         DiffusionMixingLength(:,3) = DiffusionMixingLength(:,9)*dt
     end where
 
-!    !update used mixing length
-!	!DiffusionMixingLength(:,10) = Globals%Constants%MixingLength / dt
-!    DiffusionMixingLength(:,10) = sqrt(sv%state(:,4)*sv%state(:,4) + sv%state(:,5)*sv%state(:,5) + sv%state(:,6)*sv%state(:,6))
-
     !Deposited particles should not move
     if (any(sv%state(:,part_idx) == 1)) then
         dist2bottom = sv%state(:,col_dist2bottom)
         !if a single particle is particulate, check if they are at the bottom and don't move them if true.
         where ((dist2bottom < LandIntThreshold_value) .and. (sv%state(:,part_idx) == 1))
             !update system positions
-            DiffusionMixingLength(:,1) = 0
-            DiffusionMixingLength(:,2) = 0
-            DiffusionMixingLength(:,3) = 0
-            DiffusionMixingLength(:,10) = 0
+            DiffusionMixingLength(:,1) = 0.0
+            DiffusionMixingLength(:,2) = 0.0
+            DiffusionMixingLength(:,3) = 0.0
+            DiffusionMixingLength(:,7) = 0.0
+            DiffusionMixingLength(:,8) = 0.0
+            DiffusionMixingLength(:,9) = 0.0
+            DiffusionMixingLength(:,10) = 0.0
         end where
     end if
 	deallocate(rand_vel_u)
@@ -1026,7 +1018,7 @@
     real(prec), intent(in) :: time
     real(prec), intent(in) :: dt
     real(prec), dimension(size(sv%state,1)) :: VelModH, TlagrangeH, HD, UD, VD
-    real(prec), dimension(:), allocatable :: randm_val
+    real(prec), dimension(:), allocatable :: randm_val1, randm_val2
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: SullivanAllen
     integer :: np, part_idx, col_DifVelStdr, col_TPathHor
     real(prec) :: Pi = 4*atan(1.0)
@@ -1053,21 +1045,23 @@
     !Copied over from MOHID LagrangianGlobal module
     
     np = size(sv%active) !number of Tracers
-    allocate(randm_val(np))
-    call random_number(randm_val)
-    
+    allocate(randm_val1(np))
+    allocate(randm_val2(np))
+    call random_number(randm_val1)
+    call random_number(randm_val2)   
+
     where (sv%state(:,col_TPathHor) >= TlagrangeH)
                         
         ! First step - compute the modulus of turbulent vector
                         
         !SQRT(3.0)=1.732050808 
-        HD                       = sqrt(3.0)*(2.0*randm_val-1.0) * sv%state(:,col_DifVelStdr)
+        HD                       = sqrt(3.0)*(2.0*randm_val1-1.0) * sv%state(:,col_DifVelStdr)
 
         ! Second step - Compute the modulus of each component of the turbulent vector
 
         !   From 0 to Pi/2 cos and sin have positive values
-        UD                       = HD * cos(2 * Pi * (randm_val))
-        VD                       = HD * sin(2 * Pi * (randm_val))
+        UD                       = HD * cos(2 * Pi * (randm_val2))
+        VD                       = HD * sin(2 * Pi * (randm_val2))
 
         !Third step - Compute the direction of the the turbulent vector taking in consideration the layers thickness gradients
         ! Spagnol et al. (Mar. Ecol. Prog. Ser., 235, 299-302, 2002).
@@ -1099,14 +1093,15 @@
         sv%state(:,8) = 0.0
     end where
 	
-	deallocate(randm_val)
-    
+	deallocate(randm_val1)
+	deallocate(randm_val2)
+
     end function SullivanAllen
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC
     !> @brief
     !> Diffusion Kernel, computes the anisotropic diffusion assuming a constant
-    !> diffusion coefficient. D = 1 m/s
+    !> diffusion coefficient (m2/s).
     !> @param[in] self, sv, dt
     !---------------------------------------------------------------------------
     function DiffusionIsotropic(self, sv, dt)
