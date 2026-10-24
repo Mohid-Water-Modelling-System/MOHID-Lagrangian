@@ -58,7 +58,7 @@
     real(prec) :: Lin0_DegradationRate, Exp0_DegradationRate, Exp1_DegradationRate, Exp2_DegradationRate
     real(prec), dimension(size(sv%state,1)) :: MixDegradationRate
 	real(prec) :: max_age, threshold_bot_wat
-    real(prec), dimension(size(sv%state,1)) :: s1, s2, ya, yb, xa, xb, limFactor, mass, volume_new, init_mass, temperature
+    real(prec), dimension(size(sv%state,1)) :: s1, s2, ya, yb, xa, xb, limFactor, mass, volume_new, init_mass, temperature, radius_new
     integer :: volume_col, radius_col, col_temp, initvol_col, density_col, age_col, radius_cr_min_col, radius_cr_max_col
     integer :: col_rugosityVar_sv, col_D50Var_sv
     integer :: counterr, i
@@ -159,8 +159,10 @@
 
 	!keeping density untouched, but changing volume
 	volume_new = max(mass / sv%state(:,density_col), 0.0)
+    radius_new = (3.0_prec*volume_new/(4.0_prec*Pi))**(1.0_prec/3.0_prec)
 
 	Degradation(:,volume_col) = - (sv%state(:,volume_col) - volume_new) / dt
+	Degradation(:,radius_col) =	(radius_new - sv%state(:,radius_col)) / dt
 	
 	!where(sv%state(:,volume_col) < 0.02*sv%state(:,initvol_col)) sv%active = .false.
 	!where(mass < 0.002) sv%active = .false.
