@@ -169,7 +169,9 @@
             ! New diffusion setters validate finite, nonnegative values and allow zero.
             if (tag /= "BeachingLevel" .and. tag /= "Temperature_add_offset" .and. &
                 tag /= "DiffusionCoeffHorz" .and. tag /= "DiffusionCoeffVert" .and. &
-                tag /= "DiffusionCoeffHorzBkg" .and. tag /= "DiffusionCoeffHorTurbVelLimiter") then
+                tag /= "DiffusionCoeffHorzBkg" .and. tag /= "DiffusionCoeffHorTurbVelLimiter" .and. &
+                tag /= "UseConstantWaterDensity" .and. tag /= "UseConstantWaterDynamicViscosity" .and. &
+                tag /= "MeanDynamicViscosity") then
 				if (tag == "Lin0_DegradationRate") then
 					if (att_value%to_number(kind=1._R8P) <= -1.0e-13) read_flag = .false. 
 				elseif (tag == "Exp0_DegradationRate") then

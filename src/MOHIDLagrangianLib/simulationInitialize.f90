@@ -924,17 +924,44 @@
         if (readflag) then
             call Globals%Constants%setResuspensionCoeff(att_val)
         endif                
+        tag="UseConstantWaterDensity"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setUseConstantWaterDensity(att_val)
+        endif
+        tag="UseConstantWaterDynamicViscosity"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setUseConstantWaterDynamicViscosity(att_val)
+        endif
+        tag="MeanDynamicViscosity"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setMeanDynamicViscosity(att_val)
+        endif
         tag="MeanDensity"
         att_name="value"
         call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
         if (readflag) then
             call Globals%Constants%setMeanDensity(att_val)
         endif
-        tag="MeanKViscosity"
+        ! Prefer the full name; accept legacy XML aliases when it is omitted.
+        tag="MeanKinematicViscosity"
         att_name="value"
         call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (.not.readflag) then
+            tag="MeanKViscosity"
+            call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        endif
+        if (.not.readflag) then
+            tag="MeanKVisco"
+            call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        endif
         if (readflag) then
-            call Globals%Constants%setMeanKVisco(att_val)
+            call Globals%Constants%setMeanKinematicViscosity(att_val)
         endif
         tag="AddBottomCell"
         att_name="value"

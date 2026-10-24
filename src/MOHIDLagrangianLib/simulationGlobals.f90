@@ -138,7 +138,10 @@
         real(prec)   :: StokesDriftCoeff   !< Stokes drift coefficient (% of stokes force)
         real(prec)   :: WindDragCoeff      !< Wind drag coefficient (% of wind force)
         real(prec)   :: MeanDensity         !< mean ocean water density.
-        real(prec)   :: MeanKVisco          !< mean ocean water kinematic viscosity
+        real(prec)   :: MeanKinematicViscosity          !< mean ocean water kinematic viscosity
+        logical      :: UseConstantWaterDensity = .false. !< Force MeanDensity independently of temperature/salinity
+        logical      :: UseConstantWaterDynamicViscosity = .false. !< Force dynamic viscosity independently of density
+        real(prec)   :: MeanDynamicViscosity = 1.0e-3_prec !< Reference and constant water dynamic viscosity (Pa s)
         integer      :: AddBottomCell       !< open the first bottom cell and put the same value as the cell above
         real(prec)   :: Rugosity            !< Bottom rugosity value (with this model assumes a constant value over the grid)
         real(prec)   :: D50            		!< Bottom D50 value (with this the model assumes a constant value over the grid)
@@ -179,8 +182,11 @@
     procedure :: setWindDragCoeff
     procedure :: setSmallDt
     procedure :: setResuspensionCoeff
+    procedure :: setUseConstantWaterDensity
+    procedure :: setUseConstantWaterDynamicViscosity
+    procedure :: setMeanDynamicViscosity
     procedure :: setMeanDensity
-    procedure :: setMeanKVisco
+    procedure :: setMeanKinematicViscosity
     procedure :: setAddBottomCell
     procedure :: setRugosity
     procedure :: setD50
@@ -559,8 +565,11 @@
     self%Constants%WindDragCoeff = 0.03
     self%Constants%smallDt = 0.0
     self%Constants%ResuspensionCoeff = 0.0
+    self%Constants%UseConstantWaterDensity = .false.
+    self%Constants%UseConstantWaterDynamicViscosity = .false.
+    self%Constants%MeanDynamicViscosity = 1.0e-3_prec
     self%Constants%MeanDensity = 1027.0
-    self%Constants%MeanKVisco = 1.09E-6
+    self%Constants%MeanKinematicViscosity = 1.09E-6
     self%Constants%AddBottomCell = 0
     self%Constants%Rugosity = 0.0025
     self%Constants%D50 = 0.0025
@@ -2484,19 +2493,70 @@
     !> Beaching stop probability setting routine.
     !> @param[in] self, read_MeanDensity
     !---------------------------------------------------------------------------
-    subroutine setMeanDensity(self, read_MeanDensity)
+    !---------------------------------------------------------------------------
+    !> Set an independent water-property override from its XML numeric value.
+    subroutine setUseConstantWaterDensity(self, inputValue)
     class(constants_t), intent(inout) :: self
-    type(string), intent(in) :: read_MeanDensity
-    type(string) :: outext
-    integer :: sizem
-    if (read_MeanDensity%to_number(kind=1._R8P) <= 0.0) then
-        outext='Mean medium density must be positive, assuming default value'
-        call Log%put(outext)
-    else
-        self%MeanDensity =read_MeanDensity%to_number(kind=1._R8P)
-    endif
-    sizem = sizeof(self%MeanDensity)
-    call SimMemory%adddef(sizem)
+    type(string), intent(in) :: inputValue
+    character(len=:), allocatable :: valueText
+    real(prec) :: value
+    integer :: readStatus
+    valueText = inputValue%chars()
+    read(valueText,*,iostat=readStatus) value
+    if (readStatus /= 0) error stop 'UseConstantWaterDensity must be numeric'
+    if (.not. ieee_is_finite(value)) error stop 'UseConstantWaterDensity must be finite'
+    if (value /= 0.0_prec .and. value /= 1.0_prec) error stop 'UseConstantWaterDensity must be 0 or 1'
+    self%UseConstantWaterDensity = (value == 1.0_prec)
+    call SimMemory%adddef(int(sizeof(self%UseConstantWaterDensity)))
+    end subroutine setUseConstantWaterDensity
+
+    !---------------------------------------------------------------------------
+    !> Set an independent water-property override from its XML numeric value.
+    subroutine setUseConstantWaterDynamicViscosity(self, inputValue)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: inputValue
+    character(len=:), allocatable :: valueText
+    real(prec) :: value
+    integer :: readStatus
+    valueText = inputValue%chars()
+    read(valueText,*,iostat=readStatus) value
+    if (readStatus /= 0) error stop 'UseConstantWaterDynamicViscosity must be numeric'
+    if (.not. ieee_is_finite(value)) error stop 'UseConstantWaterDynamicViscosity must be finite'
+    if (value /= 0.0_prec .and. value /= 1.0_prec) error stop 'UseConstantWaterDynamicViscosity must be 0 or 1'
+    self%UseConstantWaterDynamicViscosity = (value == 1.0_prec)
+    call SimMemory%adddef(int(sizeof(self%UseConstantWaterDynamicViscosity)))
+    end subroutine setUseConstantWaterDynamicViscosity
+
+    !---------------------------------------------------------------------------
+    !> Set an independent water-property override from its XML numeric value.
+    subroutine setMeanDynamicViscosity(self, inputValue)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: inputValue
+    character(len=:), allocatable :: valueText
+    real(prec) :: value
+    integer :: readStatus
+    valueText = inputValue%chars()
+    read(valueText,*,iostat=readStatus) value
+    if (readStatus /= 0) error stop 'MeanDynamicViscosity must be numeric'
+    if (.not. ieee_is_finite(value)) error stop 'MeanDynamicViscosity must be finite'
+    if (value <= 0.0_prec) error stop 'MeanDynamicViscosity must be positive (Pa s)'
+    self%MeanDynamicViscosity = value
+    call SimMemory%adddef(int(sizeof(self%MeanDynamicViscosity)))
+    end subroutine setMeanDynamicViscosity
+
+    subroutine setMeanDensity(self, inputValue)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: inputValue
+    character(len=:), allocatable :: valueText
+    real(prec) :: value
+    integer :: readStatus
+    valueText = inputValue%chars()
+    read(valueText,*,iostat=readStatus) value
+    if (readStatus /= 0) error stop 'MeanDensity must be numeric'
+    if (.not. ieee_is_finite(value)) error stop 'MeanDensity must be finite'
+    if (value <= 0.0_prec) error stop 'MeanDensity must be positive (kg/m3)'
+    self%MeanDensity = value
+    call SimMemory%adddef(int(sizeof(self%MeanDensity)))
     end subroutine setMeanDensity
     
     !---------------------------------------------------------------------------
@@ -2505,20 +2565,20 @@
     !> Beaching stop probability setting routine.
     !> @param[in] self, read_MeanDensity
     !---------------------------------------------------------------------------
-    subroutine setMeanKVisco(self, read_MeanKVisco)
+    subroutine setMeanKinematicViscosity(self, read_MeanKinematicViscosity)
     class(constants_t), intent(inout) :: self
-    type(string), intent(in) :: read_MeanKVisco
+    type(string), intent(in) :: read_MeanKinematicViscosity
     type(string) :: outext
     integer :: sizem
-    if (read_MeanKVisco%to_number(kind=1._R8P) <= 0.0) then
+    if (read_MeanKinematicViscosity%to_number(kind=1._R8P) <= 0.0) then
         outext='Mean medium kinematic viscosity must be positive, assuming default value'
         call Log%put(outext)
     else
-        self%MeanKVisco =read_MeanKVisco%to_number(kind=1._R8P)
+        self%MeanKinematicViscosity =read_MeanKinematicViscosity%to_number(kind=1._R8P)
     endif
-    sizem = sizeof(self%MeanKVisco)
+    sizem = sizeof(self%MeanKinematicViscosity)
     call SimMemory%adddef(sizem)
-    end subroutine setMeanKVisco
+    end subroutine setMeanKinematicViscosity
     
     !---------------------------------------------------------------------------
     !> @author Joao Sobrinho - Colab Atlantic
@@ -2851,10 +2911,16 @@
     outext = outext//'       CriticalShearErosion = '//temp_str(1)//new_line('a')
     temp_str(1)=self%AddBottomCell
     outext = outext//'       AddBottomCell = '//temp_str(1)//new_line('a')
+    temp_str(1)=merge(1,0,self%UseConstantWaterDensity)
+    outext = outext//'       UseConstantWaterDensity = '//temp_str(1)//new_line('a')
+    temp_str(1)=merge(1,0,self%UseConstantWaterDynamicViscosity)
+    outext = outext//'       UseConstantWaterDynamicViscosity = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%MeanDynamicViscosity
+    outext = outext//'       MeanDynamicViscosity = '//temp_str(1)//' Pa s'//new_line('a')
     temp_str(1)=self%MeanDensity
     outext = outext//'       MeanDensity = '//temp_str(1)//new_line('a')
-    temp_str(1)=self%MeanKVisco
-    outext = outext//'       MeanKVisco = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%MeanKinematicViscosity
+    outext = outext//'       MeanKinematicViscosity = '//temp_str(1)//new_line('a')
     temp_str(1)=self%TOptBacteriaMin
     outext = outext//'       TOptBacteriaMin = '//temp_str(1)//new_line('a')
     temp_str(1)=self%TOptBacteriaMax

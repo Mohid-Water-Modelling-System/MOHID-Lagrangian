@@ -24,6 +24,8 @@
 
     module kernelVerticalMotion_mod
 
+    use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
+
     use common_modules
     use stateVector_mod
     use background_mod
@@ -105,6 +107,7 @@
     procedure :: SphericalShapeFactor
     procedure :: Divergence
     procedure :: Resuspension
+	procedure, nopass :: getWaterTemperatureSalinity
 	procedure, nopass :: seaWaterDensity
 	procedure, nopass :: absoluteSeaWaterViscosity									 
     end type kernelVerticalMotion_class
@@ -114,8 +117,8 @@
     contains
 	
 	!---------------------------------------------------------------------------
-	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.09.12 | Email:shabani.mohsen@outlook.com	
-	!> Modified @author Mohsen Shabani - CoLab+Atlantic- 2026.05.01 | Email:shabani.mohsen@outlook.com	
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.09.12 | Email:shabani.mohsen@outlook.com
+	!> Modified @author Mohsen Shabani - CoLab+Atlantic- 2026.05.01 | Email:shabani.mohsen@outlook.com
     !> @brief
     !> Evaluate the LandIntThresholdValue value  for a given Threshold_value (land threshold value for the dist2bottom function).
     !> Threshold_value is the regarding the position of the particle form seabed in [meter]
@@ -153,8 +156,8 @@
 	end function  LandIntThresholdValue
 
     !---------------------------------------------------------------------------
-	!> @author Mohsen Shabani CRETUS - GFNL- 2025.08.12 | Email:shabani.mohsen@outlook.com	
-	!> Modified @author Mohsen Shabani - CoLab+Atlantic- 2026.05.01 | Email:shabani.mohsen@outlook.com	
+	!> @author Mohsen Shabani CRETUS - GFNL- 2025.08.12 | Email:shabani.mohsen@outlook.com
+	!> Modified @author Mohsen Shabani - CoLab+Atlantic- 2026.05.01 | Email:shabani.mohsen@outlook.com
     !> @brief
     !> Computes the vertical velocity due to buoyancy of the tracers in seawater
     !> @param[in] self, sv, bdata, time
@@ -169,12 +172,13 @@
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
     integer :: rIdx, rhoIdx, areaIdx, volIdx, ageIdx
+    real(prec) :: waterTemperature(size(sv%state,1)), waterSalinity(size(sv%state,1))
     integer :: col_temp, col_sal, col_dist2bottom, col_rugosityVar_sv, counterr
     !integer :: col_temp, col_sal, col_dwz, col_bat
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Buoyancy
     real(prec), dimension(size(sv%state,1)) :: fDensity, kVisco, dist2bottom
     real(prec), dimension(size(sv%state,1)) :: signZ, dimlessDiameter, densityRelation, cd,Re, settlingVelocity
-    real(prec), dimension(size(sv%state,1)) :: ReynoldsNumber, kViscoRelation, A
+    real(prec), dimension(size(sv%state,1)) :: ReynoldsNumber, A
     real(prec), dimension(2) :: maxLevel
     real(prec) :: landIntThreshold = -1.0
     type(string) :: tag
@@ -217,16 +221,14 @@
 	mask_time = .false.
 	! Apply condition only on the age column
 	mask_time = (sv%state(:, ageIdx) /= 0.0)
+
+        call getWaterTemperatureSalinity(sv, waterTemperature, waterSalinity)
   
     if ((col_temp /= MV_INT) .and. (col_sal /= MV_INT)) then
 		        
-		fDensity = seaWaterDensity(sv%state(:,col_sal), sv%state(:,col_temp),sv%state(:,3))
-		kVisco = absoluteSeaWaterViscosity(sv%state(:,col_sal), sv%state(:,col_temp)) / fDensity
-		
-		kViscoRelation = abs(1.-(kvisco/Globals%Constants%MeanKvisco))
-		where(kViscoRelation >= 0.9)
-			kVisco = Globals%Constants%MeanKvisco
-		endwhere
+		fDensity = seaWaterDensity(waterSalinity, waterTemperature,sv%state(:,3))
+		kVisco = absoluteSeaWaterViscosity(waterSalinity, waterTemperature) / fDensity
+
 		
 		! Get the direction of buoyancy ( + to the surface, - to the bottom)
 		signZ = -1.0
@@ -249,13 +251,11 @@
 		endwhere
 		!print*,'function:Buoyancy WiSalt in /MOHID-Lagrangian/src/MOHIDLagrangianLib'	
     else
-		!If there is no salt and temperatue Compute buoyancy using constant density and temp
-		! and standardad terminal velocity
-		! Compute buoyancy using state equation for temperature and viscosity
+		! Missing fields use default T/S; density and viscosity switches remain independent.
 
-		kVisco = Globals%Constants%MeanKvisco
-		fDensity = Globals%Constants%MeanDensity
-		
+		fDensity = seaWaterDensity(waterSalinity, waterTemperature, sv%state(:,3))
+		kVisco = absoluteSeaWaterViscosity(waterSalinity, waterTemperature) / fDensity
+
 		signZ = -1.0
 		where(fDensity-sv%state(:,rhoIdx) >= 0)
 			signZ = 1.0
@@ -357,9 +357,9 @@
     end function SphericalShapeFactor
 
     !---------------------------------------------------------------------------
-	!> @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com	
-	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2026.01.29 | Email:shabani.mohsen@outlook.com	
-	!> Modified @author Mohsen Shabani - CoLab+Atlantic- 2026.05.01 | Email:shabani.mohsen@outlook.com	
+	!> @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2026.01.29 | Email:shabani.mohsen@outlook.com
+	!> Modified @author Mohsen Shabani - CoLab+Atlantic- 2026.05.01 | Email:shabani.mohsen@outlook.com
     !> @brief
     !> Corrects vertical position of the tracers according to data limits
     !> @param[in] self, sv, bdata, time
@@ -447,8 +447,8 @@
 	
 	!---------------------------------------------------------------------------
     !> @author Joao Sobrinho - Colab Atlantic 
-	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com	
-	!> Modified @author Mohsen Shabani - CoLab+Atlantic- 2026.05.01 | Email:shabani.mohsen@outlook.com	
+	!> Modified @author Mohsen Shabani CRETUS - GFNL- 2025.11.12 | Email:shabani.mohsen@outlook.com
+	!> Modified @author Mohsen Shabani - CoLab+Atlantic- 2026.05.01 | Email:shabani.mohsen@outlook.com
     !> @brief
     !> Resuspend particles based on shear erosion calculated from currents and waves. 
     !> @param[in] self, sv, bdata, time, dt
@@ -460,6 +460,7 @@
     real(prec), intent(in) :: time, dt
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Resuspension
 	real(prec), dimension(size(sv%state,1)) :: ResuspensionRandmValue, ResuspensionProb_ResidenceTime
+    real(prec) :: waterTemperature(size(sv%state,1)), waterSalinity(size(sv%state,1))
     integer :: col_age, col_temp, col_sal, col_dwz, col_bat, col_hs, col_ts, col_wd, col_dist2bottom, i
     integer :: col_rugosityVar_sv, col_D50Var_sv
 	integer :: rhoIdx, rIdx
@@ -474,7 +475,6 @@
     real(prec), dimension(size(sv%state,1)) :: water_density, kVisco, tension, tension_weight
     real(prec), dimension(size(sv%state,1)) :: dist2bottom, z0
     real(prec), dimension(size(sv%state,1)) :: densityRelation, densityRelationTracer, densityRelationSediment
-    real(prec), dimension(size(sv%state,1)) :: kViscoRelation
     real(prec), dimension(size(sv%state,1)) :: dimlessDiameter, dimlessDiameterTracer, dimlessDiameterSediment
     type(string), dimension(:), allocatable :: var_hor_name
     type(string), dimension(:), allocatable :: requiredHorVars
@@ -552,8 +552,8 @@
         
         call self%KernelUtils%getInterpolatedFields(sv, bdata, time, requiredHorVars, var_hor_dt, var_hor_name, reqVertInt = .false.)
         
-		col_temp = Utils%find_str(sv%varName, Globals%Var%temp, .true.)
-        col_sal = Utils%find_str(sv%varName, Globals%Var%sal, .true.)
+		col_temp = Utils%find_str(sv%varName, Globals%Var%temp, .false.)
+        col_sal = Utils%find_str(sv%varName, Globals%Var%sal, .false.)
         col_dwz = Utils%find_str(sv%varName, Globals%Var%dwz, .true.)
         col_bat = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
         col_hs = Utils%find_str(var_hor_name, Globals%Var%hs, .false.)
@@ -579,17 +579,15 @@
 		
         !dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - sv%state(:,col_bat)) / (sv%state(:,col_dwz))
         dist2bottom = sv%state(:,col_dist2bottom)
-        !where (dist2bottom < landIntThreshold) water_density = seaWaterDensity(sv%state(:,col_sal), sv%state(:,col_temp),sv%state(:,3))
+        !where (dist2bottom < landIntThreshold) water_density = seaWaterDensity(waterSalinity, waterTemperature,sv%state(:,3))
+
+        call getWaterTemperatureSalinity(sv, waterTemperature, waterSalinity)
 		if ((col_temp /= MV_INT) .and. (col_sal /= MV_INT)) then
 			where ((dist2bottom < threshold_bot_wat) .or. &
                    (dist2bottom < LandIntThreshold_value))
-				water_density = seaWaterDensity(sv%state(:,col_sal), sv%state(:,col_temp),sv%state(:,3))
-				kVisco = absoluteSeaWaterViscosity(sv%state(:,col_sal), sv%state(:,col_temp)) / water_density
-				
-				kViscoRelation = abs(1.-(kvisco/Globals%Constants%MeanKvisco))
-				where(kViscoRelation >= 0.9)
-					kVisco = Globals%Constants%MeanKvisco
-				endwhere
+				water_density = seaWaterDensity(waterSalinity, waterTemperature,sv%state(:,3))
+				kVisco = absoluteSeaWaterViscosity(waterSalinity, waterTemperature) / water_density
+
 
 				! Boundary density values could be 0. This avoid underdumped values on density. 
 				! Just density relation of 90 % related to mean water density are allowed.
@@ -601,11 +599,11 @@
 				densityRelationSediment = abs(1.- (densitySediment /water_density))  
 			end where
 		else
-			!If there is no salt and temperatue Compute buoyancy using constant density and temp
+			! Missing fields use default T/S; density and viscosity switches remain independent.
 			where ((dist2bottom < threshold_bot_wat) .or. &
                    (dist2bottom < LandIntThreshold_value))
-				kVisco = Globals%Constants%MeanKvisco
-				water_density = Globals%Constants%MeanDensity
+				water_density = seaWaterDensity(waterSalinity, waterTemperature, sv%state(:,3))
+				kVisco = absoluteSeaWaterViscosity(waterSalinity, waterTemperature) / water_density
 				! Boundary density values could be 0. This avoid underdumped values on density. 
 				! Just density relation of 90 % related to mean water density are allowed.
 				densityRelation = abs(1.- (sv%state(:,rhoIdx)/water_density))   
@@ -890,7 +888,7 @@
 	
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - GFNL
-	!> Modified @author Mohsen Shabani - CoLab+Atlantic- 2026.05.01 | Email:shabani.mohsen@outlook.com	
+	!> Modified @author Mohsen Shabani - CoLab+Atlantic- 2026.05.01 | Email:shabani.mohsen@outlook.com
     !> @brief
     !> Initializer method adpated from for kernel class. Sets the type of
     !> kernel and the interpolator to evaluate it.
@@ -951,9 +949,26 @@
     end function secantBulkModulus
 
     !---------------------------------------------------------------------------
-    !> @author Daniel Garaboa Paz - USC
+    !> @author Mohsen Shabani INTECMAR- 2026.10.23 | Email:shabani.mohsen@outlook.com
     !> @brief
-    !> Method that returns secant bulk modulus
+    !> Select water temperature and salinity, supplying defaults for missing fields.
+    !---------------------------------------------------------------------------
+    subroutine getWaterTemperatureSalinity(sv, temperature, salinity)
+    type(stateVector_class), intent(in) :: sv
+    real(prec), intent(out) :: temperature(:), salinity(:)
+    integer :: temperatureColumn, salinityColumn
+    ! Use each available field independently; otherwise use the model defaults.
+    temperature = 15.0_prec
+    salinity = 36.0_prec
+    temperatureColumn = Utils%find_str(sv%varName, Globals%Var%temp, .false.)
+    salinityColumn = Utils%find_str(sv%varName, Globals%Var%sal, .false.)
+    if (temperatureColumn /= MV_INT) temperature = sv%state(:,temperatureColumn)
+    if (salinityColumn /= MV_INT) salinity = sv%state(:,salinityColumn)
+    end subroutine getWaterTemperatureSalinity
+    !---------------------------------------------------------------------------
+    !> @author Mohsen Shabani INTECMAR- 2026.10.23 | Email:shabani.mohsen@outlook.com
+    !> @brief
+    !> Select water temperature and salinity, supplying defaults for missing fields.
     !---------------------------------------------------------------------------
     function seaWaterDensity(S, T, P)
     real(prec), dimension(:),intent(in) :: S,T,P
@@ -969,16 +984,21 @@
     !    Density,          [kg/m**3]
     !Algorithm: UNESCO 1983
     !"""
-    Pbar = -0.1*P !# Convert to bar
-    seaWaterDensity= seawaterDensityZeroPressure(S,T)/(1 - Pbar/secantBulkModulus(S,T,Pbar))
-    
-    !where (seaWaterDensity /= seaWaterDensity)
-    !    seaWaterDensity = Globals%Constants%MeanDensity
-    !end where
+    if (Globals%Constants%UseConstantWaterDensity) then
+        seaWaterDensity = Globals%Constants%MeanDensity
+    else
+        Pbar = -0.1*P ! Convert particle vertical coordinate (m) to pressure (bar).
+        seaWaterDensity = seawaterDensityZeroPressure(S,T)/(1 - Pbar/secantBulkModulus(S,T,Pbar))
+    endif
+    ! Validate density before any consumer forms nu = mu/rho.
+    where (.not. ieee_is_finite(seaWaterDensity) .or. &
+           abs(1.0_prec - seaWaterDensity / Globals%Constants%MeanDensity) >= 0.9_prec)
+        seaWaterDensity = Globals%Constants%MeanDensity
+    endwhere
     end function seaWaterDensity
 
     !---------------------------------------------------------------------------
-    !> @author Daniel Garaboa Paz - USC
+	!> @author Mohsen Shabani INTECMAR- 2026.10.23 | Email:shabani.mohsen@outlook.com
     !> @brief
     !> Method that returns secant bulk modulus
     !---------------------------------------------------------------------------
@@ -991,15 +1011,20 @@
     ! nu  = mu / density			[m²/s]
     ! El-Dessouky, Ettouny (2002): Fundamentals of Sea Water Desalination (Appendix A: Themodynamic Properties)
 
-    mu_W =	exp(n1 + n2/(n3 +T))
-    A = 	o1 + o2*T + o3*T*T
-    B = 	p1 + p2*T + p3*T*T
-    mu_R =	1 + A*S + B*S*S
-
-    absoluteSeaWaterViscosity  = mu_w*mu_R*0.001
-    !where (absoluteSeaWaterViscosity /= absoluteSeaWaterViscosity)
-    !    absoluteSeaWaterViscosity = Globals%Constants%MeanKvisco
-    !end where
+    if (Globals%Constants%UseConstantWaterDynamicViscosity) then
+        absoluteSeaWaterViscosity = Globals%Constants%MeanDynamicViscosity
+    else
+        mu_W = exp(n1 + n2/(n3 + T))
+        A = o1 + o2*T + o3*T*T
+        B = p1 + p2*T + p3*T*T
+        mu_R = 1 + A*S + B*S*S
+        absoluteSeaWaterViscosity = mu_W*mu_R*0.001
+    endif
+    ! Validate dynamic viscosity before any consumer forms nu = mu/rho.
+    where (.not. ieee_is_finite(absoluteSeaWaterViscosity) .or. &
+           abs(1.0_prec - absoluteSeaWaterViscosity / Globals%Constants%MeanDynamicViscosity) >= 0.9_prec)
+        absoluteSeaWaterViscosity = Globals%Constants%MeanDynamicViscosity
+    endwhere
     end function absoluteSeaWaterViscosity
 
     !---------------------------------------------------------------------------

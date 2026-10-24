@@ -537,44 +537,23 @@
 	real(prec), allocatable, intent(inout) 	:: KViscosity_seawater_vector(:)
 	real(prec), allocatable, intent(inout) 	:: Density_seawater_vector(:)
 	real(prec), allocatable :: Temperatur_list(:), Salinity_list(:), depth_list(:)
-	real(prec), allocatable :: fDensity(:), kVisco(:), kViscoRelation(:)
-	integer :: col_temp, col_sal
+	real(prec), allocatable :: fDensity(:), kVisco(:)
 
 	allocate(Temperatur_list(size(sv%state,1)))
 	allocate(Salinity_list(size(sv%state,1)))	
 	allocate(depth_list(size(sv%state,1)))	
 	allocate(fDensity(size(sv%state,1)))
 	allocate(kVisco(size(sv%state,1)))	
-	allocate(kViscoRelation(size(sv%state,1)))	
     
-		col_temp = Utils%find_str(sv%varname, Globals%Var%temp, .false.)
-		col_sal = Utils%find_str(sv%varname, Globals%Var%sal, .false.)
 
 	!	Calculate the kinematic Visco and density of seawater
-		if ((col_temp /= MV_INT) .and. (col_sal /= MV_INT)) then
-		! If there are salt and temperature data along the time:
-		!	Calculate the kinematic Visco and density of seawater according to 
-		!	the given temperature and salinity of seawater during the time. 
-					
-			Temperatur_list = sv%state(:,col_temp)
-			Salinity_list	= sv%state(:,col_sal)
-			depth_list		= sv%state(:,3)
-			fDensity = self%VerticalMotion%seaWaterDensity(Salinity_list, Temperatur_list, depth_list)
-			kVisco = self%VerticalMotion%absoluteSeaWaterViscosity(Salinity_list, Temperatur_list) / fDensity
 
-			kViscoRelation = abs(1.0_prec - (kVisco/Globals%Constants%MeanKvisco))
-			where(kViscoRelation >= 0.9_prec)
-				kVisco = Globals%Constants%MeanKvisco
-				fDensity = Globals%Constants%MeanDensity
-			endwhere
-		else
-			! If there is no salt and temperature:
-			! Consider the kinematic Visco and density of sea water according to 
-			! the given constant values in Globals%Constants
 
-			kVisco = Globals%Constants%MeanKvisco
-			fDensity = Globals%Constants%MeanDensity
-		end if
+        call self%VerticalMotion%getWaterTemperatureSalinity(sv, Temperatur_list, Salinity_list)
+		depth_list		= sv%state(:,3)
+
+		fDensity = self%VerticalMotion%seaWaterDensity(Salinity_list, Temperatur_list, depth_list)
+		kVisco = self%VerticalMotion%absoluteSeaWaterViscosity(Salinity_list, Temperatur_list) / fDensity
 
 		call ensure_real_alloc(KViscosity_seawater_vector, size(sv%state,1))
 		call ensure_real_alloc(Density_seawater_vector,    size(sv%state,1))

@@ -386,6 +386,11 @@
 			<file name="materialTypes.xml"/>
 		</sourceTypes>
 		<constants>
+            <!-- Independent water density and dynamic viscosity options; 0 preserves the existing calculation. -->
+            <UseConstantWaterDensity value="0" comment="0: existing density calculation; 1: force MeanDensity. Default = 0" />
+            <MeanDensity value="1027" comment="Constant water density when enabled; otherwise the existing reference/fallback. Default = 1027" units_comment="kg/m3" />
+            <UseConstantWaterDynamicViscosity value="0" comment="0: existing dynamic viscosity calculation; 1: force MeanDynamicViscosity. Independent of the density option. Default = 0" />
+            <MeanDynamicViscosity value="0.001" comment="Reference dynamic viscosity for fallback and constant mode. Kinematic viscosity is mu/rho. Default = 0.001" units_comment="Pa s" />
             <DiffusionCoeffHorz value="0.75" comment="Horizontal diffusion coefficient. Default = 1.0" units_comment="m2/s" />
             <DiffusionCoeffVert value="7.5e-7" comment="Vertical diffusion coefficient; used directly. Default = 0.000001." units_comment="m2/s" />
 		    <DiffusionCoeffHorzBkg value="0.75" comment="Horizontal background term; defaults to the final DiffusionCoeffHorz when omitted" />

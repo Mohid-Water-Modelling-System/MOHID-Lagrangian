@@ -16,6 +16,7 @@
     !------------------------------------------------------------------------------
     module kernelSharedProcesses_mod
 
+
 	use common_modules
     use stateVector_mod
     use background_mod
@@ -852,8 +853,7 @@
         sv%state(:,8) = 0.0 !nor velocities
         sv%state(:,9) = 0.0 !nor velocities
     endwhere
-    
-    
+
     deallocate(var_dt)
     deallocate(var_name)
     
@@ -1145,7 +1145,7 @@
     real(prec), intent(in) :: time
     integer ::  nf_w, nf_u, nf_v, col_u
     integer ::  nf_w_aux, nf_u_aux, nf_v_aux
-    integer ::  col_dwz, col_v, col_w, part_idx, col_dist2bottom, col_bat, col_temp, col_sal
+    integer ::  col_dwz, col_v, col_w, part_idx, col_dist2bottom, col_bat
     integer ::  col_rugosityVar_sv, col_D50Var_sv
     real(prec), dimension(:,:), allocatable :: var_dt, var_hor_dt
     type(string), dimension(:), allocatable :: var_name, var_name_hor
@@ -1157,7 +1157,7 @@
     real(prec) :: C_Reichardt =	7.8
     real(prec), dimension(size(sv%state,1)) :: chezyZ, dist2bottom
 	real(prec), allocatable :: Temperatur_list(:), Salinity_list(:), depth_list(:)
-	real(prec), allocatable :: fDensity(:), kVisco(:), kViscoRelation(:)
+	real(prec), allocatable :: fDensity(:), kVisco(:)
 	real(prec), allocatable :: aux_r8(:), aux_r9(:), aux_r10(:)
 	real(prec), allocatable :: U_asterisk(:), V_asterisk(:), W_asterisk(:), z_plus_U_astr(:), z_plus_V_astr(:), z_plus_W_astr(:)
 	real(prec), allocatable :: Threshold_value(:)
@@ -1178,7 +1178,6 @@
 	allocate(depth_list(size(sv%state,1)))	
 	allocate(fDensity(size(sv%state,1)))
 	allocate(kVisco(size(sv%state,1)))	
-	allocate(kViscoRelation(size(sv%state,1)))	
 	allocate(aux_r8(size(sv%state,1)))
 	allocate(aux_r9(size(sv%state,1)))	
 	allocate(aux_r10(size(sv%state,1)))	
@@ -1193,8 +1192,6 @@
     tag = 'dist2bottom'
     col_dist2bottom = Utils%find_str(sv%varName, tag, .true.)
 	col_bat  = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
-	col_temp = Utils%find_str(sv%varname, Globals%Var%temp, .false.)
-	col_sal  = Utils%find_str(sv%varname, Globals%Var%sal, .false.)	
  	col_rugosityVar_sv = Utils%find_str(sv%varName, Globals%Var%rugosityVar, .true.)
  	col_D50Var_sv = Utils%find_str(sv%varName, Globals%Var%D50Var, .true.)
 
@@ -1241,30 +1238,11 @@
     dist2bottom = sv%state(:,col_dist2bottom)
 
 !	Calculate the kinematic Visco and density of seawater
-    if ((col_temp /= MV_INT) .and. (col_sal /= MV_INT)) then
-	! If there are salt and temperature data along the time:
-	!	Calculate the kinematic Visco and density of seawater according to 
-	!	the given temperature and salinity of seawater during the time. 
-		        
-		Temperatur_list = sv%state(:,col_temp)
-		Salinity_list	= sv%state(:,col_sal)
-		depth_list		= sv%state(:,3)
-		fDensity = self%VerticalMotion%seaWaterDensity(Salinity_list, Temperatur_list, depth_list)
-		kVisco = self%VerticalMotion%absoluteSeaWaterViscosity(Salinity_list, Temperatur_list) / fDensity
+    call self%VerticalMotion%getWaterTemperatureSalinity(sv, Temperatur_list, Salinity_list)
+    depth_list		= sv%state(:,3)
+    fDensity = self%VerticalMotion%seaWaterDensity(Salinity_list, Temperatur_list, depth_list)
+    kVisco = self%VerticalMotion%absoluteSeaWaterViscosity(Salinity_list, Temperatur_list) / fDensity
 
-		kViscoRelation = abs(1.-(kvisco/Globals%Constants%MeanKvisco))
-		where(kViscoRelation >= 0.9)
-			kVisco = Globals%Constants%MeanKvisco
-			fDensity = Globals%Constants%MeanDensity
-		endwhere
-    else
-		! If there is no salt and temperature:
-		! Consider the kinematic Visco and density of sea water according to 
-		! the given constant values in Globals%Constants
-
-		kVisco = Globals%Constants%MeanKvisco
-		fDensity = Globals%Constants%MeanDensity
-    end if
 
 	! ...
 
