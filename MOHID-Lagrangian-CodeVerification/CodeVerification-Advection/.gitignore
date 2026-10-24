@@ -1,0 +1,6 @@
+__pycache__/
+nc_fields_3D/
+*_out/
+convergence.csv
+convergence_table.tex
+Advection_convergence.*

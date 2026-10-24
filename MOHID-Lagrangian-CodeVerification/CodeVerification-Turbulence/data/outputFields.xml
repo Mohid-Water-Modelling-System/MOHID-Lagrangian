@@ -1,0 +1,8 @@
+<output>
+  <field name="age" output="yes"/>
+  <field name="dVelX" output="yes"/>
+  <field name="dVelY" output="yes"/>
+  <field name="TPathHor" output="yes"/>
+  <field name="VelStandardDeviation" output="yes"/>
+  <field name="particulate" output="yes"/>
+</output>

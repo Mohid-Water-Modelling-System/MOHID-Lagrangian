@@ -1,0 +1,4 @@
+<output>
+  <field name="age" output="yes"/>
+  <field name="particulate" output="yes"/>
+</output>

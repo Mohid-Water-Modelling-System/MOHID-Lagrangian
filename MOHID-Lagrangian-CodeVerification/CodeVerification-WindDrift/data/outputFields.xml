@@ -1,0 +1,7 @@
+<output>
+  <field name="age" output="yes"/>
+  <field name="particulate" output="yes"/>
+  <field name="dVelX" output="yes"/>
+  <field name="dVelY" output="yes"/>
+  <field name="dVelZ" output="yes"/>
+</output>

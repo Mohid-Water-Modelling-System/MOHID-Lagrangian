@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<case>
+	<!-- Buoyancy verification: one rising paper tracer; zero-current NetCDF, fixed water properties, depth 3000 m. -->
+	<execution>
+		<parameters>
+			<parameter key="Start" value="2024 01 01 00 00 00" comment="Date of initial instant" units_comment="space delimited ISO 8601 format up to seconds" />
+			<parameter key="End" value="2024 01 01 01 03 00" comment="Date of final instant" units_comment="ISO format" />
+			<!-- Physical rising duration = 3600 s. The age-zero buoyancy guard adds one resting step; analysis uses settling time = age - dt. Calendar End also includes scheduler guards. -->
+			<parameter key="BaseDateTime" value="2024 01 01 00 00 00" comment="Base Date for time stamping purposes. Optional, default = 1950/1/1" units_comment="ISO format" />
+			<parameter key="Integrator" value="1" comment="Integration Algorithm 1:Euler, 2:Multi-Step Euler, 3:RK4 (default=1)" />
+			<parameter key="Threads" value="1" comment="Computation threads for shared memory computation (default=auto)" />
+			<parameter key="NumBlocks" value="1" comment="Number of domain blocks; default equals Threads. Recommend NumBlocks &gt;= Threads." />
+			<parameter key="BufferSize" value="100000" comment="Optional parameter. Controls input frequency" units_comment="seconds" />
+			<parameter key="OutputWriteTime" value="60" comment="Time out data (1/Hz)" units_comment="seconds" />
+			<parameter key="OutputFormat" value="2" comment="Output file format. NetCDF=1; VTK=2 (default=2)" />
+		</parameters>
+		<variableNaming>
+			<file name="ncNamesLibrary.xml" />
+		</variableNaming>
+		<outputFields>
+			<file name="data/outputFields.xml" />
+		</outputFields>
+	</execution>
+	<caseDefinitions>
+		<inputData>
+			<!-- Hydrodynamic input only: all cells are wet, u=v=w=0. Density and dynamic viscosity are prescribed constants; no wind or wave inputs. -->
+			<inputDataDir name="nc_fields_3D/hydrodynamic" type="hydrodynamic" />
+		</inputData>
+		<simulation>
+			<!-- Release at (1 degree, 1 degree, -100 m); the complete 1-hour rising trajectory stays below the surface. -->
+			<resolution dp="1000" units_comment="metres (m)" />
+			<timestep dt="60" units_comment="seconds (s)" />
+			<BoundingBoxMin x="0.9" y="0.9" z="-3000" units_comment="(deg,deg,m)" />
+			<BoundingBoxMax x="1.1" y="1.1" z="0" units_comment="(deg,deg,m)" />
+			<VerticalVelMethod value="1" comment="1:From velocity fields, 2:Divergence based, 3:Disabled. Default = 1" />
+			<DiffusionMethod value="1" comment="Diffusion method 1:random walk, 2:SullivanAllen. Default = 1" />
+			<BathyminNetcdf value="1" comment="bathymetry is a property in the netcdf. 1:true, 0:false (computes from layer depth and openPoints. Default = 1" />
+			<RugosityinNetcdf value="0" comment="Rugosity of the seabed is a property in the netcdf. 1:true, 0:false (Default = 0, read from constant input value)" />
+			<D50inNetcdf value="0" comment="D50 (median diameter) of the seabed is a property in the netcdf. 1:true, 0:false (Default = 0, read from constant input value)" />
+			<SshinNetcdf value="0" comment="Sea surface height is a property in the netcdf. 1:true, 0:false (Default = 0, use zero sea surface height)" />
+			<RemoveLandTracer value="0" comment="Remove tracers on land 0:No, 1:Yes. Default = 0" />
+		</simulation>
+		<sourceDefinitions>
+			<source>
+				<setsource id="1" name="InstantaneousRelease" />
+				<resolution x="1000" y="1000" z="10" units_comment="metres (m)" />
+				<!-- One tracer from the initial emission stack and a half-emission increment. -->
+				<!-- Only the first source scheduler step is active. -->
+				<rate_seconds value="60" comment="emission step in seconds. 3600 is a tracer per hour. it should be bigger than dt_simulation" />
+				<rate_trcPerEmission value="0.5" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
+				<active start="0" end="90" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
+				<point x="1" y="1" z="-100" units_comment="(deg,deg,m)" />
+			</source>
+		</sourceDefinitions>
+		<sourceTypes>
+			<types>
+				<type source="1" type="paper" property="rising_sphere" comment="Upward buoyancy enabled; degradation disabled. Paper avoids the plastic biofouling kernel." />
+			</types>
+			<file name="materialTypes.xml" />
+		</sourceTypes>
+		<constants>
+			<!-- Constant rho and mu give nu = 0.00111834 / 1026 = 1.09e-6 m2/s. -->
+            <UseConstantWaterDensity value="1" comment="Force MeanDensity, independent of depth." />
+            <MeanDensity value="1026" units_comment="kg/m3" />
+            <UseConstantWaterDynamicViscosity value="1" comment="Force MeanDynamicViscosity, independent of temperature and salinity." />
+            <MeanDynamicViscosity value="0.00111834" units_comment="Pa s" />
+            <Gravity x="0" y="0" z="-9.81" comment="Gravitational acceleration" units_comment="m/s2" />
+            <ResuspensionProb value="0" comment="Disable resuspension; tracer remains far from the bottom." />
+            <!-- Buoyancy only: all diffusion, wind and Stokes contributions are zero. -->
+			<DiffusionCoeffHorz value="0" comment="Horizontal diffusion coefficient. Default = 1.0" units_comment="m2/s" />
+			<DiffusionCoeffVert value="0" comment="Vertical diffusion coefficient; used directly. Default = 0.000001." units_comment="m2/s" />
+			<DiffusionCoeffHorzBkg value="0" comment="Horizontal background term; defaults to the final DiffusionCoeffHorz when omitted" />
+			<DiffusionCoeffHorTurbVelLimiter value="0" comment="Horizontal turbulent velocity multiplier. Default = 0.0 range [0,1]." />
+			<StokesDriftCoeff value="0" comment="Stokes drift coefficient. Default = 0.0" units_comment="-" />
+			<WindDragCoeff value="0" comment="Windage coefficient. Default = 0.0" units_comment="" />
+			<BeachingStopProb value="0" comment="Probablity of beaching stopping a tracer. Default = 50%" units_comment="%" />
+			<BeachingLevel value="-1" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />
+			<AddBottomCell value="0" comment="add openpoint to bottom cell. Default = 0.0." />
+		</constants>
+	</caseDefinitions>
+</case>

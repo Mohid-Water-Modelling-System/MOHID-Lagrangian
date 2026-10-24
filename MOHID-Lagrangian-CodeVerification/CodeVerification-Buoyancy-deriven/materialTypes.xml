@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<materials>
+    <paper>
+        <settling_sphere>
+            <particulate value="1" />
+            <density value="1050" comment="Particle density, kg/m3" />
+            <radius value="0.001" comment="Radius = 1 mm; diameter = 2 mm" />
+            <volume value="4.188790204786391e-9" comment="Sphere volume, m3" />
+            <area value="3.141592653589793e-6" comment="Projected area, m2" />
+            <property key="condition" value="1" />
+            <property key="degradation_rate" value="0" />
+        </settling_sphere>
+        <rising_sphere>
+            <particulate value="1" />
+            <density value="1002" comment="Particle density, kg/m3" />
+            <radius value="0.001" comment="Radius = 1 mm; diameter = 2 mm" />
+            <volume value="4.188790204786391e-9" comment="Sphere volume, m3" />
+            <area value="3.141592653589793e-6" comment="Projected area, m2" />
+            <property key="condition" value="1" />
+            <property key="degradation_rate" value="0" />
+        </rising_sphere>
+    </paper>
+</materials>

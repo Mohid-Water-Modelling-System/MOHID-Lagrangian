@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<materials>
+    <detritus>
+        <degrading_sphere>
+            <particulate value="1" />
+            <density value="1026" comment="Equal to MeanDensity so buoyancy is zero." />
+            <radius value="0.001" units_comment="m" />
+            <volume value="4.188790204786391e-9" units_comment="m3" />
+            <area value="3.141592653589793e-6" units_comment="m2" />
+            <property key="condition" value="1" />
+            <property key="temp" value="25" />
+            <property key="salt" value="36" />
+            <property key="radius_cr_min" value="1e-7" />
+            <property key="radius_cr_max" value="1" />
+        </degrading_sphere>
+    </detritus>
+</materials>

@@ -1,0 +1,11 @@
+<output>
+  <field name="age" output="yes"/>
+  <field name="density" output="yes"/>
+  <field name="radius" output="yes"/>
+  <field name="condition" output="yes"/>
+  <field name="degradation_rate" output="yes"/>
+  <field name="particulate" output="yes"/>
+  <field name="dVelX" output="yes"/>
+  <field name="dVelY" output="yes"/>
+  <field name="dVelZ" output="yes"/>
+</output>
