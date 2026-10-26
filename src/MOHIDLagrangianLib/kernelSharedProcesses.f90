@@ -672,9 +672,6 @@
 
     if (Globals%Constants%BeachingStopProb /= 0.0) then !beaching is completely turned off if the stopping propability is zero
 
-        !getting the bounds for the interpolation of the land interaction field that correspond to beaching
-        !lbound = (Globals%Mask%beachVal + Globals%Mask%waterVal)*0.5
-        !ubound = (Globals%Mask%beachVal + Globals%Mask%landVal)*0.5
         lbound =  Globals%Mask%landVal * (+0.0)
 		ubound =  Globals%Mask%landVal * (+1.0)
         ! 2nd order weight
@@ -1022,10 +1019,26 @@
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: SullivanAllen
     integer :: np, part_idx, col_DifVelStdr, col_TPathHor
     real(prec) :: Pi = 4*atan(1.0)
-    type(string) :: tag
+	real(prec), dimension(size(sv%state,1)) :: Threshold_value
+	real(prec), dimension(size(sv%state,1)) :: LandIntThreshold_value
+    real(prec), dimension(size(sv%state,1)) :: dist2bottom
+    integer ::  col_dist2bottom
+	type(string) :: tag
+
+	! Threshold_value: distance from the bottom (seabed) in unit [meter].
+	! It could be a constant * Globals%Constants%Rugosity
+	Threshold_value = Globals%Constants%BedLoadThickness 
+	LandIntThreshold_value = self%VerticalMotion%LandIntThresholdValue(sv, bdata, time, Threshold_value)
+
+    tag = 'particulate'
+    part_idx = Utils%find_str(sv%varName, tag, .true.)
+    tag = 'dist2bottom'
+	col_dist2bottom = Utils%find_str(sv%varName, tag, .true.)
+	dist2bottom = sv%state(:,col_dist2bottom)
+		
     !Begin----------------------------------------------------------------------
     SullivanAllen = 0.0
-    
+
     VelModH  = sqrt(sv%state(:,4)**2 + sv%state(:,5)**2)
                     
     tag = 'VelStandardDeviation'
@@ -1093,6 +1106,18 @@
         sv%state(:,8) = 0.0
     end where
 	
+    where ((dist2bottom < LandIntThreshold_value) .and. (sv%state(:,part_idx) == 1))
+        !update system positions
+        SullivanAllen(:,1) = 0.0
+        SullivanAllen(:,2) = 0.0
+        SullivanAllen(:,3) = 0.0
+        sv%state(:,7) = 0.0
+        sv%state(:,8) = 0.0
+        sv%state(:,9) = 0.0
+    end where
+
+
+
 	deallocate(randm_val1)
 	deallocate(randm_val2)
 
