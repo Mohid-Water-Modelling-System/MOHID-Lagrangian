@@ -1,4 +1,4 @@
-## MOHID Lagrangian - v26.03
+## MOHID Lagrangian - v26.10
 
 MOHID Lagragian is a comprehensive high-performance Lagrangian tracer model, with sources, sinks, particle types and several options for forcing and I/O.
 Altough mainly developed for oceanographic and fluvial contexts, application to atmospheric and other planetary settings should be trivial. 
@@ -20,29 +20,65 @@ Available functionalities are
 - Cross-platform compliant, tested and deployed
 - Cmake based project, easy to set up for local compilation if required
   
-Output examples
-  
-![Vigo3D](https://github.com/mohid-water-modelling-system/MOHID-Lagrangian/blob/dev/docs/Vigo3DnoDiffusion.gif)
+## What’s new in v26.10
 
-*3D passive tracers on a [MOHID](http://www.mohid.com) operational currents solution in Vigo region, Galiza, Spain.*
+### New features and improvements
 
-![Atlantic1](https://github.com/mohid-water-modelling-system/MOHID-Lagrangian/blob/dev/docs/Atlantic_2016_2017_density.gif)
+- Added [MOHID-Lagrangian-CodeVerification](MOHID-Lagrangian-CodeVerification/README.md), with analytical and statistical verification cases, synthetic NetCDF inputs, run scripts, and Python analysis producing tables and figures.
 
-*Floating passive tracers on a [CMEMS](http://marine.copernicus.eu/) Atlantic currents solution.*
+| Verification case | Description |
+|---|---|
+| [CodeVerification-Advection](MOHID-Lagrangian-CodeVerification/CodeVerification-Advection/README.md) | Analytical trajectories and temporal convergence of the integration schemes. |
+| [CodeVerification-Buoyancy-deriven](MOHID-Lagrangian-CodeVerification/CodeVerification-Buoyancy-deriven/README.md) | Settling and rising under constant water properties. |
+| [CodeVerification-CoupledProcesses-Adv+Wd+Wv](MOHID-Lagrangian-CodeVerification/CodeVerification-CoupledProcesses-Adv+Wd+Wv/README.md) | Combined advection, windage and Stokes drift with neutral buoyancy. |
+| [CodeVerification-Degradation](MOHID-Lagrangian-CodeVerification/CodeVerification-Degradation/README.md) | Analytical comparisons of detritus mass, volume and radius at constant temperature. |
+| [CodeVerification-StokesDrift](MOHID-Lagrangian-CodeVerification/CodeVerification-StokesDrift/README.md) | Prescribed Stokes drift and geographical coordinate conversion. |
+| [CodeVerification-Turbulence](MOHID-Lagrangian-CodeVerification/CodeVerification-Turbulence/README.md) | Random-walk and random-flight statistical checks. |
+| [CodeVerification-WindDrift](MOHID-Lagrangian-CodeVerification/CodeVerification-WindDrift/README.md) | Windage scaling and geographical coordinate conversion. |
+| [CodeVerification-WaterProperties](MOHID-Lagrangian-CodeVerification/CodeVerification-WaterProperties/README.md) | Independent density and dynamic-viscosity options, fallback behavior and legacy XML compatibility. |
 
-![Arousa](https://github.com/Mohid-Water-Modelling-System/MOHID-Lagrangian/blob/master/docs/diff-mean-n_counts_PolygonTest.png)
+- Refactored kernels to move shared module state into instance-owned components for improved OpenMP isolation.
+- Refactored `kernelSharedProcesses` to separate common tracer processes and make them reusable across modules.
+- Added separate `WindVelocity` and `StokesDriftVelocity` functions for use by `Windage` and `StokesDrift`.
+- Added `DiffusionCoeffHorz` and `DiffusionCoeffVert` for independent horizontal and vertical diffusion coefficients.
+- Added `UseConstantWaterDensity` with `MeanDensity` to select constant or variable seawater density.
+- Added `UseConstantWaterDynamicViscosity` with `MeanDynamicViscosity` to select constant or variable seawater dynamic viscosity independently of density.
+- Added `NumBlocks` to configure the number of computational domain blocks. Setting `NumBlocks` greater than or equal to the selected OpenMP thread count allows enough block tasks for all threads; performance also depends on particle distribution and workload. See [Arousa_3D_Case_Plastic_NewParam](RUN_Cases/Mohsen_Cases/Arousa_3D_Case_Plastic_NewParam/Arousa_3D_Def.xml) for configuration examples.
+- Added support for reading sea surface height from hydrodynamic NetCDF files, controlled by `SshinNetcdf` through `setSshinNetcdf`.
+- Added the `StokesDriftCoeff` setting for scaling the Stokes drift contribution.
+- Added CPU-time reporting alongside elapsed wall time.
+- Added Windows runtime dependencies and compilation scripts.
+- Updated the CMake build configuration.
+- Updated the [docs](docs/) documentation files and added [QuickStart](QuickStart/) files.
+- Added the [installation guide for steps 0–3](buildScripts/0-1-2-3-Installation-Guide.md).
+- Added [MOHIDLagrangian_install.sh](MOHIDLagrangian_install.sh).
 
-*Hourly mean tracer concentration on the Arousa intertidal test case.*
+### Bug fixes
 
-![PCOMS](https://github.com/Mohid-Water-Modelling-System/MOHID-Lagrangian/blob/master/docs/mean-concentration_area_Box1.png)
+- Corrected the corrector evaluation time in the second-order Euler predictor–corrector method.
+- Fixed random-flight sampling.
+- Fixed the HDF5 time-axis check for MOHID-style time arrays.
+- Fixed the beaching function.
+- Fixed reading NetCDF time coordinates expressed in minutes in `NetCDFparser.f90`.
+- Fixed curvilinear interpolation indexing and boundary handling.
 
-*Mean tracer concentration on the PCOMS test case*
+See [CHANGELOG.md](CHANGELOG.md) for the release history.
 
-![PCOMS2](https://github.com/Mohid-Water-Modelling-System/MOHID-Lagrangian/blob/master/docs/mean-concentration_area_n_counts_global.png)
+## Installation and quick start
 
-*Mean tracer concentration on the PCOMS test case using the EU Marine Directives polygons*
+- [Installation guide: steps 0–3](buildScripts/0-1-2-3-Installation-Guide.md)
+- [Quick-start files for Linux and Windows](QuickStart/QuickStart-v.0.0/readme.md)
+- [Linux installation script](MOHIDLagrangian_install.sh)
 
-Check out our [code documentation page](https://mohid-water-modelling-system.github.io/MOHID-Lagrangian/)!
+## Output examples
+
+See the [RUN_Cases](RUN_Cases/) folder for example simulation setups and run scripts.
+
+## Related resources
+
+- [MOHID](http://www.mohid.com)
+- [CMEMS / Copernicus Marine Service](http://marine.copernicus.eu/)
+- [Code documentation](https://mohid-water-modelling-system.github.io/MOHID-Lagrangian/)
 
 ## Help, Bugs, Feedback
 If you need help with MOHIDLagrangian or MOHID, want to keep up with progress, chat with developers or ask any other questions about MOHID, you can hang out by mail: <general@mohid.com> or consult our [MOHID wiki](http://wiki.mohid.com). You can also subscribe to our [MOHID forum](http://forum.mohid.com). To report bugs, please create a GitHub issue or contact any developers. More information consult <http://www.mohid.com>
