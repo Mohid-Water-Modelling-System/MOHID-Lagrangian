@@ -1,5 +1,7 @@
 # MOHID-Lagrangian code verification
 
+Prepared by Mohsen Shabani | Email: shabani.mohsen@outlook.com
+
 Fundamental verification cases for transport and water properties.
 
 - [Buoyancy-driven motion](CodeVerification-Buoyancy-deriven/README.md): constant-property

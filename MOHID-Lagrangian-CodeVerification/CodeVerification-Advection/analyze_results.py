@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Prepared by Mohsen Shabani | Email: shabani.mohsen@outlook.com
 """Prepare shared NetCDF forcing or analyze completed advection runs."""
 from pathlib import Path
 import argparse, base64, csv, json, os, re
@@ -20,7 +21,7 @@ A=5e-5; B=2.5e-5; GAMMA=1e-3; T=3600.; ORIGIN_TIME=240.
 INITIAL=np.array([100.,100.,-100.])
 METHODS={'Eluer1':1,'Eluer2':2,'RK4':3}
 STEPS=(120,60,30,15)
-INPUT=HERE/'nc_fields_3D/hydrodynamic/Adv_20240101_0000_[actual_time=20240101].nc4'
+INPUT=HERE/'nc_fields_3D/hydrodynamic/Adv_20240101_0000.nc4'
 
 def exact(t):
     return INITIAL*np.exp(np.asarray(t)[...,None]*(1+GAMMA*np.asarray(t)[...,None]/2)*np.array([A,B,-A-B]))

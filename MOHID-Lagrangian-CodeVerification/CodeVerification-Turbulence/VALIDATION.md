@@ -1,5 +1,7 @@
 # Test results
 
+Prepared by Mohsen Shabani | Email: shabani.mohsen@outlook.com
+
 Run on 23 October 2026 with 20,000 particles, one thread and one block.
 Both tests cover 3600 s of particle motion.
 

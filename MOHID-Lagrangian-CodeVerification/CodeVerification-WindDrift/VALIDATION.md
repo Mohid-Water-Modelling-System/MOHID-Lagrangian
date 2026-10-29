@@ -1,5 +1,7 @@
 # Wind-drift verification
 
+Prepared by Mohsen Shabani | Email: shabani.mohsen@outlook.com
+
 The preprocessor and full one-hour model run completed. The VTU analyzer
 returned PASS. No production Fortran changes were made.
 

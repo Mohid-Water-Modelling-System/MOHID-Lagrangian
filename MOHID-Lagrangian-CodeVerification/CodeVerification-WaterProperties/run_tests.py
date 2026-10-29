@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Prepared by Mohsen Shabani | Email: shabani.mohsen@outlook.com
 """Compile and run small water-property checks against the built Fortran library.
 
 Compile the main project first. No particle cases or production XMLs are run.

@@ -1,5 +1,7 @@
 # Buoyancy-driven motion
 
+Prepared by Mohsen Shabani | Email: shabani.mohsen@outlook.com
+
 Two cases check vertical motion under constant water properties and zero
 resolved current. The existing settling case keeps its physical settings;
 its name is now `Buoyancy_settling_Def`. The second case checks rising.

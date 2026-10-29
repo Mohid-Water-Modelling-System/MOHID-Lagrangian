@@ -1,5 +1,7 @@
 # Stokes drift
 
+Prepared by Mohsen Shabani | Email: shabani.mohsen@outlook.com
+
 One passive base tracer moves under a spatially uniform, constant prescribed
 surface Stokes velocity (VSDX,VSDY) = (0.2,0.4) m/s. StokesDriftCoeff = 0.03
 therefore gives an additive particle velocity (U,V) = (0.006,0.012) m/s.

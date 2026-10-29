@@ -1,4 +1,7 @@
 #!/bin/bash
+#==============================================================================#
+#        Prepared by Mohsen Shabani | Email: shabani.mohsen@outlook.com        #
+#==============================================================================#
 
 # Resolve paths from this script so it can be launched from any directory.
 caseDir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)" || exit 1

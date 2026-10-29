@@ -1,5 +1,7 @@
 # Detritus degradation
 
+Prepared by Mohsen Shabani | Email: shabani.mohsen@outlook.com
+
 One detritus tracer is followed for one hour at constant temperature 25 degrees C.
 The current XML uses nonzero degradation coefficients and L(25 C)=1 to double
 precision. Mass, volume and radius decrease with time. This removes the initial

@@ -1,5 +1,7 @@
 # Validation
 
+Prepared by Mohsen Shabani | Email: shabani.mohsen@outlook.com
+
 Euler2 was rerun on 23 October 2026 after recompiling with
 `mstime = time + dt` in `runStepMSEuler`. All four full-model runs passed
 the particle identity, water-state, boundary and 3600 s age checks. Euler1

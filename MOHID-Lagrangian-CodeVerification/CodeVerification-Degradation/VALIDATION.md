@@ -1,5 +1,7 @@
 # Detritus degradation verification
 
+Prepared by Mohsen Shabani | Email: shabani.mohsen@outlook.com
+
 The one-hour Euler run completed and passed all checks. One detritus particle
 remained stationary while its mass, volume and radius decreased. The time step
 and output interval are 60 s. The temperature is fixed at 25 C and L=1 to

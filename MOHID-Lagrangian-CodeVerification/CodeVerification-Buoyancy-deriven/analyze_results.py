@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Prepared by Mohsen Shabani | Email: shabani.mohsen@outlook.com
 """Prepare zero-current forcing or analyze an existing buoyancy run."""
 from pathlib import Path
 import argparse, base64, csv, json, os
@@ -12,7 +13,7 @@ import matplotlib.pyplot as plt
 
 HERE = Path(__file__).resolve().parent
 CASES = {'settling': 'Buoyancy_settling_Def', 'rising': 'Buoyancy_rising_Def'}
-INPUT = HERE/'nc_fields_3D/hydrodynamic/Buoyancy_20240101_0000_[actual_time=20240101].nc4'
+INPUT = HERE/'nc_fields_3D/hydrodynamic/Buoyancy_20240101_0000.nc4'
 DURATION = 3600.
 CHECKPOINTS = (1800., 3600.)
 

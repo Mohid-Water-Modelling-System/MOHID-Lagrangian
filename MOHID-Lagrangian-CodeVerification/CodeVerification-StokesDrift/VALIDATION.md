@@ -1,5 +1,7 @@
 # Stokes-drift verification
 
+Prepared by Mohsen Shabani | Email: shabani.mohsen@outlook.com
+
 The preprocessor and full one-hour run completed. The VTU analyzer returned
 PASS. No production Fortran equations were changed.
 

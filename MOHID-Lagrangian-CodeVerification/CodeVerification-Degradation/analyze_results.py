@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Prepared by Mohsen Shabani | Email: shabani.mohsen@outlook.com
 """Prepare zero forcing or verify detritus mass, volume and radius from VTU output."""
 from pathlib import Path
 import argparse, base64, csv, json, os
@@ -14,7 +15,7 @@ HERE=Path(__file__).resolve().parent
 NAME='Degradation_Def'
 DURATION=3600.
 CHECKPOINTS=(1800.,3600.)
-INPUT=HERE/'nc_fields_3D/hydrodynamic/Zero_20240101_0000_[actual_time=20240101].nc4'
+INPUT=HERE/'nc_fields_3D/hydrodynamic/Zero_20240101_0000.nc4'
 
 
 def prepare_inputs():

@@ -1,5 +1,7 @@
 # Turbulence tests
 
+Prepared by Mohsen Shabani | Email: shabani.mohsen@outlook.com
+
 Two cases with 20,000 passive `base` particles in a 20 × 20 km water domain,
 200 m deep. Particles start at the center, 100 m below the surface. The NetCDF
 contains zero current in all directions. No wind or wave files are used.

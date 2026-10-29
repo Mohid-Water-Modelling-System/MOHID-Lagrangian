@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Prepared by Mohsen Shabani | Email: shabani.mohsen@outlook.com
 """Prepare constant-wind forcing or analyze an existing wind-drift run."""
 from pathlib import Path
 import argparse, base64, csv, json, os
@@ -16,8 +17,8 @@ DURATION = 3600.
 CHECKPOINTS = (1800., 3600.)
 RADIUS = 6378137.
 WIND = np.array([10., 15.])
-HYDRO = HERE/'nc_fields_3D/hydrodynamic/Zero_20240101_0000_[actual_time=20240101].nc4'
-METEO = HERE/'nc_fields_3D/winds/Wind_20240101_0000_[actual_time=20240101].nc4'
+HYDRO = HERE/'nc_fields_3D/hydrodynamic/Zero_20240101_0000.nc4'
+METEO = HERE/'nc_fields_3D/winds/Wind_20240101_0000.nc4'
 
 
 def prepare_inputs():

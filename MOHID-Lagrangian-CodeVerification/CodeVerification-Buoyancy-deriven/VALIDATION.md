@@ -1,5 +1,7 @@
 # Buoyancy verification
 
+Prepared by Mohsen Shabani | Email: shabani.mohsen@outlook.com
+
 Both one-hour cases pass the trajectory checks. Settling uses the preserved
 output from the earlier run, renamed to `Buoyancy_settling_Def_out`.
 Rising was run through the preprocessor and full model with the new XML.

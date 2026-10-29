@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Prepared by Mohsen Shabani | Email: shabani.mohsen@outlook.com
 """Read MOHID particle VTU outputs and produce statistical tables and figures.
 
 Run the two RunCase_*.sh scripts first. This program does not run the model or
@@ -26,7 +27,7 @@ from matplotlib.ticker import AutoMinorLocator, MaxNLocator, ScalarFormatter
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[1]
 INPUT_DIR = HERE/'nc_fields_3D/hydrodynamic'
-INPUT_FILE = INPUT_DIR/'MOHID_Hydrodynamic_ZeroCurrents_20240101_0000_[actual_time=20240101].nc4'
+INPUT_FILE = INPUT_DIR/'MOHID_Hydrodynamic_ZeroCurrents_20240101_0000.nc4'
 RADIUS = 6378137.0  # Same radius as utilities.f90 m2geo_comp.
 DEGREE = RADIUS * np.pi / 180
 # Equatorial center minimizes the local Cartesian longitude approximation error.

@@ -1,5 +1,7 @@
 # Advection verification
 
+Prepared by Mohsen Shabani | Email: shabani.mohsen@outlook.com
+
 One passive `base` particle starts at `(X,Y,Z) = (100,100,-100)` m in a
 2 km × 2 km water domain, 400 m deep. Only current-driven advection is active.
 All diffusion coefficients and wind/wave contributions are zero.

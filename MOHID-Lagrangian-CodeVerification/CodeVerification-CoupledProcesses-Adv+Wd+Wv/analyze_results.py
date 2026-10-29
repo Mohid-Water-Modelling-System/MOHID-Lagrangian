@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Prepared by Mohsen Shabani | Email: shabani.mohsen@outlook.com
 """Prepare constant forcing or analyze an existing coupled-process run."""
 from pathlib import Path
 import argparse, base64, csv, json, os
@@ -18,10 +19,10 @@ RADIUS = 6378137.
 STOKES = np.array([0.2, 0.4])
 CURRENT = np.array([0.2, 0.3, 0.])
 WIND = np.array([10., 15.])
-HYDRO = HERE/'nc_fields_3D/hydrodynamic/Currents_20240101_0000_[actual_time=20240101].nc4'
-WAVES = HERE/'nc_fields_3D/waves/Stokes_20240101_0000_[actual_time=20240101].nc4'
+HYDRO = HERE/'nc_fields_3D/hydrodynamic/Currents_20240101_0000.nc4'
+WAVES = HERE/'nc_fields_3D/waves/Stokes_20240101_0000.nc4'
 
-METEO = HERE/'nc_fields_3D/winds/Wind_20240101_0000_[actual_time=20240101].nc4'
+METEO = HERE/'nc_fields_3D/winds/Wind_20240101_0000.nc4'
 
 def prepare_inputs():
     for path, kind in [(HYDRO,'hydro'), (METEO,'wind'), (WAVES,'waves')]:

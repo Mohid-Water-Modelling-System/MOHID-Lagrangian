@@ -1,5 +1,7 @@
 # Coupled advection, windage and Stokes drift
 
+Prepared by Mohsen Shabani | Email: shabani.mohsen@outlook.com
+
 One paper tracer moves under simultaneous spatially uniform, constant currents,
 wind-induced drift and prescribed Stokes drift. The table compares positions
 at 0, 0.5 and 1 hour. Euler uses a 60 s time step and output interval.

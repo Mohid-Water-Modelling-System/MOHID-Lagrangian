@@ -1,5 +1,7 @@
 # Wind-induced drift
 
+Prepared by Mohsen Shabani | Email: shabani.mohsen@outlook.com
+
 One passive base tracer moves under a spatially uniform, constant wind at
 10 m height: u10 = 10 m/s, v10 = 15 m/s. WindDragCoeff = 0.02 gives surface
 windage velocities U = 0.2 m/s and V = 0.3 m/s. The tracer starts at
