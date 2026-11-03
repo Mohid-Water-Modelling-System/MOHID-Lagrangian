@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<case>
+	<!-- Sensitivity analysis S42-Diffusion: Dh=1 m2/s, Dv=1e-4 m2/s. Shared window 2024-02-23 to 2024-05-23 (90 days). Template is Arousa_3D_Def.xml (original S8 / M32). -->
+	<execution>
+		<parameters>
+			<parameter key="Start" value="2024 02 23 00 00 00" comment="Date of initial instant" units_comment="space delimited ISO 8601 format up to seconds" />
+			<parameter key="End"   value="2024 05 23 00 00 00" comment="Date of final instant" units_comment="ISO format" />
+			<parameter key="BaseDateTime" value="1950 01 01 00 00 00" comment="Base Date for time stamping purposes. Optional, default = 1950/1/1" units_comment="ISO format" />
+			<parameter key="Integrator" value="1" comment="Integration Algorithm 1:Euler, 2:Multi-Step Euler, 3:RK4 (default=1)" />
+			<parameter key="Threads" value="5" comment="Computation threads for shared memory computation (default=auto)" />
+			<parameter key="BufferSize" value="86400" comment="Optional parameter. Controls input frequency" units_comment="seconds" />
+			<parameter key="OutputWriteTime" value="7776000" comment="Write interval = 90-day run length. Start + end only (paper tables use the last instant)." units_comment="seconds" />
+			<parameter key="OutputFormat" value="2" comment="Output file format. NetCDF=1; VTK=2 (default=2)" />
+		</parameters>
+		<variableNaming>
+			<file name="ncNamesLibrary.xml"/>
+		</variableNaming>
+		<outputFields>
+			<file name="data/outputFields.xml"/>
+		</outputFields>
+	</execution>
+	<caseDefinitions>
+		<inputData>
+			<inputDataDir name="nc_fields/hydrodynamic" type="hydrodynamic"/>
+      		<inputDataDir name="nc_fields/waterProperties" type="waterProperties"/>
+		</inputData>
+		<simulation>
+			<resolution dp="300" units_comment="metres (m)"/>
+			<timestep dt="60" units_comment="seconds (s)"/>
+			<BoundingBoxMin x="-9.10" y="42.39" z="-140" units_comment="(deg,deg,m)"/>
+			<BoundingBoxMax x="-8.72" y="42.68" z="3" units_comment="(deg,deg,m)"/>
+            <VerticalVelMethod value="1" comment="1:From velocity fields, 2:Divergence based, 3:Disabled. Default = 1" />
+			<BathyminNetcdf value="1" comment="bathymetry is a property in the netcdf. 1:true, 0:false (computes from layer depth and openPoints. Default = 1"/>
+			<RugosityinNetcdf value="0" comment="Rugosity of the seabed is a property in the netcdf. 1:true, 0:false (Default = 0, read from constant input value)"/>
+			<D50inNetcdf value="0" comment="D50 (median diameter) of the seabed is a property in the netcdf. 1:true, 0:false (Default = 0, read from constant input value)"/>
+			<RemoveLandTracer value="0" comment="Remove tracers on land 0:No, 1:Yes. Default = 0" />
+            <ResuspensionCriticalShearMethod value="1" comment="1:Constant tau_cr, 2:Shields/Soulsby variable tau_cr." />
+        </simulation>
+		<sourceDefinitions>
+			<source>
+				<setsource id="1" name="CambadosA1" />
+				<resolution x="20" y="20" z="150" units_comment="metres (m)"/>
+				<rate_seconds value="900" comment="emission step in seconds. 3600 is a tracer per hour. it should be bigger than dt_simulation" />
+                <rate_trcPerEmission value="1" comment="number of tracers emiited every rate_seconds. 5 is a 5 tracers per rate_seconds" />
+				<active start="0" end="1800" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
+				<polygon>
+					<file name="data/CambadosA1.kmz"/>
+                    <verticalBoundingBox min="-1.0" max="0.0"/>
+				</polygon>
+			</source>
+		</sourceDefinitions>
+		<sourceTypes>
+			<types>
+                <type source="1" type="detritus" property="Kelp_detritus_3_2" comment="" />
+			</types>
+			<file name="materialTypes.xml"/>
+		</sourceTypes>
+		<constants>
+			<DiffusionCoeffHorz value="1.0" comment="Horizontal diffusion coefficient. Default = 1.0" units_comment="m2/s" />
+			<DiffusionCoeffVert value="1.0e-4" comment="Vertical diffusion coefficient; used directly. Default = 0.000001." units_comment="m2/s" />
+			<Rugosity value="0.0025" comment="Rugosity / bed roughness length eps0. Default = 0.0025" units_comment="m" />
+			<D50 value="0.0025" comment="D50 (Median diameter of seabed) value. Default = 0.0025" units_comment="m" />
+			<D50Density value="2800.0" comment="D50 density (Median diameter of seabed density) value. Default = 2500.0" units_comment="kg/m3" />
+			<BeachingLevel value="-3.0" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />
+			<BeachingStopProb value="100" comment="Probablity of beaching stopping a tracer. Default = 50%" units_comment="%" />
+			<WindDragCoeff value="0.0" comment="Windage coefficient. Default = 0.0" units_comment="" />
+
+			<BedLoadThickness value="0.04" comment="BedLoad thickness. Default = 0.04" units_comment="m" />
+			<ResuspensionProb value="0" comment="Probablity of Resuspension of a tracer. Default = 0%" units_comment="%" />
+			<ResuspensionResidenceTime value="8640000.0" comment="Resuspension Residence Time. Default = 10*24*60*60" units_comment="sec" />
+			<ResuspensionCriticalShear1 value="100" comment="Resuspension Critical Shear 1. Unused if method=2 or ResuspensionProb=0." units_comment="N/m2" />
+			<ResuspensionCriticalShear2 value="100" comment="Resuspension Critical Shear 2. Unused if method=2 or ResuspensionProb=0." units_comment="N/m2" />
+
+			<ToptBMin value="24.8" comment="minimum temperature of the optimal interval for the Bacteria growth. Default = 24.8" units_comment="degrees" />
+            <ToptBMax value="25.1" comment="maximum temperature of the optimal interval for the Bacteria growth. Default = 25.1" units_comment="degrees" />
+            <TBMin value="5" comment="minimum tolerable temperature of the interval for the Bacteria growth. Default = 5" units_comment="degrees" />
+            <TBMax value="35" comment="maximum tolerable temperature of the interval for the Bacteria growth. Default = 35" units_comment="degrees" />
+            <BK1 value="0.9999" comment="constant to control temperature response curve shape. Default = 0.05" units_comment="%" />
+            <BK2 value="0.9999" comment="constant to control temperature response curve shape. Default = 0.98" units_comment="%" />
+            <BK3 value="0.9999" comment="constant to control temperature response curve shape. Default = 0.98" units_comment="%" />
+            <BK4 value="0.9999" comment="constant to control temperature response curve shape. Default = 0.05" units_comment="%" />
+			<Lin0_DegradationRate value="0.00000" comment="Lin0_DegradationRate. Default = 0.030/86400" units_comment="Input(1/day).In the code, 1/day converts 1/sec" />
+			<Exp0_DegradationRate value="0.0" comment="Exp0_DegradationRate. Default = 0.14" units_comment=" unit=1" />
+			<Exp1_DegradationRate value="0.0" comment="Exp1_DegradationRate. Default = 0.514/86400" units_comment="Input(1/day).In the code, 1/day converts 1/sec" />
+			<Exp2_DegradationRate value="0.0" comment="Exp2_DegradationRate. Default = 0.040/86400" units_comment="Input(1/day).In the code, 1/day converts 1/sec" />
+		</constants>
+	</caseDefinitions>
+</case>

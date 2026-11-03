@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<materials>
+	<detritus>
+		<!-- r1 = 0.2 mm, rho1 = 950 kg/m3 -->
+		<Kelp_detritus_1_1>
+			<particulate value="1" />
+			<density value="950.0" />
+			<radius value="0.0002" />
+			<volume value="0.0000000000335" />
+			<area value="0.00000050265" />
+			<property key="condition" value="0.95" />
+			<property key="radius_cr_min" value="0.0000007" />
+			<property key="radius_cr_max" value="0.50" />
+		</Kelp_detritus_1_1>
+		<!-- r1 = 0.2 mm, rho2 = 1050 kg/m3 -->
+		<Kelp_detritus_1_2>
+			<particulate value="1" />
+			<density value="1050.0" />
+			<radius value="0.0002" />
+			<volume value="0.0000000000335" />
+			<area value="0.00000050265" />
+			<property key="condition" value="0.95" />
+			<property key="radius_cr_min" value="0.0000007" />
+			<property key="radius_cr_max" value="0.50" />
+		</Kelp_detritus_1_2>
+		<!-- r1 = 0.2 mm, rho3 = 1070 kg/m3 -->
+		<Kelp_detritus_1_3>
+			<particulate value="1" />
+			<density value="1070.0" />
+			<radius value="0.0002" />
+			<volume value="0.0000000000335" />
+			<area value="0.00000050265" />
+			<property key="condition" value="0.95" />
+			<property key="radius_cr_min" value="0.0000007" />
+			<property key="radius_cr_max" value="0.50" />
+		</Kelp_detritus_1_3>
+		<!-- r2 = 0.6 mm, rho1 = 950 kg/m3 -->
+		<Kelp_detritus_2_1>
+			<particulate value="1" />
+			<density value="950.0" />
+			<radius value="0.0006" />
+			<volume value="0.0000000009052" />
+			<area value="0.0000045239" />
+			<property key="condition" value="0.95" />
+			<property key="radius_cr_min" value="0.0000007" />
+			<property key="radius_cr_max" value="0.50" />
+		</Kelp_detritus_2_1>
+		<!-- r2 = 0.6 mm, rho2 = 1050 kg/m3 -->
+		<Kelp_detritus_2_2>
+			<particulate value="1" />
+			<density value="1050.0" />
+			<radius value="0.0006" />
+			<volume value="0.0000000009052" />
+			<area value="0.0000045239" />
+			<property key="condition" value="0.95" />
+			<property key="radius_cr_min" value="0.0000007" />
+			<property key="radius_cr_max" value="0.50" />
+		</Kelp_detritus_2_2>
+		<!-- r2 = 0.6 mm, rho3 = 1070 kg/m3 -->
+		<Kelp_detritus_2_3>
+			<particulate value="1" />
+			<density value="1070.0" />
+			<radius value="0.0006" />
+			<volume value="0.0000000009052" />
+			<area value="0.0000045239" />
+			<property key="condition" value="0.95" />
+			<property key="radius_cr_min" value="0.0000007" />
+			<property key="radius_cr_max" value="0.50" />
+		</Kelp_detritus_2_3>
+		<!-- r3 = 1 mm, rho1 = 950 kg/m3 -->
+		<Kelp_detritus_3_1>
+			<particulate value="1" />
+			<density value="950.0" />
+			<radius value="0.001" />
+			<volume value="0.000000004189" />
+			<area value="0.00001257" />
+			<property key="condition" value="0.95" />
+			<property key="radius_cr_min" value="0.0000007" />
+			<property key="radius_cr_max" value="0.50" />
+		</Kelp_detritus_3_1>
+		<!-- r3 = 1 mm, rho2 = 1050 kg/m3 -->
+		<Kelp_detritus_3_2>
+			<particulate value="1" />
+			<density value="1050.0" />
+			<radius value="0.001" />
+			<volume value="0.000000004189" />
+			<area value="0.00001257" />
+			<property key="condition" value="0.95" />
+			<property key="radius_cr_min" value="0.0000007" />
+			<property key="radius_cr_max" value="0.50" />
+		</Kelp_detritus_3_2>
+		<!-- r3 = 1 mm, rho3 = 1070 kg/m3 -->
+		<Kelp_detritus_3_3>
+			<particulate value="1" />
+			<density value="1070.0" />
+			<radius value="0.001" />
+			<volume value="0.000000004189" />
+			<area value="0.00001257" />
+			<property key="condition" value="0.95" />
+			<property key="radius_cr_min" value="0.0000007" />
+			<property key="radius_cr_max" value="0.50" />
+		</Kelp_detritus_3_3>
+		<!-- r4 = 2 mm, rho1 = 950 kg/m3 -->
+		<Kelp_detritus_4_1>
+			<particulate value="1" />
+			<density value="950.0" />
+			<radius value="0.002" />
+			<volume value="0.00000003351" />
+			<area value="0.00005027" />
+			<property key="condition" value="0.95" />
+			<property key="radius_cr_min" value="0.0000007" />
+			<property key="radius_cr_max" value="0.50" />
+		</Kelp_detritus_4_1>
+		<!-- r4 = 2 mm, rho2 = 1050 kg/m3 -->
+		<Kelp_detritus_4_2>
+			<particulate value="1" />
+			<density value="1050.0" />
+			<radius value="0.002" />
+			<volume value="0.00000003351" />
+			<area value="0.00005027" />
+			<property key="condition" value="0.95" />
+			<property key="radius_cr_min" value="0.0000007" />
+			<property key="radius_cr_max" value="0.50" />
+		</Kelp_detritus_4_2>
+		<!-- r4 = 2 mm, rho3 = 1070 kg/m3 -->
+		<Kelp_detritus_4_3>
+			<particulate value="1" />
+			<density value="1070.0" />
+			<radius value="0.002" />
+			<volume value="0.00000003351" />
+			<area value="0.00005027" />
+			<property key="condition" value="0.95" />
+			<property key="radius_cr_min" value="0.0000007" />
+			<property key="radius_cr_max" value="0.50" />
+		</Kelp_detritus_4_3>
+	</detritus>
+	<!-- Case-study spheres, radius 0.5 mm. Volume = 4/3 pi r^3, area = 4 pi r^2. degradation_rate 0 keeps the plastic default (1/100 yr) from acting. -->
+	<plastic>
+		<plastic_sphere_950>
+			<particulate value="1" />
+			<density value="950.0" />
+			<radius value="0.0005" />
+			<volume value="0.0000000005236" />
+			<area value="0.0000031416" />
+			<property key="condition" value="1.0" />
+			<property key="degradation_rate" value="0.0" />
+		</plastic_sphere_950>
+		<plastic_sphere_1030>
+			<particulate value="1" />
+			<density value="1030.0" />
+			<radius value="0.0005" />
+			<volume value="0.0000000005236" />
+			<area value="0.0000031416" />
+			<property key="condition" value="1.0" />
+			<property key="degradation_rate" value="0.0" />
+		</plastic_sphere_1030>
+	</plastic>
+</materials>
